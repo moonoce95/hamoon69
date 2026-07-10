@@ -1,105 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>hamoon</title>
-
 <style>
+  *{box-sizing:border-box;margin:0;padding:0}
 
-*{
-    box-sizing:border-box;
-}
+  body{
+    background:#0d0608;
+    color:#fdf0f5;
+    font-family:'Georgia',serif;
+    overflow-x:hidden;
+  }
 
-body{
+  body::before{
+    content:'';
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(244,184,204,.05), transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(232,182,76,.04), transparent 40%);
+    pointer-events:none;
+    z-index:0;
+  }
 
-    margin:0;
-    background:#000;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-
-}
-
-.container{
-
+  .container{
     width:100%;
-    max-width:700px;
+    max-width:640px;
     margin:auto;
-    padding:30px 20px 60px;
+    padding:60px 24px 100px;
+    position:relative;
+    z-index:1;
+  }
 
-}
+  .intro{
+    text-align:center;
+    padding:40px 0 60px;
+    opacity:0;
+    animation:fadeIn 1.2s ease forwards;
+  }
 
-.media{
+  .intro h1{
+    font-size:28px;
+    font-weight:400;
+    font-style:italic;
+    color:#f4b8cc;
+    letter-spacing:.02em;
+  }
 
+  .intro p{
+    margin-top:14px;
+    font-size:13px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:#a68a95;
+  }
+
+  @keyframes fadeIn{
+    to{opacity:1}
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .8s ease, transform .8s ease;
+    margin:36px 0;
+  }
+
+  .reveal.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .media{
     display:block;
     width:100%;
-    margin:28px 0;
-
-}
-
-img.media{
-
     height:auto;
-    border-radius:8px;
+    border-radius:10px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);
+  }
 
-}
+  .caption{
+    text-align:center;
+    font-size:13px;
+    font-style:italic;
+    color:#c9a3b3;
+    margin-top:10px;
+    letter-spacing:.02em;
+  }
 
-video.media{
+  .divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin:50px 0;
+    opacity:0;
+    transition:opacity .8s ease;
+  }
 
-    border-radius:8px;
+  .divider.visible{opacity:.5}
 
-}
+  .divider svg{width:16px;height:16px}
 
-audio{
+  .finale-lead{
+    text-align:center;
+    padding:50px 0 10px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
 
+  .finale-lead.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .finale-lead p{
+    font-style:italic;
+    font-size:16px;
+    color:#e8c4d3;
+    letter-spacing:.02em;
+  }
+
+  .audio-wrap{
+    margin-top:24px;
+    padding:24px;
+    background:rgba(244,184,204,.06);
+    border:1px solid rgba(244,184,204,.2);
+    border-radius:12px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 1s ease .2s, transform 1s ease .2s;
+  }
+
+  .audio-wrap.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  audio{
     width:100%;
-    margin:40px 0 20px;
-
-}
-
+    filter:invert(1) hue-rotate(180deg);
+    border-radius:8px;
+  }
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
 
-<img class="media" src="love1.png">
+  <div class="intro">
+    <h1>hi em</h1>
+    <p>scroll slow</p>
+  </div>
 
-<img class="media" src="love1 (2).png">
+  <div class="reveal"><img class="media" src="love1.png"></div>
+  <div class="reveal"><img class="media" src="love1 (2).png"></div>
+  <div class="reveal"><img class="media" src="inwhat.png"></div>
+  <div class="reveal"><img class="media" src="incest.png"></div>
+  <div class="reveal"><img class="media" src="ms1.png"></div>
 
-<img class="media" src="inwhat.png">
+  <div class="divider">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2" fill="#f4b8cc"/></svg>
+  </div>
 
-<img class="media" src="incest.png">
+  <div class="reveal"><img class="media" src="samebrain.jpg"><p class="caption">same brain. always have been.</p></div>
+  <div class="reveal"><img class="media" src="samebrain2.png"></div>
 
-<img class="media" src="ms1.png">
+  <div class="reveal">
+    <video class="media" controls>
+      <source src="mining.mp4" type="video/mp4">
+    </video>
+  </div>
 
-<img class="media" src="samebrain.jpg">
+  <div class="reveal"><img class="media" src="um.jpeg"></div>
 
-<img class="media" src="samebrain2.png">
+  <div class="reveal">
+    <video class="media" controls>
+      <source src="corki (2).mp4" type="video/mp4">
+    </video>
+  </div>
 
-<video class="media" controls>
-<source src="mining.mp4" type="video/mp4">
-</video>
+  <div class="reveal">
+    <video class="media" controls>
+      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
+    </video>
+  </div>
 
-<img class="media" src="um.jpeg">
+  <div class="finale-lead">
+    <p>ok one more thing.</p>
+  </div>
 
-<video class="media" controls>
-<source src="corki (2).mp4" type="video/mp4">
-</video>
-
-<video class="media" controls>
-<source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
-</video>
-
-<audio controls>
-<source src="meow.opus" type="audio/ogg">
-</audio>
+  <div class="audio-wrap">
+    <audio controls>
+      <source src="meow.opus" type="audio/ogg">
+    </audio>
+  </div>
 
 </div>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal, .divider, .finale-lead, .audio-wrap');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealEls.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
