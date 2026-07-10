@@ -14,6 +14,32 @@
     overflow-x:hidden;
   }
 
+  .curtain{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:#0d0608;
+    z-index:200;
+    animation:curtainLift .6s ease .5s forwards;
+  }
+
+  @keyframes curtainLift{
+    to{opacity:0;visibility:hidden}
+  }
+
+  .progress-track{
+    position:fixed;
+    top:0;left:0;right:0;
+    height:2px;
+    background:rgba(244,184,204,.1);
+    z-index:150;
+  }
+
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,#f4b8cc,#e8b64c);
+    width:0%;
+  }
+
   body::before{
     content:'';
     position:fixed;
@@ -149,10 +175,13 @@
 </head>
 <body>
 
+<div class="curtain"></div>
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
 <div class="container">
 
   <div class="intro">
-    <h1>hi em</h1>
+    <h1>helloing em</h1>
     <p>scroll slow</p>
   </div>
 
@@ -162,11 +191,7 @@
   <div class="reveal"><img class="media" src="incest.png"></div>
   <div class="reveal"><img class="media" src="ms1.png"></div>
 
-  <div class="divider">
-    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2" fill="#f4b8cc"/></svg>
-  </div>
-
-  <div class="reveal"><img class="media" src="samebrain.jpg"><p class="caption">same brain. always have been.</p></div>
+  <div class="reveal"><img class="media" src="samebrain.jpg"></div>
   <div class="reveal"><img class="media" src="samebrain2.png"></div>
 
   <div class="reveal">
@@ -190,7 +215,7 @@
   </div>
 
   <div class="finale-lead">
-    <p>ok one more thing.</p>
+    <p>okay one more thing.</p>
   </div>
 
   <div class="audio-wrap">
@@ -213,6 +238,13 @@
   }, { threshold: 0.15 });
 
   revealEls.forEach(el => observer.observe(el));
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+  });
 </script>
 
 </body>
