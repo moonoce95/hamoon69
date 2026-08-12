@@ -4,8 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>hamoon</title>
+
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
+  *{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+  }
 
   body{
     background:#0d0608;
@@ -16,19 +21,27 @@
 
   .curtain{
     position:fixed;
-    top:0;left:0;right:0;bottom:0;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
     background:#0d0608;
     z-index:200;
     animation:curtainLift .6s ease .5s forwards;
   }
 
   @keyframes curtainLift{
-    to{opacity:0;visibility:hidden}
+    to{
+      opacity:0;
+      visibility:hidden;
+    }
   }
 
   .progress-track{
     position:fixed;
-    top:0;left:0;right:0;
+    top:0;
+    left:0;
+    right:0;
     height:2px;
     background:rgba(244,184,204,.1);
     z-index:150;
@@ -43,10 +56,21 @@
   body::before{
     content:'';
     position:fixed;
-    top:0;left:0;right:0;bottom:0;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
     background:
-      radial-gradient(circle at 15% 20%, rgba(244,184,204,.05), transparent 40%),
-      radial-gradient(circle at 85% 70%, rgba(232,182,76,.04), transparent 40%);
+      radial-gradient(
+        circle at 15% 20%,
+        rgba(244,184,204,.05),
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 85% 70%,
+        rgba(232,182,76,.04),
+        transparent 40%
+      );
     pointer-events:none;
     z-index:0;
   }
@@ -84,7 +108,9 @@
   }
 
   @keyframes fadeIn{
-    to{opacity:1}
+    to{
+      opacity:1;
+    }
   }
 
   .reveal{
@@ -103,6 +129,15 @@
     display:block;
     width:100%;
     height:auto;
+    border-radius:10px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);
+  }
+
+  .youtube-frame{
+    display:block;
+    width:100%;
+    aspect-ratio:16 / 9;
+    border:0;
     border-radius:10px;
     box-shadow:0 12px 30px rgba(0,0,0,.5);
   }
@@ -126,9 +161,14 @@
     transition:opacity .8s ease;
   }
 
-  .divider.visible{opacity:.5}
+  .divider.visible{
+    opacity:.5;
+  }
 
-  .divider svg{width:16px;height:16px}
+  .divider svg{
+    width:16px;
+    height:16px;
+  }
 
   .finale-lead{
     text-align:center;
@@ -158,7 +198,9 @@
     border-radius:12px;
     opacity:0;
     transform:translateY(20px);
-    transition:opacity 1s ease .2s, transform 1s ease .2s;
+    transition:
+      opacity 1s ease .2s,
+      transform 1s ease .2s;
   }
 
   .audio-wrap.visible{
@@ -173,26 +215,61 @@
   }
 </style>
 </head>
+
 <body>
 
 <div class="curtain"></div>
-<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="progress-track">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
 
 <div class="container">
+
+  <!-- Birthday making-of video -->
+  <div class="reveal">
+    <iframe
+      class="youtube-frame"
+      src="https://www.youtube-nocookie.com/embed/wRCaJn3Kf7w?rel=0"
+      title="For Em — Happy Birthday"
+      loading="eager"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
 
   <div class="intro">
     <h1>helloing em</h1>
     <p>scroll slow</p>
   </div>
 
-  <div class="reveal"><img class="media" src="love1.png"></div>
-  <div class="reveal"><img class="media" src="love1 (2).png"></div>
-  <div class="reveal"><img class="media" src="inwhat.png"></div>
-  <div class="reveal"><img class="media" src="incest.png"></div>
-  <div class="reveal"><img class="media" src="ms1.png"></div>
+  <div class="reveal">
+    <img class="media" src="love1.png" alt="">
+  </div>
 
-  <div class="reveal"><img class="media" src="samebrain.jpg"></div>
-  <div class="reveal"><img class="media" src="samebrain2.png"></div>
+  <div class="reveal">
+    <img class="media" src="love1 (2).png" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" src="inwhat.png" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" src="incest.png" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" src="ms1.png" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" src="samebrain.jpg" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" src="samebrain2.png" alt="">
+  </div>
 
   <div class="reveal">
     <video class="media" controls>
@@ -208,7 +285,10 @@
 
   <div class="reveal">
     <video class="media" controls>
-      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
+      <source
+        src="k_kfkMTncfnSqytLRS8m_g.mp4"
+        type="video/mp4"
+      >
     </video>
   </div>
 
@@ -225,23 +305,39 @@
 </div>
 
 <script>
-  const revealEls = document.querySelectorAll('.reveal, .divider, .finale-lead, .audio-wrap');
+  const revealEls = document.querySelectorAll(
+    '.reveal, .divider, .finale-lead, .audio-wrap'
+  );
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.15 });
+  }, {
+    threshold:0.15
+  });
 
-  revealEls.forEach(el => observer.observe(el));
+  revealEls.forEach((element) => {
+    observer.observe(element);
+  });
 
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    document.getElementById('progressFill').style.width = pct + '%';
+
+    const docHeight =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    const percentage =
+      docHeight > 0
+        ? (scrollTop / docHeight) * 100
+        : 0;
+
+    document.getElementById(
+      'progressFill'
+    ).style.width = percentage + '%';
   });
 </script>
 
