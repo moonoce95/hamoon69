@@ -21,10 +21,7 @@
 
   .curtain{
     position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
+    inset:0;
     background:#0d0608;
     z-index:200;
     animation:curtainLift .6s ease .5s forwards;
@@ -49,17 +46,14 @@
 
   .progress-fill{
     height:100%;
-    background:linear-gradient(90deg,#f4b8cc,#e8b64c);
     width:0%;
+    background:linear-gradient(90deg,#f4b8cc,#e8b64c);
   }
 
   body::before{
     content:'';
     position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
+    inset:0;
     background:
       radial-gradient(
         circle at 15% 20%,
@@ -86,7 +80,7 @@
 
   .intro{
     text-align:center;
-    padding:40px 0 60px;
+    padding:40px 0 24px;
     opacity:0;
     animation:fadeIn 1.2s ease forwards;
   }
@@ -97,14 +91,6 @@
     font-style:italic;
     color:#f4b8cc;
     letter-spacing:.02em;
-  }
-
-  .intro p{
-    margin-top:14px;
-    font-size:13px;
-    letter-spacing:.15em;
-    text-transform:uppercase;
-    color:#a68a95;
   }
 
   @keyframes fadeIn{
@@ -140,34 +126,6 @@
     border:0;
     border-radius:10px;
     box-shadow:0 12px 30px rgba(0,0,0,.5);
-  }
-
-  .caption{
-    text-align:center;
-    font-size:13px;
-    font-style:italic;
-    color:#c9a3b3;
-    margin-top:10px;
-    letter-spacing:.02em;
-  }
-
-  .divider{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    margin:50px 0;
-    opacity:0;
-    transition:opacity .8s ease;
-  }
-
-  .divider.visible{
-    opacity:.5;
-  }
-
-  .divider svg{
-    width:16px;
-    height:16px;
   }
 
   .finale-lead{
@@ -226,21 +184,19 @@
 
 <div class="container">
 
-  <!-- Birthday making-of video -->
+  <div class="intro">
+    <h1>helloingg ❤️❤️</h1>
+  </div>
+
   <div class="reveal">
     <iframe
       class="youtube-frame"
-      src="https://www.youtube-nocookie.com/embed/wRCaJn3Kf7w?rel=0"
+      src="https://www.youtube-nocookie.com/embed/JpoWqhi8wZA?rel=0"
       title="For Em — Happy Birthday"
       loading="eager"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen>
     </iframe>
-  </div>
-
-  <div class="intro">
-    <h1>helloing em</h1>
-    <p>scroll slow</p>
   </div>
 
   <div class="reveal">
@@ -306,7 +262,7 @@
 
 <script>
   const revealEls = document.querySelectorAll(
-    '.reveal, .divider, .finale-lead, .audio-wrap'
+    '.reveal, .finale-lead, .audio-wrap'
   );
 
   const observer = new IntersectionObserver((entries) => {
@@ -325,7 +281,6 @@
 
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
-
     const docHeight =
       document.documentElement.scrollHeight -
       window.innerHeight;
@@ -335,9 +290,8 @@
         ? (scrollTop / docHeight) * 100
         : 0;
 
-    document.getElementById(
-      'progressFill'
-    ).style.width = percentage + '%';
+    document.getElementById('progressFill').style.width =
+      percentage + '%';
   });
 </script>
 
