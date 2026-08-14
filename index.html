@@ -129,8 +129,28 @@
     box-shadow:0 12px 30px rgba(0,0,0,.5);
   }
 
+  .finale-lead{
+    text-align:center;
+    padding:50px 0 10px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
+
+  .finale-lead.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .finale-lead p{
+    font-style:italic;
+    font-size:16px;
+    color:#e8c4d3;
+    letter-spacing:.02em;
+  }
+
   .audio-wrap{
-    margin-top:36px;
+    margin-top:24px;
     padding:24px;
     background:rgba(244,184,204,.06);
     border:1px solid rgba(244,184,204,.2);
@@ -170,7 +190,7 @@
   </div>
 
 
-  <!-- MAIN VIDEO -->
+  <!-- MAIN YOUTUBE VIDEO -->
 
   <div class="reveal">
     <iframe
@@ -181,6 +201,15 @@
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen>
     </iframe>
+  </div>
+
+
+  <!-- HAMY OK DIRECTLY BELOW MAIN VIDEO -->
+
+  <div class="reveal">
+    <video class="media" controls preload="metadata">
+      <source src="hamyok.mp4" type="video/mp4">
+    </video>
   </div>
 
 
@@ -197,6 +226,23 @@
   <div class="reveal">
     <img class="media" src="inwhat.png" alt="">
   </div>
+
+
+  <!-- SECOND YOUTUBE VIDEO -->
+
+  <div class="reveal">
+    <iframe
+      class="youtube-frame"
+      src="https://www.youtube-nocookie.com/embed/31BIQdznu_E?rel=0"
+      title="YouTube video"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+
+  <!-- INCEST IMAGE -->
 
   <div class="reveal">
     <img class="media" src="incest.png" alt="">
@@ -215,46 +261,20 @@
   </div>
 
 
-  <!-- ORIGINAL VIDEOS -->
+  <!-- MINING VIDEO -->
 
   <div class="reveal">
     <video class="media" controls preload="metadata">
       <source src="mining.mp4" type="video/mp4">
-      Your browser could not load mining.mp4.
-    </video>
-  </div>
-
-  <div class="reveal">
-    <video class="media" controls preload="metadata">
-      <source src="hamyok.mp4" type="video/mp4">
-      Your browser could not load hamyok.mp4.
-    </video>
-  </div>
-
-  <div class="reveal">
-    <video class="media" controls preload="metadata">
-      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
-      Your browser could not load this video.
     </video>
   </div>
 
 
-  <!-- MEOW AUDIO -->
-
-  <div class="audio-wrap">
-    <audio controls preload="metadata">
-      <source src="meow.opus" type="audio/ogg">
-      Your browser could not load meow.opus.
-    </audio>
-  </div>
-
-
-  <!-- NEW STUFF -->
+  <!-- NEW ADDITIONS -->
 
   <div class="reveal">
     <video class="media" controls preload="metadata">
       <source src="smile.mp4" type="video/mp4">
-      Your browser could not load smile.mp4.
     </video>
   </div>
 
@@ -274,12 +294,33 @@
     <img class="media" src="flounder.jpg" alt="">
   </div>
 
+
+  <!-- SECOND LAST -->
+
+  <div class="reveal">
+    <video class="media" controls preload="metadata">
+      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- FINAL AUDIO -->
+
+  <div class="finale-lead">
+    <p>one more thing...</p>
+  </div>
+
+  <div class="audio-wrap">
+    <audio controls preload="metadata">
+      <source src="meow.opus" type="audio/ogg">
+    </audio>
+  </div>
+
 </div>
 
 <script>
-
   const revealEls = document.querySelectorAll(
-    '.reveal, .audio-wrap'
+    '.reveal, .finale-lead, .audio-wrap'
   );
 
   const observer = new IntersectionObserver((entries) => {
@@ -296,9 +337,7 @@
     observer.observe(element);
   });
 
-
   window.addEventListener('scroll', () => {
-
     const scrollTop = window.scrollY;
 
     const docHeight =
@@ -312,9 +351,7 @@
 
     document.getElementById('progressFill').style.width =
       percentage + '%';
-
   });
-
 </script>
 
 </body>
