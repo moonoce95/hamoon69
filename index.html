@@ -129,25 +129,14 @@ audio{
 
 /* ========================= UPLOADER ========================= */
 #add-wrap{
-  text-align:center;margin:42px 0 18px;font-family:system-ui,sans-serif
+  display:flex;justify-content:center;gap:7px;flex-wrap:wrap;
+  text-align:center;margin:0 0 12px;font-family:system-ui,sans-serif
 }
-#add-something{
+#add-something,#decorate-toggle{
   border:1px solid rgba(232,182,76,.3);
   background:rgba(232,182,76,.1);
-  color:#e8b64c;border-radius:999px;padding:10px 16px;
-  cursor:pointer;font-size:13px;font-weight:700
-}
-#storage-usage{
-  width:min(92%,340px);margin:-7px auto 24px;color:rgba(253,240,245,.5);
-  text-align:center;font:11px/1.4 system-ui,sans-serif
-}
-#storage-track{
-  height:5px;margin-top:6px;border-radius:999px;overflow:hidden;
-  background:rgba(244,184,204,.1)
-}
-#storage-fill{
-  display:block;height:100%;width:0;border-radius:inherit;
-  background:linear-gradient(90deg,#f4b8cc,#e8b64c);transition:width .3s ease
+  color:#e8b64c;border-radius:999px;padding:7px 11px;
+  cursor:pointer;font-size:11px;font-weight:700
 }
 .modal{
   display:none;position:fixed;inset:0;z-index:99999;
@@ -218,9 +207,8 @@ audio{
   font:700 12px/1.4 system-ui,sans-serif;letter-spacing:.02em
 }
 #decorate-toggle{
-  margin-left:7px;border:1px solid rgba(244,184,204,.24);
-  background:rgba(244,184,204,.07);color:#f4b8cc;border-radius:999px;
-  padding:10px 16px;cursor:pointer;font-size:13px;font-weight:700
+  border-color:rgba(244,184,204,.24);
+  background:rgba(244,184,204,.07);color:#f4b8cc
 }
 #sticker-layer{
   position:absolute;inset:0;z-index:40;pointer-events:none;overflow:visible
@@ -349,9 +337,6 @@ body.decorating #sticker-dock{display:block}
 .drawing-as{
   display:block;color:var(--pink);font-size:16px;font-weight:700;
   line-height:1.45;margin-bottom:2px
-}
-.wall-recognised{
-  display:block;color:var(--muted);font-size:13px;line-height:1.4
 }
 #author-buttons{
   display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:8px
@@ -508,8 +493,6 @@ body.decorating #sticker-dock{display:block}
   #colour-popover{
     position:fixed;left:50%;top:50%;transform:translate(-50%,-50%)
   }
-  #add-wrap{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}
-  #decorate-toggle{margin-left:0}
   .site-sticker{max-width:84px;max-height:84px}
   .sticker-dock-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
@@ -620,15 +603,6 @@ body.decorating #sticker-dock{display:block}
 
   </div>
 
-  <div id="add-wrap">
-    <button id="add-something" type="button">＋ add something</button>
-    <button id="decorate-toggle" type="button">✨ decorate</button>
-  </div>
-  <div id="storage-usage" aria-live="polite">
-    <span id="storage-label">R2 storage · checking…</span>
-    <div id="storage-track"><span id="storage-fill"></span></div>
-  </div>
-
   <input id="take-photo" type="file" accept="image/*" capture="environment" hidden>
   <input id="choose-photo" type="file" accept="image/*" hidden>
   <input id="record-video" type="file" accept="video/*" capture="environment" hidden>
@@ -646,6 +620,11 @@ body.decorating #sticker-dock{display:block}
   </div>
 
   <div id="hamoon-space">
+
+    <div id="add-wrap">
+      <button id="add-something" type="button">＋ add something</button>
+      <button id="decorate-toggle" type="button">✨ decorate</button>
+    </div>
 
     <h2>our little space ☁️</h2>
 
@@ -682,13 +661,13 @@ body.decorating #sticker-dock{display:block}
           <button class="btn" id="redo">↪ Redo</button>
         </div>
 
-        <button class="btn" id="make-wall-sticker">✨ make a sticker from this</button>
-
         <div class="tool-actions">
           <button class="btn" id="history-btn">📜 History</button>
           <button class="btn danger" id="clear-mine">🗑 Clear mine</button>
           <button class="btn danger" id="clear-all">💀 Clear all</button>
         </div>
+
+        <button class="btn" id="make-wall-sticker">✨ make a sticker from this</button>
 
       </div>
     </div>
@@ -886,7 +865,6 @@ const state={
   reactions:[],
   uploads:[],
   stickers:[],
-  storageUsed:null,
   presence:[],
   mode:"draw",
   colour:"#f4b8cc",
@@ -923,6 +901,20 @@ function toast(text){
 
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>el.classList.remove("show"),1800);
+}
+
+function readableError(error,fallback){
+  const raw=String(error?.message||"").trim();
+  if(!raw) return fallback;
+
+  try{
+    const parsed=JSON.parse(raw);
+    return parsed.error||parsed.message||fallback;
+  }catch(_){
+    return raw.startsWith("HTTP ")
+      ? fallback+" ("+raw+")"
+      : raw;
+  }
 }
 
 function detect(){
@@ -1022,13 +1014,9 @@ function updateAuthor(){
 
   const drawingAs=document.createElement("span");
   drawingAs.className="drawing-as";
-  drawingAs.textContent="drawing as ♡ "+state.author+" ♡";
+  drawingAs.textContent="drawing as "+state.author;
 
-  const recognised=document.createElement("span");
-  recognised.className="wall-recognised";
-  recognised.textContent="our little space recognised you ♡";
-
-  identity.append(drawingAs,recognised);
+  identity.append(drawingAs);
 }
 
 function chooseAuthor(author){
@@ -1095,32 +1083,6 @@ function normUpload(upload){
   };
 }
 
-function renderStorage(){
-  const limit=10*1000*1000*1000;
-  let bytes=state.storageUsed;
-
-  if(!Number.isFinite(bytes)){
-    const known=state.uploads.filter(upload=>upload.size>0);
-    bytes=known.length===state.uploads.length
-      ? known.reduce((sum,upload)=>sum+upload.size,0)
-      : null;
-  }
-
-  const label=document.getElementById("storage-label");
-  const fill=document.getElementById("storage-fill");
-
-  if(!Number.isFinite(bytes)){
-    label.textContent="R2 storage · usage appears after the next upload";
-    fill.style.width="0";
-    return;
-  }
-
-  const gb=bytes/1000/1000/1000;
-  const percent=clamp(bytes/limit*100,0,100);
-  label.textContent="R2 storage · "+gb.toFixed(gb<.01?3:2)+" GB of 10 GB";
-  fill.style.width=percent+"%";
-}
-
 function normSticker(sticker){
   if(!sticker||!sticker.id||!sticker.src){
     return null;
@@ -1159,13 +1121,6 @@ async function load(){
     .map(normSticker)
     .filter(Boolean);
 
-  const reportedStorage=Number(
-    data.storageUsedBytes??
-    data.storage?.usedBytes??
-    data.r2Bytes
-  );
-  state.storageUsed=Number.isFinite(reportedStorage)?reportedStorage:null;
-
   state.presence=Array.isArray(data.presence)
     ? data.presence
     : [];
@@ -1173,7 +1128,6 @@ async function load(){
   redraw();
   renderUploads();
   renderStickers();
-  renderStorage();
   setupOrder();
   applyOrder();
   renderReactions();
@@ -1650,22 +1604,11 @@ uploadGo.addEventListener("click",async()=>{
   try{
     const id=crypto.randomUUID();
 
-    const uploaded=await uploadFileDirect(
+    await uploadFileDirect(
       pendingFile,
       pendingType,
       id
     );
-
-    const reportedStorage=Number(
-      uploaded?.storageUsedBytes??
-      uploaded?.storage?.usedBytes??
-      uploaded?.r2Bytes
-    );
-
-    state.storageUsed=Number.isFinite(reportedStorage)
-      ? reportedStorage
-      : (Number.isFinite(state.storageUsed)?state.storageUsed+pendingFile.size:null);
-    renderStorage();
 
     closeUpload();
     toast("added ❤️");
@@ -2178,7 +2121,7 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
     toast("sticker added ✨ drag it wherever you want");
   }catch(error){
     console.error(error);
-    toast("sticker didn't save");
+    toast(readableError(error,"sticker failed to save"));
   }finally{
     button.disabled=false;
     button.textContent="add sticker ✨";
@@ -3670,19 +3613,11 @@ function connect(){
         .map(normSticker)
         .filter(Boolean);
 
-      const reportedStorage=Number(
-        data.storageUsedBytes??
-        data.storage?.usedBytes??
-        data.r2Bytes
-      );
-      state.storageUsed=Number.isFinite(reportedStorage)?reportedStorage:null;
-
       state.presence=data.presence||[];
 
       redraw();
       renderUploads();
       renderStickers();
-      renderStorage();
       setupOrder();
       applyOrder();
       renderReactions();
