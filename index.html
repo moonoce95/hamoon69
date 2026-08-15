@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5">
+<meta name="theme-color" content="#0d0608">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d0608'/%3E%3Cpath d='M32 52S9 39 9 22c0-12 15-16 23-5 8-11 23-7 23 5 0 17-23 30-23 30Z' fill='%23f4b8cc'/%3E%3C/svg%3E">
 <title>hamoon</title>
 
 <script>
@@ -229,6 +231,24 @@ audio{
   display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;
   user-select:none;-webkit-user-drag:none
 }
+.sticker-handle{
+  display:none;position:absolute;z-index:3;width:18px;height:18px;padding:0;
+  border:2px solid #e8b64c;border-radius:50%;background:#170b10;
+  box-shadow:0 2px 8px rgba(0,0,0,.55);touch-action:none
+}
+body.decorating .site-sticker.selected .sticker-handle{display:block}
+.sticker-handle.nw{left:-11px;top:-11px;cursor:nwse-resize}
+.sticker-handle.ne{right:-11px;top:-11px;cursor:nesw-resize}
+.sticker-handle.sw{left:-11px;bottom:-11px;cursor:nesw-resize}
+.sticker-handle.se{right:-11px;bottom:-11px;cursor:nwse-resize}
+.sticker-handle.rotate{
+  left:50%;top:-43px;transform:translateX(-50%);cursor:grab;
+  background:#e8b64c
+}
+.sticker-handle.rotate::after{
+  content:"";position:absolute;left:7px;top:16px;width:2px;height:24px;
+  background:#e8b64c;pointer-events:none
+}
 body.decorating #sticker-layer{pointer-events:auto}
 body.decorating .site-sticker{
   pointer-events:auto;cursor:grab;border-radius:12px;
@@ -239,10 +259,10 @@ body.decorating .site-sticker.selected{
 }
 #sticker-dock{
   display:none;position:fixed;z-index:180000;left:50%;bottom:max(16px,env(safe-area-inset-bottom));
-  transform:translateX(-50%);width:min(94vw,520px);padding:9px;
+  transform:translateX(-50%);width:min(94vw,680px);padding:12px;
   border:1px solid rgba(232,182,76,.55);border-radius:14px;
   background:rgba(13,6,8,.97);box-shadow:0 16px 50px rgba(0,0,0,.62);
-  font-family:system-ui,sans-serif;padding-top:34px
+  font-family:system-ui,sans-serif;padding-top:39px
 }
 body.decorating #sticker-dock{display:block}
 #sticker-close{
@@ -257,14 +277,14 @@ body.decorating #sticker-dock{display:block}
 #sticker-close::before{transform:rotate(45deg)}
 #sticker-close::after{transform:rotate(-45deg)}
 #sticker-dock-title{
-  text-align:center;color:#f4b8cc;font-size:12px;line-height:1.4;margin-bottom:7px
+  text-align:center;color:#f4b8cc;font-size:13px;line-height:1.4;margin-bottom:9px
 }
 .sticker-dock-actions{
-  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px
 }
-.sticker-dock-actions .btn{min-width:0;padding:8px 5px}
+.sticker-dock-actions .btn{min-width:0;padding:10px 6px;font-size:12px}
 #sticker-author-edit{
-  width:100%;margin-top:7px;padding:8px;border:1px solid rgba(244,184,204,.18);
+  width:100%;margin-top:9px;padding:10px;border:1px solid rgba(244,184,204,.18);
   border-radius:8px;background:#170b10;color:#fdf0f5;text-align:center
 }
 #sticker-preview{
@@ -1835,6 +1855,7 @@ const stickerModal=document.getElementById("sticker-modal");
 const stickerPreview=document.getElementById("sticker-preview");
 const stickerAuthor=document.getElementById("sticker-author");
 const stickerAuthorEdit=document.getElementById("sticker-author-edit");
+const stickerDock=document.getElementById("sticker-dock");
 const stickerDockTitle=document.getElementById("sticker-dock-title");
 const captureLayer=document.getElementById("sticker-capture");
 const captureBox=document.getElementById("sticker-capture-box");
@@ -1842,6 +1863,7 @@ const captureBox=document.getElementById("sticker-capture-box");
 let pendingSticker=null;
 let selectedStickerId=null;
 let stickerDrag=null;
+let stickerTransform=null;
 let captureStart=null;
 const viewportMeta=document.querySelector('meta[name="viewport"]');
 const normalViewport=viewportMeta?.getAttribute("content")||"width=device-width, initial-scale=1";
@@ -1871,14 +1893,15 @@ function safeStickerPosition(sticker){
   const stickerHeight=sticker.height*contentRect.width;
   const halfWidth=stickerWidth/layerWidth/2;
   const halfHeight=stickerHeight/layerHeight/2;
+  const edge=20/layerWidth;
   const gap=16/layerWidth;
   const contentLeft=(contentRect.left-layerRect.left)/layerWidth;
   const contentRight=(contentRect.right-layerRect.left)/layerWidth;
   const middle=(contentLeft+contentRight)/2;
-  const furthestLeft=clamp(contentLeft-halfWidth-gap,halfWidth,1-halfWidth);
-  const furthestRight=clamp(contentRight+halfWidth+gap,halfWidth,1-halfWidth);
+  const furthestLeft=clamp(contentLeft-halfWidth-gap,halfWidth+edge,1-halfWidth-edge);
+  const furthestRight=clamp(contentRight+halfWidth+gap,halfWidth+edge,1-halfWidth-edge);
 
-  sticker.x=clamp(sticker.x,halfWidth,1-halfWidth);
+  sticker.x=clamp(sticker.x,halfWidth+edge,1-halfWidth-edge);
 
   /*
     Outside the media column, stickers move freely.
@@ -1897,17 +1920,39 @@ function safeStickerPosition(sticker){
 function setPhoneDecorateView(on){
   if(!isPhone()||!viewportMeta) return;
   const anchorTop=wrap.getBoundingClientRect().top;
+  const fitScale=Math.min(1,(screen.width||innerWidth)/1100);
   viewportMeta.setAttribute(
     "content",
-    on?"width=1100,user-scalable=yes,maximum-scale=5":normalViewport
+    on?"width=1100,initial-scale="+fitScale+",user-scalable=yes,maximum-scale=5":normalViewport
   );
 
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     const moved=wrap.getBoundingClientRect().top-anchorTop;
-    scrollBy({top:moved,behavior:"auto"});
+    scrollTo({left:0,top:Math.max(0,scrollY+moved),behavior:"auto"});
     renderStickers();
+    positionStickerDock();
   }));
 }
+
+function positionStickerDock(){
+  if(!document.body.classList.contains("decorating")) return;
+  const view=window.visualViewport;
+
+  if(view){
+    stickerDock.style.left=(view.offsetLeft+view.width/2)+"px";
+    stickerDock.style.top=Math.max(
+      view.offsetTop+10,
+      view.offsetTop+view.height-stickerDock.offsetHeight-16
+    )+"px";
+    stickerDock.style.bottom="auto";
+  }
+}
+
+if(window.visualViewport){
+  window.visualViewport.addEventListener("resize",positionStickerDock,{passive:true});
+  window.visualViewport.addEventListener("scroll",positionStickerDock,{passive:true});
+}
+window.addEventListener("scroll",positionStickerDock,{passive:true});
 
 function updateStickerDock(){
   const sticker=selectedSticker();
@@ -1924,11 +1969,13 @@ function updateStickerDock(){
 
   if(!sticker){
     stickerDockTitle.textContent="tap a sticker · pinch to zoom ✨";
+    positionStickerDock();
     return;
   }
 
-  stickerDockTitle.textContent="sticker by ♡ "+sticker.author+" ♡ · drag it · pinch to zoom";
+  stickerDockTitle.textContent="sticker by ♡ "+sticker.author+" ♡ · drag · corners resize · top dot rotates · pinch zoom";
   stickerAuthorEdit.value=sticker.author;
+  positionStickerDock();
 }
 
 function selectSticker(id){
@@ -1937,6 +1984,89 @@ function selectSticker(id){
     node.classList.toggle("selected",node.dataset.stickerId===id);
   });
   updateStickerDock();
+}
+
+function beginStickerTransform(event,sticker,node,type){
+  event.preventDefault();
+  event.stopPropagation();
+  selectSticker(sticker.id);
+
+  const rect=node.getBoundingClientRect();
+  const centreX=rect.left+rect.width/2;
+  const centreY=rect.top+rect.height/2;
+
+  stickerTransform={
+    id:sticker.id,
+    pointerId:event.pointerId,
+    type,
+    node,
+    centreX,
+    centreY,
+    startWidth:sticker.width,
+    startHeight:sticker.height,
+    startRotation:sticker.rotation,
+    startDistance:Math.max(1,Math.hypot(event.clientX-centreX,event.clientY-centreY)),
+    startAngle:Math.atan2(event.clientY-centreY,event.clientX-centreX)
+  };
+
+  event.currentTarget.setPointerCapture?.(event.pointerId);
+}
+
+function moveStickerTransform(event,sticker){
+  const edit=stickerTransform;
+  if(!edit||edit.id!==sticker.id||edit.pointerId!==event.pointerId) return;
+  event.preventDefault();
+  event.stopPropagation();
+
+  if(edit.type==="resize"){
+    const distance=Math.max(1,Math.hypot(event.clientX-edit.centreX,event.clientY-edit.centreY));
+    const scale=distance/edit.startDistance;
+    const nextWidth=clamp(edit.startWidth*scale,.06,.44);
+    const ratio=edit.startHeight/edit.startWidth;
+    sticker.width=nextWidth;
+    sticker.height=nextWidth*ratio;
+    const contentWidth=zone.getBoundingClientRect().width;
+    edit.node.style.width=(sticker.width*contentWidth)+"px";
+    edit.node.style.height=(sticker.height*contentWidth)+"px";
+  }else{
+    const angle=Math.atan2(event.clientY-edit.centreY,event.clientX-edit.centreX);
+    sticker.rotation=edit.startRotation+(angle-edit.startAngle)*180/Math.PI;
+    edit.node.style.transform="translate(-50%,-50%) rotate("+sticker.rotation+"deg)";
+  }
+}
+
+function finishStickerTransform(event,sticker){
+  const edit=stickerTransform;
+  if(!edit||edit.id!==sticker.id||edit.pointerId!==event.pointerId) return;
+  event.preventDefault();
+  event.stopPropagation();
+  stickerTransform=null;
+  safeStickerPosition(sticker);
+  renderStickers();
+  selectSticker(sticker.id);
+  saveSticker(sticker)
+    .then(()=>toast("sticker saved ✨"))
+    .catch(error=>toast(readableError(error,"sticker edit didn't save")));
+}
+
+function addStickerHandles(node,sticker){
+  ["nw","ne","sw","se","rotate"].forEach(kind=>{
+    const handle=document.createElement("button");
+    handle.type="button";
+    handle.className="sticker-handle "+kind;
+    handle.setAttribute("aria-label",kind==="rotate"?"Rotate sticker":"Resize sticker");
+    handle.addEventListener("pointerdown",event=>{
+      beginStickerTransform(event,sticker,node,kind==="rotate"?"rotate":"resize");
+    });
+    handle.addEventListener("pointermove",event=>moveStickerTransform(event,sticker));
+    handle.addEventListener("pointerup",event=>finishStickerTransform(event,sticker));
+    handle.addEventListener("pointercancel",event=>finishStickerTransform(event,sticker));
+    handle.addEventListener("click",event=>{
+      event.preventDefault();
+      event.stopPropagation();
+    });
+    node.appendChild(handle);
+  });
 }
 
 function renderStickers(){
@@ -1964,6 +2094,7 @@ function renderStickers(){
       img.alt="sticker by "+sticker.author;
       img.draggable=false;
       node.appendChild(img);
+      addStickerHandles(node,sticker);
 
       node.addEventListener("pointerdown",event=>{
         if(!document.body.classList.contains("decorating")) return;
@@ -1994,7 +2125,10 @@ function renderStickers(){
         const rect=stickerLayer.getBoundingClientRect();
         sticker.x=stickerDrag.x+(event.clientX-stickerDrag.startX)/rect.width;
         sticker.y=stickerDrag.y+(event.clientY-stickerDrag.startY)/rect.height;
-        sticker.x=clamp(sticker.x,0,1);
+        const contentWidth=zone.getBoundingClientRect().width;
+        const halfWidth=(sticker.width*contentWidth/rect.width)/2;
+        const edge=20/rect.width;
+        sticker.x=clamp(sticker.x,halfWidth+edge,1-halfWidth-edge);
         sticker.y=clamp(sticker.y,0,1);
         node.style.left=(sticker.x*100)+"%";
         node.style.top=(sticker.y*100)+"%";
@@ -2085,8 +2219,12 @@ function setDecorating(on){
     selectSticker(current?.id||newest?.id||null);
   }else{
     selectSticker(null);
+    stickerDock.style.removeProperty("left");
+    stickerDock.style.removeProperty("top");
+    stickerDock.style.removeProperty("bottom");
   }
   updateStickerDock();
+  if(on) requestAnimationFrame(positionStickerDock);
 }
 
 document.getElementById("decorate-toggle").addEventListener("click",()=>{
@@ -2095,6 +2233,12 @@ document.getElementById("decorate-toggle").addEventListener("click",()=>{
 });
 
 document.getElementById("sticker-close").addEventListener("click",()=>setDecorating(false));
+
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&document.body.classList.contains("decorating")){
+    setDecorating(false);
+  }
+});
 
 function editSelectedSticker(change){
   const sticker=selectedSticker();
