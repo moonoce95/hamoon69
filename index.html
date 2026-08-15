@@ -18,20 +18,11 @@
         async src="//gc.zgo.at/count.js"></script>
 
 <script>
-  /*
-    Private Hamoon visitor counter.
-    no-cors is intentional: this is a fire-and-forget page-open ping,
-    so a missing CORS response header cannot stop the request.
-  */
-  (function(){
-    fetch("https://hamoon-counter.andy-ng199507.workers.dev/visit", {
-      method: "POST",
-      mode: "no-cors",
-      cache: "no-store",
-      credentials: "omit",
-      keepalive: true
-    }).catch(function(){});
-  })();
+(function() {
+  fetch("https://hamoon-counter.andy-ng199507.workers.dev/visit", {
+    method: "POST"
+  }).catch(function() {});
+})();
 </script>
 
 <style>
@@ -201,7 +192,7 @@
   }
 
   /* ============================================================
-     HAMOON COLLABORATIVE WALL — no notes, auto-unlocked
+     HAMOON COLLABORATIVE WALL — auto identity + manual override
      ============================================================ */
 
   #hamoon-space{
@@ -224,15 +215,47 @@
     font-weight:400;
     font-style:italic;
     font-size:23px;
-    margin:0 0 8px;
+    margin:0 0 10px;
   }
 
-  #hs-identity{
+  #hs-author-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    margin:0 0 8px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  #hs-auto-identity{
+    color:var(--hs-muted);
+    font-size:11px;
     text-align:center;
-    color:var(--hs-pink);
-    font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    opacity:.7;
-    margin-bottom:3px;
+  }
+
+  #hs-author-buttons{
+    display:flex;
+    gap:7px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  .hs-author{
+    appearance:none;
+    border:1px solid var(--hs-border);
+    background:var(--hs-card);
+    color:var(--hs-white);
+    border-radius:999px;
+    padding:7px 13px;
+    cursor:pointer;
+    font-size:12px;
+  }
+
+  .hs-author.selected{
+    color:var(--hs-gold);
+    border-color:var(--hs-gold);
+    background:rgba(232,182,76,.14);
   }
 
   #hs-presence{
@@ -250,28 +273,24 @@
     margin-bottom:12px;
   }
 
-  .hs-dot{
-    display:inline-block;
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#75db9a;
-    vertical-align:1px;
-    margin-right:5px;
-  }
-
   #hs-toolbar{
     display:none;
+    flex-direction:column;
+    gap:8px;
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid var(--hs-border);
+    border-radius:12px;
+    background:var(--hs-card);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  .hs-tool-row{
+    display:flex;
     flex-wrap:wrap;
     justify-content:center;
     align-items:center;
-    gap:6px;
-    padding:9px;
-    margin-bottom:10px;
-    border:1px solid var(--hs-border);
-    border-radius:11px;
-    background:var(--hs-card);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    gap:7px;
   }
 
   .hs-btn{
@@ -302,74 +321,70 @@
     cursor:not-allowed;
   }
 
-  .hs-sep{
-    width:1px;
-    height:25px;
-    background:var(--hs-border);
+  .hs-control-label{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--hs-pink);
+    font-size:11px;
   }
 
-  .hs-colour{
+  #hs-colour-wheel{
     appearance:none;
-    width:28px;
-    height:28px;
-    border:2px solid transparent;
-    border-radius:50%;
-    cursor:pointer;
+    width:38px;
+    height:38px;
     padding:0;
-    box-shadow:0 0 0 1px rgba(255,255,255,.08);
-  }
-
-  .hs-colour.selected{
-    border-color:#fff;
-  }
-
-  #hs-custom-colour{
-    width:28px;
-    height:28px;
     border:0;
-    padding:0;
-    background:none;
+    border-radius:50%;
+    background:conic-gradient(#ff4d6d,#ffb703,#80ed99,#4cc9f0,#7b2cbf,#f72585,#ff4d6d);
     cursor:pointer;
+    overflow:hidden;
+  }
+
+  #hs-colour-wheel::-webkit-color-swatch-wrapper{ padding:4px; }
+  #hs-colour-wheel::-webkit-color-swatch{
+    border:2px solid rgba(255,255,255,.75);
+    border-radius:50%;
+  }
+  #hs-colour-wheel::-moz-color-swatch{
+    border:2px solid rgba(255,255,255,.75);
+    border-radius:50%;
   }
 
   #hs-thickness{
-    width:72px;
+    width:95px;
     accent-color:var(--hs-gold);
   }
 
+  /* Roughly 3x taller than the old 2:1 desktop board. */
   #hs-canvas-wrap{
     position:relative;
     width:100%;
-    aspect-ratio:2/1;
+    aspect-ratio:2/3;
     border:1px solid var(--hs-border);
     border-radius:12px;
     overflow:hidden;
     background-color:#1a0d12;
     background-image:radial-gradient(rgba(244,184,204,.11) .8px,transparent .8px);
     background-size:18px 18px;
-    touch-action:pan-y;
+    touch-action:none;
+    cursor:crosshair;
     box-shadow:0 12px 30px rgba(0,0,0,.28), inset 0 0 35px rgba(0,0,0,.18);
   }
 
-  #hs-canvas-wrap.mode-move{
-    touch-action:pan-y;
-    cursor:grab;
-  }
-
-  #hs-canvas-wrap.mode-draw{
-    touch-action:none;
-    cursor:crosshair;
-  }
-
-  #hs-canvas-wrap.mode-erase{
-    touch-action:none;
-    cursor:cell;
-  }
+  #hs-canvas-wrap.mode-erase{ cursor:cell; }
 
   #hs-canvas{
     display:block;
     width:100%;
     height:100%;
+  }
+
+  #hs-board-hint{
+    margin-top:7px;
+    text-align:center;
+    color:var(--hs-muted);
+    font:10px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   }
 
   #hs-history{
@@ -382,6 +397,12 @@
     font:12px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   }
 
+  #hs-history-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:6px;
+  }
+
   .hs-snap{
     display:flex;
     justify-content:space-between;
@@ -392,7 +413,6 @@
     color:var(--hs-pink);
   }
 
-  /* Reactions */
   .hs-memory-reactions{
     display:flex;
     align-items:center;
@@ -421,9 +441,7 @@
     background:rgba(232,182,76,.12);
   }
 
-  .hs-react-open{
-    color:#f4b8cc;
-  }
+  .hs-react-open{ color:#f4b8cc; }
 
   .hs-picker{
     display:none;
@@ -456,7 +474,6 @@
     background:rgba(232,182,76,.12);
   }
 
-  /* Modals */
   .hs-modal{
     display:none;
     position:fixed;
@@ -538,10 +555,10 @@
   }
 
   @media(max-width:600px){
-    #hs-canvas-wrap{ aspect-ratio:4/3; }
-    #hs-toolbar{ gap:4px; padding:7px; }
+    #hs-toolbar{ gap:7px; padding:8px; }
+    .hs-tool-row{ gap:6px; }
     .hs-btn{ padding:8px 9px; font-size:11px; }
-    .hs-sep{ display:none; }
+    #hs-colour-wheel{ width:36px; height:36px; }
   }
 </style>
 </head>
@@ -661,45 +678,7 @@
     </video>
   </div>
 
-  <!-- SHARED WALL -->
-  <div id="hamoon-space">
-    <h2>our wall ❤️</h2>
-    <div id="hs-identity"></div>
-    <div id="hs-presence"></div>
-    <div id="hs-conn-status">setting things up…</div>
-
-    <div id="hs-toolbar">
-      <button class="hs-btn hs-mode active" data-mode="move">✋ Move</button>
-      <button class="hs-btn hs-mode" data-mode="draw">✏️ Draw</button>
-      <button class="hs-btn hs-mode" data-mode="erase">🧽 Erase</button>
-
-      <span class="hs-sep"></span>
-
-      <button class="hs-colour selected" data-colour="#f4b8cc" style="background:#f4b8cc" aria-label="pink"></button>
-      <button class="hs-colour" data-colour="#e8b64c" style="background:#e8b64c" aria-label="gold"></button>
-      <button class="hs-colour" data-colour="#fdf0f5" style="background:#fdf0f5" aria-label="white"></button>
-      <button class="hs-colour" data-colour="#0d0608" style="background:#0d0608;border-color:#555" aria-label="black"></button>
-      <input id="hs-custom-colour" type="color" value="#f4b8cc" aria-label="custom colour">
-
-      <span class="hs-sep"></span>
-
-      <input id="hs-thickness" type="range" min="1" max="20" value="3" aria-label="brush size">
-      <button class="hs-btn" id="hs-undo">↩ Undo</button>
-      <button class="hs-btn" id="hs-redo">↪ Redo</button>
-      <button class="hs-btn" id="hs-history-btn">📜 History</button>
-      <button class="hs-btn danger" id="hs-clear">🗑 Clear</button>
-    </div>
-
-    <div id="hs-canvas-wrap" class="mode-move">
-      <canvas id="hs-canvas"></canvas>
-    </div>
-
-    <div id="hs-history">
-      <div id="hs-snapshots"></div>
-    </div>
-  </div>
-
-  <!-- FINALE -->
+  <!-- FINALE / MEOW ABOVE THE WALL -->
   <div class="finale-lead">
     <p>one more thing...</p>
   </div>
@@ -710,17 +689,70 @@
     </audio>
   </div>
 
+  <!-- SHARED WALL -->
+  <div id="hamoon-space">
+    <h2>our wall</h2>
+
+    <div id="hs-author-box">
+      <div id="hs-auto-identity"></div>
+      <div id="hs-author-buttons">
+        <button class="hs-author" data-author="Andy">♡ Andy ♡</button>
+        <button class="hs-author" data-author="Hamy">♡ Hamy ♡</button>
+      </div>
+    </div>
+
+    <div id="hs-presence"></div>
+    <div id="hs-conn-status">setting things up…</div>
+
+    <div id="hs-toolbar">
+      <div class="hs-tool-row">
+        <label class="hs-control-label">
+          🎨 colour
+          <input id="hs-colour-wheel" type="color" value="#f4b8cc" aria-label="drawing colour">
+        </label>
+
+        <label class="hs-control-label">
+          size
+          <input id="hs-thickness" type="range" min="1" max="30" value="4" aria-label="brush size">
+        </label>
+
+        <button class="hs-btn" id="hs-eraser">🧽 Eraser</button>
+        <button class="hs-btn" id="hs-undo">↩ Undo mine</button>
+        <button class="hs-btn" id="hs-redo">↪ Redo mine</button>
+      </div>
+
+      <div class="hs-tool-row">
+        <button class="hs-btn" id="hs-history-btn">📜 History</button>
+        <button class="hs-btn danger" id="hs-clear-mine">🗑 Clear my drawings</button>
+        <button class="hs-btn danger" id="hs-clear-all">💀 Clear all</button>
+      </div>
+    </div>
+
+    <div id="hs-canvas-wrap">
+      <canvas id="hs-canvas"></canvas>
+    </div>
+
+    <div id="hs-board-hint">draw automatically · two fingers scroll on phone</div>
+
+    <div id="hs-history">
+      <div id="hs-history-actions">
+        <button class="hs-btn danger" id="hs-delete-history">Delete histories</button>
+      </div>
+      <div id="hs-snapshots"></div>
+    </div>
+  </div>
+
 </div>
 
-<!-- Clear wall confirmation -->
-<div class="hs-modal" id="hs-clear-modal">
+<!-- Universal destructive-action confirmation -->
+<div class="hs-modal" id="hs-confirm-modal">
   <div class="hs-modal-box">
-    <h3>destroy the wall? 😭</h3>
-    <p>A recovery snapshot is saved first. Type <strong>69</strong> to confirm.</p>
-    <input id="hs-clear-confirm" class="hs-confirm" inputmode="numeric" maxlength="2" placeholder="69">
+    <h3 id="hs-confirm-title">confirm?</h3>
+    <p id="hs-confirm-copy">Type <strong>69</strong> to confirm.</p>
+    <input id="hs-confirm-input" class="hs-confirm" inputmode="numeric" maxlength="2" placeholder="69">
     <div class="hs-modal-actions">
-      <button class="hs-btn" id="hs-clear-cancel">nah</button>
-      <button class="hs-btn danger" id="hs-clear-go" disabled>delete history 💀</button>
+      <button class="hs-btn" id="hs-confirm-cancel">nah</button>
+      <button class="hs-btn danger" id="hs-confirm-go" disabled>do it 💀</button>
     </div>
   </div>
 </div>
@@ -767,8 +799,14 @@ window.addEventListener('scroll', () => {
 });
 
 /* Force the first visit/reload to the TOP. */
+window.addEventListener("pageshow", () => {
+  window.scrollTo(0, 0);
+  setTimeout(() => window.scrollTo(0, 0), 40);
+}, { once:true });
+
 window.addEventListener("load", () => {
-  setTimeout(() => window.scrollTo(0, 0), 0);
+  window.scrollTo(0, 0);
+  setTimeout(() => window.scrollTo(0, 0), 80);
 }, { once:true });
 
 
@@ -1425,7 +1463,7 @@ window.addEventListener("load", () => {
       if(state.ws!==ws) return;
 
       state.reconnectAttempt=0;
-      document.getElementById("hs-conn-status").textContent="connected ❤️";
+      document.getElementById("hs-conn-status").textContent="connected";
       document.getElementById("hs-conn-status").style.color="#75db9a";
 
       loadState().catch(()=>{});
@@ -1555,6 +1593,882 @@ window.addEventListener("load", () => {
     if(!state.ws || state.ws.readyState>1){
       connectWebSocket();
     }
+  });
+
+  start();
+
+})();
+</script>
+
+</body>
+</html>(function(){
+  "use strict";
+
+  const API = "https://hamoon-counter.andy-ng199507.workers.dev";
+  const WS_URL = "wss://hamoon-counter.andy-ng199507.workers.dev/space/live";
+  const AUTO_EDIT_PIN = "hamoon-69";
+
+  const EMOJIS = [
+    "❤️","♡","💛","😂","😭","💀","🥹","🥺","😍","🤭",
+    "😳","🫠","😤","🤡","🫡","🔥","✨","🌙","🌸","🐱"
+  ];
+
+  const canvas = document.getElementById("hs-canvas");
+  const wrap = document.getElementById("hs-canvas-wrap");
+  const ctx = canvas.getContext("2d");
+
+  const state = {
+    token:null,
+    author:null,
+    detectedAuthor:null,
+    unlocked:false,
+    mode:"draw",
+    colour:"#f4b8cc",
+    thickness:4,
+    strokes:[],
+    reactions:[],
+    presence:[],
+    width:1,
+    height:1,
+    dpr:1,
+    drawing:false,
+    current:null,
+    ws:null,
+    reconnectTimer:null,
+    reconnectAttempt:0,
+    switchFrom:null,
+    ignorePreviousUntil:0,
+    activeTouches:new Map(),
+    twoFingerScroll:false,
+    touchScrollStartY:0,
+    pageScrollStartY:0,
+    eraseAt:0
+  };
+
+  let toastTimer = null;
+  let pending69Action = null;
+
+  function toast(text){
+    const el = document.getElementById("hs-toast");
+    el.textContent = text;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+  }
+
+  function detectAuthor(){
+    let timezone = "";
+    let language = "";
+
+    try{
+      timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    }catch(_){}
+
+    try{
+      language = (navigator.language || "").toLowerCase();
+    }catch(_){}
+
+    if(
+      timezone === "Pacific/Auckland" ||
+      timezone === "Pacific/Chatham" ||
+      language.endsWith("-nz")
+    ) return "Hamy";
+
+    if(
+      timezone === "Australia/Melbourne" ||
+      timezone.startsWith("Australia/") ||
+      language.endsWith("-au")
+    ) return "Andy";
+
+    return "Andy";
+  }
+
+  function updateAuthorUI(){
+    document.querySelectorAll(".hs-author").forEach(btn=>{
+      btn.classList.toggle("selected",btn.dataset.author===state.author);
+    });
+
+    document.getElementById("hs-auto-identity").textContent =
+      "automatically detected as ♡ " + state.detectedAuthor +
+      " ♡ · posting as ♡ " + state.author + " ♡";
+  }
+
+  function chooseAuthor(name, manual){
+    if(name!=="Andy" && name!=="Hamy") return;
+
+    if(name===state.author){
+      updateAuthorUI();
+      return;
+    }
+
+    const oldAuthor = state.author;
+    state.switchFrom = oldAuthor;
+    state.ignorePreviousUntil = Date.now()+5000;
+    state.author = name;
+    updateAuthorUI();
+
+    const old = state.ws;
+    state.ws = null;
+
+    if(old){
+      try{
+        old.onclose = null;
+        old.close(1000,"author switch");
+      }catch(_){}
+    }
+
+    clearTimeout(state.reconnectTimer);
+    state.reconnectTimer = setTimeout(connectWebSocket,350);
+
+    if(manual) toast("posting as ♡ " + name + " ♡");
+
+    renderPresence();
+    renderReactions();
+  }
+
+  function authHeaders(json){
+    const h = {};
+    if(json) h["Content-Type"] = "application/json";
+    if(state.token) h["Authorization"] = "Bearer " + state.token;
+    return h;
+  }
+
+  async function rawFetch(path, options){
+    const r = await fetch(API + path, options || {});
+    if(!r.ok){
+      let msg = "";
+      try{ msg = await r.text(); }catch(_){}
+      throw new Error(msg || ("HTTP " + r.status));
+    }
+    const type = r.headers.get("content-type") || "";
+    return type.includes("application/json") ? r.json() : null;
+  }
+
+  async function autoUnlock(){
+    document.getElementById("hs-conn-status").textContent = "unlocking wall…";
+
+    const data = await rawFetch("/space/auth",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ pin:AUTO_EDIT_PIN })
+    });
+
+    if(!data || !data.token) throw new Error("No edit token returned");
+
+    state.token = data.token;
+    state.unlocked = true;
+    document.getElementById("hs-toolbar").style.display = "flex";
+  }
+
+  function normaliseStroke(s){
+    if(!s) return null;
+    let points = s.points || [];
+    if(typeof points==="string"){
+      try{ points=JSON.parse(points); }catch(_){ points=[]; }
+    }
+    return {
+      id:s.id,
+      author:s.author || "",
+      color:s.color || s.colour || "#f4b8cc",
+      width:Number(s.width || 3),
+      points:Array.isArray(points)?points:[]
+    };
+  }
+
+  function normaliseReaction(r){
+    return {
+      memoryId:r.memoryId || r.memory_id || "",
+      author:r.author || "",
+      emoji:r.emoji || r.reaction || ""
+    };
+  }
+
+  async function loadState(){
+    const data = await rawFetch("/space/state");
+
+    state.strokes=(data.strokes||[]).map(normaliseStroke).filter(Boolean);
+    state.reactions=(data.reactions||[]).map(normaliseReaction).filter(Boolean);
+    state.presence=Array.isArray(data.presence)?data.presence:[];
+
+    redraw();
+    renderReactions();
+    renderPresence();
+  }
+
+  /* Canvas */
+
+  function resizeCanvas(){
+    const rect = wrap.getBoundingClientRect();
+
+    state.width=Math.max(1,rect.width);
+    state.height=Math.max(1,rect.height);
+    state.dpr=Math.max(1,window.devicePixelRatio||1);
+
+    canvas.width=Math.round(state.width*state.dpr);
+    canvas.height=Math.round(state.height*state.dpr);
+    canvas.style.width=state.width+"px";
+    canvas.style.height=state.height+"px";
+
+    ctx.setTransform(state.dpr,0,0,state.dpr,0,0);
+    redraw();
+  }
+
+  function normPoint(e){
+    const r=canvas.getBoundingClientRect();
+    return {
+      x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),
+      y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))
+    };
+  }
+
+  function brushWidth(width){
+    const scale=Math.max(.72,Math.min(1.4,state.width/640));
+    return Math.max(.8,Number(width||3)*scale);
+  }
+
+  function drawStroke(s){
+    if(!s || !s.points || !s.points.length) return;
+
+    ctx.strokeStyle=s.color||"#f4b8cc";
+    ctx.fillStyle=s.color||"#f4b8cc";
+    ctx.lineWidth=brushWidth(s.width);
+    ctx.lineCap="round";
+    ctx.lineJoin="round";
+
+    const first=s.points[0];
+
+    if(s.points.length===1){
+      ctx.beginPath();
+      ctx.arc(first.x*state.width,first.y*state.height,Math.max(1,brushWidth(s.width)/2),0,Math.PI*2);
+      ctx.fill();
+      return;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(first.x*state.width,first.y*state.height);
+
+    for(let i=1;i<s.points.length;i++){
+      ctx.lineTo(s.points[i].x*state.width,s.points[i].y*state.height);
+    }
+
+    ctx.stroke();
+  }
+
+  function redraw(){
+    ctx.clearRect(0,0,state.width,state.height);
+    state.strokes.forEach(drawStroke);
+  }
+
+  function cancelCurrentStroke(){
+    state.drawing=false;
+    state.current=null;
+    redraw();
+  }
+
+  function touchCentroidY(){
+    const values=Array.from(state.activeTouches.values());
+    if(!values.length) return 0;
+    return values.reduce((sum,p)=>sum+p.y,0)/values.length;
+  }
+
+  function beginTouchScroll(){
+    if(state.drawing) cancelCurrentStroke();
+    state.twoFingerScroll=true;
+    state.touchScrollStartY=touchCentroidY();
+    state.pageScrollStartY=window.scrollY;
+  }
+
+  function pointerDown(e){
+    if(!state.unlocked) return;
+
+    if(e.pointerType==="touch"){
+      state.activeTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+
+      if(state.activeTouches.size>=2){
+        beginTouchScroll();
+        e.preventDefault();
+        return;
+      }
+    }
+
+    e.preventDefault();
+    try{ canvas.setPointerCapture(e.pointerId); }catch(_){}
+
+    const p=normPoint(e);
+
+    if(state.mode==="draw"){
+      state.drawing=true;
+      state.current={
+        id:crypto.randomUUID(),
+        author:state.author,
+        color:state.colour,
+        width:state.thickness,
+        points:[p],
+        createdAt:Date.now()
+      };
+    }else{
+      erasePoint(p);
+    }
+  }
+
+  function pointerMove(e){
+    if(!state.unlocked) return;
+
+    if(e.pointerType==="touch" && state.activeTouches.has(e.pointerId)){
+      state.activeTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+
+      if(state.twoFingerScroll){
+        e.preventDefault();
+        const current=touchCentroidY();
+        window.scrollTo(0,state.pageScrollStartY+(state.touchScrollStartY-current));
+        return;
+      }
+    }
+
+    e.preventDefault();
+    const p=normPoint(e);
+
+    if(state.mode==="draw" && state.drawing && state.current){
+      const points=state.current.points;
+      const last=points[points.length-1];
+      const dx=p.x-last.x;
+      const dy=p.y-last.y;
+
+      if(dx*dx+dy*dy<.0000015) return;
+
+      points.push(p);
+
+      ctx.strokeStyle=state.current.color;
+      ctx.lineWidth=brushWidth(state.current.width);
+      ctx.lineCap="round";
+      ctx.lineJoin="round";
+      ctx.beginPath();
+      ctx.moveTo(last.x*state.width,last.y*state.height);
+      ctx.lineTo(p.x*state.width,p.y*state.height);
+      ctx.stroke();
+    }else if(state.mode==="erase"){
+      erasePoint(p);
+    }
+  }
+
+  function finishPointer(e){
+    if(e && e.pointerType==="touch"){
+      state.activeTouches.delete(e.pointerId);
+
+      if(state.twoFingerScroll){
+        if(state.activeTouches.size===0) state.twoFingerScroll=false;
+        return;
+      }
+    }
+
+    if(!state.drawing || !state.current) return;
+
+    state.drawing=false;
+    const stroke=state.current;
+    state.current=null;
+
+    state.strokes.push(stroke);
+    redraw();
+
+    rawFetch("/space/stroke",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify(stroke)
+    }).catch(()=>{
+      toast("stroke didn't save 😭");
+      loadState().catch(()=>{});
+    });
+  }
+
+  /*
+    True rubber uses the backend patch endpoint. It splits vector strokes and
+    keeps the surviving pieces instead of deleting the entire action/line.
+  */
+  function erasePoint(p){
+    const now=Date.now();
+    if(now-state.eraseAt<55) return;
+    state.eraseAt=now;
+
+    rawFetch("/space/erase-segment",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({
+        x:p.x,
+        y:p.y,
+        radius:.022,
+        author:state.author
+      })
+    }).then(loadState).catch(()=>{
+      toast("rubber needs the backend patch");
+    });
+  }
+
+  canvas.addEventListener("pointerdown",pointerDown);
+  canvas.addEventListener("pointermove",pointerMove);
+  canvas.addEventListener("pointerup",finishPointer);
+  canvas.addEventListener("pointercancel",finishPointer);
+
+  /* Toolbar */
+
+  document.getElementById("hs-colour-wheel").addEventListener("input",e=>{
+    state.colour=e.target.value;
+  });
+
+  document.getElementById("hs-thickness").addEventListener("input",e=>{
+    state.thickness=Number(e.target.value);
+  });
+
+  document.getElementById("hs-eraser").addEventListener("click",()=>{
+    state.mode=state.mode==="erase"?"draw":"erase";
+    document.getElementById("hs-eraser").classList.toggle("active",state.mode==="erase");
+    wrap.classList.toggle("mode-erase",state.mode==="erase");
+    toast(state.mode==="erase"?"rubber on":"drawing");
+  });
+
+  document.getElementById("hs-undo").addEventListener("click",()=>{
+    rawFetch("/space/undo",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({author:state.author})
+    }).then(loadState).catch(()=>toast("nothing of yours to undo"));
+  });
+
+  document.getElementById("hs-redo").addEventListener("click",()=>{
+    rawFetch("/space/redo",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({author:state.author})
+    }).then(loadState).catch(()=>toast("nothing of yours to redo"));
+  });
+
+  /* 69 destructive actions */
+
+  const confirmModal=document.getElementById("hs-confirm-modal");
+  const confirmTitle=document.getElementById("hs-confirm-title");
+  const confirmCopy=document.getElementById("hs-confirm-copy");
+  const confirmInput=document.getElementById("hs-confirm-input");
+  const confirmGo=document.getElementById("hs-confirm-go");
+
+  function open69(title,copy,buttonText,action){
+    pending69Action=action;
+    confirmTitle.textContent=title;
+    confirmCopy.innerHTML=copy+" Type <strong>69</strong> to confirm.";
+    confirmGo.textContent=buttonText;
+    confirmInput.value="";
+    confirmGo.disabled=true;
+    confirmModal.classList.add("show");
+    setTimeout(()=>confirmInput.focus(),0);
+  }
+
+  function close69(){
+    confirmModal.classList.remove("show");
+    confirmInput.value="";
+    pending69Action=null;
+  }
+
+  confirmInput.addEventListener("input",()=>{
+    confirmGo.disabled=confirmInput.value!=="69";
+  });
+
+  confirmInput.addEventListener("keydown",e=>{
+    if(e.key==="Enter" && confirmInput.value==="69") confirmGo.click();
+  });
+
+  document.getElementById("hs-confirm-cancel").addEventListener("click",close69);
+
+  confirmGo.addEventListener("click",()=>{
+    if(confirmInput.value!=="69" || typeof pending69Action!=="function") return;
+    const action=pending69Action;
+    pending69Action=null;
+    action();
+  });
+
+  document.getElementById("hs-clear-all").addEventListener("click",()=>{
+    open69(
+      "clear everything?",
+      "This deletes Andy + Hamy drawings. A recovery snapshot should be made first.",
+      "clear all 💀",
+      ()=>{
+        rawFetch("/space/clear",{
+          method:"POST",
+          headers:authHeaders(true),
+          body:JSON.stringify({
+            confirm:"69",
+            confirmation:"69",
+            author:state.author
+          })
+        }).then(()=>{
+          state.strokes=[];
+          redraw();
+          close69();
+          toast("whole wall cleared");
+        }).catch(()=>toast("clear failed"));
+      }
+    );
+  });
+
+  document.getElementById("hs-clear-mine").addEventListener("click",()=>{
+    open69(
+      "clear my drawings?",
+      "This only removes strokes attributed to ♡ "+state.author+" ♡.",
+      "clear mine 💀",
+      ()=>{
+        rawFetch("/space/clear-author",{
+          method:"POST",
+          headers:authHeaders(true),
+          body:JSON.stringify({
+            author:state.author,
+            confirm:"69",
+            confirmation:"69"
+          })
+        }).then(()=>{
+          close69();
+          toast(state.author+" drawings cleared");
+          loadState();
+        }).catch(()=>toast("clear mine needs the backend patch"));
+      }
+    );
+  });
+
+  /* History */
+
+  const historyPanel=document.getElementById("hs-history");
+  const snapshotTarget=document.getElementById("hs-snapshots");
+
+  document.getElementById("hs-history-btn").addEventListener("click",async()=>{
+    if(getComputedStyle(historyPanel).display!=="none"){
+      historyPanel.style.display="none";
+      return;
+    }
+
+    historyPanel.style.display="block";
+    snapshotTarget.textContent="loading…";
+
+    try{
+      const data=await rawFetch("/space/snapshots",{headers:authHeaders(false)});
+      const snaps=Array.isArray(data)?data:((data&&data.snapshots)||[]);
+      snapshotTarget.innerHTML="";
+
+      if(!snaps.length){
+        snapshotTarget.textContent="no snapshots yet";
+        return;
+      }
+
+      snaps.forEach(s=>{
+        const row=document.createElement("div");
+        row.className="hs-snap";
+
+        const label=document.createElement("span");
+        const date=s.createdAt||s.created_at;
+        label.textContent=date?new Date(date).toLocaleString():("snapshot "+s.id);
+
+        const btn=document.createElement("button");
+        btn.className="hs-btn";
+        btn.textContent="Restore";
+
+        btn.addEventListener("click",()=>{
+          if(!confirm("Restore this wall snapshot?")) return;
+
+          rawFetch("/space/restore",{
+            method:"POST",
+            headers:authHeaders(true),
+            body:JSON.stringify({snapshotId:s.id})
+          }).then(()=>{
+            toast("wall restored");
+            loadState();
+          }).catch(()=>toast("restore failed"));
+        });
+
+        row.append(label,btn);
+        snapshotTarget.appendChild(row);
+      });
+    }catch(_){
+      snapshotTarget.textContent="couldn't load history";
+    }
+  });
+
+  document.getElementById("hs-delete-history").addEventListener("click",()=>{
+    open69(
+      "delete all histories?",
+      "This permanently deletes the saved wall snapshots.",
+      "delete histories 💀",
+      ()=>{
+        rawFetch("/space/snapshots",{
+          method:"DELETE",
+          headers:authHeaders(true),
+          body:JSON.stringify({
+            confirm:"69",
+            confirmation:"69",
+            author:state.author
+          })
+        }).then(()=>{
+          close69();
+          snapshotTarget.textContent="no snapshots yet";
+          toast("histories deleted");
+        }).catch(()=>toast("history delete needs the backend patch"));
+      }
+    );
+  });
+
+  /* Reactions */
+
+  function reactionAnchor(media){
+    return media.closest(".reveal") || media.closest(".audio-wrap") || media.parentElement || media;
+  }
+
+  function renderReactions(){
+    document.querySelectorAll("[data-memory-id]").forEach(media=>{
+      const id=media.dataset.memoryId;
+      if(!id) return;
+
+      const anchor=reactionAnchor(media);
+      let bar=anchor.querySelector(":scope > .hs-memory-reactions");
+
+      if(!bar){
+        bar=document.createElement("div");
+        bar.className="hs-memory-reactions";
+        anchor.appendChild(bar);
+      }
+
+      buildReactionBar(bar,id);
+    });
+  }
+
+  function buildReactionBar(bar,memoryId){
+    bar.innerHTML="";
+
+    const rows=state.reactions.filter(r=>r.memoryId===memoryId);
+    const counts=new Map();
+
+    rows.forEach(r=>counts.set(r.emoji,(counts.get(r.emoji)||0)+1));
+
+    EMOJIS.forEach(emoji=>{
+      const count=counts.get(emoji)||0;
+      if(!count) return;
+
+      const mine=rows.some(r=>r.author===state.author && r.emoji===emoji);
+      const b=document.createElement("button");
+      b.className="hs-used-reaction"+(mine?" mine":"");
+      b.textContent=emoji+" "+count;
+      b.addEventListener("click",()=>toggleReaction(memoryId,emoji));
+      bar.appendChild(b);
+    });
+
+    const open=document.createElement("button");
+    open.className="hs-react-open";
+    open.textContent="♡ react";
+    bar.appendChild(open);
+
+    const picker=document.createElement("div");
+    picker.className="hs-picker";
+
+    EMOJIS.forEach(emoji=>{
+      const mine=rows.some(r=>r.author===state.author && r.emoji===emoji);
+      const b=document.createElement("button");
+      b.className="hs-emoji"+(mine?" mine":"");
+      b.textContent=emoji;
+      b.addEventListener("click",()=>toggleReaction(memoryId,emoji));
+      picker.appendChild(b);
+    });
+
+    open.addEventListener("click",()=>picker.classList.toggle("show"));
+    bar.appendChild(picker);
+  }
+
+  function toggleReaction(memoryId,emoji){
+    const existing=state.reactions.findIndex(
+      r=>r.memoryId===memoryId && r.author===state.author && r.emoji===emoji
+    );
+
+    if(existing>=0) state.reactions.splice(existing,1);
+    else state.reactions.push({memoryId,author:state.author,emoji});
+
+    renderReactions();
+
+    rawFetch("/space/reaction",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({memoryId,author:state.author,emoji})
+    }).then(loadState).catch(()=>{
+      toast("reaction didn't save");
+      loadState().catch(()=>{});
+    });
+  }
+
+  /* Presence */
+
+  function cleanedPresence(){
+    let names=Array.from(
+      new Set((state.presence||[]).filter(x=>x==="Andy" || x==="Hamy"))
+    );
+
+    if(state.switchFrom && Date.now()<state.ignorePreviousUntil){
+      names=names.filter(n=>n!==state.switchFrom);
+      if(!names.includes(state.author)) names.push(state.author);
+    }
+
+    return names;
+  }
+
+  function renderPresence(){
+    const names=cleanedPresence();
+    const el=document.getElementById("hs-presence");
+
+    if(names.includes("Andy") && names.includes("Hamy")){
+      el.textContent="Andy and Hamy are here";
+    }else if(names.includes("Hamy")){
+      el.textContent="Hamy is here";
+    }else{
+      el.textContent=(state.author==="Hamy")?"Hamy is here":"Andy is here";
+    }
+  }
+
+  function wsUrl(){
+    const q=new URLSearchParams({author:state.author,token:state.token});
+    return WS_URL+"?"+q.toString();
+  }
+
+  function connectWebSocket(){
+    if(!state.token || !state.author) return;
+
+    if(state.ws){
+      try{
+        state.ws.onclose=null;
+        state.ws.close();
+      }catch(_){}
+      state.ws=null;
+    }
+
+    const ws=new WebSocket(wsUrl());
+    state.ws=ws;
+
+    document.getElementById("hs-conn-status").textContent="connecting…";
+
+    ws.onopen=()=>{
+      if(state.ws!==ws) return;
+
+      state.reconnectAttempt=0;
+      document.getElementById("hs-conn-status").textContent="connected";
+      document.getElementById("hs-conn-status").style.color="#75db9a";
+      loadState().catch(()=>{});
+    };
+
+    ws.onmessage=e=>{
+      if(state.ws!==ws) return;
+
+      let msg;
+      try{ msg=JSON.parse(e.data); }catch(_){ return; }
+
+      if(msg.type==="init"){
+        const s=msg.state||{};
+        state.strokes=(s.strokes||[]).map(normaliseStroke).filter(Boolean);
+        state.reactions=(s.reactions||[]).map(normaliseReaction).filter(Boolean);
+        state.presence=Array.isArray(s.presence)?s.presence:[];
+        redraw();
+        renderReactions();
+        renderPresence();
+        return;
+      }
+
+      if(msg.type==="presence"){
+        state.presence=msg.present||msg.presence||[];
+        renderPresence();
+        return;
+      }
+
+      if(msg.type==="stroke" || msg.type==="stroke.added"){
+        const s=normaliseStroke(msg.stroke);
+        if(s && !state.strokes.some(x=>x.id===s.id)){
+          state.strokes.push(s);
+          drawStroke(s);
+        }
+        return;
+      }
+
+      if(
+        msg.type==="erase" ||
+        msg.type==="erase-batch" ||
+        msg.type==="stroke.erased" ||
+        msg.type==="erase.segment" ||
+        msg.type==="stroke.segment.erased" ||
+        msg.type==="author.cleared"
+      ){
+        loadState().catch(()=>{});
+        return;
+      }
+
+      if(msg.type==="clear" || msg.type==="board.cleared"){
+        state.strokes=[];
+        redraw();
+        return;
+      }
+
+      if(
+        msg.type==="restore" ||
+        msg.type==="restore_stroke" ||
+        msg.type==="board.restored"
+      ){
+        loadState().catch(()=>{});
+        return;
+      }
+
+      if(msg.type==="reaction" || msg.type==="reaction.updated"){
+        loadState().catch(()=>{});
+      }
+    };
+
+    ws.onerror=()=>{};
+
+    ws.onclose=()=>{
+      if(state.ws!==ws) return;
+
+      state.ws=null;
+      document.getElementById("hs-conn-status").style.color="";
+      document.getElementById("hs-conn-status").textContent="reconnecting…";
+
+      const delay=Math.min(15000,900*Math.pow(2,Math.min(state.reconnectAttempt++,4)));
+      clearTimeout(state.reconnectTimer);
+      state.reconnectTimer=setTimeout(connectWebSocket,delay);
+    };
+  }
+
+  /* Start */
+
+  document.querySelectorAll(".hs-author").forEach(btn=>{
+    btn.addEventListener("click",()=>chooseAuthor(btn.dataset.author,true));
+  });
+
+  async function start(){
+    state.detectedAuthor=detectAuthor();
+    state.author=state.detectedAuthor;
+
+    updateAuthorUI();
+    renderPresence();
+
+    resizeCanvas();
+    window.addEventListener("resize",resizeCanvas,{passive:true});
+
+    try{
+      await autoUnlock();
+      await loadState();
+      connectWebSocket();
+      state.mode="draw";
+      wrap.classList.remove("mode-erase");
+    }catch(err){
+      document.getElementById("hs-conn-status").textContent="wall couldn't unlock 😭";
+      toast("wall setup failed");
+      console.error(err);
+    }
+  }
+
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState!=="visible") return;
+    loadState().catch(()=>{});
+    if(!state.ws || state.ws.readyState>1) connectWebSocket();
+  });
+
+  window.addEventListener("online",()=>{
+    if(!state.ws || state.ws.readyState>1) connectWebSocket();
   });
 
   start();
