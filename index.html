@@ -129,7 +129,7 @@ audio{
 
 /* ========================= UPLOADER ========================= */
 #add-wrap{
-  display:grid;grid-template-columns:minmax(0,1fr) auto auto;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   align-items:stretch;gap:7px;width:100%;margin:0;
   text-align:center;font-family:system-ui,sans-serif
 }
@@ -139,7 +139,10 @@ audio{
   color:#e8b64c;border-radius:999px;padding:7px 11px;
   cursor:pointer;font-size:11px;font-weight:700
 }
-#add-wrap #make-wall-sticker{width:100%;min-width:0}
+#add-wrap button{
+  width:100%;min-width:0;padding:7px 8px;font-size:11px;
+  line-height:1.2;white-space:nowrap
+}
 .modal{
   display:none;position:fixed;inset:0;z-index:99999;
   align-items:center;justify-content:center;padding:18px;
@@ -505,8 +508,8 @@ body.decorating #sticker-dock{display:block}
   .btn{font-size:11px;padding:8px 6px}
   .tool-actions{gap:6px}
   .add-grid{grid-template-columns:1fr 1fr}
-  #add-wrap{grid-template-columns:minmax(0,1fr) auto auto;gap:5px}
-  #add-something,#decorate-toggle{padding:7px 8px;font-size:10px}
+  #add-wrap{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  #add-wrap button{padding:7px 5px;font-size:10px}
   #colour-popover{
     position:fixed;left:50%;top:50%;transform:translate(-50%,-50%)
   }
@@ -680,7 +683,7 @@ body.decorating #sticker-dock{display:block}
         </div>
 
         <div id="add-wrap">
-          <button class="btn" id="make-wall-sticker" type="button">✨ make a sticker from this</button>
+          <button class="btn" id="make-wall-sticker" type="button">✨ make a sticker</button>
           <button id="add-something" type="button">＋ add something</button>
           <button id="decorate-toggle" type="button">✨ decorate</button>
         </div>
@@ -1868,16 +1871,26 @@ function safeStickerPosition(sticker){
   const stickerHeight=sticker.height*contentRect.width;
   const halfWidth=stickerWidth/layerWidth/2;
   const halfHeight=stickerHeight/layerHeight/2;
-  const gap=10/layerWidth;
+  const gap=16/layerWidth;
   const contentLeft=(contentRect.left-layerRect.left)/layerWidth;
   const contentRight=(contentRect.right-layerRect.left)/layerWidth;
   const middle=(contentLeft+contentRight)/2;
-  const leftSpot=contentLeft-halfWidth-gap;
-  const rightSpot=contentRight+halfWidth+gap;
+  const furthestLeft=clamp(contentLeft-halfWidth-gap,halfWidth,1-halfWidth);
+  const furthestRight=clamp(contentRight+halfWidth+gap,halfWidth,1-halfWidth);
 
-  sticker.x=sticker.x<middle
-    ? clamp(leftSpot,halfWidth,1-halfWidth)
-    : clamp(rightSpot,halfWidth,1-halfWidth);
+  sticker.x=clamp(sticker.x,halfWidth,1-halfWidth);
+
+  /*
+    Outside the media column, stickers move freely.
+    Only a drop that overlaps the middle gets snapped
+    to its nearest side, with a small clean gap.
+  */
+  if(sticker.x<middle&&sticker.x>furthestLeft){
+    sticker.x=furthestLeft;
+  }else if(sticker.x>=middle&&sticker.x<furthestRight){
+    sticker.x=furthestRight;
+  }
+
   sticker.y=clamp(sticker.y,halfHeight,1-halfHeight);
 }
 
