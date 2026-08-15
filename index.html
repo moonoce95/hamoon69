@@ -6,1027 +6,425 @@
 <title>hamoon</title>
 
 <script>
-if("scrollRestoration" in history){
-  history.scrollRestoration="manual";
-}
+if("scrollRestoration" in history) history.scrollRestoration="manual";
 window.scrollTo(0,0);
 </script>
 
-<script
-  data-goatcounter="https://hamoon69.goatcounter.com/count"
-  async
-  src="//gc.zgo.at/count.js">
-</script>
+<script data-goatcounter="https://hamoon69.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 <script>
-fetch(
-  "https://hamoon-counter.andy-ng199507.workers.dev/visit",
-  {
-    method:"POST",
-    keepalive:true
-  }
-).catch(()=>{});
+fetch("https://hamoon-counter.andy-ng199507.workers.dev/visit",{
+  method:"POST",
+  keepalive:true
+}).catch(()=>{});
 </script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
   background:#0d0608;
   color:#fdf0f5;
   font-family:Georgia,"Times New Roman",serif;
-  overflow-x:hidden;
+  overflow-x:hidden
 }
-
 .curtain{
-  position:fixed;
-  inset:0;
-  background:#0d0608;
-  z-index:9999;
-  pointer-events:none;
-  animation:lift .6s ease .5s forwards;
+  position:fixed;inset:0;background:#0d0608;z-index:9999;
+  pointer-events:none;animation:lift .6s ease .5s forwards
 }
-
-@keyframes lift{
-  to{
-    opacity:0;
-    visibility:hidden;
-  }
-}
-
+@keyframes lift{to{opacity:0;visibility:hidden}}
 .progress-track{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  height:2px;
-  background:rgba(244,184,204,.1);
-  z-index:1000;
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:rgba(244,184,204,.1);z-index:1000
 }
-
 .progress-fill{
-  height:100%;
-  width:0;
-  background:linear-gradient(
-    90deg,
-    #f4b8cc,
-    #e8b64c
-  );
+  height:100%;width:0;
+  background:linear-gradient(90deg,#f4b8cc,#e8b64c)
 }
-
 .container{
-  width:100%;
-  max-width:640px;
-  margin:auto;
-  padding:60px 24px 100px;
-  position:relative;
-  z-index:1;
+  width:100%;max-width:640px;margin:auto;
+  padding:60px 24px 100px;position:relative;z-index:1
 }
-
 .intro{
-  text-align:center;
-  padding:40px 0 24px;
-  opacity:0;
-  animation:fade 1.2s ease forwards;
+  text-align:center;padding:40px 0 24px;opacity:0;
+  animation:fade 1.2s ease forwards
 }
-
 .intro h1{
-  font-size:28px;
-  font-weight:400;
-  font-style:italic;
-  color:#f4b8cc;
+  font-size:28px;font-weight:400;font-style:italic;color:#f4b8cc
 }
-
-@keyframes fade{
-  to{
-    opacity:1;
-  }
+@keyframes fade{to{opacity:1}}
+.reveal,.finale-lead,.audio-wrap,.uploaded-memory{
+  opacity:0;transform:translateY(24px);
+  transition:opacity .8s ease,transform .8s ease;
+  margin:36px 0
 }
-
-.reveal,
-.finale-lead,
-.audio-wrap,
-.uploaded-memory{
-  opacity:0;
-  transform:translateY(24px);
-  transition:
-    opacity .8s ease,
-    transform .8s ease;
-  margin:36px 0;
+.reveal.visible,.finale-lead.visible,.audio-wrap.visible,.uploaded-memory.visible{
+  opacity:1;transform:none
 }
-
-.reveal.visible,
-.finale-lead.visible,
-.audio-wrap.visible,
-.uploaded-memory.visible{
-  opacity:1;
-  transform:none;
+.media,.uploaded-memory img,.uploaded-memory video{
+  display:block;width:100%;height:auto;border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)
 }
-
-.media,
-.uploaded-memory img,
-.uploaded-memory video{
-  display:block;
-  width:100%;
-  height:auto;
-  border-radius:10px;
-  box-shadow:
-    0 12px 30px
-    rgba(0,0,0,.5);
-}
-
 .youtube-frame{
-  display:block;
-  width:100%;
-  aspect-ratio:16/9;
-  border:0;
-  border-radius:10px;
-  box-shadow:
-    0 12px 30px
-    rgba(0,0,0,.5);
+  display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)
 }
-
-.finale-lead{
-  text-align:center;
-  padding:50px 0 10px;
-}
-
-.finale-lead p{
-  font-style:italic;
-  font-size:16px;
-  color:#e8c4d3;
-}
-
+.finale-lead{text-align:center;padding:50px 0 10px}
+.finale-lead p{font-style:italic;font-size:16px;color:#e8c4d3}
 .audio-wrap{
-  padding:24px;
-  background:
-    rgba(244,184,204,.06);
-  border:
-    1px solid
-    rgba(244,184,204,.2);
-  border-radius:12px;
+  padding:24px;background:rgba(244,184,204,.06);
+  border:1px solid rgba(244,184,204,.2);border-radius:12px
 }
-
 audio{
-  width:100%;
-  filter:
-    invert(1)
-    hue-rotate(180deg);
-  border-radius:8px;
+  width:100%;filter:invert(1) hue-rotate(180deg);border-radius:8px
 }
 
-/* =========================
-   REACTIONS
-   ========================= */
-
+/* ========================= REACTIONS ========================= */
 .memory-reactions{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:5px;
-  margin:10px auto 0;
-  font-family:
-    system-ui,
-    sans-serif;
+  display:flex;justify-content:center;align-items:center;
+  flex-wrap:wrap;gap:5px;margin:10px auto 0;
+  font-family:system-ui,sans-serif
 }
-
-.used-reaction,
-.react-open{
-  border:
-    1px solid
-    rgba(244,184,204,.15);
-  background:
-    rgba(244,184,204,.05);
-  color:#fdf0f5;
-  border-radius:999px;
-  min-height:29px;
-  padding:4px 8px;
-  cursor:pointer;
-  font-size:12px;
+.used-reaction,.react-open{
+  border:1px solid rgba(244,184,204,.15);
+  background:rgba(244,184,204,.05);
+  color:#fdf0f5;border-radius:999px;min-height:29px;
+  padding:4px 8px;cursor:pointer;font-size:12px
 }
-
 .used-reaction.mine{
-  border-color:
-    rgba(232,182,76,.7);
-  background:
-    rgba(232,182,76,.12);
+  border-color:rgba(232,182,76,.7);
+  background:rgba(232,182,76,.12)
 }
-
-.react-open{
-  color:#f4b8cc;
-}
-
+.react-open{color:#f4b8cc}
 .react-picker{
-  display:none;
-  width:100%;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:3px;
-  margin-top:3px;
-  padding:7px;
-  border:
-    1px solid
-    rgba(244,184,204,.13);
-  border-radius:10px;
-  background:
-    rgba(13,6,8,.97);
+  display:none;width:100%;justify-content:center;flex-wrap:wrap;
+  gap:3px;margin-top:3px;padding:7px;
+  border:1px solid rgba(244,184,204,.13);
+  border-radius:10px;background:rgba(13,6,8,.97)
 }
-
-.react-picker.show{
-  display:flex;
-}
-
+.react-picker.show{display:flex}
 .emoji-btn{
-  width:34px;
-  height:34px;
-  border:
-    1px solid
-    transparent;
-  border-radius:8px;
-  background:transparent;
-  font-size:19px;
-  cursor:pointer;
+  width:34px;height:34px;border:1px solid transparent;border-radius:8px;
+  background:transparent;font-size:19px;cursor:pointer
 }
-
 .emoji-btn.mine{
-  border-color:
-    rgba(232,182,76,.72);
-  background:
-    rgba(232,182,76,.12);
+  border-color:rgba(232,182,76,.72);
+  background:rgba(232,182,76,.12)
 }
 
-/* =========================
-   MOVE UP / DOWN
-   ========================= */
-
-#timeline-zone > .reveal,
-#timeline-zone > .uploaded-memory{
-  position:relative;
-}
-
+/* ========================= TIMELINE ORDER ========================= */
+#timeline-zone>.reveal,#timeline-zone>.uploaded-memory{position:relative}
 .order-controls{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  margin:9px auto 0;
-  font-family:
-    system-ui,
-    sans-serif;
+  display:flex;justify-content:center;gap:6px;margin:9px auto 0;
+  font-family:system-ui,sans-serif
 }
-
 .order-controls button{
-  border:
-    1px solid
-    rgba(232,182,76,.20);
-  background:
-    rgba(232,182,76,.06);
-  color:#e8b64c;
-  border-radius:8px;
-  min-width:40px;
-  padding:5px 9px;
-  cursor:pointer;
-  font-size:12px;
+  border:1px solid rgba(232,182,76,.20);
+  background:rgba(232,182,76,.06);
+  color:#e8b64c;border-radius:8px;min-width:40px;
+  padding:5px 9px;cursor:pointer;font-size:12px
 }
+.order-controls button:disabled{opacity:.22;cursor:not-allowed}
 
-.order-controls button:disabled{
-  opacity:.22;
-  cursor:not-allowed;
-}
-
-/* =========================
-   UPLOADER
-   ========================= */
-
+/* ========================= UPLOADER ========================= */
 #add-wrap{
-  text-align:center;
-  margin:42px 0 18px;
-  font-family:
-    system-ui,
-    sans-serif;
+  text-align:center;margin:42px 0 18px;font-family:system-ui,sans-serif
 }
-
 #add-something{
-  border:
-    1px solid
-    rgba(232,182,76,.3);
-  background:
-    rgba(232,182,76,.1);
-  color:#e8b64c;
-  border-radius:999px;
-  padding:10px 16px;
-  cursor:pointer;
-  font-size:13px;
-  font-weight:700;
+  border:1px solid rgba(232,182,76,.3);
+  background:rgba(232,182,76,.1);
+  color:#e8b64c;border-radius:999px;padding:10px 16px;
+  cursor:pointer;font-size:13px;font-weight:700
 }
-
 .modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:
-    rgba(0,0,0,.76);
+  display:none;position:fixed;inset:0;z-index:99999;
+  align-items:center;justify-content:center;padding:18px;
+  background:rgba(0,0,0,.76)
 }
-
-.modal.show{
-  display:flex;
-}
-
+.modal.show{display:flex}
 .modal-box{
-  width:min(
-    94vw,
-    430px
-  );
-  background:#0d0608;
-  color:#fdf0f5;
-  border:
-    1px solid
-    rgba(232,182,76,.65);
-  border-radius:14px;
-  padding:20px;
-  box-shadow:
-    0 18px 60px
-    rgba(0,0,0,.55);
-  font-family:
-    system-ui,
-    sans-serif;
+  width:min(94vw,430px);background:#0d0608;color:#fdf0f5;
+  border:1px solid rgba(232,182,76,.65);border-radius:14px;
+  padding:20px;box-shadow:0 18px 60px rgba(0,0,0,.55);
+  font-family:system-ui,sans-serif
 }
-
 .modal-box h3{
-  color:#e8b64c;
-  font-family:Georgia,serif;
-  font-weight:400;
-  margin-bottom:9px;
+  color:#e8b64c;font-family:Georgia,serif;font-weight:400;margin-bottom:9px
 }
-
-.modal-box p{
-  color:#f4b8cc;
-  font-size:13px;
-  line-height:1.45;
-  margin-bottom:12px;
-}
-
 .modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:7px;
-  margin-top:10px;
+  display:flex;justify-content:flex-end;gap:7px;margin-top:10px
 }
-
 .add-grid{
-  display:grid;
-  grid-template-columns:
-    1fr 1fr;
-  gap:8px;
-  margin:12px 0;
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0
 }
-
 .add-choice{
-  min-height:78px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  font-size:23px;
+  min-height:78px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;font-size:23px
 }
-
-.add-choice span{
-  font-size:12px;
-}
-
+.add-choice span{font-size:12px}
 #record-status{
-  min-height:18px;
-  color:#f4b8cc;
-  text-align:center;
-  font:
-    12px/1.4
-    system-ui,
-    sans-serif;
+  min-height:18px;color:#f4b8cc;text-align:center;
+  font:12px/1.4 system-ui,sans-serif
 }
-
-#preview-image,
-#preview-video{
-  display:none;
-  width:100%;
-  max-height:48vh;
-  object-fit:contain;
-  border-radius:10px;
-  background:#080406;
+#preview-image,#preview-video{
+  display:none;width:100%;max-height:48vh;object-fit:contain;
+  border-radius:10px;background:#080406
 }
-
-#preview-audio{
-  display:none;
-  width:100%;
-}
-
+#preview-audio{display:none;width:100%}
 #upload-caption{
-  width:100%;
-  min-height:72px;
-  resize:vertical;
-  padding:9px;
-  margin-top:8px;
-  border-radius:9px;
-  border:
-    1px solid
-    rgba(244,184,204,.18);
-  background:
-    rgba(244,184,204,.05);
-  color:#fdf0f5;
-  font:
-    13px/1.4
-    system-ui,
-    sans-serif;
+  width:100%;min-height:72px;resize:vertical;padding:9px;margin-top:8px;
+  border-radius:9px;border:1px solid rgba(244,184,204,.18);
+  background:rgba(244,184,204,.05);color:#fdf0f5;
+  font:13px/1.4 system-ui,sans-serif
 }
-
 #upload-size{
-  min-height:16px;
-  margin-top:6px;
-  text-align:center;
-  color:
-    rgba(253,240,245,.48);
-  font:
-    10px/1.35
-    system-ui,
-    sans-serif;
+  min-height:16px;margin-top:6px;text-align:center;
+  color:rgba(253,240,245,.48);font:10px/1.35 system-ui,sans-serif
 }
-
-.upload-go{
-  width:100%;
-  margin-top:9px;
-}
-
-.uploaded-memory audio{
-  width:100%;
-}
-
+.upload-go{width:100%;margin-top:9px}
+.uploaded-memory audio{width:100%}
 .upload-caption{
-  text-align:center;
-  color:#e8c4d3;
-  font:
-    13px/1.45
-    system-ui,
-    sans-serif;
-  margin-top:8px;
-  white-space:pre-wrap;
+  text-align:center;color:#e8c4d3;font:13px/1.45 system-ui,sans-serif;
+  margin-top:8px;white-space:pre-wrap
 }
-
 .upload-meta{
-  text-align:center;
-  color:
-    rgba(253,240,245,.38);
-  font:
-    10px/1.35
-    system-ui,
-    sans-serif;
-  margin-top:4px;
+  text-align:center;color:rgba(253,240,245,.44);
+  font:10px/1.45 system-ui,sans-serif;margin-top:5px
 }
-
-.upload-actions{
-  display:flex;
-  justify-content:center;
-  margin-top:6px;
-}
-
+.upload-actions{display:flex;justify-content:center;margin-top:6px}
 .upload-actions button{
-  border:
-    1px solid
-    rgba(255,127,141,.24);
-  background:
-    rgba(255,127,141,.06);
-  color:#ff9ca7;
-  border-radius:8px;
-  padding:5px 8px;
-  cursor:pointer;
-  font-size:11px;
+  border:1px solid rgba(255,127,141,.24);
+  background:rgba(255,127,141,.06);
+  color:#ff9ca7;border-radius:8px;padding:5px 8px;
+  cursor:pointer;font-size:11px
 }
 
-/* =========================
-   PHOTO ZOOM VIEWER
-   ========================= */
-
+/* ========================= PHOTO VIEWER ========================= */
 #lightbox{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:200000;
-  background:
-    rgba(4,2,3,.96);
-  overflow:hidden;
-  touch-action:none;
-  user-select:none;
+  display:none;position:fixed;inset:0;z-index:200000;
+  background:rgba(4,2,3,.96);overflow:hidden;
+  touch-action:none;user-select:none
 }
-
-#lightbox.show{
-  display:block;
-}
-
+#lightbox.show{display:block}
 #lightbox-stage{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  touch-action:none;
-  cursor:grab;
+  position:absolute;inset:0;overflow:hidden;
+  touch-action:none;cursor:grab
 }
-
-#lightbox-stage.dragging{
-  cursor:grabbing;
-}
-
+#lightbox-stage.dragging{cursor:grabbing}
 #lightbox-img{
-  position:absolute;
-  left:50%;
-  top:50%;
-  max-width:92vw;
-  max-height:88vh;
-  transform-origin:
-    center center;
-  will-change:transform;
-  pointer-events:none;
-  user-select:none;
+  position:absolute;left:50%;top:50%;max-width:92vw;max-height:88vh;
+  transform-origin:center center;will-change:transform;
+  pointer-events:none;user-select:none
 }
-
 #lightbox-close{
-  position:absolute;
-  right:14px;
-  top:12px;
-  z-index:3;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:
-    1px solid
-    rgba(244,184,204,.24);
-  background:
-    rgba(13,6,8,.84);
-  color:#fdf0f5;
-  font-size:27px;
-  cursor:pointer;
+  position:absolute;right:14px;top:12px;z-index:3;
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid rgba(244,184,204,.24);
+  background:rgba(13,6,8,.84);color:#fdf0f5;
+  font-size:27px;cursor:pointer
 }
-
 #lightbox-hint{
-  position:absolute;
-  left:50%;
-  bottom:14px;
-  z-index:3;
-  transform:
-    translateX(-50%);
-  color:
-    rgba(253,240,245,.56);
-  font:
-    11px/1.3
-    system-ui,
-    sans-serif;
-  white-space:nowrap;
-  pointer-events:none;
+  position:absolute;left:50%;bottom:14px;z-index:3;
+  transform:translateX(-50%);
+  color:rgba(253,240,245,.56);
+  font:11px/1.3 system-ui,sans-serif;
+  white-space:nowrap;pointer-events:none
 }
 
-/* =========================
-   WHITEBOARD
-   ========================= */
-
+/* ========================= WHITEBOARD ========================= */
 #hamoon-space{
-  --pink:#f4b8cc;
-  --gold:#e8b64c;
-  --white:#fdf0f5;
+  --pink:#f4b8cc;--gold:#e8b64c;--white:#fdf0f5;
   --muted:rgba(253,240,245,.58);
   --border:rgba(244,184,204,.18);
   --card:rgba(244,184,204,.055);
   --danger:#ff7f8d;
-
-  margin:58px 0 14px;
+  margin:58px 0 14px
 }
-
 #hamoon-space h2{
-  text-align:center;
-  color:var(--gold);
-  font-size:23px;
-  font-style:italic;
-  font-weight:400;
-  margin-bottom:10px;
+  text-align:center;color:var(--gold);font-size:23px;
+  font-style:italic;font-weight:400;margin-bottom:10px
 }
-
 #auto-id{
-  text-align:center;
-  color:var(--muted);
-  font:
-    11px/1.4
-    system-ui,
-    sans-serif;
-  margin-bottom:7px;
+  text-align:center;color:var(--muted);
+  font:11px/1.4 system-ui,sans-serif;margin-bottom:7px
 }
-
 #author-buttons{
-  display:flex;
-  justify-content:center;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-bottom:8px;
+  display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:8px
 }
-
 .author{
-  border:
-    1px solid
-    var(--border);
-  background:
-    var(--card);
-  color:
-    var(--white);
-  border-radius:999px;
-  padding:7px 13px;
-  cursor:pointer;
-  font-size:12px;
+  border:1px solid var(--border);background:var(--card);color:var(--white);
+  border-radius:999px;padding:7px 13px;cursor:pointer;font-size:12px
 }
-
 .author.selected{
-  color:var(--gold);
-  border-color:
-    var(--gold);
-  background:
-    rgba(232,182,76,.14);
+  color:var(--gold);border-color:var(--gold);
+  background:rgba(232,182,76,.14)
 }
-
 #presence{
-  text-align:center;
-  color:var(--pink);
-  font:
-    13px/1.4
-    system-ui,
-    sans-serif;
-  min-height:20px;
+  text-align:center;color:var(--pink);
+  font:13px/1.4 system-ui,sans-serif;min-height:20px
 }
-
 #conn{
-  text-align:center;
-  color:var(--muted);
-  font:
-    11px/1.4
-    system-ui,
-    sans-serif;
-  margin-bottom:2px;
+  text-align:center;color:var(--muted);
+  font:11px/1.4 system-ui,sans-serif;margin-bottom:2px
 }
-
 #clock{
-  text-align:center;
-  color:var(--muted);
-  font:
-    10px/1.4
-    system-ui,
-    sans-serif;
-  margin-bottom:12px;
-  font-variant-numeric:
-    tabular-nums;
+  text-align:center;color:var(--muted);
+  font:10px/1.4 system-ui,sans-serif;margin-bottom:12px;
+  font-variant-numeric:tabular-nums
 }
 
+/* Clean aligned toolbar */
 #toolbar{
   display:none;
-  flex-direction:column;
-  gap:8px;
   padding:10px;
   margin-bottom:10px;
-  border:
-    1px solid
-    var(--border);
+  border:1px solid var(--border);
   border-radius:12px;
-  background:
-    var(--card);
-  font-family:
-    system-ui,
-    sans-serif;
+  background:var(--card);
+  font-family:system-ui,sans-serif
 }
-
-.tool-row{
+.toolbar-layout{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  width:100%
+}
+.tool-controls{
   display:flex;
-  justify-content:center;
   align-items:center;
-  gap:7px;
-  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  min-height:54px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(244,184,204,.08)
 }
-
+.tool-actions{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:7px
+}
 .btn{
-  border:
-    1px solid
-    rgba(232,182,76,.27);
-  background:
-    rgba(232,182,76,.1);
+  border:1px solid rgba(232,182,76,.27);
+  background:rgba(232,182,76,.1);
   color:var(--gold);
-  border-radius:8px;
-  padding:8px 10px;
-  cursor:pointer;
-  font-size:12px;
-  font-weight:650;
+  border-radius:8px;padding:8px 9px;cursor:pointer;
+  font-size:12px;font-weight:650;text-align:center
 }
-
 .btn.active{
-  border-color:var(--gold);
-  background:
-    rgba(232,182,76,.28);
+  border-color:var(--gold);background:rgba(232,182,76,.28)
 }
-
 .btn.danger{
   color:var(--danger);
-  border-color:
-    rgba(255,127,141,.3);
-  background:
-    rgba(255,127,141,.08);
+  border-color:rgba(255,127,141,.3);
+  background:rgba(255,127,141,.08)
 }
+.btn:disabled{opacity:.35;cursor:not-allowed}
 
-.btn:disabled{
-  opacity:.35;
-  cursor:not-allowed;
+/* Actual visible colour wheel */
+#colour-wheel{
+  width:52px;height:52px;border-radius:50%;
+  display:block;cursor:crosshair;touch-action:none;
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 0 0 2px rgba(13,6,8,.8)
 }
-
-.control-label{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  color:var(--pink);
-  font-size:11px;
-}
-
-#colour{
-  width:40px;
-  height:40px;
-  border:0;
-  border-radius:50%;
-  padding:0;
-  cursor:pointer;
-  background:
-    conic-gradient(
-      #ff4d6d,
-      #ffb703,
-      #80ed99,
-      #4cc9f0,
-      #7b2cbf,
-      #f72585,
-      #ff4d6d
-    );
-}
-
-#colour::-webkit-color-swatch-wrapper{
-  padding:4px;
-}
-
-#colour::-webkit-color-swatch{
-  border:
-    2px solid
-    rgba(255,255,255,.8);
-  border-radius:50%;
-}
-
 #size{
-  width:100px;
-  accent-color:
-    var(--gold);
+  width:min(160px,38vw);
+  accent-color:var(--gold)
 }
 
 #canvas-wrap{
-  position:relative;
-  width:100%;
-  aspect-ratio:2/3;
-  border:
-    1px solid
-    var(--border);
-  border-radius:12px;
-  overflow:hidden;
-
-  /* DARK BOARD RESTORED */
+  position:relative;width:100%;aspect-ratio:2/3;
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;
   background-color:#1a0d12;
-  background-image:
-    radial-gradient(
-      rgba(244,184,204,.11)
-      .8px,
-      transparent .8px
-    );
-  background-size:
-    18px 18px;
-
-  touch-action:none;
-  cursor:none;
-
-  box-shadow:
-    0 12px 30px
-    rgba(0,0,0,.28),
-    inset 0 0 35px
-    rgba(0,0,0,.18);
+  background-image:radial-gradient(rgba(244,184,204,.11) .8px,transparent .8px);
+  background-size:18px 18px;
+  touch-action:none;cursor:none;
+  box-shadow:0 12px 30px rgba(0,0,0,.28),
+             inset 0 0 35px rgba(0,0,0,.18)
 }
-
-#board{
-  display:block;
-  width:100%;
-  height:100%;
-}
-
+#board{display:block;width:100%;height:100%}
 #tool-preview{
-  position:absolute;
-  left:0;
-  top:0;
-  display:none;
-  pointer-events:none;
-  z-index:5;
-  border:
-    1.5px solid
-    rgba(255,255,255,.9);
-  border-radius:50%;
-  box-shadow:
-    0 0 0 1px
-    rgba(13,6,8,.65);
-  transform:
-    translate(-50%,-50%);
+  position:absolute;left:0;top:0;display:none;pointer-events:none;z-index:5;
+  border:1.5px solid rgba(255,255,255,.9);border-radius:50%;
+  box-shadow:0 0 0 1px rgba(13,6,8,.65);
+  transform:translate(-50%,-50%)
 }
-
 #history{
-  display:none;
-  margin-top:10px;
-  padding:10px;
-  border:
-    1px solid
-    var(--border);
-  border-radius:10px;
-  background:
-    var(--card);
-  font:
-    12px/1.45
-    system-ui,
-    sans-serif;
+  display:none;margin-top:10px;padding:10px;
+  border:1px solid var(--border);border-radius:10px;background:var(--card);
+  font:12px/1.45 system-ui,sans-serif
 }
-
 .snap{
-  display:flex;
-  justify-content:
-    space-between;
-  gap:8px;
-  align-items:center;
-  padding:7px 0;
-  border-bottom:
-    1px solid
-    rgba(244,184,204,.08);
-  color:var(--pink);
+  display:flex;justify-content:space-between;gap:8px;align-items:center;
+  padding:7px 0;border-bottom:1px solid rgba(244,184,204,.08);
+  color:var(--pink)
 }
-
 .confirm-input{
-  width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  border:
-    1px solid
-    rgba(244,184,204,.2);
-  border-radius:8px;
-  background:
-    rgba(244,184,204,.06);
-  color:#fff;
-  font-size:18px;
-  text-align:center;
+  width:100%;padding:10px;margin-bottom:10px;
+  border:1px solid rgba(244,184,204,.2);border-radius:8px;
+  background:rgba(244,184,204,.06);color:#fff;
+  font-size:18px;text-align:center
 }
-
 #toast{
-  position:fixed;
-  z-index:100000;
-  left:50%;
-  bottom:24px;
-  transform:
-    translate(-50%,15px);
-  opacity:0;
-  pointer-events:none;
-  padding:8px 12px;
-  border:
-    1px solid
-    rgba(244,184,204,.2);
-  border-radius:999px;
-  background:
-    rgba(13,6,8,.96);
-  color:#fdf0f5;
-  font:
-    12px/1.3
-    system-ui,
-    sans-serif;
-  transition:.18s ease;
+  position:fixed;z-index:100000;left:50%;bottom:24px;
+  transform:translate(-50%,15px);opacity:0;pointer-events:none;
+  padding:8px 12px;border:1px solid rgba(244,184,204,.2);
+  border-radius:999px;background:rgba(13,6,8,.96);color:#fdf0f5;
+  font:12px/1.3 system-ui,sans-serif;transition:.18s ease
 }
-
-#toast.show{
-  opacity:1;
-  transform:
-    translate(-50%,0);
-}
+#toast.show{opacity:1;transform:translate(-50%,0)}
 
 @media(max-width:600px){
-
-  .container{
-    padding-left:16px;
-    padding-right:16px;
-  }
-
-  #toolbar{
-    padding:8px;
-  }
-
-  .btn{
-    font-size:11px;
-    padding:8px 9px;
-  }
-
-  .add-grid{
-    grid-template-columns:
-      1fr 1fr;
-  }
+  .container{padding-left:16px;padding-right:16px}
+  #toolbar{padding:8px}
+  .btn{font-size:11px;padding:8px 6px}
+  .tool-actions{gap:6px}
+  .add-grid{grid-template-columns:1fr 1fr}
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="curtain"></div>
-
-<div class="progress-track">
-  <div
-    class="progress-fill"
-    id="progress">
-  </div>
-</div>
+<div class="progress-track"><div class="progress-fill" id="progress"></div></div>
 
 <div class="container">
 
-  <div class="intro">
-    <h1>
-      helloinggg ❤️❤️❤️
-    </h1>
-  </div>
+  <div class="intro"><h1>helloinggg ❤️❤️❤️</h1></div>
 
-  <!-- FIRST YOUTUBE IS LOCKED.
-       NOTHING CAN MOVE ABOVE THIS. -->
-  <div
-    class="reveal"
-    id="locked-youtube">
-
+  <!-- FIRST YOUTUBE IS LOCKED -->
+  <div class="reveal" id="locked-youtube">
     <iframe
       class="youtube-frame"
       data-memory-id="making-of-video"
       src="https://www.youtube-nocookie.com/embed/VzzMUXaTI3Q?rel=0"
       title="For Em — Happy Birthday"
-      allow="
-        accelerometer;
-        autoplay;
-        clipboard-write;
-        encrypted-media;
-        gyroscope;
-        picture-in-picture;
-        web-share"
+      allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share"
       allowfullscreen>
     </iframe>
-
   </div>
 
-  <!-- EVERYTHING INSIDE THIS AREA CAN MOVE UP / DOWN -->
+  <!-- MOVABLE ZONE -->
   <div id="timeline-zone">
 
     <div class="reveal">
-      <video
-        class="media"
-        data-memory-id="hamyok"
-        controls
-        preload="metadata"
-        playsinline>
-        <source
-          src="hamyok.mp4"
-          type="video/mp4">
+      <video class="media" data-memory-id="hamyok" controls preload="metadata" playsinline>
+        <source src="hamyok.mp4" type="video/mp4">
       </video>
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="love1"
-        src="love1.png"
-        alt="">
+      <img class="media" data-memory-id="love1" src="love1.png" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="love2"
-        src="love1 (2).png"
-        alt="">
+      <img class="media" data-memory-id="love2" src="love1 (2).png" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="inwhat"
-        src="inwhat.png"
-        alt="">
+      <img class="media" data-memory-id="inwhat" src="inwhat.png" alt="">
     </div>
 
     <div class="reveal">
@@ -1040,637 +438,236 @@ audio{
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="incest"
-        src="incest.png"
-        alt="">
+      <img class="media" data-memory-id="incest" src="incest.png" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="ms1"
-        src="ms1.png"
-        alt="">
+      <img class="media" data-memory-id="ms1" src="ms1.png" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="samebrain1"
-        src="samebrain.jpg"
-        alt="">
+      <img class="media" data-memory-id="samebrain1" src="samebrain.jpg" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="samebrain2"
-        src="samebrain2.png"
-        alt="">
+      <img class="media" data-memory-id="samebrain2" src="samebrain2.png" alt="">
     </div>
 
     <div class="reveal">
-      <video
-        class="media"
-        data-memory-id="mining"
-        controls
-        preload="metadata"
-        playsinline>
-        <source
-          src="mining.mp4"
-          type="video/mp4">
+      <video class="media" data-memory-id="mining" controls preload="metadata" playsinline>
+        <source src="mining.mp4" type="video/mp4">
       </video>
     </div>
 
     <div class="reveal">
-      <video
-        class="media"
-        data-memory-id="smile"
-        controls
-        preload="metadata"
-        playsinline>
-        <source
-          src="smile.mp4"
-          type="video/mp4">
+      <video class="media" data-memory-id="smile" controls preload="metadata" playsinline>
+        <source src="smile.mp4" type="video/mp4">
       </video>
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="ok1"
-        src="ok1.jpg"
-        alt="">
+      <img class="media" data-memory-id="ok1" src="ok1.jpg" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="pepper"
-        src="pepper.jpg"
-        alt="">
+      <img class="media" data-memory-id="pepper" src="pepper.jpg" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="ilovehamy"
-        src="ilovehamy.jpg"
-        alt="">
+      <img class="media" data-memory-id="ilovehamy" src="ilovehamy.jpg" alt="">
     </div>
 
     <div class="reveal">
-      <img
-        class="media"
-        data-memory-id="flounder"
-        src="flounder.jpg"
-        alt="">
+      <img class="media" data-memory-id="flounder" src="flounder.jpg" alt="">
     </div>
 
     <div class="reveal">
-      <video
-        class="media"
-        data-memory-id="final-clip"
-        controls
-        preload="metadata"
-        playsinline>
-        <source
-          src="k_kfkMTncfnSqytLRS8m_g.mp4"
-          type="video/mp4">
+      <video class="media" data-memory-id="final-clip" controls preload="metadata" playsinline>
+        <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
       </video>
     </div>
 
   </div>
 
-  <!-- NOOB FRIENDLY UPLOAD BUTTON -->
   <div id="add-wrap">
-    <button
-      id="add-something"
-      type="button">
-      ＋ add something
-    </button>
+    <button id="add-something" type="button">＋ add something</button>
   </div>
 
-  <!-- PHONE CAPTURE INPUTS -->
-  <input
-    id="take-photo"
-    type="file"
-    accept="image/*"
-    capture="environment"
-    hidden>
+  <input id="take-photo" type="file" accept="image/*" capture="environment" hidden>
+  <input id="choose-photo" type="file" accept="image/*" hidden>
+  <input id="record-video" type="file" accept="video/*" capture="environment" hidden>
+  <input id="choose-video" type="file" accept="video/*" hidden>
+  <input id="choose-audio" type="file" accept="audio/*" hidden>
 
-  <input
-    id="choose-photo"
-    type="file"
-    accept="image/*"
-    hidden>
-
-  <input
-    id="record-video"
-    type="file"
-    accept="video/*"
-    capture="environment"
-    hidden>
-
-  <input
-    id="choose-video"
-    type="file"
-    accept="video/*"
-    hidden>
-
-  <input
-    id="choose-audio"
-    type="file"
-    accept="audio/*"
-    hidden>
-
-  <!-- NOTHING CAN MOVE BELOW HERE -->
-
-  <div class="finale-lead">
-    <p>
-      one more thing...
-    </p>
-  </div>
+  <!-- LOCKED BOTTOM -->
+  <div class="finale-lead"><p>one more thing...</p></div>
 
   <div class="audio-wrap">
-    <audio
-      data-memory-id="meow"
-      controls
-      preload="metadata">
-      <source
-        src="meow.opus"
-        type="audio/ogg">
+    <audio data-memory-id="meow" controls preload="metadata">
+      <source src="meow.opus" type="audio/ogg">
     </audio>
   </div>
 
-  <!-- WHITEBOARD -->
-
   <div id="hamoon-space">
 
-    <h2>
-      our wall ❤️
-    </h2>
+    <h2>our wall ❤️</h2>
 
     <div id="auto-id"></div>
 
     <div id="author-buttons">
-
-      <button
-        class="author"
-        data-author="Hamy">
-        ♡ Hamy ♡
-      </button>
-
-      <button
-        class="author"
-        data-author="Andy">
-        ♡ Andy ♡
-      </button>
-
+      <button class="author" data-author="Hamy">♡ Hamy ♡</button>
+      <button class="author" data-author="Andy">♡ Andy ♡</button>
     </div>
 
     <div id="presence"></div>
-
-    <div id="conn">
-      setting things up…
-    </div>
-
+    <div id="conn">setting things up…</div>
     <div id="clock"></div>
 
     <div id="toolbar">
+      <div class="toolbar-layout">
 
-      <div class="tool-row">
+        <!-- Colour wheel + size only. No labels/icons. -->
+        <div class="tool-controls">
+          <canvas id="colour-wheel" width="104" height="104" aria-label="Colour wheel"></canvas>
+          <input id="size" type="range" min="1" max="30" value="4" aria-label="Brush size">
+        </div>
 
-        <label class="control-label">
+        <div class="tool-actions">
+          <button class="btn" id="eraser">🧽 Eraser</button>
+          <button class="btn" id="undo">↩ Undo</button>
+          <button class="btn" id="redo">↪ Redo</button>
+        </div>
 
-          🎨 colour
-
-          <input
-            id="colour"
-            type="color"
-            value="#f4b8cc">
-
-        </label>
-
-        <label class="control-label">
-
-          size
-
-          <input
-            id="size"
-            type="range"
-            min="1"
-            max="30"
-            value="4">
-
-        </label>
-
-        <button
-          class="btn"
-          id="eraser">
-          🧽 Eraser
-        </button>
-
-        <button
-          class="btn"
-          id="undo">
-          ↩ Undo
-        </button>
-
-        <button
-          class="btn"
-          id="redo">
-          ↪ Redo
-        </button>
+        <div class="tool-actions">
+          <button class="btn" id="history-btn">📜 History</button>
+          <button class="btn danger" id="clear-mine">🗑 Clear mine</button>
+          <button class="btn danger" id="clear-all">💀 Clear all</button>
+        </div>
 
       </div>
-
-      <div class="tool-row">
-
-        <button
-          class="btn"
-          id="history-btn">
-          📜 History
-        </button>
-
-        <button
-          class="btn danger"
-          id="clear-mine">
-          🗑 Clear my drawings
-        </button>
-
-        <button
-          class="btn danger"
-          id="clear-all">
-          💀 Clear all
-        </button>
-
-      </div>
-
     </div>
 
     <div id="canvas-wrap">
-
       <canvas id="board"></canvas>
-
       <div id="tool-preview"></div>
-
     </div>
 
     <div id="history">
-
-      <div
-        style="
-          display:flex;
-          justify-content:flex-end;
-          margin-bottom:6px">
-
-        <button
-          class="btn danger"
-          id="delete-history">
-          Delete histories
-        </button>
-
+      <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
+        <button class="btn danger" id="delete-history">Delete histories</button>
       </div>
-
       <div id="snapshots"></div>
-
     </div>
 
   </div>
-
 </div>
 
 <!-- ADD MENU -->
-
-<div
-  class="modal"
-  id="add-modal">
-
+<div class="modal" id="add-modal">
   <div class="modal-box">
-
-    <h3>
-      add something ❤️
-    </h3>
-
-    <p>
-      pick what you wanna add
-    </p>
+    <h3>add something ❤️</h3>
 
     <div class="add-grid">
-
-      <button
-        class="btn add-choice"
-        data-add="take-photo">
-
-        📷
-
-        <span>
-          Take photo
-        </span>
-
-      </button>
-
-      <button
-        class="btn add-choice"
-        data-add="choose-photo">
-
-        🖼️
-
-        <span>
-          Choose photo
-        </span>
-
-      </button>
-
-      <button
-        class="btn add-choice"
-        data-add="record-video">
-
-        🎥
-
-        <span>
-          Record video
-        </span>
-
-      </button>
-
-      <button
-        class="btn add-choice"
-        data-add="choose-video">
-
-        📹
-
-        <span>
-          Choose video
-        </span>
-
-      </button>
-
-      <button
-        class="btn add-choice"
-        data-add="record-audio">
-
-        🎙️
-
-        <span id="record-label">
-          Record audio
-        </span>
-
-      </button>
-
-      <button
-        class="btn add-choice"
-        data-add="choose-audio">
-
-        🎵
-
-        <span>
-          Choose audio
-        </span>
-
-      </button>
-
+      <button class="btn add-choice" data-add="take-photo">📷<span>Take photo</span></button>
+      <button class="btn add-choice" data-add="choose-photo">🖼️<span>Choose photo</span></button>
+      <button class="btn add-choice" data-add="record-video">🎥<span>Record video</span></button>
+      <button class="btn add-choice" data-add="choose-video">📹<span>Choose video</span></button>
+      <button class="btn add-choice" data-add="record-audio">🎙️<span id="record-label">Record audio</span></button>
+      <button class="btn add-choice" data-add="choose-audio">🎵<span>Choose audio</span></button>
     </div>
 
     <div id="record-status"></div>
 
     <div class="modal-actions">
-
-      <button
-        class="btn"
-        id="add-close">
-        nor
-      </button>
-
+      <button class="btn" id="add-close">nor</button>
     </div>
-
   </div>
-
 </div>
 
 <!-- UPLOAD PREVIEW -->
-
-<div
-  class="modal"
-  id="upload-modal">
-
+<div class="modal" id="upload-modal">
   <div class="modal-box">
+    <h3 id="upload-title">add this?</h3>
 
-    <h3 id="upload-title">
-      add this?
-    </h3>
+    <img id="preview-image" alt="">
+    <video id="preview-video" controls playsinline></video>
+    <audio id="preview-audio" controls></audio>
 
-    <img
-      id="preview-image"
-      alt="">
-
-    <video
-      id="preview-video"
-      controls
-      playsinline>
-    </video>
-
-    <audio
-      id="preview-audio"
-      controls>
-    </audio>
-
-    <textarea
-      id="upload-caption"
-      placeholder="caption (optional)">
-    </textarea>
-
+    <textarea id="upload-caption" placeholder="caption (optional)"></textarea>
     <div id="upload-size"></div>
 
-    <button
-      class="btn upload-go"
-      id="upload-go">
-      add to timeline
-    </button>
+    <button class="btn upload-go" id="upload-go">add to timeline</button>
 
     <div class="modal-actions">
-
-      <button
-        class="btn"
-        id="upload-cancel">
-        nor
-      </button>
-
+      <button class="btn" id="upload-cancel">nor</button>
     </div>
-
   </div>
-
 </div>
 
 <!-- 69 CONFIRM -->
-
-<div
-  class="modal"
-  id="confirm-modal">
-
+<div class="modal" id="confirm-modal">
   <div class="modal-box">
+    <h3 id="confirm-title">confirm?</h3>
+    <p id="confirm-copy">Type <strong>69</strong> to confirm.</p>
 
-    <h3 id="confirm-title">
-      confirm?
-    </h3>
-
-    <p id="confirm-copy">
-      Type
-      <strong>69</strong>
-      to confirm.
-    </p>
-
-    <input
-      id="confirm-input"
-      class="confirm-input"
-      inputmode="numeric"
-      maxlength="2"
-      placeholder="69">
+    <input id="confirm-input" class="confirm-input"
+           inputmode="numeric" maxlength="2" placeholder="69">
 
     <div class="modal-actions">
-
-      <button
-        class="btn"
-        id="confirm-cancel">
-        nor
-      </button>
-
-      <button
-        class="btn danger"
-        id="confirm-go"
-        disabled>
-        okiee
-      </button>
-
+      <button class="btn" id="confirm-cancel">nor</button>
+      <button class="btn danger" id="confirm-go" disabled>okiee</button>
     </div>
-
   </div>
-
 </div>
 
 <!-- PHOTO VIEWER -->
-
-<div id="lightbox">
-
-  <button
-    id="lightbox-close"
-    type="button">
-    ×
-  </button>
+<div id="lightbox" aria-hidden="true">
+  <button id="lightbox-close" type="button">×</button>
 
   <div id="lightbox-stage">
-
-    <img
-      id="lightbox-img"
-      alt="">
-
+    <img id="lightbox-img" alt="">
   </div>
 
   <div id="lightbox-hint">
     tap to zoom · pinch / wheel · drag to move
   </div>
-
 </div>
 
 <div id="toast"></div>
 
 <script>
 (function(){
-
   function observe(){
+    const els=document.querySelectorAll(
+      ".reveal,.finale-lead,.audio-wrap,.uploaded-memory"
+    );
 
-    const els=
-      document.querySelectorAll(
-        ".reveal,.finale-lead,.audio-wrap,.uploaded-memory"
-      );
-
-    if(
-      "IntersectionObserver"
-      in window
-    ){
-
-      const observer=
-        new IntersectionObserver(
-          entries=>{
-
-            entries.forEach(
-              entry=>{
-
-                if(
-                  entry.isIntersecting
-                ){
-
-                  entry.target
-                    .classList
-                    .add(
-                      "visible"
-                    );
-                }
-              }
-            );
-          },
-          {
-            threshold:.06
+    if("IntersectionObserver" in window){
+      const observer=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add("visible");
           }
-        );
+        });
+      },{threshold:.06});
 
-      els.forEach(
-        el=>
-          observer.observe(
-            el
-          )
-      );
-
+      els.forEach(el=>observer.observe(el));
     }else{
-
-      els.forEach(
-        el=>
-          el.classList.add(
-            "visible"
-          )
-      );
+      els.forEach(el=>el.classList.add("visible"));
     }
   }
 
-  window.observeHamoon=
-    observe;
-
+  window.observeHamoon=observe;
   observe();
 
   function progress(){
-
-    const max=
-      document.documentElement
-        .scrollHeight-
-      innerHeight;
-
-    document
-      .getElementById(
-        "progress"
-      )
-      .style
-      .width=
-        (
-          max>0
-            ? scrollY/max*100
-            : 0
-        )+
-        "%";
+    const max=document.documentElement.scrollHeight-innerHeight;
+    document.getElementById("progress").style.width=
+      (max>0?scrollY/max*100:0)+"%";
   }
 
-  addEventListener(
-    "scroll",
-    progress,
-    {
-      passive:true
-    }
-  );
-
+  addEventListener("scroll",progress,{passive:true});
   progress();
-
 })();
 </script>
 
@@ -1678,157 +675,70 @@ audio{
 (function(){
 "use strict";
 
-const API=
-  "https://hamoon-counter.andy-ng199507.workers.dev";
-
-const WS=
-  "wss://hamoon-counter.andy-ng199507.workers.dev/space/live";
-
-const PIN=
-  "hamoon-69";
+const API="https://hamoon-counter.andy-ng199507.workers.dev";
+const WS="wss://hamoon-counter.andy-ng199507.workers.dev/space/live";
+const PIN="hamoon-69";
 
 const EMOJIS=[
-  "❤️",
-  "💛",
-  "🧠",
-  "😂",
-  "😭",
-  "💀",
-  "🥹",
-  "🥺",
-  "😍",
-  "🤭",
-  "😳",
-  "🫠",
-  "😤",
-  "🤡",
-  "🫡",
-  "🔥",
-  "✨",
-  "🌙",
-  "🌸",
-  "🐱"
+  "❤️","💛","🧠","😂","😭","💀","🥹","🥺","😍","🤭",
+  "😳","🫠","😤","🤡","🫡","🔥","✨","🌙","🌸","🐱"
 ];
 
 const state={
   token:null,
   author:null,
   detected:null,
-
   strokes:[],
   reactions:[],
   uploads:[],
   presence:[],
-
   mode:"draw",
   colour:"#f4b8cc",
   size:4,
-
   width:1,
   height:1,
   dpr:1,
-
   drawing:false,
   current:null,
-
   eraseAt:0,
-
   ws:null,
   reconnect:0,
-
-  activeTouches:
-    new Map(),
-
+  activeTouches:new Map(),
   twoFinger:false,
   scrollStart:0,
   touchStart:0
 };
 
-const canvas=
-  document.getElementById(
-    "board"
-  );
-
-const wrap=
-  document.getElementById(
-    "canvas-wrap"
-  );
-
-const ctx=
-  canvas.getContext(
-    "2d"
-  );
-
-const preview=
-  document.getElementById(
-    "tool-preview"
-  );
-
-const zone=
-  document.getElementById(
-    "timeline-zone"
-  );
+const canvas=document.getElementById("board");
+const wrap=document.getElementById("canvas-wrap");
+const ctx=canvas.getContext("2d");
+const preview=document.getElementById("tool-preview");
+const zone=document.getElementById("timeline-zone");
 
 let toastTimer=null;
 let pending69=null;
 
-/* =========================
-   HELPERS
-   ========================= */
+/* ========================= HELPERS ========================= */
 
 function toast(text){
+  const el=document.getElementById("toast");
+  el.textContent=text;
+  el.classList.add("show");
 
-  const el=
-    document.getElementById(
-      "toast"
-    );
-
-  el.textContent=
-    text;
-
-  el.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    toastTimer
-  );
-
-  toastTimer=
-    setTimeout(
-      ()=>{
-        el.classList.remove(
-          "show"
-        );
-      },
-      1800
-    );
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove("show"),1800);
 }
 
 function detect(){
-
   let tz="";
   let lang="";
 
   try{
-
-    tz=
-      Intl.DateTimeFormat()
-        .resolvedOptions()
-        .timeZone||
-      "";
-
+    tz=Intl.DateTimeFormat().resolvedOptions().timeZone||"";
   }catch(_){}
 
   try{
-
-    lang=
-      (
-        navigator.language||
-        ""
-      )
-        .toLowerCase();
-
+    lang=(navigator.language||"").toLowerCase();
   }catch(_){}
 
   if(
@@ -1840,9 +750,7 @@ function detect(){
   }
 
   if(
-    tz.startsWith(
-      "Australia/"
-    )||
+    tz.startsWith("Australia/")||
     lang.endsWith("-au")
   ){
     return "Andy";
@@ -1851,193 +759,97 @@ function detect(){
   return "Andy";
 }
 
-function headers(
-  json=true
-){
-
+function headers(json=true){
   const h={};
 
   if(json){
-
-    h[
-      "Content-Type"
-    ]=
-      "application/json";
+    h["Content-Type"]="application/json";
   }
 
-  if(
-    state.token
-  ){
-
-    h.Authorization=
-      "Bearer "+
-      state.token;
+  if(state.token){
+    h.Authorization="Bearer "+state.token;
   }
 
   return h;
 }
 
-async function api(
-  path,
-  options={}
-){
+async function api(path,options={}){
+  const response=await fetch(API+path,options);
 
-  const response=
-    await fetch(
-      API+
-      path,
-      options
-    );
-
-  if(
-    !response.ok
-  ){
-
+  if(!response.ok){
     let text="";
 
     try{
-
-      text=
-        await response.text();
-
+      text=await response.text();
     }catch(_){}
 
-    throw new Error(
-      text||
-      (
-        "HTTP "+
-        response.status
-      )
-    );
+    throw new Error(text||("HTTP "+response.status));
   }
 
-  const type=
-    response.headers.get(
-      "content-type"
-    )||
-    "";
+  const type=response.headers.get("content-type")||"";
 
-  return type.includes(
-    "application/json"
-  )
+  return type.includes("application/json")
     ? response.json()
     : null;
 }
 
 async function unlock(){
+  const data=await api(
+    "/space/auth",
+    {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        pin:PIN
+      })
+    }
+  );
 
-  const data=
-    await api(
-      "/space/auth",
-      {
-        method:"POST",
-
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
-
-        body:
-          JSON.stringify({
-            pin:PIN
-          })
-      }
-    );
-
-  state.token=
-    data.token;
-
-  document
-    .getElementById(
-      "toolbar"
-    )
-    .style
-    .display=
-      "flex";
+  state.token=data.token;
+  document.getElementById("toolbar").style.display="block";
 }
 
-/* =========================
-   AUTHOR
-   ========================= */
+/* ========================= AUTHOR ========================= */
 
 function updateAuthor(){
-
-  document
-    .querySelectorAll(
-      ".author"
-    )
-    .forEach(
-      button=>{
-
-        button.classList.toggle(
-          "selected",
-          button.dataset.author===
-            state.author
-        );
-      }
+  document.querySelectorAll(".author").forEach(button=>{
+    button.classList.toggle(
+      "selected",
+      button.dataset.author===state.author
     );
+  });
 
-  document
-    .getElementById(
-      "auto-id"
-    )
-    .textContent=
-      "automatically detected as ♡ "+
-      state.detected+
-      " ♡ · posting as ♡ "+
-      state.author+
-      " ♡";
+  document.getElementById("auto-id").textContent=
+    "automatically detected as ♡ "+
+    state.detected+
+    " ♡ · posting as ♡ "+
+    state.author+
+    " ♡";
 }
 
-function chooseAuthor(
-  author
-){
-
-  if(
-    author!=="Andy"&&
-    author!=="Hamy"
-  ){
+function chooseAuthor(author){
+  if(author!=="Andy"&&author!=="Hamy"){
     return;
   }
 
-  state.author=
-    author;
-
+  state.author=author;
   updateAuthor();
-
   connect();
-
   renderPresence();
-
   renderReactions();
 }
 
-/* =========================
-   NORMALISERS
-   ========================= */
+/* ========================= NORMALISERS ========================= */
 
-function normStroke(
-  stroke
-){
+function normStroke(stroke){
+  let points=stroke?.points||[];
 
-  let points=
-    stroke?.points||
-    [];
-
-  if(
-    typeof points===
-    "string"
-  ){
-
+  if(typeof points==="string"){
     try{
-
-      points=
-        JSON.parse(
-          points
-        );
-
+      points=JSON.parse(points);
     }catch(_){
-
       points=[];
     }
   }
@@ -2047,183 +859,79 @@ function normStroke(
   }
 
   return{
-    id:
-      stroke.id,
-
-    author:
-      stroke.author,
-
-    color:
-      stroke.color||
-      "#f4b8cc",
-
-    width:
-      Number(
-        stroke.width||
-        3
-      ),
-
-    points:
-      Array.isArray(
-        points
-      )
-        ? points
-        : []
+    id:stroke.id,
+    author:stroke.author,
+    color:stroke.color||"#f4b8cc",
+    width:Number(stroke.width||3),
+    points:Array.isArray(points)?points:[]
   };
 }
 
-function normReaction(
-  reaction
-){
-
+function normReaction(reaction){
   return{
-    memoryId:
-      reaction.memoryId||
-      reaction.memory_id||
-      "",
-
-    author:
-      reaction.author||
-      "",
-
-    emoji:
-      reaction.emoji||
-      ""
+    memoryId:reaction.memoryId||reaction.memory_id||"",
+    author:reaction.author||"",
+    emoji:reaction.emoji||""
   };
 }
 
-function normUpload(
-  upload
-){
-
-  if(
-    !upload||
-    !upload.id||
-    !upload.src
-  ){
+function normUpload(upload){
+  if(!upload||!upload.id||!upload.src){
     return null;
   }
 
   return{
-    id:
-      upload.id,
-
-    author:
-      upload.author||
-      "",
-
-    type:
-      upload.type||
-      "image",
-
-    src:
-      upload.src,
-
-    caption:
-      upload.caption||
-      "",
-
-    sortOrder:
-      Number(
-        upload.sortOrder??
-        upload.sort_order??
-        Date.now()
-      )
+    id:upload.id,
+    author:upload.author||"",
+    type:upload.type||"image",
+    src:upload.src,
+    caption:upload.caption||"",
+    createdAt:Number(upload.createdAt??upload.created_at??Date.now()),
+    sortOrder:Number(upload.sortOrder??upload.sort_order??Date.now())
   };
 }
 
-/* =========================
-   LOAD STATE
-   ========================= */
+/* ========================= LOAD STATE ========================= */
 
 async function load(){
+  const data=await api("/space/state");
 
-  const data=
-    await api(
-      "/space/state"
-    );
+  state.strokes=(data.strokes||[])
+    .map(normStroke)
+    .filter(Boolean);
 
-  state.strokes=
-    (
-      data.strokes||
-      []
-    )
-      .map(
-        normStroke
-      )
-      .filter(
-        Boolean
-      );
+  state.reactions=(data.reactions||[])
+    .map(normReaction);
 
-  state.reactions=
-    (
-      data.reactions||
-      []
-    )
-      .map(
-        normReaction
-      );
+  state.uploads=(data.uploads||[])
+    .map(normUpload)
+    .filter(Boolean);
 
-  state.uploads=
-    (
-      data.uploads||
-      []
-    )
-      .map(
-        normUpload
-      )
-      .filter(
-        Boolean
-      );
-
-  state.presence=
-    Array.isArray(
-      data.presence
-    )
-      ? data.presence
-      : [];
+  state.presence=Array.isArray(data.presence)
+    ? data.presence
+    : [];
 
   redraw();
-
   renderUploads();
-
   setupOrder();
-
   applyOrder();
-
   renderReactions();
-
   renderPresence();
 }
 
-/* =========================
-   MOVE UP / DOWN
-   ========================= */
+/* ========================= TIMELINE ORDER ========================= */
 
-const ORDER_KEY=
-  "hamoon_timeline_order_v2";
+const ORDER_KEY="hamoon_timeline_order_v2";
 
-function itemId(
-  node
-){
-
-  if(
-    node.dataset.timelineId
-  ){
+function itemId(node){
+  if(node.dataset.timelineId){
     return node.dataset.timelineId;
   }
 
-  const media=
-    node.querySelector(
-      "[data-memory-id]"
-    );
+  const media=node.querySelector("[data-memory-id]");
 
   if(media){
-
-    node.dataset.timelineId=
-      "static:"+
-      media.dataset.memoryId;
-
+    node.dataset.timelineId="static:"+media.dataset.memoryId;
     return node.dataset.timelineId;
   }
 
@@ -2231,323 +939,130 @@ function itemId(
 }
 
 function items(){
-
-  return[
-    ...zone.children
-  ]
-    .filter(
-      node=>
-        node.classList.contains(
-          "reveal"
-        )||
-        node.classList.contains(
-          "uploaded-memory"
-        )
-    );
+  return[...zone.children].filter(
+    node=>
+      node.classList.contains("reveal")||
+      node.classList.contains("uploaded-memory")
+  );
 }
 
 function saveOrder(){
-
   try{
-
     localStorage.setItem(
       ORDER_KEY,
       JSON.stringify(
-        items()
-          .map(
-            itemId
-          )
-          .filter(
-            Boolean
-          )
+        items().map(itemId).filter(Boolean)
       )
     );
-
   }catch(_){}
 }
 
 function applyOrder(){
-
   let saved=[];
 
   try{
-
-    saved=
-      JSON.parse(
-        localStorage.getItem(
-          ORDER_KEY
-        )||
-        "[]"
-      );
-
+    saved=JSON.parse(
+      localStorage.getItem(ORDER_KEY)||"[]"
+    );
   }catch(_){
-
     saved=[];
   }
 
-  if(
-    !Array.isArray(
-      saved
-    )||
-    !saved.length
-  ){
-
+  if(!Array.isArray(saved)||!saved.length){
     refreshOrder();
-
     return;
   }
 
-  const map=
-    new Map(
-      items()
-        .map(
-          node=>[
-            itemId(
-              node
-            ),
-            node
-          ]
-        )
-    );
+  const map=new Map(
+    items().map(node=>[itemId(node),node])
+  );
 
-  saved.forEach(
-    id=>{
+  saved.forEach(id=>{
+    const node=map.get(id);
 
-      const node=
-        map.get(
-          id
-        );
-
-      if(node){
-
-        zone.appendChild(
-          node
-        );
-
-        map.delete(
-          id
-        );
-      }
+    if(node){
+      zone.appendChild(node);
+      map.delete(id);
     }
-  );
+  });
 
-  map.forEach(
-    node=>
-      zone.appendChild(
-        node
-      )
-  );
-
+  map.forEach(node=>zone.appendChild(node));
   refreshOrder();
 }
 
 function setupOrder(){
-
-  items()
-    .forEach(
-      itemId
-    );
-
+  items().forEach(itemId);
   refreshOrder();
 }
 
 function refreshOrder(){
+  const list=items();
 
-  const list=
-    items();
+  list.forEach((node,index)=>{
+    let controls=node.querySelector(":scope > .order-controls");
 
-  list.forEach(
-    (
-      node,
-      index
-    )=>{
+    if(!controls){
+      controls=document.createElement("div");
+      controls.className="order-controls";
 
-      let controls=
-        node.querySelector(
-          ":scope > .order-controls"
-        );
+      const up=document.createElement("button");
+      up.type="button";
+      up.textContent="↑";
+      up.title="Move up";
 
-      if(!controls){
+      const down=document.createElement("button");
+      down.type="button";
+      down.textContent="↓";
+      down.title="Move down";
 
-        controls=
-          document.createElement(
-            "div"
-          );
+      controls.append(up,down);
+      node.appendChild(controls);
 
-        controls.className=
-          "order-controls";
+      up.addEventListener("click",()=>{
+        const now=items();
+        const current=now.indexOf(node);
 
-        const up=
-          document.createElement(
-            "button"
-          );
+        if(current<=0){
+          return;
+        }
 
-        up.type=
-          "button";
+        zone.insertBefore(node,now[current-1]);
+        saveOrder();
+        refreshOrder();
+      });
 
-        up.textContent=
-          "↑";
+      down.addEventListener("click",()=>{
+        const now=items();
+        const current=now.indexOf(node);
 
-        up.title=
-          "Move up";
+        if(current<0||current>=now.length-1){
+          return;
+        }
 
-        const down=
-          document.createElement(
-            "button"
-          );
-
-        down.type=
-          "button";
-
-        down.textContent=
-          "↓";
-
-        down.title=
-          "Move down";
-
-        controls.append(
-          up,
-          down
-        );
-
-        node.appendChild(
-          controls
-        );
-
-        up.addEventListener(
-          "click",
-          ()=>{
-
-            const now=
-              items();
-
-            const current=
-              now.indexOf(
-                node
-              );
-
-            if(
-              current<=0
-            ){
-              return;
-            }
-
-            zone.insertBefore(
-              node,
-              now[
-                current-1
-              ]
-            );
-
-            saveOrder();
-
-            refreshOrder();
-          }
-        );
-
-        down.addEventListener(
-          "click",
-          ()=>{
-
-            const now=
-              items();
-
-            const current=
-              now.indexOf(
-                node
-              );
-
-            if(
-              current<0||
-              current>=
-                now.length-1
-            ){
-              return;
-            }
-
-            zone.insertBefore(
-              node,
-              now[
-                current+2
-              ]||
-              null
-            );
-
-            saveOrder();
-
-            refreshOrder();
-          }
-        );
-      }
-
-      const buttons=
-        controls.querySelectorAll(
-          "button"
-        );
-
-      buttons[0].disabled=
-        index===0;
-
-      buttons[1].disabled=
-        index===
-        list.length-1;
+        zone.insertBefore(node,now[current+2]||null);
+        saveOrder();
+        refreshOrder();
+      });
     }
-  );
+
+    const buttons=controls.querySelectorAll("button");
+    buttons[0].disabled=index===0;
+    buttons[1].disabled=index===list.length-1;
+  });
 }
 
-/* =========================
-   UPLOADER
-   ========================= */
+/* ========================= UPLOADER ========================= */
 
-const addModal=
-  document.getElementById(
-    "add-modal"
-  );
-
-const uploadModal=
-  document.getElementById(
-    "upload-modal"
-  );
-
-const pImg=
-  document.getElementById(
-    "preview-image"
-  );
-
-const pVid=
-  document.getElementById(
-    "preview-video"
-  );
-
-const pAud=
-  document.getElementById(
-    "preview-audio"
-  );
-
-const captionInput=
-  document.getElementById(
-    "upload-caption"
-  );
-
-const uploadGo=
-  document.getElementById(
-    "upload-go"
-  );
-
-const uploadSize=
-  document.getElementById(
-    "upload-size"
-  );
-
-const recordLabel=
-  document.getElementById(
-    "record-label"
-  );
-
-const recordStatus=
-  document.getElementById(
-    "record-status"
-  );
+const addModal=document.getElementById("add-modal");
+const uploadModal=document.getElementById("upload-modal");
+const pImg=document.getElementById("preview-image");
+const pVid=document.getElementById("preview-video");
+const pAud=document.getElementById("preview-audio");
+const captionInput=document.getElementById("upload-caption");
+const uploadGo=document.getElementById("upload-go");
+const uploadSize=document.getElementById("upload-size");
+const recordLabel=document.getElementById("record-label");
+const recordStatus=document.getElementById("record-status");
 
 let pendingFile=null;
 let pendingType=null;
@@ -2560,362 +1075,148 @@ let recTimer=null;
 let recStart=0;
 
 function closeAdd(){
-
-  addModal.classList.remove(
-    "show"
-  );
+  addModal.classList.remove("show");
 }
 
 function resetUpload(){
-
-  if(
-    previewUrl&&
-    previewUrl.startsWith(
-      "blob:"
-    )
-  ){
-
-    URL.revokeObjectURL(
-      previewUrl
-    );
+  if(previewUrl&&previewUrl.startsWith("blob:")){
+    URL.revokeObjectURL(previewUrl);
   }
 
   previewUrl=null;
   pendingFile=null;
   pendingType=null;
 
-  pImg.style.display=
-    "none";
-
-  pVid.style.display=
-    "none";
-
-  pAud.style.display=
-    "none";
+  pImg.style.display="none";
+  pVid.style.display="none";
+  pAud.style.display="none";
 
   pVid.pause();
-
   pAud.pause();
 
-  pImg.removeAttribute(
-    "src"
-  );
+  pImg.removeAttribute("src");
+  pVid.removeAttribute("src");
+  pAud.removeAttribute("src");
 
-  pVid.removeAttribute(
-    "src"
-  );
-
-  pAud.removeAttribute(
-    "src"
-  );
-
-  captionInput.value=
-    "";
-
-  uploadSize.textContent=
-    "";
+  captionInput.value="";
+  uploadSize.textContent="";
 }
 
 function closeUpload(){
-
-  uploadModal.classList.remove(
-    "show"
-  );
-
+  uploadModal.classList.remove("show");
   resetUpload();
 }
 
-function humanSize(
-  bytes
-){
-
-  if(
-    bytes<1024
-  ){
-    return bytes+
-      " B";
+function humanSize(bytes){
+  if(bytes<1024){
+    return bytes+" B";
   }
 
-  if(
-    bytes<1024*
-    1024
-  ){
-
-    return(
-      bytes/1024
-    ).toFixed(1)+
-    " KB";
+  if(bytes<1024*1024){
+    return(bytes/1024).toFixed(1)+" KB";
   }
 
-  return(
-    bytes/
-    (
-      1024*
-      1024
-    )
-  ).toFixed(1)+
-  " MB";
+  return(bytes/(1024*1024)).toFixed(1)+" MB";
 }
 
-function picked(
-  file
-){
-
+function picked(file){
   if(!file){
     return;
   }
 
   resetUpload();
+  pendingFile=file;
 
-  pendingFile=
-    file;
-
-  if(
-    file.type.startsWith(
-      "image/"
-    )
-  ){
-
-    pendingType=
-      "image";
-
-  }else if(
-    file.type.startsWith(
-      "video/"
-    )
-  ){
-
-    pendingType=
-      "video";
-
-  }else if(
-    file.type.startsWith(
-      "audio/"
-    )
-  ){
-
-    pendingType=
-      "audio";
-
+  if(file.type.startsWith("image/")){
+    pendingType="image";
+  }else if(file.type.startsWith("video/")){
+    pendingType="video";
+  }else if(file.type.startsWith("audio/")){
+    pendingType="audio";
   }else{
-
-    toast(
-      "unsupported file"
-    );
-
+    toast("unsupported file");
     return;
   }
 
-  previewUrl=
-    URL.createObjectURL(
-      file
-    );
+  previewUrl=URL.createObjectURL(file);
 
-  if(
-    pendingType===
-    "image"
-  ){
-
-    pImg.src=
-      previewUrl;
-
-    pImg.style.display=
-      "block";
+  if(pendingType==="image"){
+    pImg.src=previewUrl;
+    pImg.style.display="block";
   }
 
-  if(
-    pendingType===
-    "video"
-  ){
-
-    pVid.src=
-      previewUrl;
-
-    pVid.style.display=
-      "block";
+  if(pendingType==="video"){
+    pVid.src=previewUrl;
+    pVid.style.display="block";
   }
 
-  if(
-    pendingType===
-    "audio"
-  ){
-
-    pAud.src=
-      previewUrl;
-
-    pAud.style.display=
-      "block";
+  if(pendingType==="audio"){
+    pAud.src=previewUrl;
+    pAud.style.display="block";
   }
 
-  document
-    .getElementById(
-      "upload-title"
-    )
-    .textContent=
-      "add this "+
-      (
-        pendingType===
-        "image"
-          ? "photo"
-          : pendingType
-      )+
-      "?";
+  document.getElementById("upload-title").textContent=
+    "add this "+
+    (pendingType==="image"?"photo":pendingType)+
+    "?";
 
-  uploadSize.textContent=
-    humanSize(
-      file.size
-    );
+  uploadSize.textContent=humanSize(file.size);
 
   closeAdd();
-
-  uploadModal.classList.add(
-    "show"
-  );
+  uploadModal.classList.add("show");
 }
 
-function clickInput(
-  id
-){
-
-  const input=
-    document.getElementById(
-      id
-    );
-
-  input.value=
-    "";
-
+function clickInput(id){
+  const input=document.getElementById(id);
+  input.value="";
   input.click();
 }
 
-document
-  .getElementById(
-    "add-something"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
+document.getElementById("add-something").addEventListener("click",()=>{
+  addModal.classList.add("show");
+});
 
-      addModal.classList.add(
-        "show"
-      );
+document.getElementById("add-close").addEventListener("click",closeAdd);
+document.getElementById("upload-cancel").addEventListener("click",closeUpload);
+
+document.querySelectorAll(".add-choice").forEach(button=>{
+  button.addEventListener("click",async()=>{
+    const type=button.dataset.add;
+
+    if(type==="take-photo"){
+      clickInput("take-photo");
+      return;
     }
-  );
 
-document
-  .getElementById(
-    "add-close"
-  )
-  .addEventListener(
-    "click",
-    closeAdd
-  );
-
-document
-  .getElementById(
-    "upload-cancel"
-  )
-  .addEventListener(
-    "click",
-    closeUpload
-  );
-
-document
-  .querySelectorAll(
-    ".add-choice"
-  )
-  .forEach(
-    button=>{
-
-      button.addEventListener(
-        "click",
-        async()=>{
-
-          const type=
-            button.dataset.add;
-
-          if(
-            type===
-            "take-photo"
-          ){
-
-            clickInput(
-              "take-photo"
-            );
-
-            return;
-          }
-
-          if(
-            type===
-            "choose-photo"
-          ){
-
-            clickInput(
-              "choose-photo"
-            );
-
-            return;
-          }
-
-          if(
-            type===
-            "record-video"
-          ){
-
-            clickInput(
-              "record-video"
-            );
-
-            return;
-          }
-
-          if(
-            type===
-            "choose-video"
-          ){
-
-            clickInput(
-              "choose-video"
-            );
-
-            return;
-          }
-
-          if(
-            type===
-            "choose-audio"
-          ){
-
-            clickInput(
-              "choose-audio"
-            );
-
-            return;
-          }
-
-          if(
-            type===
-            "record-audio"
-          ){
-
-            if(
-              recorder&&
-              recorder.state===
-              "recording"
-            ){
-
-              recorder.stop();
-
-            }else{
-
-              await startAudio();
-            }
-          }
-        }
-      );
+    if(type==="choose-photo"){
+      clickInput("choose-photo");
+      return;
     }
-  );
+
+    if(type==="record-video"){
+      clickInput("record-video");
+      return;
+    }
+
+    if(type==="choose-video"){
+      clickInput("choose-video");
+      return;
+    }
+
+    if(type==="choose-audio"){
+      clickInput("choose-audio");
+      return;
+    }
+
+    if(type==="record-audio"){
+      if(recorder&&recorder.state==="recording"){
+        recorder.stop();
+      }else{
+        await startAudio();
+      }
+    }
+  });
+});
 
 [
   "take-photo",
@@ -2923,210 +1224,94 @@ document
   "record-video",
   "choose-video",
   "choose-audio"
-]
-  .forEach(
-    id=>{
+].forEach(id=>{
+  document.getElementById(id).addEventListener("change",event=>{
+    const file=event.target.files?.[0];
 
-      document
-        .getElementById(
-          id
-        )
-        .addEventListener(
-          "change",
-          event=>{
-
-            const file=
-              event.target.files?.[
-                0
-              ];
-
-            if(file){
-
-              picked(
-                file
-              );
-            }
-          }
-        );
+    if(file){
+      picked(file);
     }
-  );
+  });
+});
 
 async function startAudio(){
-
   if(
-    !navigator.mediaDevices
-      ?.getUserMedia||
-    typeof MediaRecorder===
-      "undefined"
+    !navigator.mediaDevices?.getUserMedia||
+    typeof MediaRecorder==="undefined"
   ){
-
-    toast(
-      "audio recording isn't supported here"
-    );
-
+    toast("audio recording isn't supported here");
     return;
   }
 
   try{
-
-    recStream=
-      await navigator.mediaDevices
-        .getUserMedia({
-          audio:true
-        });
+    recStream=await navigator.mediaDevices.getUserMedia({
+      audio:true
+    });
 
     recChunks=[];
-
     let options={};
 
-    for(
-      const mimeType
-      of [
-        "audio/webm;codecs=opus",
-        "audio/mp4",
-        "audio/webm"
-      ]
-    ){
-
-      if(
-        MediaRecorder
-          .isTypeSupported
-          ?.(
-            mimeType
-          )
-      ){
-
-        options={
-          mimeType
-        };
-
+    for(const mimeType of[
+      "audio/webm;codecs=opus",
+      "audio/mp4",
+      "audio/webm"
+    ]){
+      if(MediaRecorder.isTypeSupported?.(mimeType)){
+        options={mimeType};
         break;
       }
     }
 
-    recorder=
-      new MediaRecorder(
-        recStream,
-        options
+    recorder=new MediaRecorder(recStream,options);
+
+    recorder.addEventListener("dataavailable",event=>{
+      if(event.data?.size){
+        recChunks.push(event.data);
+      }
+    });
+
+    recorder.addEventListener("stop",()=>{
+      clearInterval(recTimer);
+
+      const mime=
+        recorder.mimeType||
+        recChunks[0]?.type||
+        "audio/webm";
+
+      const blob=new Blob(recChunks,{
+        type:mime
+      });
+
+      const extension=
+        mime.includes("mp4")
+          ? "m4a"
+          : "webm";
+
+      recStream?.getTracks().forEach(track=>track.stop());
+
+      recStream=null;
+      recorder=null;
+
+      recordLabel.textContent="Record audio";
+      recordStatus.textContent="";
+
+      picked(
+        new File(
+          [blob],
+          "hamoon-voice-"+Date.now()+"."+extension,
+          {type:mime}
+        )
       );
+    });
 
-    recorder.addEventListener(
-      "dataavailable",
-      event=>{
-
-        if(
-          event.data
-            ?.size
-        ){
-
-          recChunks.push(
-            event.data
-          );
-        }
-      }
-    );
-
-    recorder.addEventListener(
-      "stop",
-      ()=>{
-
-        clearInterval(
-          recTimer
-        );
-
-        const mime=
-          recorder.mimeType||
-          recChunks[0]?.type||
-          "audio/webm";
-
-        const blob=
-          new Blob(
-            recChunks,
-            {
-              type:mime
-            }
-          );
-
-        const extension=
-          mime.includes(
-            "mp4"
-          )
-            ? "m4a"
-            : "webm";
-
-        recStream
-          ?.getTracks()
-          .forEach(
-            track=>
-              track.stop()
-          );
-
-        recStream=null;
-        recorder=null;
-
-        recordLabel.textContent=
-          "Record audio";
-
-        recordStatus.textContent=
-          "";
-
-        picked(
-          new File(
-            [
-              blob
-            ],
-            "hamoon-voice-"+
-            Date.now()+
-            "."+
-            extension,
-            {
-              type:mime
-            }
-          )
-        );
-      }
-    );
-
-    recorder.start(
-      250
-    );
-
-    recStart=
-      Date.now();
-
-    recordLabel.textContent=
-      "Stop recording";
+    recorder.start(250);
+    recStart=Date.now();
+    recordLabel.textContent="Stop recording";
 
     function tick(){
-
-      const seconds=
-        Math.floor(
-          (
-            Date.now()-
-            recStart
-          )/
-          1000
-        );
-
-      const mins=
-        String(
-          Math.floor(
-            seconds/60
-          )
-        )
-          .padStart(
-            2,
-            "0"
-          );
-
-      const secs=
-        String(
-          seconds%60
-        )
-          .padStart(
-            2,
-            "0"
-          );
+      const seconds=Math.floor((Date.now()-recStart)/1000);
+      const mins=String(Math.floor(seconds/60)).padStart(2,"0");
+      const secs=String(seconds%60).padStart(2,"0");
 
       recordStatus.textContent=
         "recording… "+
@@ -3137,529 +1322,242 @@ async function startAudio(){
     }
 
     tick();
-
-    recTimer=
-      setInterval(
-        tick,
-        500
-      );
+    recTimer=setInterval(tick,500);
 
   }catch(error){
-
-    console.error(
-      error
-    );
-
-    toast(
-      "microphone permission was blocked"
-    );
+    console.error(error);
+    toast("microphone permission was blocked");
   }
 }
 
-function fileToDataURL(
-  file
-){
-
-  return new Promise(
-    (
-      resolve,
-      reject
-    )=>{
-
-      const reader=
-        new FileReader();
-
-      reader.onload=
-        ()=>
-          resolve(
-            reader.result
-          );
-
-      reader.onerror=
-        reject;
-
-      reader.readAsDataURL(
-        file
-      );
+/*
+  DIRECT R2 UPLOAD.
+  This matches the new /space/media-upload route in the Worker.
+*/
+async function uploadFileDirect(file,type,id){
+  const response=await fetch(
+    API+"/space/media-upload",
+    {
+      method:"POST",
+      headers:{
+        "Authorization":"Bearer "+state.token,
+        "Content-Type":file.type||"application/octet-stream",
+        "X-Author":state.author,
+        "X-Upload-Id":id,
+        "X-File-Type":type,
+        "X-Content-Type":file.type||"application/octet-stream",
+        "X-Caption":encodeURIComponent(captionInput.value.trim()),
+        "X-Sort-Order":String(Date.now())
+      },
+      body:file
     }
   );
-}
 
-async function imageData(
-  file
-){
-
-  const bitmap=
-    await createImageBitmap(
-      file
-    );
-
-  const maxSide=
-    1800;
-
-  const scale=
-    Math.min(
-      1,
-      maxSide/
-      Math.max(
-        bitmap.width,
-        bitmap.height
-      )
-    );
-
-  const width=
-    Math.max(
-      1,
-      Math.round(
-        bitmap.width*
-        scale
-      )
-    );
-
-  const height=
-    Math.max(
-      1,
-      Math.round(
-        bitmap.height*
-        scale
-      )
-    );
-
-  const canvas=
-    document.createElement(
-      "canvas"
-    );
-
-  canvas.width=
-    width;
-
-  canvas.height=
-    height;
-
-  canvas
-    .getContext(
-      "2d"
-    )
-    .drawImage(
-      bitmap,
-      0,
-      0,
-      width,
-      height
-    );
-
-  bitmap.close?.();
-
-  let quality=.88;
-
-  let data=
-    canvas.toDataURL(
-      "image/webp",
-      quality
-    );
-
-  while(
-    data.length>
-      1700000&&
-    quality>.58
-  ){
-
-    quality-=.08;
-
-    data=
-      canvas.toDataURL(
-        "image/webp",
-        quality
-      );
-  }
-
-  return data;
-}
-
-uploadGo.addEventListener(
-  "click",
-  async()=>{
-
-    if(
-      !pendingFile||
-      !pendingType
-    ){
-      return;
-    }
-
-    /*
-      TEMP LIMIT UNTIL R2 IS CONNECTED.
-      Photos are compressed automatically.
-    */
-    if(
-      pendingType!==
-        "image"&&
-      pendingFile.size>
-        8*
-        1024*
-        1024
-    ){
-
-      toast(
-        "that one's too big until R2 is connected"
-      );
-
-      return;
-    }
-
-    uploadGo.disabled=
-      true;
-
-    uploadGo.textContent=
-      "adding…";
+  if(!response.ok){
+    let message="upload failed";
 
     try{
+      const data=await response.json();
+      message=data.error||message;
+    }catch(_){}
 
-      const src=
-        pendingType===
-          "image"
-          ? await imageData(
-              pendingFile
-            )
-          : await fileToDataURL(
-              pendingFile
-            );
-
-      const upload={
-        id:
-          crypto.randomUUID(),
-
-        author:
-          state.author,
-
-        type:
-          pendingType,
-
-        src,
-
-        caption:
-          captionInput
-            .value
-            .trim(),
-
-        sortOrder:
-          Date.now()
-      };
-
-      await api(
-        "/space/upload",
-        {
-          method:"POST",
-
-          headers:
-            headers(),
-
-          body:
-            JSON.stringify(
-              upload
-            )
-        }
-      );
-
-      closeUpload();
-
-      toast(
-        "added ❤️"
-      );
-
-      await load();
-
-    }catch(error){
-
-      console.error(
-        error
-      );
-
-      toast(
-        "upload didn't save"
-      );
-
-    }finally{
-
-      uploadGo.disabled=
-        false;
-
-      uploadGo.textContent=
-        "add to timeline";
-    }
+    throw new Error(message);
   }
-);
 
-async function deleteUpload(
-  upload
-){
+  return response.json();
+}
 
-  if(
-    !confirm(
-      "Delete this "+
-      upload.type+
-      "?"
-    )
-  ){
+uploadGo.addEventListener("click",async()=>{
+  if(!pendingFile||!pendingType){
+    return;
+  }
+
+  uploadGo.disabled=true;
+  uploadGo.textContent="adding…";
+
+  try{
+    const id=crypto.randomUUID();
+
+    await uploadFileDirect(
+      pendingFile,
+      pendingType,
+      id
+    );
+
+    closeUpload();
+    toast("added ❤️");
+    await load();
+
+  }catch(error){
+    console.error(error);
+    toast(error.message||"upload didn't save");
+
+  }finally{
+    uploadGo.disabled=false;
+    uploadGo.textContent="add to timeline";
+  }
+});
+
+async function deleteUpload(upload){
+  if(!confirm("Delete this "+upload.type+"?")){
     return;
   }
 
   try{
-
     await api(
       "/space/upload",
       {
         method:"DELETE",
-
-        headers:
-          headers(),
-
-        body:
-          JSON.stringify({
-            id:
-              upload.id,
-
-            author:
-              upload.author
-          })
+        headers:headers(),
+        body:JSON.stringify({
+          id:upload.id,
+          author:upload.author
+        })
       }
     );
 
-    toast(
-      "deleted"
-    );
-
+    toast("deleted");
     await load();
-
     saveOrder();
 
   }catch(error){
+    console.error(error);
+    toast("delete failed");
+  }
+}
 
-    console.error(
-      error
-    );
+function formatUploadTime(upload){
+  const isHamy=upload.author==="Hamy";
 
-    toast(
-      "delete failed"
-    );
+  const timeZone=isHamy
+    ? "Pacific/Auckland"
+    : "Australia/Melbourne";
+
+  const zoneLabel=isHamy
+    ? "NZ time"
+    : "Aus time";
+
+  const date=new Date(upload.createdAt);
+
+  try{
+    const formatted=
+      new Intl.DateTimeFormat(
+        "en-AU",
+        {
+          timeZone,
+          day:"numeric",
+          month:"short",
+          year:"numeric",
+          hour:"numeric",
+          minute:"2-digit",
+          hour12:true
+        }
+      ).format(date);
+
+    return "added by "+
+      upload.author+
+      " · "+
+      formatted+
+      " ("+
+      zoneLabel+
+      ")";
+  }catch(_){
+    return "added by "+
+      upload.author+
+      " · "+
+      date.toLocaleString()+
+      " ("+
+      zoneLabel+
+      ")";
   }
 }
 
 function renderUploads(){
-
-  zone
-    .querySelectorAll(
-      ".uploaded-memory"
-    )
-    .forEach(
-      node=>
-        node.remove()
-    );
+  zone.querySelectorAll(".uploaded-memory").forEach(node=>node.remove());
 
   state.uploads
     .slice()
-    .sort(
-      (
-        a,
-        b
-      )=>
-        a.sortOrder-
-        b.sortOrder
-    )
-    .forEach(
-      upload=>{
+    .sort((a,b)=>a.sortOrder-b.sortOrder)
+    .forEach(upload=>{
+      const node=document.createElement("div");
+      node.className="uploaded-memory visible";
+      node.dataset.timelineId="upload:"+upload.id;
 
-        const node=
-          document.createElement(
-            "div"
-          );
+      let media;
 
-        node.className=
-          "uploaded-memory visible";
+      if(upload.type==="video"){
+        media=document.createElement("video");
+        media.controls=true;
+        media.playsInline=true;
+        media.preload="metadata";
 
-        node.dataset.timelineId=
-          "upload:"+
-          upload.id;
+      }else if(upload.type==="audio"){
+        media=document.createElement("audio");
+        media.controls=true;
+        media.preload="metadata";
 
-        let media;
-
-        if(
-          upload.type===
-          "video"
-        ){
-
-          media=
-            document.createElement(
-              "video"
-            );
-
-          media.controls=
-            true;
-
-          media.playsInline=
-            true;
-
-          media.preload=
-            "metadata";
-
-        }else if(
-          upload.type===
-          "audio"
-        ){
-
-          media=
-            document.createElement(
-              "audio"
-            );
-
-          media.controls=
-            true;
-
-          media.preload=
-            "metadata";
-
-        }else{
-
-          media=
-            document.createElement(
-              "img"
-            );
-
-          media.alt=
-            "";
-        }
-
-        media.src=
-          upload.src;
-
-        media.dataset.memoryId=
-          "upload-"+
-          upload.id;
-
-        node.appendChild(
-          media
-        );
-
-        if(
-          upload.caption
-        ){
-
-          const caption=
-            document.createElement(
-              "div"
-            );
-
-          caption.className=
-            "upload-caption";
-
-          caption.textContent=
-            upload.caption;
-
-          node.appendChild(
-            caption
-          );
-        }
-
-        const meta=
-          document.createElement(
-            "div"
-          );
-
-        meta.className=
-          "upload-meta";
-
-        meta.textContent=
-          "added by "+
-          upload.author;
-
-        node.appendChild(
-          meta
-        );
-
-        const actions=
-          document.createElement(
-            "div"
-          );
-
-        actions.className=
-          "upload-actions";
-
-        const del=
-          document.createElement(
-            "button"
-          );
-
-        del.type=
-          "button";
-
-        del.textContent=
-          "delete";
-
-        del.addEventListener(
-          "click",
-          ()=>
-            deleteUpload(
-              upload
-            )
-        );
-
-        actions.appendChild(
-          del
-        );
-
-        node.appendChild(
-          actions
-        );
-
-        zone.appendChild(
-          node
-        );
+      }else{
+        media=document.createElement("img");
+        media.alt="";
       }
-    );
+
+      media.src=upload.src;
+      media.dataset.memoryId="upload-"+upload.id;
+      node.appendChild(media);
+
+      if(upload.caption){
+        const caption=document.createElement("div");
+        caption.className="upload-caption";
+        caption.textContent=upload.caption;
+        node.appendChild(caption);
+      }
+
+      const meta=document.createElement("div");
+      meta.className="upload-meta";
+      meta.textContent=formatUploadTime(upload);
+      node.appendChild(meta);
+
+      const actions=document.createElement("div");
+      actions.className="upload-actions";
+
+      const del=document.createElement("button");
+      del.type="button";
+      del.textContent="delete";
+
+      del.addEventListener("click",()=>deleteUpload(upload));
+
+      actions.appendChild(del);
+      node.appendChild(actions);
+
+      zone.appendChild(node);
+    });
 
   refreshOrder();
-
   bindZoom();
-
   window.observeHamoon?.();
 }
 
-/* =========================
-   PHOTO ZOOM
-   ========================= */
+/* ========================= PHOTO ZOOM + BACK BUTTON ========================= */
 
-const lightbox=
-  document.getElementById(
-    "lightbox"
-  );
+const lightbox=document.getElementById("lightbox");
+const stage=document.getElementById("lightbox-stage");
+const lightboxImg=document.getElementById("lightbox-img");
 
-const stage=
-  document.getElementById(
-    "lightbox-stage"
-  );
-
-const lightboxImg=
-  document.getElementById(
-    "lightbox-img"
-  );
+let lightboxHistoryActive=false;
+let closingFromPopState=false;
 
 const zoom={
   scale:1,
   x:0,
   y:0,
-
-  pointers:
-    new Map(),
-
+  pointers:new Map(),
   startDistance:0,
   startScale:1,
-
   pan:null,
   moved:false
 };
 
 function applyZoom(){
-
   lightboxImg.style.transform=
     "translate(-50%,-50%) "+
     "translate("+
@@ -3673,685 +1571,395 @@ function applyZoom(){
 }
 
 function resetZoom(){
-
   zoom.scale=1;
   zoom.x=0;
   zoom.y=0;
-
   zoom.pointers.clear();
-
   zoom.pan=null;
-
   applyZoom();
 }
 
 function clampZoom(){
+  zoom.scale=Math.max(1,Math.min(8,zoom.scale));
 
-  zoom.scale=
-    Math.max(
-      1,
-      Math.min(
-        8,
-        zoom.scale
-      )
-    );
-
-  if(
-    zoom.scale<=
-    1.001
-  ){
-
+  if(zoom.scale<=1.001){
     zoom.x=0;
     zoom.y=0;
   }
 }
 
-function openLightbox(
-  src
-){
-
-  lightboxImg.src=
-    src;
-
+function openLightbox(src){
+  lightboxImg.src=src;
   resetZoom();
 
-  lightbox.classList.add(
-    "show"
-  );
+  lightbox.classList.add("show");
+  lightbox.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
 
-  document.body.style.overflow=
-    "hidden";
+  if(!lightboxHistoryActive){
+    history.pushState(
+      {hamoonLightbox:true},
+      "",
+      location.href
+    );
+
+    lightboxHistoryActive=true;
+  }
+}
+
+function actuallyCloseLightbox(){
+  lightbox.classList.remove("show");
+  lightbox.setAttribute("aria-hidden","true");
+  lightboxImg.removeAttribute("src");
+  document.body.style.overflow="";
+  resetZoom();
 }
 
 function closeLightbox(){
+  if(!lightbox.classList.contains("show")){
+    return;
+  }
 
-  lightbox.classList.remove(
-    "show"
-  );
+  if(lightboxHistoryActive&&!closingFromPopState){
+    history.back();
+    return;
+  }
 
-  lightboxImg.removeAttribute(
-    "src"
-  );
-
-  document.body.style.overflow=
-    "";
-
-  resetZoom();
+  actuallyCloseLightbox();
+  lightboxHistoryActive=false;
 }
+
+window.addEventListener("popstate",()=>{
+  if(lightbox.classList.contains("show")){
+    closingFromPopState=true;
+    actuallyCloseLightbox();
+    lightboxHistoryActive=false;
+    closingFromPopState=false;
+  }
+});
 
 function bindZoom(){
+  document.querySelectorAll(
+    "#timeline-zone img.media,#timeline-zone .uploaded-memory img"
+  ).forEach(image=>{
+    if(image.dataset.zoomBound){
+      return;
+    }
 
-  document
-    .querySelectorAll(
-      "#timeline-zone img.media,"+
-      "#timeline-zone .uploaded-memory img"
-    )
-    .forEach(
-      image=>{
+    image.dataset.zoomBound="1";
+    image.style.cursor="zoom-in";
 
-        if(
-          image.dataset.zoomBound
-        ){
-          return;
-        }
-
-        image.dataset.zoomBound=
-          "1";
-
-        image.style.cursor=
-          "zoom-in";
-
-        image.addEventListener(
-          "click",
-          ()=>{
-
-            openLightbox(
-              image.currentSrc||
-              image.src
-            );
-          }
-        );
-      }
-    );
+    image.addEventListener("click",()=>{
+      openLightbox(
+        image.currentSrc||
+        image.src
+      );
+    });
+  });
 }
 
-document
-  .getElementById(
-    "lightbox-close"
-  )
-  .addEventListener(
-    "click",
-    closeLightbox
-  );
+document.getElementById("lightbox-close").addEventListener("click",closeLightbox);
 
-document.addEventListener(
-  "keydown",
-  event=>{
-
-    if(
-      event.key===
-        "Escape"&&
-      lightbox.classList.contains(
-        "show"
-      )
-    ){
-
-      closeLightbox();
-    }
+document.addEventListener("keydown",event=>{
+  if(
+    event.key==="Escape"&&
+    lightbox.classList.contains("show")
+  ){
+    closeLightbox();
   }
-);
+});
 
 function pointerDistance(){
+  const values=[...zoom.pointers.values()];
 
-  const values=[
-    ...zoom.pointers.values()
-  ];
-
-  if(
-    values.length<
-    2
-  ){
+  if(values.length<2){
     return 0;
   }
 
   return Math.hypot(
-    values[0].x-
-    values[1].x,
-
-    values[0].y-
-    values[1].y
+    values[0].x-values[1].x,
+    values[0].y-values[1].y
   );
 }
 
-stage.addEventListener(
-  "pointerdown",
-  event=>{
+stage.addEventListener("pointerdown",event=>{
+  event.preventDefault();
 
-    event.preventDefault();
-
-    zoom.pointers.set(
-      event.pointerId,
-      {
-        x:event.clientX,
-        y:event.clientY
-      }
-    );
-
-    zoom.moved=
-      false;
-
-    try{
-
-      stage.setPointerCapture(
-        event.pointerId
-      );
-
-    }catch(_){}
-
-    if(
-      zoom.pointers.size===
-      2
-    ){
-
-      zoom.startDistance=
-        pointerDistance();
-
-      zoom.startScale=
-        zoom.scale;
-
-      zoom.pan=null;
-
-    }else{
-
-      zoom.pan={
-        id:
-          event.pointerId,
-
-        x:
-          event.clientX,
-
-        y:
-          event.clientY,
-
-        oldX:
-          zoom.x,
-
-        oldY:
-          zoom.y
-      };
+  zoom.pointers.set(
+    event.pointerId,
+    {
+      x:event.clientX,
+      y:event.clientY
     }
+  );
+
+  zoom.moved=false;
+
+  try{
+    stage.setPointerCapture(event.pointerId);
+  }catch(_){}
+
+  if(zoom.pointers.size===2){
+    zoom.startDistance=pointerDistance();
+    zoom.startScale=zoom.scale;
+    zoom.pan=null;
+
+  }else{
+    zoom.pan={
+      id:event.pointerId,
+      x:event.clientX,
+      y:event.clientY,
+      oldX:zoom.x,
+      oldY:zoom.y
+    };
   }
-);
+});
 
-stage.addEventListener(
-  "pointermove",
-  event=>{
-
-    if(
-      !zoom.pointers.has(
-        event.pointerId
-      )
-    ){
-      return;
-    }
-
-    const old=
-      zoom.pointers.get(
-        event.pointerId
-      );
-
-    zoom.pointers.set(
-      event.pointerId,
-      {
-        x:event.clientX,
-        y:event.clientY
-      }
-    );
-
-    if(
-      Math.abs(
-        event.clientX-
-        old.x
-      )>
-        2||
-      Math.abs(
-        event.clientY-
-        old.y
-      )>
-        2
-    ){
-
-      zoom.moved=
-        true;
-    }
-
-    if(
-      zoom.pointers.size>=
-      2
-    ){
-
-      const distance=
-        pointerDistance();
-
-      if(
-        zoom.startDistance
-      ){
-
-        zoom.scale=
-          zoom.startScale*
-          distance/
-          zoom.startDistance;
-
-        clampZoom();
-
-        applyZoom();
-      }
-
-      return;
-    }
-
-    if(
-      zoom.scale>
-        1&&
-      zoom.pan?.id===
-        event.pointerId
-    ){
-
-      zoom.x=
-        zoom.pan.oldX+
-        event.clientX-
-        zoom.pan.x;
-
-      zoom.y=
-        zoom.pan.oldY+
-        event.clientY-
-        zoom.pan.y;
-
-      applyZoom();
-    }
-  }
-);
-
-function endPointer(
-  event
-){
-
-  if(
-    !zoom.pointers.has(
-      event.pointerId
-    )
-  ){
+stage.addEventListener("pointermove",event=>{
+  if(!zoom.pointers.has(event.pointerId)){
     return;
   }
 
-  const single=
-    zoom.pointers.size===
-    1;
+  const old=zoom.pointers.get(event.pointerId);
 
-  zoom.pointers.delete(
-    event.pointerId
+  zoom.pointers.set(
+    event.pointerId,
+    {
+      x:event.clientX,
+      y:event.clientY
+    }
   );
 
   if(
-    single&&
-    !zoom.moved
+    Math.abs(event.clientX-old.x)>2||
+    Math.abs(event.clientY-old.y)>2
   ){
+    zoom.moved=true;
+  }
 
-    /* TAP ONCE = ZOOM IN
-       TAP AGAIN = ZOOM OUT */
+  if(zoom.pointers.size>=2){
+    const distance=pointerDistance();
 
-    if(
-      zoom.scale<=
-      1.05
-    ){
-
+    if(zoom.startDistance){
       zoom.scale=
-        2.5;
+        zoom.startScale*
+        distance/
+        zoom.startDistance;
 
+      clampZoom();
+      applyZoom();
+    }
+
+    return;
+  }
+
+  if(
+    zoom.scale>1&&
+    zoom.pan?.id===event.pointerId
+  ){
+    zoom.x=
+      zoom.pan.oldX+
+      event.clientX-
+      zoom.pan.x;
+
+    zoom.y=
+      zoom.pan.oldY+
+      event.clientY-
+      zoom.pan.y;
+
+    applyZoom();
+  }
+});
+
+function endPointer(event){
+  if(!zoom.pointers.has(event.pointerId)){
+    return;
+  }
+
+  const single=zoom.pointers.size===1;
+  zoom.pointers.delete(event.pointerId);
+
+  if(single&&!zoom.moved){
+    if(zoom.scale<=1.05){
+      zoom.scale=2.5;
     }else{
-
       zoom.scale=1;
       zoom.x=0;
       zoom.y=0;
     }
 
     clampZoom();
-
     applyZoom();
   }
 
-  if(
-    zoom.pointers.size===
-    1
-  ){
-
-    const [
-      id,
-      point
-    ]=
-      [
-        ...zoom.pointers.entries()
-      ][0];
+  if(zoom.pointers.size===1){
+    const[id,point]=[...zoom.pointers.entries()][0];
 
     zoom.pan={
       id,
-
-      x:
-        point.x,
-
-      y:
-        point.y,
-
-      oldX:
-        zoom.x,
-
-      oldY:
-        zoom.y
+      x:point.x,
+      y:point.y,
+      oldX:zoom.x,
+      oldY:zoom.y
     };
 
   }else{
-
     zoom.pan=null;
   }
 }
 
-stage.addEventListener(
-  "pointerup",
-  endPointer
-);
-
-stage.addEventListener(
-  "pointercancel",
-  endPointer
-);
+stage.addEventListener("pointerup",endPointer);
+stage.addEventListener("pointercancel",endPointer);
 
 stage.addEventListener(
   "wheel",
   event=>{
-
     event.preventDefault();
 
     zoom.scale*=
-      event.deltaY<
-      0
+      event.deltaY<0
         ? 1.16
         : .86;
 
     clampZoom();
-
     applyZoom();
   },
-  {
-    passive:false
-  }
+  {passive:false}
 );
 
-/* =========================
-   REACTIONS
-   ========================= */
+/* ========================= REACTIONS ========================= */
 
-function reactionAnchor(
-  media
-){
-
+function reactionAnchor(media){
   return(
-    media.closest(
-      ".reveal"
-    )||
-    media.closest(
-      ".audio-wrap"
-    )||
-    media.closest(
-      ".uploaded-memory"
-    )||
+    media.closest(".reveal")||
+    media.closest(".audio-wrap")||
+    media.closest(".uploaded-memory")||
     media.parentElement||
     media
   );
 }
 
 function renderReactions(){
+  document.querySelectorAll("[data-memory-id]").forEach(media=>{
+    const id=media.dataset.memoryId;
 
-  document
-    .querySelectorAll(
-      "[data-memory-id]"
-    )
-    .forEach(
-      media=>{
+    if(!id){
+      return;
+    }
 
-        const id=
-          media.dataset.memoryId;
+    const anchor=reactionAnchor(media);
 
-        if(!id){
-          return;
-        }
-
-        const anchor=
-          reactionAnchor(
-            media
-          );
-
-        let bar=
-          anchor.querySelector(
-            ":scope > .memory-reactions"
-          );
-
-        if(!bar){
-
-          bar=
-            document.createElement(
-              "div"
-            );
-
-          bar.className=
-            "memory-reactions";
-
-          anchor.appendChild(
-            bar
-          );
-        }
-
-        bar.innerHTML=
-          "";
-
-        const rows=
-          state.reactions
-            .filter(
-              reaction=>
-                reaction.memoryId===
-                id
-            );
-
-        const counts=
-          new Map();
-
-        rows.forEach(
-          reaction=>{
-
-            counts.set(
-              reaction.emoji,
-              (
-                counts.get(
-                  reaction.emoji
-                )||
-                0
-              )+
-              1
-            );
-          }
-        );
-
-        EMOJIS.forEach(
-          emoji=>{
-
-            const count=
-              counts.get(
-                emoji
-              )||
-              0;
-
-            if(!count){
-              return;
-            }
-
-            const button=
-              document.createElement(
-                "button"
-              );
-
-            const mine=
-              rows.some(
-                reaction=>
-                  reaction.author===
-                    state.author&&
-                  reaction.emoji===
-                    emoji
-              );
-
-            button.className=
-              "used-reaction"+
-              (
-                mine
-                  ? " mine"
-                  : ""
-              );
-
-            button.textContent=
-              emoji+
-              " "+
-              count;
-
-            button.addEventListener(
-              "click",
-              ()=>
-                toggleReaction(
-                  id,
-                  emoji
-                )
-            );
-
-            bar.appendChild(
-              button
-            );
-          }
-        );
-
-        /* HEART REACT BUTTON RESTORED */
-
-        const open=
-          document.createElement(
-            "button"
-          );
-
-        open.className=
-          "react-open";
-
-        open.textContent=
-          "♡ react";
-
-        bar.appendChild(
-          open
-        );
-
-        const picker=
-          document.createElement(
-            "div"
-          );
-
-        picker.className=
-          "react-picker";
-
-        EMOJIS.forEach(
-          emoji=>{
-
-            const button=
-              document.createElement(
-                "button"
-              );
-
-            const mine=
-              rows.some(
-                reaction=>
-                  reaction.author===
-                    state.author&&
-                  reaction.emoji===
-                    emoji
-              );
-
-            button.className=
-              "emoji-btn"+
-              (
-                mine
-                  ? " mine"
-                  : ""
-              );
-
-            button.textContent=
-              emoji;
-
-            button.addEventListener(
-              "click",
-              ()=>
-                toggleReaction(
-                  id,
-                  emoji
-                )
-            );
-
-            picker.appendChild(
-              button
-            );
-          }
-        );
-
-        open.addEventListener(
-          "click",
-          ()=>{
-
-            picker.classList.toggle(
-              "show"
-            );
-          }
-        );
-
-        bar.appendChild(
-          picker
-        );
-      }
+    let bar=anchor.querySelector(
+      ":scope > .memory-reactions"
     );
-}
 
-function toggleReaction(
-  memoryId,
-  emoji
-){
+    if(!bar){
+      bar=document.createElement("div");
+      bar.className="memory-reactions";
+      anchor.appendChild(bar);
+    }
 
-  const index=
-    state.reactions
-      .findIndex(
+    bar.innerHTML="";
+
+    const rows=state.reactions.filter(
+      reaction=>reaction.memoryId===id
+    );
+
+    const counts=new Map();
+
+    rows.forEach(reaction=>{
+      counts.set(
+        reaction.emoji,
+        (counts.get(reaction.emoji)||0)+1
+      );
+    });
+
+    EMOJIS.forEach(emoji=>{
+      const count=counts.get(emoji)||0;
+
+      if(!count){
+        return;
+      }
+
+      const button=document.createElement("button");
+
+      const mine=rows.some(
         reaction=>
-          reaction.memoryId===
-            memoryId&&
-          reaction.author===
-            state.author&&
-          reaction.emoji===
-            emoji
+          reaction.author===state.author&&
+          reaction.emoji===emoji
       );
 
-  if(
-    index>=0
-  ){
+      button.className=
+        "used-reaction"+
+        (mine?" mine":"");
 
-    state.reactions.splice(
-      index,
-      1
-    );
+      button.textContent=
+        emoji+
+        " "+
+        count;
+
+      button.addEventListener(
+        "click",
+        ()=>toggleReaction(id,emoji)
+      );
+
+      bar.appendChild(button);
+    });
+
+    const open=document.createElement("button");
+    open.className="react-open";
+    open.textContent="♡ react";
+    bar.appendChild(open);
+
+    const picker=document.createElement("div");
+    picker.className="react-picker";
+
+    EMOJIS.forEach(emoji=>{
+      const button=document.createElement("button");
+
+      const mine=rows.some(
+        reaction=>
+          reaction.author===state.author&&
+          reaction.emoji===emoji
+      );
+
+      button.className=
+        "emoji-btn"+
+        (mine?" mine":"");
+
+      button.textContent=emoji;
+
+      button.addEventListener(
+        "click",
+        ()=>toggleReaction(id,emoji)
+      );
+
+      picker.appendChild(button);
+    });
+
+    open.addEventListener("click",()=>{
+      picker.classList.toggle("show");
+    });
+
+    bar.appendChild(picker);
+  });
+}
+
+function toggleReaction(memoryId,emoji){
+  const index=state.reactions.findIndex(
+    reaction=>
+      reaction.memoryId===memoryId&&
+      reaction.author===state.author&&
+      reaction.emoji===emoji
+  );
+
+  if(index>=0){
+    state.reactions.splice(index,1);
 
   }else{
-
     state.reactions.push({
       memoryId,
-      author:
-        state.author,
+      author:state.author,
       emoji
     });
   }
@@ -4362,71 +1970,172 @@ function toggleReaction(
     "/space/reaction",
     {
       method:"POST",
-
-      headers:
-        headers(),
-
-      body:
-        JSON.stringify({
-          memoryId,
-          author:
-            state.author,
-          emoji
-        })
+      headers:headers(),
+      body:JSON.stringify({
+        memoryId,
+        author:state.author,
+        emoji
+      })
     }
   )
-    .then(
-      load
-    )
-    .catch(
-      ()=>{
-
-        toast(
-          "reaction didn't save"
-        );
-      }
-    );
+    .then(load)
+    .catch(()=>{
+      toast("reaction didn't save");
+    });
 }
 
-/* =========================
-   WHITEBOARD
-   ========================= */
+/* ========================= ACTUAL COLOUR WHEEL ========================= */
+
+const colourWheel=document.getElementById("colour-wheel");
+const wheelCtx=colourWheel.getContext("2d");
+
+function hsvToRgb(h,s,v){
+  const c=v*s;
+  const x=c*(1-Math.abs((h/60)%2-1));
+  const m=v-c;
+
+  let r=0,g=0,b=0;
+
+  if(h<60){
+    r=c;g=x;
+  }else if(h<120){
+    r=x;g=c;
+  }else if(h<180){
+    g=c;b=x;
+  }else if(h<240){
+    g=x;b=c;
+  }else if(h<300){
+    r=x;b=c;
+  }else{
+    r=c;b=x;
+  }
+
+  return[
+    Math.round((r+m)*255),
+    Math.round((g+m)*255),
+    Math.round((b+m)*255)
+  ];
+}
+
+function rgbToHex(r,g,b){
+  return"#"+
+    [r,g,b]
+      .map(v=>v.toString(16).padStart(2,"0"))
+      .join("");
+}
+
+function drawColourWheel(){
+  const w=colourWheel.width;
+  const h=colourWheel.height;
+  const cx=w/2;
+  const cy=h/2;
+  const radius=Math.min(w,h)/2-2;
+
+  const image=wheelCtx.createImageData(w,h);
+
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const dx=x-cx;
+      const dy=y-cy;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+
+      const idx=(y*w+x)*4;
+
+      if(dist>radius){
+        image.data[idx+3]=0;
+        continue;
+      }
+
+      let hue=Math.atan2(dy,dx)*180/Math.PI;
+      hue=(hue+360)%360;
+
+      const sat=Math.min(1,dist/radius);
+      const[r,g,b]=hsvToRgb(hue,sat,1);
+
+      image.data[idx]=r;
+      image.data[idx+1]=g;
+      image.data[idx+2]=b;
+      image.data[idx+3]=255;
+    }
+  }
+
+  wheelCtx.putImageData(image,0,0);
+}
+
+function pickColourFromWheel(event){
+  const rect=colourWheel.getBoundingClientRect();
+
+  const px=
+    (event.clientX-rect.left)*
+    colourWheel.width/
+    rect.width;
+
+  const py=
+    (event.clientY-rect.top)*
+    colourWheel.height/
+    rect.height;
+
+  const cx=colourWheel.width/2;
+  const cy=colourWheel.height/2;
+
+  const dx=px-cx;
+  const dy=py-cy;
+
+  const radius=Math.min(
+    colourWheel.width,
+    colourWheel.height
+  )/2-2;
+
+  const dist=Math.sqrt(dx*dx+dy*dy);
+
+  if(dist>radius){
+    return;
+  }
+
+  let hue=Math.atan2(dy,dx)*180/Math.PI;
+  hue=(hue+360)%360;
+
+  const sat=Math.min(1,dist/radius);
+  const[r,g,b]=hsvToRgb(hue,sat,1);
+
+  state.colour=rgbToHex(r,g,b);
+}
+
+drawColourWheel();
+
+let colourPicking=false;
+
+colourWheel.addEventListener("pointerdown",event=>{
+  colourPicking=true;
+  colourWheel.setPointerCapture?.(event.pointerId);
+  pickColourFromWheel(event);
+});
+
+colourWheel.addEventListener("pointermove",event=>{
+  if(colourPicking){
+    pickColourFromWheel(event);
+  }
+});
+
+colourWheel.addEventListener("pointerup",()=>{
+  colourPicking=false;
+});
+
+colourWheel.addEventListener("pointercancel",()=>{
+  colourPicking=false;
+});
+
+/* ========================= WHITEBOARD ========================= */
 
 function resize(){
+  const rect=wrap.getBoundingClientRect();
 
-  const rect=
-    wrap.getBoundingClientRect();
+  state.width=Math.max(1,rect.width);
+  state.height=Math.max(1,rect.height);
+  state.dpr=Math.max(1,devicePixelRatio||1);
 
-  state.width=
-    Math.max(
-      1,
-      rect.width
-    );
-
-  state.height=
-    Math.max(
-      1,
-      rect.height
-    );
-
-  state.dpr=
-    Math.max(
-      1,
-      devicePixelRatio||
-      1
-    );
-
-  canvas.width=
-    Math.round(
-      state.width*
-      state.dpr
-    );
-
-  canvas.height=
-    Math.round(
-      state.height*
-      state.dpr
-    );
+  canvas.width=Math.round(state.width*state.dpr);
+  canvas.height=Math.round(state.height*state.dpr);
 
   ctx.setTransform(
     state.dpr,
@@ -4440,1297 +2149,614 @@ function resize(){
   redraw();
 }
 
-function brushWidth(
-  width
-){
-
+function brushWidth(width){
   return Math.max(
     .8,
-    Number(
-      width||
-      3
-    )*
+    Number(width||3)*
     Math.max(
       .72,
       Math.min(
         1.4,
-        state.width/
-        640
+        state.width/640
       )
     )
   );
 }
 
 function redraw(){
-
-  ctx.clearRect(
-    0,
-    0,
-    state.width,
-    state.height
-  );
-
-  state.strokes
-    .forEach(
-      drawStroke
-    );
+  ctx.clearRect(0,0,state.width,state.height);
+  state.strokes.forEach(drawStroke);
 }
 
-function drawStroke(
-  stroke
-){
-
-  if(
-    !stroke
-      ?.points
-      ?.length
-  ){
+function drawStroke(stroke){
+  if(!stroke?.points?.length){
     return;
   }
 
-  ctx.strokeStyle=
-    stroke.color;
+  ctx.strokeStyle=stroke.color;
+  ctx.fillStyle=stroke.color;
+  ctx.lineWidth=brushWidth(stroke.width);
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
 
-  ctx.fillStyle=
-    stroke.color;
+  const points=stroke.points;
 
-  ctx.lineWidth=
-    brushWidth(
-      stroke.width
-    );
-
-  ctx.lineCap=
-    "round";
-
-  ctx.lineJoin=
-    "round";
-
-  const points=
-    stroke.points;
-
-  if(
-    points.length===
-    1
-  ){
-
+  if(points.length===1){
     ctx.beginPath();
 
     ctx.arc(
-      points[0].x*
-      state.width,
-
-      points[0].y*
-      state.height,
-
-      ctx.lineWidth/
-      2,
-
+      points[0].x*state.width,
+      points[0].y*state.height,
+      ctx.lineWidth/2,
       0,
-
-      Math.PI*
-      2
+      Math.PI*2
     );
 
     ctx.fill();
-
     return;
   }
 
   ctx.beginPath();
 
   ctx.moveTo(
-    points[0].x*
-    state.width,
-
-    points[0].y*
-    state.height
+    points[0].x*state.width,
+    points[0].y*state.height
   );
 
-  for(
-    let i=1;
-    i<
-    points.length;
-    i++
-  ){
-
+  for(let i=1;i<points.length;i++){
     ctx.lineTo(
-      points[i].x*
-      state.width,
-
-      points[i].y*
-      state.height
+      points[i].x*state.width,
+      points[i].y*state.height
     );
   }
 
   ctx.stroke();
 }
 
-function boardPoint(
-  event
-){
-
-  const rect=
-    canvas.getBoundingClientRect();
+function boardPoint(event){
+  const rect=canvas.getBoundingClientRect();
 
   return{
-    x:
-      Math.max(
-        0,
-        Math.min(
-          1,
-          (
-            event.clientX-
-            rect.left
-          )/
-          rect.width
-        )
-      ),
-
-    y:
-      Math.max(
-        0,
-        Math.min(
-          1,
-          (
-            event.clientY-
-            rect.top
-          )/
-          rect.height
-        )
+    x:Math.max(
+      0,
+      Math.min(
+        1,
+        (event.clientX-rect.left)/rect.width
       )
+    ),
+
+    y:Math.max(
+      0,
+      Math.min(
+        1,
+        (event.clientY-rect.top)/rect.height
+      )
+    )
   };
 }
 
 function eraserDiameter(){
-
-  return Math.max(
-    12,
-    state.size*
-    2.8
-  );
+  return Math.max(12,state.size*2.8);
 }
 
 function eraserRadius(){
-
-  return(
-    eraserDiameter()/
-    2
-  )/
-  Math.max(
-    1,
-    state.width
-  );
+  return(eraserDiameter()/2)/Math.max(1,state.width);
 }
 
-function showPreview(
-  event
-){
-
-  const rect=
-    wrap.getBoundingClientRect();
+function showPreview(event){
+  const rect=wrap.getBoundingClientRect();
 
   if(
-    event.clientX<
-      rect.left||
-    event.clientX>
-      rect.right||
-    event.clientY<
-      rect.top||
-    event.clientY>
-      rect.bottom
+    event.clientX<rect.left||
+    event.clientX>rect.right||
+    event.clientY<rect.top||
+    event.clientY>rect.bottom
   ){
-
-    preview.style.display=
-      "none";
-
+    preview.style.display="none";
     return;
   }
 
   const diameter=
-    state.mode===
-      "erase"
+    state.mode==="erase"
       ? eraserDiameter()
-      : Math.max(
-          4,
-          brushWidth(
-            state.size
-          )
-        );
+      : Math.max(4,brushWidth(state.size));
 
-  preview.style.display=
-    "block";
-
-  preview.style.left=
-    event.clientX-
-    rect.left+
-    "px";
-
-  preview.style.top=
-    event.clientY-
-    rect.top+
-    "px";
-
-  preview.style.width=
-    diameter+
-    "px";
-
-  preview.style.height=
-    diameter+
-    "px";
-
+  preview.style.display="block";
+  preview.style.left=(event.clientX-rect.left)+"px";
+  preview.style.top=(event.clientY-rect.top)+"px";
+  preview.style.width=diameter+"px";
+  preview.style.height=diameter+"px";
   preview.style.borderStyle=
-    state.mode===
-      "erase"
+    state.mode==="erase"
       ? "dashed"
       : "solid";
 }
 
 function touchCentreY(){
+  const values=[...state.activeTouches.values()];
 
-  const values=[
-    ...state.activeTouches.values()
-  ];
-
-  if(
-    !values.length
-  ){
+  if(!values.length){
     return 0;
   }
 
   return values.reduce(
-    (
-      total,
-      point
-    )=>
-      total+
-      point.y,
+    (total,point)=>total+point.y,
     0
-  )/
-  values.length;
+  )/values.length;
 }
 
-canvas.addEventListener(
-  "pointerdown",
-  event=>{
-
-    if(
-      event.pointerType===
-      "touch"
-    ){
-
-      state.activeTouches.set(
-        event.pointerId,
-        {
-          x:event.clientX,
-          y:event.clientY
-        }
-      );
-
-      if(
-        state.activeTouches.size>=
-        2
-      ){
-
-        state.twoFinger=
-          true;
-
-        state.touchStart=
-          touchCentreY();
-
-        state.scrollStart=
-          scrollY;
-
-        state.drawing=
-          false;
-
-        state.current=
-          null;
-
-        return;
+canvas.addEventListener("pointerdown",event=>{
+  if(event.pointerType==="touch"){
+    state.activeTouches.set(
+      event.pointerId,
+      {
+        x:event.clientX,
+        y:event.clientY
       }
-    }
-
-    showPreview(
-      event
     );
 
-    const point=
-      boardPoint(
-        event
-      );
+    if(state.activeTouches.size>=2){
+      state.twoFinger=true;
+      state.touchStart=touchCentreY();
+      state.scrollStart=scrollY;
+      state.drawing=false;
+      state.current=null;
+      return;
+    }
+  }
 
-    if(
-      state.mode===
-      "erase"
-    ){
+  showPreview(event);
+  const point=boardPoint(event);
 
+  if(state.mode==="erase"){
+    event.preventDefault();
+    erase(point);
+    return;
+  }
+
+  event.preventDefault();
+  state.drawing=true;
+
+  state.current={
+    id:crypto.randomUUID(),
+    author:state.author,
+    color:state.colour,
+    width:state.size,
+    points:[point]
+  };
+});
+
+canvas.addEventListener("pointermove",event=>{
+  if(
+    event.pointerType==="touch"&&
+    state.activeTouches.has(event.pointerId)
+  ){
+    state.activeTouches.set(
+      event.pointerId,
+      {
+        x:event.clientX,
+        y:event.clientY
+      }
+    );
+
+    if(state.twoFinger){
       event.preventDefault();
 
-      erase(
-        point
+      scrollTo(
+        0,
+        state.scrollStart+
+        (
+          state.touchStart-
+          touchCentreY()
+        )
       );
 
+      return;
+    }
+  }
+
+  showPreview(event);
+  const point=boardPoint(event);
+
+  if(
+    state.mode==="draw"&&
+    state.drawing&&
+    state.current
+  ){
+    event.preventDefault();
+
+    const points=state.current.points;
+    const last=points[points.length-1];
+
+    const dx=point.x-last.x;
+    const dy=point.y-last.y;
+
+    if(dx*dx+dy*dy<.0000015){
+      return;
+    }
+
+    points.push(point);
+
+    ctx.strokeStyle=state.current.color;
+    ctx.lineWidth=brushWidth(state.current.width);
+    ctx.lineCap="round";
+    ctx.lineJoin="round";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      last.x*state.width,
+      last.y*state.height
+    );
+
+    ctx.lineTo(
+      point.x*state.width,
+      point.y*state.height
+    );
+
+    ctx.stroke();
+
+  }else if(state.mode==="erase"){
+    if(
+      event.pointerType==="mouse"&&
+      event.buttons!==1
+    ){
       return;
     }
 
     event.preventDefault();
-
-    state.drawing=
-      true;
-
-    state.current={
-      id:
-        crypto.randomUUID(),
-
-      author:
-        state.author,
-
-      color:
-        state.colour,
-
-      width:
-        state.size,
-
-      points:[
-        point
-      ]
-    };
+    erase(point);
   }
-);
+});
 
-canvas.addEventListener(
-  "pointermove",
-  event=>{
+function finishStroke(event){
+  if(event.pointerType==="touch"){
+    state.activeTouches.delete(event.pointerId);
 
-    if(
-      event.pointerType===
-        "touch"&&
-      state.activeTouches.has(
-        event.pointerId
-      )
-    ){
-
-      state.activeTouches.set(
-        event.pointerId,
-        {
-          x:event.clientX,
-          y:event.clientY
-        }
-      );
-
-      if(
-        state.twoFinger
-      ){
-
-        event.preventDefault();
-
-        scrollTo(
-          0,
-          state.scrollStart+
-          (
-            state.touchStart-
-            touchCentreY()
-          )
-        );
-
-        return;
-      }
-    }
-
-    showPreview(
-      event
-    );
-
-    const point=
-      boardPoint(
-        event
-      );
-
-    if(
-      state.mode===
-        "draw"&&
-      state.drawing&&
-      state.current
-    ){
-
-      event.preventDefault();
-
-      const points=
-        state.current.points;
-
-      const last=
-        points[
-          points.length-
-          1
-        ];
-
-      const dx=
-        point.x-
-        last.x;
-
-      const dy=
-        point.y-
-        last.y;
-
-      if(
-        dx*
-        dx+
-        dy*
-        dy<
-        .0000015
-      ){
-        return;
-      }
-
-      points.push(
-        point
-      );
-
-      ctx.strokeStyle=
-        state.current.color;
-
-      ctx.lineWidth=
-        brushWidth(
-          state.current.width
-        );
-
-      ctx.lineCap=
-        "round";
-
-      ctx.lineJoin=
-        "round";
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        last.x*
-        state.width,
-
-        last.y*
-        state.height
-      );
-
-      ctx.lineTo(
-        point.x*
-        state.width,
-
-        point.y*
-        state.height
-      );
-
-      ctx.stroke();
-
-    }else if(
-      state.mode===
-      "erase"
-    ){
-
-      /*
-        PC hover only previews.
-        Left mouse button must be held.
-      */
-
-      if(
-        event.pointerType===
-          "mouse"&&
-        event.buttons!==
-          1
-      ){
-        return;
-      }
-
-      event.preventDefault();
-
-      erase(
-        point
-      );
-    }
-  }
-);
-
-function finishStroke(
-  event
-){
-
-  if(
-    event.pointerType===
-    "touch"
-  ){
-
-    state.activeTouches.delete(
-      event.pointerId
-    );
-
-    if(
-      state.twoFinger
-    ){
-
-      if(
-        !state.activeTouches.size
-      ){
-
-        state.twoFinger=
-          false;
+    if(state.twoFinger){
+      if(!state.activeTouches.size){
+        state.twoFinger=false;
       }
 
       return;
     }
   }
 
-  if(
-    !state.drawing||
-    !state.current
-  ){
+  if(!state.drawing||!state.current){
     return;
   }
 
-  state.drawing=
-    false;
+  state.drawing=false;
 
-  const stroke=
-    state.current;
+  const stroke=state.current;
+  state.current=null;
 
-  state.current=
-    null;
-
-  state.strokes.push(
-    stroke
-  );
-
+  state.strokes.push(stroke);
   redraw();
 
   api(
     "/space/stroke",
     {
       method:"POST",
-
-      headers:
-        headers(),
-
-      body:
-        JSON.stringify(
-          stroke
-        )
+      headers:headers(),
+      body:JSON.stringify(stroke)
     }
   )
-    .catch(
-      ()=>{
-
-        toast(
-          "stroke didn't save"
-        );
-
-        load();
-      }
-    );
+    .catch(()=>{
+      toast("stroke didn't save");
+      load();
+    });
 }
 
-canvas.addEventListener(
-  "pointerup",
-  finishStroke
-);
+canvas.addEventListener("pointerup",finishStroke);
+canvas.addEventListener("pointercancel",finishStroke);
 
-canvas.addEventListener(
-  "pointercancel",
-  finishStroke
-);
+function erase(point){
+  const now=Date.now();
 
-function erase(
-  point
-){
-
-  const now=
-    Date.now();
-
-  if(
-    now-
-    state.eraseAt<
-    55
-  ){
+  if(now-state.eraseAt<55){
     return;
   }
 
-  state.eraseAt=
-    now;
+  state.eraseAt=now;
 
   api(
     "/space/erase-segment",
     {
       method:"POST",
-
-      headers:
-        headers(),
-
-      body:
-        JSON.stringify({
-          x:
-            point.x,
-
-          y:
-            point.y,
-
-          radius:
-            eraserRadius(),
-
-          author:
-            state.author
-        })
+      headers:headers(),
+      body:JSON.stringify({
+        x:point.x,
+        y:point.y,
+        radius:eraserRadius(),
+        author:state.author
+      })
     }
   )
-    .then(
-      load
-    )
-    .catch(
-      ()=>{
-
-        toast(
-          "rubber failed"
-        );
-      }
-    );
+    .then(load)
+    .catch(()=>{
+      toast("rubber failed");
+    });
 }
 
-document
-  .getElementById(
-    "colour"
-  )
-  .addEventListener(
-    "input",
-    event=>{
+document.getElementById("size").addEventListener("input",event=>{
+  state.size=Number(event.target.value);
+});
 
-      state.colour=
-        event.target.value;
+document.getElementById("eraser").addEventListener("click",()=>{
+  state.mode=
+    state.mode==="erase"
+      ? "draw"
+      : "erase";
+
+  document.getElementById("eraser").classList.toggle(
+    "active",
+    state.mode==="erase"
+  );
+});
+
+document.getElementById("undo").addEventListener("click",()=>{
+  api(
+    "/space/undo",
+    {
+      method:"POST",
+      headers:headers(),
+      body:JSON.stringify({
+        author:state.author
+      })
     }
-  );
-
-document
-  .getElementById(
-    "size"
   )
-  .addEventListener(
-    "input",
-    event=>{
+    .then(load)
+    .catch(()=>{
+      toast("nothing to undo");
+    });
+});
 
-      state.size=
-        Number(
-          event.target.value
-        );
+document.getElementById("redo").addEventListener("click",()=>{
+  api(
+    "/space/redo",
+    {
+      method:"POST",
+      headers:headers(),
+      body:JSON.stringify({
+        author:state.author
+      })
     }
-  );
-
-document
-  .getElementById(
-    "eraser"
   )
-  .addEventListener(
-    "click",
-    ()=>{
+    .then(load)
+    .catch(()=>{
+      toast("nothing to redo");
+    });
+});
 
-      state.mode=
-        state.mode===
-        "erase"
-          ? "draw"
-          : "erase";
+/* ========================= CLEAR / HISTORY ========================= */
 
-      document
-        .getElementById(
-          "eraser"
-        )
-        .classList
-        .toggle(
-          "active",
-          state.mode===
-          "erase"
-        );
-    }
-  );
+const confirmModal=document.getElementById("confirm-modal");
+const confirmTitle=document.getElementById("confirm-title");
+const confirmCopy=document.getElementById("confirm-copy");
+const confirmInput=document.getElementById("confirm-input");
+const confirmGo=document.getElementById("confirm-go");
 
-document
-  .getElementById(
-    "undo"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      api(
-        "/space/undo",
-        {
-          method:"POST",
-
-          headers:
-            headers(),
-
-          body:
-            JSON.stringify({
-              author:
-                state.author
-            })
-        }
-      )
-        .then(
-          load
-        )
-        .catch(
-          ()=>{
-
-            toast(
-              "nothing to undo"
-            );
-          }
-        );
-    }
-  );
-
-document
-  .getElementById(
-    "redo"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      api(
-        "/space/redo",
-        {
-          method:"POST",
-
-          headers:
-            headers(),
-
-          body:
-            JSON.stringify({
-              author:
-                state.author
-            })
-        }
-      )
-        .then(
-          load
-        )
-        .catch(
-          ()=>{
-
-            toast(
-              "nothing to redo"
-            );
-          }
-        );
-    }
-  );
-
-/* =========================
-   CLEAR / HISTORY
-   ========================= */
-
-const confirmModal=
-  document.getElementById(
-    "confirm-modal"
-  );
-
-const confirmTitle=
-  document.getElementById(
-    "confirm-title"
-  );
-
-const confirmCopy=
-  document.getElementById(
-    "confirm-copy"
-  );
-
-const confirmInput=
-  document.getElementById(
-    "confirm-input"
-  );
-
-const confirmGo=
-  document.getElementById(
-    "confirm-go"
-  );
-
-function open69(
-  title,
-  copy,
-  buttonText,
-  action
-){
-
-  pending69=
-    action;
-
-  confirmTitle.textContent=
-    title;
+function open69(title,copy,buttonText,action){
+  pending69=action;
+  confirmTitle.textContent=title;
 
   confirmCopy.innerHTML=
     copy+
     ' Type <strong>69</strong> to confirm.';
 
-  confirmGo.textContent=
-    buttonText;
+  confirmGo.textContent=buttonText;
+  confirmInput.value="";
+  confirmGo.disabled=true;
+  confirmModal.classList.add("show");
 
-  confirmInput.value=
-    "";
-
-  confirmGo.disabled=
-    true;
-
-  confirmModal.classList.add(
-    "show"
-  );
-
-  setTimeout(
-    ()=>{
-
-      confirmInput.focus();
-
-    },
-    0
-  );
+  setTimeout(()=>confirmInput.focus(),0);
 }
 
 function close69(){
-
-  confirmModal.classList.remove(
-    "show"
-  );
-
+  confirmModal.classList.remove("show");
   pending69=null;
 }
 
-confirmInput.addEventListener(
-  "input",
-  ()=>{
+confirmInput.addEventListener("input",()=>{
+  confirmGo.disabled=confirmInput.value!=="69";
+});
 
-    confirmGo.disabled=
-      confirmInput.value!==
-      "69";
+confirmInput.addEventListener("keydown",event=>{
+  if(
+    event.key==="Enter"&&
+    confirmInput.value==="69"
+  ){
+    confirmGo.click();
   }
-);
+});
 
-confirmInput.addEventListener(
-  "keydown",
-  event=>{
+document.getElementById("confirm-cancel").addEventListener("click",close69);
 
-    if(
-      event.key===
-        "Enter"&&
-      confirmInput.value===
-        "69"
-    ){
+confirmGo.addEventListener("click",()=>{
+  if(
+    confirmInput.value!=="69"||
+    typeof pending69!=="function"
+  ){
+    return;
+  }
 
-      confirmGo.click();
+  const action=pending69;
+  pending69=null;
+  action();
+});
+
+document.getElementById("clear-all").addEventListener("click",()=>{
+  open69(
+    "clear everything?",
+    "This deletes Andy + Hamy drawings.",
+    "okiee",
+    ()=>{
+      api(
+        "/space/clear",
+        {
+          method:"POST",
+          headers:headers(),
+          body:JSON.stringify({
+            confirm:"69",
+            confirmation:"69",
+            author:state.author
+          })
+        }
+      )
+        .then(()=>{
+          state.strokes=[];
+          redraw();
+          close69();
+          toast("whole wall cleared");
+        })
+        .catch(()=>{
+          toast("clear failed");
+        });
     }
-  }
-);
-
-document
-  .getElementById(
-    "confirm-cancel"
-  )
-  .addEventListener(
-    "click",
-    close69
   );
+});
 
-confirmGo.addEventListener(
-  "click",
-  ()=>{
+document.getElementById("clear-mine").addEventListener("click",()=>{
+  if(!confirm("Clear "+state.author+" drawings?")){
+    return;
+  }
 
-    if(
-      confirmInput.value!==
-        "69"||
-      typeof pending69!==
-        "function"
-    ){
+  api(
+    "/space/clear-author",
+    {
+      method:"POST",
+      headers:headers(),
+      body:JSON.stringify({
+        author:state.author
+      })
+    }
+  )
+    .then(()=>{
+      toast(state.author+" drawings cleared");
+      load();
+    })
+    .catch(()=>{
+      toast("clear failed");
+    });
+});
+
+const historyPanel=document.getElementById("history");
+const snapshots=document.getElementById("snapshots");
+
+document.getElementById("history-btn").addEventListener("click",async()=>{
+  if(getComputedStyle(historyPanel).display!=="none"){
+    historyPanel.style.display="none";
+    return;
+  }
+
+  historyPanel.style.display="block";
+  snapshots.textContent="loading…";
+
+  try{
+    const data=await api(
+      "/space/snapshots",
+      {
+        headers:headers(false)
+      }
+    );
+
+    const list=Array.isArray(data)
+      ? data
+      : (data?.snapshots||[]);
+
+    snapshots.innerHTML="";
+
+    if(!list.length){
+      snapshots.textContent="no snapshots yet";
       return;
     }
 
-    const action=
-      pending69;
+    list.forEach(snapshot=>{
+      const row=document.createElement("div");
+      row.className="snap";
 
-    pending69=null;
+      const label=document.createElement("span");
+      const time=snapshot.createdAt||snapshot.created_at;
 
-    action();
-  }
-);
+      label.textContent=
+        time
+          ? new Date(time).toLocaleString()
+          : "saved wall";
 
-document
-  .getElementById(
-    "clear-all"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
+      const restore=document.createElement("button");
+      restore.className="btn";
+      restore.textContent="Restore";
 
-      open69(
-        "clear everything?",
-
-        "This deletes Andy + Hamy drawings.",
-
-        "okiee",
-
-        ()=>{
-
-          api(
-            "/space/clear",
-            {
-              method:"POST",
-
-              headers:
-                headers(),
-
-              body:
-                JSON.stringify({
-                  confirm:
-                    "69",
-
-                  confirmation:
-                    "69",
-
-                  author:
-                    state.author
-                })
-            }
-          )
-            .then(
-              ()=>{
-
-                state.strokes=
-                  [];
-
-                redraw();
-
-                close69();
-
-                toast(
-                  "whole wall cleared"
-                );
-              }
-            )
-            .catch(
-              ()=>{
-
-                toast(
-                  "clear failed"
-                );
-              }
-            );
-        }
-      );
-    }
-  );
-
-/*
-  NO PASSWORD FOR CLEAR MY DRAWINGS.
-*/
-
-document
-  .getElementById(
-    "clear-mine"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      if(
-        !confirm(
-          "Clear "+
-          state.author+
-          " drawings?"
-        )
-      ){
-        return;
-      }
-
-      api(
-        "/space/clear-author",
-        {
-          method:"POST",
-
-          headers:
-            headers(),
-
-          body:
-            JSON.stringify({
-              author:
-                state.author
-            })
-        }
-      )
-        .then(
-          ()=>{
-
-            toast(
-              state.author+
-              " drawings cleared"
-            );
-
-            load();
-          }
-        )
-        .catch(
-          ()=>{
-
-            toast(
-              "clear failed"
-            );
-          }
-        );
-    }
-  );
-
-const history=
-  document.getElementById(
-    "history"
-  );
-
-const snapshots=
-  document.getElementById(
-    "snapshots"
-  );
-
-document
-  .getElementById(
-    "history-btn"
-  )
-  .addEventListener(
-    "click",
-    async()=>{
-
-      if(
-        getComputedStyle(
-          history
-        ).display!==
-        "none"
-      ){
-
-        history.style.display=
-          "none";
-
-        return;
-      }
-
-      history.style.display=
-        "block";
-
-      snapshots.textContent=
-        "loading…";
-
-      try{
-
-        const data=
-          await api(
-            "/space/snapshots",
-            {
-              headers:
-                headers(false)
-            }
-          );
-
-        const list=
-          Array.isArray(
-            data
-          )
-            ? data
-            : (
-                data?.snapshots||
-                []
-              );
-
-        snapshots.innerHTML=
-          "";
-
-        if(
-          !list.length
-        ){
-
-          snapshots.textContent=
-            "no snapshots yet";
-
+      restore.addEventListener("click",()=>{
+        if(!confirm("Restore this wall snapshot?")){
           return;
         }
 
-        list.forEach(
-          snapshot=>{
-
-            const row=
-              document.createElement(
-                "div"
-              );
-
-            row.className=
-              "snap";
-
-            const label=
-              document.createElement(
-                "span"
-              );
-
-            const time=
-              snapshot.createdAt||
-              snapshot.created_at;
-
-            label.textContent=
-              time
-                ? new Date(
-                    time
-                  ).toLocaleString()
-                : "saved wall";
-
-            const restore=
-              document.createElement(
-                "button"
-              );
-
-            restore.className=
-              "btn";
-
-            restore.textContent=
-              "Restore";
-
-            restore.addEventListener(
-              "click",
-              ()=>{
-
-                if(
-                  !confirm(
-                    "Restore this wall snapshot?"
-                  )
-                ){
-                  return;
-                }
-
-                api(
-                  "/space/restore",
-                  {
-                    method:"POST",
-
-                    headers:
-                      headers(),
-
-                    body:
-                      JSON.stringify({
-                        snapshotId:
-                          snapshot.id
-                      })
-                  }
-                )
-                  .then(
-                    ()=>{
-
-                      toast(
-                        "wall restored"
-                      );
-
-                      load();
-                    }
-                  )
-                  .catch(
-                    ()=>{
-
-                      toast(
-                        "restore failed"
-                      );
-                    }
-                  );
-              }
-            );
-
-            row.append(
-              label,
-              restore
-            );
-
-            snapshots.appendChild(
-              row
-            );
+        api(
+          "/space/restore",
+          {
+            method:"POST",
+            headers:headers(),
+            body:JSON.stringify({
+              snapshotId:snapshot.id
+            })
           }
-        );
+        )
+          .then(()=>{
+            toast("wall restored");
+            load();
+          })
+          .catch(()=>{
+            toast("restore failed");
+          });
+      });
 
-      }catch(_){
+      row.append(label,restore);
+      snapshots.appendChild(row);
+    });
 
-        snapshots.textContent=
-          "couldn't load history";
-      }
-    }
-  );
+  }catch(_){
+    snapshots.textContent="couldn't load history";
+  }
+});
 
-document
-  .getElementById(
-    "delete-history"
-  )
-  .addEventListener(
-    "click",
+document.getElementById("delete-history").addEventListener("click",()=>{
+  open69(
+    "delete all histories?",
+    "This permanently deletes the saved wall snapshots.",
+    "delete histories 💀",
     ()=>{
-
-      open69(
-        "delete all histories?",
-
-        "This permanently deletes the saved wall snapshots.",
-
-        "delete histories 💀",
-
-        ()=>{
-
-          api(
-            "/space/snapshots",
-            {
-              method:"DELETE",
-
-              headers:
-                headers(),
-
-              body:
-                JSON.stringify({
-                  confirm:
-                    "69",
-
-                  confirmation:
-                    "69",
-
-                  author:
-                    state.author
-                })
-            }
-          )
-            .then(
-              ()=>{
-
-                close69();
-
-                snapshots.textContent=
-                  "no snapshots yet";
-
-                toast(
-                  "histories deleted"
-                );
-              }
-            )
-            .catch(
-              ()=>{
-
-                toast(
-                  "history delete failed"
-                );
-              }
-            );
+      api(
+        "/space/snapshots",
+        {
+          method:"DELETE",
+          headers:headers(),
+          body:JSON.stringify({
+            confirm:"69",
+            confirmation:"69",
+            author:state.author
+          })
         }
-      );
+      )
+        .then(()=>{
+          close69();
+          snapshots.textContent="no snapshots yet";
+          toast("histories deleted");
+        })
+        .catch(()=>{
+          toast("history delete failed");
+        });
     }
   );
+});
 
-/* =========================
-   PRESENCE / CLOCK
-   ========================= */
+/* ========================= PRESENCE / CLOCK ========================= */
 
 function renderPresence(){
-
   const names=[
     ...new Set(
-      (
-        state.presence||
-        []
-      )
+      (state.presence||[])
         .filter(
           name=>
             name==="Andy"||
@@ -5740,471 +2766,238 @@ function renderPresence(){
   ];
 
   if(
-    names.includes(
-      "Andy"
-    )&&
-    names.includes(
-      "Hamy"
-    )
+    names.includes("Andy")&&
+    names.includes("Hamy")
   ){
+    document.getElementById("presence").textContent=
+      "Andy and Hamy are online";
 
-    document
-      .getElementById(
-        "presence"
-      )
-      .textContent=
-        "Andy and Hamy are online";
-
-  }else if(
-    names.includes(
-      "Hamy"
-    )
-  ){
-
-    document
-      .getElementById(
-        "presence"
-      )
-      .textContent=
-        "Hamy is online";
+  }else if(names.includes("Hamy")){
+    document.getElementById("presence").textContent=
+      "Hamy is online";
 
   }else{
-
-    document
-      .getElementById(
-        "presence"
-      )
-      .textContent=
-        state.author===
-        "Hamy"
-          ? "Hamy is online"
-          : "Andy is online";
+    document.getElementById("presence").textContent=
+      state.author==="Hamy"
+        ? "Hamy is online"
+        : "Andy is online";
   }
 }
 
 function updateClock(){
-
   try{
-
-    document
-      .getElementById(
-        "clock"
-      )
-      .textContent=
-        new Intl.DateTimeFormat(
-          "en-AU",
-          {
-            day:"2-digit",
-            month:"short",
-            year:"numeric",
-            hour:"2-digit",
-            minute:"2-digit",
-            second:"2-digit",
-            hour12:true
-          }
-        )
-          .format(
-            new Date()
-          );
-
+    document.getElementById("clock").textContent=
+      new Intl.DateTimeFormat(
+        "en-AU",
+        {
+          day:"2-digit",
+          month:"short",
+          year:"numeric",
+          hour:"2-digit",
+          minute:"2-digit",
+          second:"2-digit",
+          hour12:true
+        }
+      ).format(new Date());
   }catch(_){}
 }
 
 updateClock();
+setInterval(updateClock,1000);
 
-setInterval(
-  updateClock,
-  1000
-);
-
-/* =========================
-   WEBSOCKET
-   ========================= */
+/* ========================= WEBSOCKET ========================= */
 
 function connect(){
-
-  if(
-    !state.token||
-    !state.author
-  ){
+  if(!state.token||!state.author){
     return;
   }
 
-  if(
-    state.ws
-  ){
-
+  if(state.ws){
     try{
-
-      state.ws.onclose=
-        null;
-
+      state.ws.onclose=null;
       state.ws.close();
-
     }catch(_){}
   }
 
-  const query=
-    new URLSearchParams({
-      author:
-        state.author,
+  const query=new URLSearchParams({
+    author:state.author,
+    token:state.token
+  });
 
-      token:
-        state.token
-    });
-
-  const ws=
-    new WebSocket(
-      WS+
-      "?"+
-      query
-    );
-
-  state.ws=
-    ws;
-
-  document
-    .getElementById(
-      "conn"
-    )
-    .textContent=
-      "connecting…";
-
-  ws.addEventListener(
-    "open",
-    ()=>{
-
-      if(
-        state.ws!==
-        ws
-      ){
-        return;
-      }
-
-      state.reconnect=
-        0;
-
-      const connection=
-        document.getElementById(
-          "conn"
-        );
-
-      connection.textContent=
-        "● connected";
-
-      connection.style.color=
-        "#75db9a";
-
-      load()
-        .catch(
-          ()=>{}
-        );
-    }
+  const ws=new WebSocket(
+    WS+
+    "?"+
+    query
   );
 
-  ws.addEventListener(
-    "message",
-    event=>{
+  state.ws=ws;
+
+  document.getElementById("conn").textContent="connecting…";
+
+  ws.addEventListener("open",()=>{
+    if(state.ws!==ws){
+      return;
+    }
+
+    state.reconnect=0;
+
+    const connection=document.getElementById("conn");
+    connection.textContent="● connected";
+    connection.style.color="#75db9a";
+
+    load().catch(()=>{});
+  });
+
+  ws.addEventListener("message",event=>{
+    if(state.ws!==ws){
+      return;
+    }
+
+    let message;
+
+    try{
+      message=JSON.parse(event.data);
+    }catch(_){
+      return;
+    }
+
+    if(message.type==="init"){
+      const data=message.state||{};
+
+      state.strokes=(data.strokes||[])
+        .map(normStroke)
+        .filter(Boolean);
+
+      state.reactions=(data.reactions||[])
+        .map(normReaction);
+
+      state.uploads=(data.uploads||[])
+        .map(normUpload)
+        .filter(Boolean);
+
+      state.presence=data.presence||[];
+
+      redraw();
+      renderUploads();
+      setupOrder();
+      applyOrder();
+      renderReactions();
+      renderPresence();
+
+      return;
+    }
+
+    if(message.type==="presence"){
+      state.presence=message.present||[];
+      renderPresence();
+      return;
+    }
+
+    if(message.type?.startsWith("upload.")){
+      load();
+      return;
+    }
+
+    if([
+      "erase",
+      "erase-batch",
+      "erase.segment",
+      "author.cleared",
+      "restore",
+      "board.restored"
+    ].includes(message.type)){
+      load();
+      return;
+    }
+
+    if(message.type==="clear"){
+      state.strokes=[];
+      redraw();
+      return;
+    }
+
+    if(message.type==="reaction"){
+      load();
+      return;
+    }
+
+    if(
+      message.type==="stroke"&&
+      message.stroke
+    ){
+      const stroke=normStroke(message.stroke);
 
       if(
-        state.ws!==
-        ws
+        stroke&&
+        !state.strokes.some(
+          existing=>existing.id===stroke.id
+        )
       ){
-        return;
-      }
-
-      let message;
-
-      try{
-
-        message=
-          JSON.parse(
-            event.data
-          );
-
-      }catch(_){
-
-        return;
-      }
-
-      if(
-        message.type===
-        "init"
-      ){
-
-        const data=
-          message.state||
-          {};
-
-        state.strokes=
-          (
-            data.strokes||
-            []
-          )
-            .map(
-              normStroke
-            )
-            .filter(
-              Boolean
-            );
-
-        state.reactions=
-          (
-            data.reactions||
-            []
-          )
-            .map(
-              normReaction
-            );
-
-        state.uploads=
-          (
-            data.uploads||
-            []
-          )
-            .map(
-              normUpload
-            )
-            .filter(
-              Boolean
-            );
-
-        state.presence=
-          data.presence||
-          [];
-
-        redraw();
-
-        renderUploads();
-
-        setupOrder();
-
-        applyOrder();
-
-        renderReactions();
-
-        renderPresence();
-
-        return;
-      }
-
-      if(
-        message.type===
-        "presence"
-      ){
-
-        state.presence=
-          message.present||
-          [];
-
-        renderPresence();
-
-        return;
-      }
-
-      if(
-        message.type
-          ?.startsWith(
-            "upload."
-          )
-      ){
-
-        load();
-
-        return;
-      }
-
-      if(
-        [
-          "erase",
-          "erase-batch",
-          "erase.segment",
-          "author.cleared",
-          "restore",
-          "board.restored"
-        ]
-          .includes(
-            message.type
-          )
-      ){
-
-        load();
-
-        return;
-      }
-
-      if(
-        message.type===
-        "clear"
-      ){
-
-        state.strokes=
-          [];
-
-        redraw();
-
-        return;
-      }
-
-      if(
-        message.type===
-        "reaction"
-      ){
-
-        load();
-
-        return;
-      }
-
-      if(
-        message.type===
-          "stroke"&&
-        message.stroke
-      ){
-
-        const stroke=
-          normStroke(
-            message.stroke
-          );
-
-        if(
-          stroke&&
-          !state.strokes.some(
-            existing=>
-              existing.id===
-              stroke.id
-          )
-        ){
-
-          state.strokes.push(
-            stroke
-          );
-
-          drawStroke(
-            stroke
-          );
-        }
+        state.strokes.push(stroke);
+        drawStroke(stroke);
       }
     }
-  );
+  });
 
-  ws.addEventListener(
-    "close",
-    ()=>{
+  ws.addEventListener("close",()=>{
+    if(state.ws!==ws){
+      return;
+    }
 
-      if(
-        state.ws!==
-        ws
-      ){
-        return;
-      }
+    state.ws=null;
 
-      state.ws=null;
+    const connection=document.getElementById("conn");
+    connection.style.color="";
+    connection.textContent="reconnecting…";
 
-      const connection=
-        document.getElementById(
-          "conn"
-        );
-
-      connection.style.color=
-        "";
-
-      connection.textContent=
-        "reconnecting…";
-
-      setTimeout(
-        connect,
-        Math.min(
-          15000,
-          900*
-          Math.pow(
-            2,
-            Math.min(
-              state.reconnect++,
-              4
-            )
+    setTimeout(
+      connect,
+      Math.min(
+        15000,
+        900*
+        Math.pow(
+          2,
+          Math.min(
+            state.reconnect++,
+            4
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 }
 
-/* =========================
-   START
-   ========================= */
+/* ========================= START ========================= */
 
-document
-  .querySelectorAll(
-    ".author"
-  )
-  .forEach(
-    button=>{
-
-      button.addEventListener(
-        "click",
-        ()=>{
-
-          chooseAuthor(
-            button.dataset.author
-          );
-        }
-      );
-    }
-  );
+document.querySelectorAll(".author").forEach(button=>{
+  button.addEventListener("click",()=>{
+    chooseAuthor(button.dataset.author);
+  });
+});
 
 async function start(){
-
-  state.detected=
-    detect();
-
-  state.author=
-    state.detected;
+  state.detected=detect();
+  state.author=state.detected;
 
   updateAuthor();
-
   renderPresence();
-
   resize();
 
-  addEventListener(
-    "resize",
-    resize,
-    {
-      passive:true
-    }
-  );
+  addEventListener("resize",resize,{passive:true});
 
   setupOrder();
-
   applyOrder();
-
   bindZoom();
 
   try{
-
     await unlock();
-
     await load();
-
     connect();
 
   }catch(error){
-
-    console.error(
-      error
-    );
-
-    document
-      .getElementById(
-        "conn"
-      )
-      .textContent=
-        "wall couldn't unlock 😭";
-
-    toast(
-      "wall setup failed"
-    );
+    console.error(error);
+    document.getElementById("conn").textContent="wall couldn't unlock 😭";
+    toast("wall setup failed");
   }
 }
 
