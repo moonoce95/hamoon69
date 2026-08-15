@@ -728,7 +728,9 @@ audio{width:100%;filter:invert(1) hue-rotate(180deg);border-radius:8px}
       ctx.lineTo(p.x*state.width,p.y*state.height);
       ctx.stroke();
     }else if(state.mode==="erase"){
-      erase(p);
+  if(e.pointerType==="mouse" && e.buttons!==1) return;
+  erase(p);
+}
     }
   }
 
