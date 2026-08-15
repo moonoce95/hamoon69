@@ -137,6 +137,18 @@ audio{
   color:#e8b64c;border-radius:999px;padding:10px 16px;
   cursor:pointer;font-size:13px;font-weight:700
 }
+#storage-usage{
+  width:min(92%,340px);margin:-7px auto 24px;color:rgba(253,240,245,.5);
+  text-align:center;font:11px/1.4 system-ui,sans-serif
+}
+#storage-track{
+  height:5px;margin-top:6px;border-radius:999px;overflow:hidden;
+  background:rgba(244,184,204,.1)
+}
+#storage-fill{
+  display:block;height:100%;width:0;border-radius:inherit;
+  background:linear-gradient(90deg,#f4b8cc,#e8b64c);transition:width .3s ease
+}
 .modal{
   display:none;position:fixed;inset:0;z-index:99999;
   align-items:center;justify-content:center;padding:18px;
@@ -200,6 +212,91 @@ audio{
   cursor:pointer;font-size:11px
 }
 
+/* ========================= STICKERS ========================= */
+.add-section-title{
+  margin:13px 0 7px;text-align:center;color:#f4b8cc;
+  font:700 12px/1.4 system-ui,sans-serif;letter-spacing:.02em
+}
+#decorate-toggle{
+  margin-left:7px;border:1px solid rgba(244,184,204,.24);
+  background:rgba(244,184,204,.07);color:#f4b8cc;border-radius:999px;
+  padding:10px 16px;cursor:pointer;font-size:13px;font-weight:700
+}
+#sticker-layer{
+  position:absolute;inset:0;z-index:40;pointer-events:none;overflow:visible
+}
+.site-sticker{
+  position:absolute;display:block;transform-origin:center center;
+  touch-action:none;user-select:none;pointer-events:none;
+  filter:drop-shadow(0 5px 7px rgba(0,0,0,.38));will-change:left,top,width,height,transform
+}
+.site-sticker img{
+  display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;
+  user-select:none;-webkit-user-drag:none
+}
+body.decorating #sticker-layer{pointer-events:auto}
+body.decorating .site-sticker{
+  pointer-events:auto;cursor:grab;border-radius:12px;
+  outline:1px dashed rgba(244,184,204,.55);outline-offset:5px
+}
+body.decorating .site-sticker.selected{
+  outline:2px solid #e8b64c;outline-offset:6px;cursor:grabbing
+}
+#sticker-dock{
+  display:none;position:fixed;z-index:180000;left:50%;bottom:max(16px,env(safe-area-inset-bottom));
+  transform:translateX(-50%);width:min(94vw,520px);padding:9px;
+  border:1px solid rgba(232,182,76,.55);border-radius:14px;
+  background:rgba(13,6,8,.97);box-shadow:0 16px 50px rgba(0,0,0,.62);
+  font-family:system-ui,sans-serif
+}
+body.decorating #sticker-dock{display:block}
+#sticker-dock-title{
+  text-align:center;color:#f4b8cc;font-size:12px;line-height:1.4;margin-bottom:7px
+}
+.sticker-dock-actions{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px
+}
+.sticker-dock-actions .btn{min-width:0;padding:8px 5px}
+#sticker-author-edit{
+  width:100%;margin-top:7px;padding:8px;border:1px solid rgba(244,184,204,.18);
+  border-radius:8px;background:#170b10;color:#fdf0f5;text-align:center
+}
+#sticker-preview{
+  display:block;width:100%;max-height:46vh;object-fit:contain;
+  border-radius:12px;background-image:linear-gradient(45deg,#26131a 25%,transparent 25%),
+    linear-gradient(-45deg,#26131a 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#26131a 75%),
+    linear-gradient(-45deg,transparent 75%,#26131a 75%);
+  background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0
+}
+.sticker-help{
+  color:rgba(253,240,245,.62);font:12px/1.45 system-ui,sans-serif;
+  text-align:center;margin:8px 0
+}
+#sticker-author{
+  width:100%;padding:9px;border:1px solid rgba(244,184,204,.18);
+  border-radius:9px;background:#170b10;color:#fdf0f5;text-align:center
+}
+#sticker-capture{
+  display:none;position:absolute;inset:0;z-index:30;cursor:crosshair;
+  touch-action:none;background:rgba(13,6,8,.18)
+}
+#sticker-capture.show{display:block}
+#sticker-capture-tip{
+  position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:2;
+  width:max-content;max-width:84%;padding:8px 11px;border-radius:999px;
+  background:rgba(13,6,8,.93);color:#fdf0f5;font:12px/1.35 system-ui,sans-serif;
+  box-shadow:0 5px 18px rgba(0,0,0,.35);pointer-events:none
+}
+#sticker-capture-box{
+  display:none;position:absolute;border:2px dashed #fff;border-radius:8px;
+  background:rgba(244,184,204,.08);box-shadow:0 0 0 9999px rgba(13,6,8,.35);
+  pointer-events:none
+}
+#sticker-capture-cancel{
+  position:absolute;right:10px;bottom:10px;z-index:2
+}
+
 /* ========================= PHOTO VIEWER ========================= */
 #lightbox{
   display:none;position:fixed;inset:0;z-index:200000;
@@ -248,6 +345,13 @@ audio{
 #auto-id{
   text-align:center;color:var(--muted);
   font:14px/1.5 system-ui,sans-serif;margin-bottom:10px
+}
+.drawing-as{
+  display:block;color:var(--pink);font-size:16px;font-weight:700;
+  line-height:1.45;margin-bottom:2px
+}
+.wall-recognised{
+  display:block;color:var(--muted);font-size:13px;line-height:1.4
 }
 #author-buttons{
   display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:8px
@@ -404,6 +508,10 @@ audio{
   #colour-popover{
     position:fixed;left:50%;top:50%;transform:translate(-50%,-50%)
   }
+  #add-wrap{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}
+  #decorate-toggle{margin-left:0}
+  .site-sticker{max-width:84px;max-height:84px}
+  .sticker-dock-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style>
 </head>
@@ -514,6 +622,11 @@ audio{
 
   <div id="add-wrap">
     <button id="add-something" type="button">＋ add something</button>
+    <button id="decorate-toggle" type="button">✨ decorate</button>
+  </div>
+  <div id="storage-usage" aria-live="polite">
+    <span id="storage-label">R2 storage · checking…</span>
+    <div id="storage-track"><span id="storage-fill"></span></div>
   </div>
 
   <input id="take-photo" type="file" accept="image/*" capture="environment" hidden>
@@ -521,6 +634,7 @@ audio{
   <input id="record-video" type="file" accept="video/*" capture="environment" hidden>
   <input id="choose-video" type="file" accept="video/*" hidden>
   <input id="choose-audio" type="file" accept="audio/*" hidden>
+  <input id="choose-sticker" type="file" accept="image/png,image/webp,image/jpeg,image/gif" hidden>
 
   <!-- LOCKED BOTTOM -->
   <div class="finale-lead"><p>one more thing...</p></div>
@@ -533,7 +647,7 @@ audio{
 
   <div id="hamoon-space">
 
-    <h2>our wall ❤️</h2>
+    <h2>our little space ☁️</h2>
 
     <div id="auto-id"></div>
 
@@ -568,6 +682,8 @@ audio{
           <button class="btn" id="redo">↪ Redo</button>
         </div>
 
+        <button class="btn" id="make-wall-sticker">✨ make a sticker from this</button>
+
         <div class="tool-actions">
           <button class="btn" id="history-btn">📜 History</button>
           <button class="btn danger" id="clear-mine">🗑 Clear mine</button>
@@ -580,6 +696,11 @@ audio{
     <div id="canvas-wrap">
       <canvas id="board"></canvas>
       <div id="tool-preview"></div>
+      <div id="sticker-capture">
+        <div id="sticker-capture-tip">draw a box around what you want ♡</div>
+        <div id="sticker-capture-box"></div>
+        <button class="btn" id="sticker-capture-cancel" type="button">nor</button>
+      </div>
     </div>
 
     <div id="history">
@@ -590,6 +711,8 @@ audio{
     </div>
 
   </div>
+
+  <div id="sticker-layer" aria-label="Shared stickers"></div>
 </div>
 
 <!-- ADD MENU -->
@@ -597,6 +720,7 @@ audio{
   <div class="modal-box">
     <h3>add something ❤️</h3>
 
+    <div class="add-section-title">add to the timeline</div>
     <div class="add-grid">
       <button class="btn add-choice" data-add="take-photo">📷<span>Take photo</span></button>
       <button class="btn add-choice" data-add="choose-photo">🖼️<span>Choose photo</span></button>
@@ -606,12 +730,52 @@ audio{
       <button class="btn add-choice" data-add="choose-audio">🎵<span>Choose audio</span></button>
     </div>
 
+    <div class="add-section-title">add a sticker</div>
+    <div class="add-grid">
+      <button class="btn add-choice" data-add="choose-sticker">✨<span>Upload a sticker</span></button>
+      <button class="btn add-choice" data-add="wall-sticker">✏️<span>Make one from our little space</span></button>
+    </div>
+
     <div id="record-status"></div>
 
     <div class="modal-actions">
       <button class="btn" id="add-close">nor</button>
     </div>
   </div>
+</div>
+
+<!-- STICKER PREVIEW -->
+<div class="modal" id="sticker-modal">
+  <div class="modal-box">
+    <h3>make this a sticker? ✨</h3>
+    <img id="sticker-preview" alt="Sticker preview">
+    <p class="sticker-help">It’ll appear near our little space. Tap ✨ decorate whenever you want to move, resize or rotate it.</p>
+    <select id="sticker-author" aria-label="Sticker author">
+      <option value="Hamy">added by ♡ Hamy ♡</option>
+      <option value="Andy">added by ♡ Andy ♡</option>
+    </select>
+    <button class="btn upload-go" id="sticker-create" type="button">add sticker ✨</button>
+    <div class="modal-actions">
+      <button class="btn" id="sticker-cancel" type="button">nor</button>
+    </div>
+  </div>
+</div>
+
+<!-- STICKER DECORATE DOCK -->
+<div id="sticker-dock">
+  <div id="sticker-dock-title">tap a sticker, then drag it anywhere ✨</div>
+  <div class="sticker-dock-actions">
+    <button class="btn" id="sticker-smaller" type="button">− smaller</button>
+    <button class="btn" id="sticker-bigger" type="button">＋ bigger</button>
+    <button class="btn" id="sticker-left" type="button">↶ left</button>
+    <button class="btn" id="sticker-right" type="button">↷ right</button>
+    <button class="btn danger" id="sticker-delete" type="button">delete</button>
+    <button class="btn" id="sticker-done" type="button">done ♡</button>
+  </div>
+  <select id="sticker-author-edit" aria-label="Change sticker author">
+    <option value="Hamy">sticker by ♡ Hamy ♡</option>
+    <option value="Andy">sticker by ♡ Andy ♡</option>
+  </select>
 </div>
 
 <!-- UPLOAD PREVIEW -->
@@ -721,6 +885,8 @@ const state={
   strokes:[],
   reactions:[],
   uploads:[],
+  stickers:[],
+  storageUsed:null,
   presence:[],
   mode:"draw",
   colour:"#f4b8cc",
@@ -851,12 +1017,18 @@ function updateAuthor(){
     );
   });
 
-  document.getElementById("auto-id").textContent=
-    "automatically detected as ♡ "+
-    state.detected+
-    " ♡ · posting as ♡ "+
-    state.author+
-    " ♡";
+  const identity=document.getElementById("auto-id");
+  identity.innerHTML="";
+
+  const drawingAs=document.createElement("span");
+  drawingAs.className="drawing-as";
+  drawingAs.textContent="drawing as ♡ "+state.author+" ♡";
+
+  const recognised=document.createElement("span");
+  recognised.className="wall-recognised";
+  recognised.textContent="our little space recognised you ♡";
+
+  identity.append(drawingAs,recognised);
 }
 
 function chooseAuthor(author){
@@ -866,6 +1038,7 @@ function chooseAuthor(author){
 
   state.author=author;
   updateAuthor();
+  document.getElementById("sticker-author").value=author;
   connect();
   renderPresence();
   renderReactions();
@@ -916,8 +1089,53 @@ function normUpload(upload){
     type:upload.type||"image",
     src:upload.src,
     caption:upload.caption||"",
+    size:Number(upload.size??upload.bytes??0),
     createdAt:Number(upload.createdAt??upload.created_at??Date.now()),
     sortOrder:Number(upload.sortOrder??upload.sort_order??Date.now())
+  };
+}
+
+function renderStorage(){
+  const limit=10*1000*1000*1000;
+  let bytes=state.storageUsed;
+
+  if(!Number.isFinite(bytes)){
+    const known=state.uploads.filter(upload=>upload.size>0);
+    bytes=known.length===state.uploads.length
+      ? known.reduce((sum,upload)=>sum+upload.size,0)
+      : null;
+  }
+
+  const label=document.getElementById("storage-label");
+  const fill=document.getElementById("storage-fill");
+
+  if(!Number.isFinite(bytes)){
+    label.textContent="R2 storage · usage appears after the next upload";
+    fill.style.width="0";
+    return;
+  }
+
+  const gb=bytes/1000/1000/1000;
+  const percent=clamp(bytes/limit*100,0,100);
+  label.textContent="R2 storage · "+gb.toFixed(gb<.01?3:2)+" GB of 10 GB";
+  fill.style.width=percent+"%";
+}
+
+function normSticker(sticker){
+  if(!sticker||!sticker.id||!sticker.src){
+    return null;
+  }
+
+  return{
+    id:String(sticker.id),
+    author:sticker.author==="Hamy"?"Hamy":"Andy",
+    src:sticker.src,
+    x:Number(sticker.x??.82),
+    y:Number(sticker.y??.55),
+    width:Number(sticker.width??.17),
+    height:Number(sticker.height??.17),
+    rotation:Number(sticker.rotation??0),
+    createdAt:Number(sticker.createdAt??sticker.created_at??Date.now())
   };
 }
 
@@ -937,12 +1155,25 @@ async function load(){
     .map(normUpload)
     .filter(Boolean);
 
+  state.stickers=(data.stickers||[])
+    .map(normSticker)
+    .filter(Boolean);
+
+  const reportedStorage=Number(
+    data.storageUsedBytes??
+    data.storage?.usedBytes??
+    data.r2Bytes
+  );
+  state.storageUsed=Number.isFinite(reportedStorage)?reportedStorage:null;
+
   state.presence=Array.isArray(data.presence)
     ? data.presence
     : [];
 
   redraw();
   renderUploads();
+  renderStickers();
+  renderStorage();
   setupOrder();
   applyOrder();
   renderReactions();
@@ -1238,6 +1469,17 @@ document.querySelectorAll(".add-choice").forEach(button=>{
       return;
     }
 
+    if(type==="choose-sticker"){
+      closeAdd();
+      clickInput("choose-sticker");
+      return;
+    }
+
+    if(type==="wall-sticker"){
+      startStickerCapture();
+      return;
+    }
+
     if(type==="record-audio"){
       if(recorder&&recorder.state==="recording"){
         recorder.stop();
@@ -1408,11 +1650,22 @@ uploadGo.addEventListener("click",async()=>{
   try{
     const id=crypto.randomUUID();
 
-    await uploadFileDirect(
+    const uploaded=await uploadFileDirect(
       pendingFile,
       pendingType,
       id
     );
+
+    const reportedStorage=Number(
+      uploaded?.storageUsedBytes??
+      uploaded?.storage?.usedBytes??
+      uploaded?.r2Bytes
+    );
+
+    state.storageUsed=Number.isFinite(reportedStorage)
+      ? reportedStorage
+      : (Number.isFinite(state.storageUsed)?state.storageUsed+pendingFile.size:null);
+    renderStorage();
 
     closeUpload();
     toast("added ❤️");
@@ -1429,31 +1682,37 @@ uploadGo.addEventListener("click",async()=>{
 });
 
 async function deleteUpload(upload){
-  if(!confirm("Delete this "+upload.type+"?")){
-    return;
-  }
+  open69(
+    "delete this "+upload.type+"?",
+    "This permanently removes it from the timeline.",
+    "delete",
+    async()=>{
+      try{
+        await api(
+          "/space/upload",
+          {
+            method:"DELETE",
+            headers:headers(),
+            body:JSON.stringify({
+              id:upload.id,
+              author:upload.author,
+              confirm:"69",
+              confirmation:"69"
+            })
+          }
+        );
 
-  try{
-    await api(
-      "/space/upload",
-      {
-        method:"DELETE",
-        headers:headers(),
-        body:JSON.stringify({
-          id:upload.id,
-          author:upload.author
-        })
+        close69();
+        toast("deleted");
+        await load();
+        saveOrder();
+
+      }catch(error){
+        console.error(error);
+        toast("delete failed");
       }
-    );
-
-    toast("deleted");
-    await load();
-    saveOrder();
-
-  }catch(error){
-    console.error(error);
-    toast("delete failed");
-  }
+    }
+  );
 }
 
 function formatUploadTime(upload){
@@ -1566,6 +1825,461 @@ function renderUploads(){
   bindZoom();
   window.observeHamoon?.();
 }
+
+/* ========================= SHARED STICKERS ========================= */
+
+const stickerLayer=document.getElementById("sticker-layer");
+const stickerModal=document.getElementById("sticker-modal");
+const stickerPreview=document.getElementById("sticker-preview");
+const stickerAuthor=document.getElementById("sticker-author");
+const stickerAuthorEdit=document.getElementById("sticker-author-edit");
+const stickerDockTitle=document.getElementById("sticker-dock-title");
+const captureLayer=document.getElementById("sticker-capture");
+const captureBox=document.getElementById("sticker-capture-box");
+
+let pendingSticker=null;
+let selectedStickerId=null;
+let stickerDrag=null;
+let captureStart=null;
+
+function stickerById(id){
+  return state.stickers.find(sticker=>sticker.id===id)||null;
+}
+
+function selectedSticker(){
+  return stickerById(selectedStickerId);
+}
+
+function clamp(value,min,max){
+  return Math.max(min,Math.min(max,value));
+}
+
+function isPhone(){
+  return matchMedia("(max-width: 600px)").matches;
+}
+
+function safeStickerPosition(sticker){
+  const halfWidth=Math.max(.035,sticker.width/2);
+  const halfHeight=Math.max(.02,(sticker.height*stickerLayer.clientWidth/stickerLayer.clientHeight)/2);
+
+  sticker.x=clamp(sticker.x,halfWidth,1-halfWidth);
+  sticker.y=clamp(sticker.y,halfHeight,1-halfHeight);
+
+  if(isPhone()){
+    sticker.x=sticker.x<.5
+      ? Math.max(halfWidth,.1)
+      : Math.min(1-halfWidth,.9);
+  }
+}
+
+function updateStickerDock(){
+  const sticker=selectedSticker();
+  const controls=[
+    "sticker-smaller","sticker-bigger","sticker-left",
+    "sticker-right","sticker-delete"
+  ];
+
+  controls.forEach(id=>{
+    document.getElementById(id).disabled=!sticker;
+  });
+
+  stickerAuthorEdit.disabled=!sticker;
+
+  if(!sticker){
+    stickerDockTitle.textContent="tap a sticker, then drag it anywhere ✨";
+    return;
+  }
+
+  stickerDockTitle.textContent="sticker by ♡ "+sticker.author+" ♡ · drag it anywhere";
+  stickerAuthorEdit.value=sticker.author;
+}
+
+function selectSticker(id){
+  selectedStickerId=id;
+  stickerLayer.querySelectorAll(".site-sticker").forEach(node=>{
+    node.classList.toggle("selected",node.dataset.stickerId===id);
+  });
+  updateStickerDock();
+}
+
+function renderStickers(){
+  const oldSelected=selectedStickerId;
+  stickerLayer.innerHTML="";
+
+  state.stickers
+    .slice()
+    .sort((a,b)=>a.createdAt-b.createdAt)
+    .forEach(sticker=>{
+      safeStickerPosition(sticker);
+
+      const node=document.createElement("div");
+      node.className="site-sticker";
+      node.dataset.stickerId=sticker.id;
+      node.title="sticker by "+sticker.author;
+      node.style.left=(sticker.x*100)+"%";
+      node.style.top=(sticker.y*100)+"%";
+      node.style.width=(sticker.width*100)+"%";
+      node.style.height=(sticker.height*stickerLayer.clientWidth)+"px";
+      node.style.transform="translate(-50%,-50%) rotate("+sticker.rotation+"deg)";
+
+      const img=document.createElement("img");
+      img.src=sticker.src;
+      img.alt="sticker by "+sticker.author;
+      img.draggable=false;
+      node.appendChild(img);
+
+      node.addEventListener("pointerdown",event=>{
+        if(!document.body.classList.contains("decorating")) return;
+        event.preventDefault();
+        event.stopPropagation();
+        selectSticker(sticker.id);
+        node.setPointerCapture?.(event.pointerId);
+        stickerDrag={
+          id:sticker.id,
+          pointerId:event.pointerId,
+          startX:event.clientX,
+          startY:event.clientY,
+          x:sticker.x,
+          y:sticker.y
+        };
+      });
+
+      node.addEventListener("pointermove",event=>{
+        if(!stickerDrag||stickerDrag.pointerId!==event.pointerId||stickerDrag.id!==sticker.id) return;
+        event.preventDefault();
+        const rect=stickerLayer.getBoundingClientRect();
+        sticker.x=stickerDrag.x+(event.clientX-stickerDrag.startX)/rect.width;
+        sticker.y=stickerDrag.y+(event.clientY-stickerDrag.startY)/rect.height;
+        sticker.x=clamp(sticker.x,0,1);
+        sticker.y=clamp(sticker.y,0,1);
+        node.style.left=(sticker.x*100)+"%";
+        node.style.top=(sticker.y*100)+"%";
+      });
+
+      const finishDrag=event=>{
+        if(!stickerDrag||stickerDrag.pointerId!==event.pointerId||stickerDrag.id!==sticker.id) return;
+        stickerDrag=null;
+        safeStickerPosition(sticker);
+        renderStickers();
+        selectSticker(sticker.id);
+        saveSticker(sticker).catch(()=>toast("sticker didn't move"));
+      };
+
+      node.addEventListener("pointerup",finishDrag);
+      node.addEventListener("pointercancel",finishDrag);
+      stickerLayer.appendChild(node);
+    });
+
+  selectSticker(stickerById(oldSelected)?oldSelected:null);
+}
+
+async function saveSticker(sticker){
+  await api("/space/sticker",{
+    method:"PUT",
+    headers:headers(),
+    body:JSON.stringify({
+      id:sticker.id,
+      author:sticker.author,
+      x:sticker.x,
+      y:sticker.y,
+      width:sticker.width,
+      height:sticker.height,
+      rotation:sticker.rotation
+    })
+  });
+}
+
+function setDecorating(on){
+  document.body.classList.toggle("decorating",on);
+  document.getElementById("decorate-toggle").textContent=on?"done decorating ♡":"✨ decorate";
+  if(!on) selectSticker(null);
+  updateStickerDock();
+}
+
+document.getElementById("decorate-toggle").addEventListener("click",()=>{
+  setDecorating(!document.body.classList.contains("decorating"));
+  if(document.body.classList.contains("decorating")) toast("tap a sticker to edit it ✨");
+});
+
+document.getElementById("sticker-done").addEventListener("click",()=>setDecorating(false));
+
+function editSelectedSticker(change){
+  const sticker=selectedSticker();
+  if(!sticker) return;
+  change(sticker);
+  safeStickerPosition(sticker);
+  renderStickers();
+  selectSticker(sticker.id);
+  saveSticker(sticker).catch(()=>toast("sticker edit didn't save"));
+}
+
+document.getElementById("sticker-smaller").addEventListener("click",()=>{
+  editSelectedSticker(sticker=>{
+    sticker.width=Math.max(.07,sticker.width*.86);
+    sticker.height=Math.max(.035,sticker.height*.86);
+  });
+});
+
+document.getElementById("sticker-bigger").addEventListener("click",()=>{
+  editSelectedSticker(sticker=>{
+    const max=isPhone()?.22:.36;
+    const scale=Math.min(1.14,max/sticker.width);
+    sticker.width*=scale;
+    sticker.height*=scale;
+  });
+});
+
+document.getElementById("sticker-left").addEventListener("click",()=>{
+  editSelectedSticker(sticker=>sticker.rotation-=15);
+});
+
+document.getElementById("sticker-right").addEventListener("click",()=>{
+  editSelectedSticker(sticker=>sticker.rotation+=15);
+});
+
+document.getElementById("sticker-delete").addEventListener("click",()=>{
+  const sticker=selectedSticker();
+  if(!sticker) return;
+
+  open69(
+    "delete this sticker?",
+    "This permanently removes the sticker by ♡ "+sticker.author+" ♡.",
+    "delete sticker",
+    async()=>{
+      try{
+        await api("/space/sticker",{
+          method:"DELETE",
+          headers:headers(),
+          body:JSON.stringify({
+            id:sticker.id,
+            author:sticker.author,
+            confirm:"69",
+            confirmation:"69"
+          })
+        });
+        close69();
+        selectedStickerId=null;
+        await load();
+        toast("sticker deleted");
+      }catch(error){
+        console.error(error);
+        toast("delete failed");
+      }
+    }
+  );
+});
+
+stickerAuthorEdit.addEventListener("change",async()=>{
+  const sticker=selectedSticker();
+  const nextAuthor=stickerAuthorEdit.value;
+  if(!sticker||nextAuthor===sticker.author) return;
+
+  const oldAuthor=sticker.author;
+  try{
+    await api("/space/sticker",{
+      method:"DELETE",headers:headers(),
+      body:JSON.stringify({id:sticker.id,author:oldAuthor})
+    });
+    await api("/space/sticker",{
+      method:"POST",headers:headers(),
+      body:JSON.stringify({...sticker,author:nextAuthor})
+    });
+    sticker.author=nextAuthor;
+    renderStickers();
+    selectSticker(sticker.id);
+    toast("sticker now says "+nextAuthor+" ♡");
+  }catch(error){
+    console.error(error);
+    try{
+      await api("/space/sticker",{
+        method:"POST",headers:headers(),
+        body:JSON.stringify({...sticker,author:oldAuthor})
+      });
+    }catch(_){}
+    await load().catch(()=>{});
+    toast("name change didn't save");
+  }
+});
+
+function imageFromFile(file){
+  return new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file);
+    const img=new Image();
+    img.onload=()=>{URL.revokeObjectURL(url);resolve(img);};
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("image couldn't open"));};
+    img.src=url;
+  });
+}
+
+async function stickerDataFromFile(file){
+  if(!file?.type?.startsWith("image/")) throw new Error("choose an image for the sticker");
+  const img=await imageFromFile(file);
+  const scale=Math.min(1,512/Math.max(img.naturalWidth,img.naturalHeight));
+  const out=document.createElement("canvas");
+  out.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  out.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  out.getContext("2d").drawImage(img,0,0,out.width,out.height);
+  return{src:out.toDataURL("image/webp",.88),aspect:out.width/out.height};
+}
+
+function openStickerPreview(data){
+  pendingSticker=data;
+  stickerPreview.src=data.src;
+  stickerAuthor.value=state.author;
+  stickerModal.classList.add("show");
+}
+
+function closeStickerPreview(){
+  stickerModal.classList.remove("show");
+  stickerPreview.removeAttribute("src");
+  pendingSticker=null;
+}
+
+document.getElementById("sticker-cancel").addEventListener("click",closeStickerPreview);
+
+document.getElementById("choose-sticker").addEventListener("change",async event=>{
+  const file=event.target.files?.[0];
+  if(!file) return;
+  try{
+    openStickerPreview(await stickerDataFromFile(file));
+  }catch(error){
+    toast(error.message||"sticker couldn't open");
+  }
+});
+
+document.getElementById("sticker-create").addEventListener("click",async()=>{
+  if(!pendingSticker) return;
+  const button=document.getElementById("sticker-create");
+  button.disabled=true;
+  button.textContent="adding…";
+  const container=document.querySelector(".container");
+  const containerRect=container.getBoundingClientRect();
+  const wallRect=wrap.getBoundingClientRect();
+  const width=isPhone()?.17:.16;
+  const sticker={
+    id:crypto.randomUUID(),
+    author:stickerAuthor.value,
+    src:pendingSticker.src,
+    x:isPhone()?.88:.86,
+    y:clamp((wallRect.top-containerRect.top+wallRect.height*.25)/containerRect.height,.08,.92),
+    width,
+    height:width/pendingSticker.aspect,
+    rotation:Math.round(Math.random()*12-6)
+  };
+
+  try{
+    await api("/space/sticker",{
+      method:"POST",headers:headers(),body:JSON.stringify(sticker)
+    });
+    closeStickerPreview();
+    await load();
+    setDecorating(true);
+    selectSticker(sticker.id);
+    toast("sticker added ✨ drag it wherever you want");
+  }catch(error){
+    console.error(error);
+    toast("sticker didn't save");
+  }finally{
+    button.disabled=false;
+    button.textContent="add sticker ✨";
+  }
+});
+
+function startStickerCapture(){
+  closeAdd();
+  setDecorating(false);
+  captureStart=null;
+  captureBox.style.display="none";
+  captureLayer.classList.add("show");
+  wrap.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function stopStickerCapture(){
+  captureLayer.classList.remove("show");
+  captureBox.style.display="none";
+  captureStart=null;
+}
+
+document.getElementById("make-wall-sticker").addEventListener("click",startStickerCapture);
+document.getElementById("sticker-capture-cancel").addEventListener("click",event=>{
+  event.stopPropagation();
+  stopStickerCapture();
+});
+
+function capturePoint(event){
+  const rect=captureLayer.getBoundingClientRect();
+  return{x:clamp(event.clientX-rect.left,0,rect.width),y:clamp(event.clientY-rect.top,0,rect.height)};
+}
+
+function drawCaptureBox(a,b){
+  const x=Math.min(a.x,b.x),y=Math.min(a.y,b.y);
+  const width=Math.abs(a.x-b.x),height=Math.abs(a.y-b.y);
+  captureBox.style.display="block";
+  captureBox.style.left=x+"px";
+  captureBox.style.top=y+"px";
+  captureBox.style.width=width+"px";
+  captureBox.style.height=height+"px";
+  return{x,y,width,height};
+}
+
+function whiteboardSticker(rect){
+  const sx=Math.round(rect.x*state.dpr);
+  const sy=Math.round(rect.y*state.dpr);
+  const sw=Math.max(1,Math.round(rect.width*state.dpr));
+  const sh=Math.max(1,Math.round(rect.height*state.dpr));
+  const source=ctx.getImageData(sx,sy,sw,sh);
+  let minX=sw,minY=sh,maxX=-1,maxY=-1;
+
+  for(let y=0;y<sh;y++){
+    for(let x=0;x<sw;x++){
+      if(source.data[(y*sw+x)*4+3]>8){
+        minX=Math.min(minX,x);minY=Math.min(minY,y);
+        maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);
+      }
+    }
+  }
+
+  if(maxX<minX) throw new Error("there's nothing inside that box");
+  const cropW=maxX-minX+1,cropH=maxY-minY+1;
+  const scale=Math.min(1,512/Math.max(cropW,cropH));
+  const out=document.createElement("canvas");
+  out.width=Math.max(1,Math.round(cropW*scale));
+  out.height=Math.max(1,Math.round(cropH*scale));
+  out.getContext("2d").drawImage(canvas,sx+minX,sy+minY,cropW,cropH,0,0,out.width,out.height);
+  return{src:out.toDataURL("image/png"),aspect:out.width/out.height};
+}
+
+captureLayer.addEventListener("pointerdown",event=>{
+  if(event.target.closest("button")) return;
+  event.preventDefault();
+  captureStart=capturePoint(event);
+  captureLayer.setPointerCapture?.(event.pointerId);
+  drawCaptureBox(captureStart,captureStart);
+});
+
+captureLayer.addEventListener("pointermove",event=>{
+  if(!captureStart) return;
+  event.preventDefault();
+  drawCaptureBox(captureStart,capturePoint(event));
+});
+
+captureLayer.addEventListener("pointerup",event=>{
+  if(!captureStart) return;
+  event.preventDefault();
+  const rect=drawCaptureBox(captureStart,capturePoint(event));
+  captureStart=null;
+  if(rect.width<16||rect.height<16){
+    toast("make the box a little bigger ♡");
+    return;
+  }
+  try{
+    const data=whiteboardSticker(rect);
+    stopStickerCapture();
+    openStickerPreview(data);
+  }catch(error){
+    toast(error.message||"couldn't make that sticker");
+  }
+});
 
 /* ========================= PHOTO ZOOM + BACK BUTTON ========================= */
 
@@ -2608,7 +3322,7 @@ function open69(title,copy,buttonText,action){
 
   confirmCopy.innerHTML=
     copy+
-    ' Type <strong>69</strong> to confirm.';
+    '<br><br>Type <strong>69</strong> to confirm below.';
 
   confirmGo.textContent=buttonText;
   confirmInput.value="";
@@ -2654,7 +3368,7 @@ confirmGo.addEventListener("click",()=>{
 document.getElementById("clear-all").addEventListener("click",()=>{
   open69(
     "clear everything?",
-    "This deletes Andy + Hamy drawings.",
+    "This deletes Andy’s + Hamy’s drawings.",
     "okiee",
     ()=>{
       api(
@@ -2673,7 +3387,7 @@ document.getElementById("clear-all").addEventListener("click",()=>{
           state.strokes=[];
           redraw();
           close69();
-          toast("whole wall cleared");
+          toast("our little space is clear");
         })
         .catch(()=>{
           toast("clear failed");
@@ -2683,27 +3397,33 @@ document.getElementById("clear-all").addEventListener("click",()=>{
 });
 
 document.getElementById("clear-mine").addEventListener("click",()=>{
-  if(!confirm("Clear "+state.author+" drawings?")){
-    return;
-  }
-
-  api(
-    "/space/clear-author",
-    {
-      method:"POST",
-      headers:headers(),
-      body:JSON.stringify({
-        author:state.author
-      })
+  open69(
+    "clear "+state.author+"’s drawings?",
+    "This deletes all of "+state.author+"’s drawings.",
+    "clear mine",
+    ()=>{
+      api(
+        "/space/clear-author",
+        {
+          method:"POST",
+          headers:headers(),
+          body:JSON.stringify({
+            author:state.author,
+            confirm:"69",
+            confirmation:"69"
+          })
+        }
+      )
+        .then(()=>{
+          close69();
+          toast(state.author+"’s drawings cleared");
+          load();
+        })
+        .catch(()=>{
+          toast("clear failed");
+        });
     }
-  )
-    .then(()=>{
-      toast(state.author+" drawings cleared");
-      load();
-    })
-    .catch(()=>{
-      toast("clear failed");
-    });
+  );
 });
 
 const historyPanel=document.getElementById("history");
@@ -2747,34 +3467,40 @@ document.getElementById("history-btn").addEventListener("click",async()=>{
       label.textContent=
         time
           ? new Date(time).toLocaleString()
-          : "saved wall";
+          : "saved little space";
 
       const restore=document.createElement("button");
       restore.className="btn";
       restore.textContent="Restore";
 
       restore.addEventListener("click",()=>{
-        if(!confirm("Restore this wall snapshot?")){
-          return;
-        }
-
-        api(
-          "/space/restore",
-          {
-            method:"POST",
-            headers:headers(),
-            body:JSON.stringify({
-              snapshotId:snapshot.id
-            })
+        open69(
+          "restore this version?",
+          "This replaces the drawings currently in our little space.",
+          "restore",
+          ()=>{
+            api(
+              "/space/restore",
+              {
+                method:"POST",
+                headers:headers(),
+                body:JSON.stringify({
+                  snapshotId:snapshot.id,
+                  confirm:"69",
+                  confirmation:"69"
+                })
+              }
+            )
+              .then(()=>{
+                close69();
+                toast("our little space was restored");
+                load();
+              })
+              .catch(()=>{
+                toast("restore failed");
+              });
           }
-        )
-          .then(()=>{
-            toast("wall restored");
-            load();
-          })
-          .catch(()=>{
-            toast("restore failed");
-          });
+        );
       });
 
       row.append(label,restore);
@@ -2789,7 +3515,7 @@ document.getElementById("history-btn").addEventListener("click",async()=>{
 document.getElementById("delete-history").addEventListener("click",()=>{
   open69(
     "delete all histories?",
-    "This permanently deletes the saved wall snapshots.",
+    "This permanently deletes the saved versions of our little space.",
     "delete histories 💀",
     ()=>{
       api(
@@ -2940,10 +3666,23 @@ function connect(){
         .map(normUpload)
         .filter(Boolean);
 
+      state.stickers=(data.stickers||[])
+        .map(normSticker)
+        .filter(Boolean);
+
+      const reportedStorage=Number(
+        data.storageUsedBytes??
+        data.storage?.usedBytes??
+        data.r2Bytes
+      );
+      state.storageUsed=Number.isFinite(reportedStorage)?reportedStorage:null;
+
       state.presence=data.presence||[];
 
       redraw();
       renderUploads();
+      renderStickers();
+      renderStorage();
       setupOrder();
       applyOrder();
       renderReactions();
@@ -2959,6 +3698,11 @@ function connect(){
     }
 
     if(message.type?.startsWith("upload.")){
+      load();
+      return;
+    }
+
+    if(message.type?.startsWith("sticker.")){
       load();
       return;
     }
@@ -3048,7 +3792,10 @@ async function start(){
   renderPresence();
   resize();
 
-  addEventListener("resize",resize,{passive:true});
+  addEventListener("resize",()=>{
+    resize();
+    renderStickers();
+  },{passive:true});
 
   setupOrder();
   applyOrder();
@@ -3061,8 +3808,8 @@ async function start(){
 
   }catch(error){
     console.error(error);
-    document.getElementById("conn").textContent="wall couldn't unlock 😭";
-    toast("wall setup failed");
+    document.getElementById("conn").textContent="our little space couldn't unlock 😭";
+    toast("our little space couldn't start");
   }
 }
 
