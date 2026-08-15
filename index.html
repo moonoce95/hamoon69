@@ -291,11 +291,11 @@ audio{
   width:100%
 }
 .tool-controls{
-  display:flex;
+  display:grid;
+  grid-template-columns:48px minmax(90px,1fr);
   align-items:center;
-  justify-content:center;
-  gap:12px;
-  min-height:54px;
+  gap:10px;
+  min-height:48px;
   padding-bottom:8px;
   border-bottom:1px solid rgba(244,184,204,.08)
 }
@@ -321,15 +321,35 @@ audio{
 }
 .btn:disabled{opacity:.35;cursor:not-allowed}
 
-/* Actual visible colour wheel */
+/* Colour button + proper pop-out wheel */
+.colour-control{
+  position:relative;width:44px;height:44px
+}
+#colour-trigger{
+  position:relative;display:block;width:44px;height:44px;padding:0;
+  border:2px solid rgba(255,255,255,.42);border-radius:50%;cursor:pointer;
+  background:conic-gradient(#ff3b55,#ffb703,#66e58a,#36c9ff,#6948ff,#f72585,#ff3b55);
+  box-shadow:0 0 0 2px rgba(13,6,8,.8),0 5px 14px rgba(0,0,0,.3)
+}
+#colour-dot{
+  position:absolute;width:17px;height:17px;left:50%;top:50%;
+  transform:translate(-50%,-50%);border-radius:50%;background:#f4b8cc;
+  border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.55)
+}
+#colour-popover{
+  display:none;position:absolute;z-index:150;left:0;top:52px;padding:10px;
+  border:1px solid rgba(244,184,204,.3);border-radius:15px;
+  background:rgba(20,9,13,.98);box-shadow:0 18px 42px rgba(0,0,0,.58)
+}
+#colour-popover.open{display:block}
 #colour-wheel{
-  width:52px;height:52px;border-radius:50%;
+  width:200px;height:200px;border-radius:50%;
   display:block;cursor:crosshair;touch-action:none;
   border:1px solid rgba(255,255,255,.2);
   box-shadow:0 0 0 2px rgba(13,6,8,.8)
 }
 #size{
-  width:min(160px,38vw);
+  width:100%;
   accent-color:var(--gold)
 }
 
@@ -381,6 +401,9 @@ audio{
   .btn{font-size:11px;padding:8px 6px}
   .tool-actions{gap:6px}
   .add-grid{grid-template-columns:1fr 1fr}
+  #colour-popover{
+    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%)
+  }
 }
 </style>
 </head>
@@ -528,7 +551,14 @@ audio{
 
         <!-- Colour wheel + size only. No labels/icons. -->
         <div class="tool-controls">
-          <canvas id="colour-wheel" width="104" height="104" aria-label="Colour wheel"></canvas>
+          <div class="colour-control">
+            <button id="colour-trigger" type="button" aria-label="Choose drawing colour" aria-expanded="false">
+              <span id="colour-dot"></span>
+            </button>
+            <div id="colour-popover" role="dialog" aria-label="Choose a drawing colour">
+              <canvas id="colour-wheel" width="400" height="400" aria-label="Colour wheel"></canvas>
+            </div>
+          </div>
           <input id="size" type="range" min="1" max="30" value="4" aria-label="Brush size">
         </div>
 
@@ -1988,6 +2018,14 @@ function toggleReaction(memoryId,emoji){
 
 const colourWheel=document.getElementById("colour-wheel");
 const wheelCtx=colourWheel.getContext("2d");
+const colourTrigger=document.getElementById("colour-trigger");
+const colourPopover=document.getElementById("colour-popover");
+const colourDot=document.getElementById("colour-dot");
+
+function closeColourPicker(){
+  colourPopover.classList.remove("open");
+  colourTrigger.setAttribute("aria-expanded","false");
+}
 
 function hsvToRgb(h,s,v){
   const c=v*s;
@@ -2099,9 +2137,26 @@ function pickColourFromWheel(event){
   const[r,g,b]=hsvToRgb(hue,sat,1);
 
   state.colour=rgbToHex(r,g,b);
+  colourDot.style.background=state.colour;
+  state.mode="draw";
+  document.getElementById("eraser").classList.remove("active");
 }
 
 drawColourWheel();
+colourDot.style.background=state.colour;
+
+colourTrigger.addEventListener("click",event=>{
+  event.stopPropagation();
+  const opening=!colourPopover.classList.contains("open");
+  colourPopover.classList.toggle("open",opening);
+  colourTrigger.setAttribute("aria-expanded",String(opening));
+});
+
+colourPopover.addEventListener("click",event=>event.stopPropagation());
+document.addEventListener("click",closeColourPicker);
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape") closeColourPicker();
+});
 
 let colourPicking=false;
 
@@ -2117,8 +2172,10 @@ colourWheel.addEventListener("pointermove",event=>{
   }
 });
 
-colourWheel.addEventListener("pointerup",()=>{
+colourWheel.addEventListener("pointerup",event=>{
+  pickColourFromWheel(event);
   colourPicking=false;
+  closeColourPicker();
 });
 
 colourWheel.addEventListener("pointercancel",()=>{
