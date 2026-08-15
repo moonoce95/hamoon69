@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>hamoon</title>
+
+<script>
+  /* Always open at the TOP instead of restoring the previous scroll position. */
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  window.scrollTo(0, 0);
+</script>
+
+<script data-goatcounter="https://hamoon69.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+<script>
+  /*
+    Private Hamoon visitor counter.
+    no-cors is intentional: this is a fire-and-forget page-open ping,
+    so a missing CORS response header cannot stop the request.
+  */
+  (function(){
+    fetch("https://hamoon-counter.andy-ng199507.workers.dev/visit", {
+      method: "POST",
+      mode: "no-cors",
+      cache: "no-store",
+      credentials: "omit",
+      keepalive: true
+    }).catch(function(){});
+  })();
+</script>
+
+<style>
+  *{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+  }
+
+  body{
+    background:#0d0608;
+    color:#fdf0f5;
+    font-family:'Georgia',serif;
+    overflow-x:hidden;
+  }
+
+  .curtain{
+    position:fixed;
+    inset:0;
+    background:#0d0608;
+    z-index:200;
+    animation:curtainLift .6s ease .5s forwards;
+    pointer-events:none;
+  }
+
+  @keyframes curtainLift{
+    to{
+      opacity:0;
+      visibility:hidden;
+    }
+  }
+
+  .progress-track{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:2px;
+    background:rgba(244,184,204,.1);
+    z-index:150;
+  }
+
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#f4b8cc,#e8b64c);
+  }
+
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(
+        circle at 15% 20%,
+        rgba(244,184,204,.05),
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 85% 70%,
+        rgba(232,182,76,.04),
+        transparent 40%
+      );
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .container{
+    width:100%;
+    max-width:640px;
+    margin:auto;
+    padding:60px 24px 100px;
+    position:relative;
+    z-index:1;
+  }
+
+  .intro{
+    text-align:center;
+    padding:40px 0 24px;
+    opacity:0;
+    animation:fadeIn 1.2s ease forwards;
+  }
+
+  .intro h1{
+    font-size:28px;
+    font-weight:400;
+    font-style:italic;
+    color:#f4b8cc;
+    letter-spacing:.02em;
+  }
+
+  @keyframes fadeIn{
+    to{ opacity:1; }
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .8s ease, transform .8s ease;
+    margin:36px 0;
+  }
+
+  .reveal.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .media{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:10px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);
+  }
+
+  .youtube-frame{
+    display:block;
+    width:100%;
+    aspect-ratio:16 / 9;
+    border:0;
+    border-radius:10px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);
+  }
+
+  .finale-lead{
+    text-align:center;
+    padding:50px 0 10px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
+
+  .finale-lead.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .finale-lead p{
+    font-style:italic;
+    font-size:16px;
+    color:#e8c4d3;
+    letter-spacing:.02em;
+  }
+
+  .audio-wrap{
+    margin-top:24px;
+    padding:24px;
+    background:rgba(244,184,204,.06);
+    border:1px solid rgba(244,184,204,.2);
+    border-radius:12px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:
+      opacity 1s ease .2s,
+      transform 1s ease .2s;
+  }
+
+  .audio-wrap.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  audio{
+    width:100%;
+    filter:invert(1) hue-rotate(180deg);
+    border-radius:8px;
+  }
+
+  /* ============================================================
+     HAMOON COLLABORATIVE WALL — no notes, auto-unlocked
+     ============================================================ */
+
+  #hamoon-space{
+    --hs-pink:#f4b8cc;
+    --hs-gold:#e8b64c;
+    --hs-white:#fdf0f5;
+    --hs-muted:rgba(253,240,245,.58);
+    --hs-card:rgba(244,184,204,.055);
+    --hs-border:rgba(244,184,204,.18);
+    --hs-danger:#ff7f8d;
+    margin:58px 0 14px;
+    color:var(--hs-white);
+  }
+
+  #hamoon-space *{ box-sizing:border-box; }
+
+  #hamoon-space h2{
+    text-align:center;
+    color:var(--hs-gold);
+    font-weight:400;
+    font-style:italic;
+    font-size:23px;
+    margin:0 0 8px;
+  }
+
+  #hs-identity{
+    text-align:center;
+    color:var(--hs-pink);
+    font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    opacity:.7;
+    margin-bottom:3px;
+  }
+
+  #hs-presence{
+    min-height:20px;
+    text-align:center;
+    color:var(--hs-pink);
+    font:13px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    margin-bottom:2px;
+  }
+
+  #hs-conn-status{
+    text-align:center;
+    color:var(--hs-muted);
+    font:11px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    margin-bottom:12px;
+  }
+
+  .hs-dot{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#75db9a;
+    vertical-align:1px;
+    margin-right:5px;
+  }
+
+  #hs-toolbar{
+    display:none;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+    padding:9px;
+    margin-bottom:10px;
+    border:1px solid var(--hs-border);
+    border-radius:11px;
+    background:var(--hs-card);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  .hs-btn{
+    appearance:none;
+    border:1px solid rgba(232,182,76,.27);
+    background:rgba(232,182,76,.1);
+    color:var(--hs-gold);
+    border-radius:8px;
+    padding:8px 10px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:650;
+  }
+
+  .hs-btn.active{
+    border-color:var(--hs-gold);
+    background:rgba(232,182,76,.28);
+  }
+
+  .hs-btn.danger{
+    color:var(--hs-danger);
+    border-color:rgba(255,127,141,.3);
+    background:rgba(255,127,141,.08);
+  }
+
+  .hs-btn:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+  }
+
+  .hs-sep{
+    width:1px;
+    height:25px;
+    background:var(--hs-border);
+  }
+
+  .hs-colour{
+    appearance:none;
+    width:28px;
+    height:28px;
+    border:2px solid transparent;
+    border-radius:50%;
+    cursor:pointer;
+    padding:0;
+    box-shadow:0 0 0 1px rgba(255,255,255,.08);
+  }
+
+  .hs-colour.selected{
+    border-color:#fff;
+  }
+
+  #hs-custom-colour{
+    width:28px;
+    height:28px;
+    border:0;
+    padding:0;
+    background:none;
+    cursor:pointer;
+  }
+
+  #hs-thickness{
+    width:72px;
+    accent-color:var(--hs-gold);
+  }
+
+  #hs-canvas-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:2/1;
+    border:1px solid var(--hs-border);
+    border-radius:12px;
+    overflow:hidden;
+    background-color:#1a0d12;
+    background-image:radial-gradient(rgba(244,184,204,.11) .8px,transparent .8px);
+    background-size:18px 18px;
+    touch-action:pan-y;
+    box-shadow:0 12px 30px rgba(0,0,0,.28), inset 0 0 35px rgba(0,0,0,.18);
+  }
+
+  #hs-canvas-wrap.mode-move{
+    touch-action:pan-y;
+    cursor:grab;
+  }
+
+  #hs-canvas-wrap.mode-draw{
+    touch-action:none;
+    cursor:crosshair;
+  }
+
+  #hs-canvas-wrap.mode-erase{
+    touch-action:none;
+    cursor:cell;
+  }
+
+  #hs-canvas{
+    display:block;
+    width:100%;
+    height:100%;
+  }
+
+  #hs-history{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    border:1px solid var(--hs-border);
+    border-radius:10px;
+    background:var(--hs-card);
+    font:12px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  .hs-snap{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    align-items:center;
+    padding:7px 0;
+    border-bottom:1px solid rgba(244,184,204,.08);
+    color:var(--hs-pink);
+  }
+
+  /* Reactions */
+  .hs-memory-reactions{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:5px;
+    margin:10px auto 0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  .hs-used-reaction,
+  .hs-react-open{
+    appearance:none;
+    border:1px solid rgba(244,184,204,.15);
+    background:rgba(244,184,204,.05);
+    color:#fdf0f5;
+    border-radius:999px;
+    min-height:29px;
+    padding:4px 8px;
+    cursor:pointer;
+    font-size:12px;
+  }
+
+  .hs-used-reaction.mine{
+    border-color:rgba(232,182,76,.7);
+    background:rgba(232,182,76,.12);
+  }
+
+  .hs-react-open{
+    color:#f4b8cc;
+  }
+
+  .hs-picker{
+    display:none;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:3px;
+    margin-top:3px;
+    padding:7px;
+    border:1px solid rgba(244,184,204,.13);
+    border-radius:10px;
+    background:rgba(13,6,8,.97);
+  }
+
+  .hs-picker.show{ display:flex; }
+
+  .hs-emoji{
+    appearance:none;
+    width:34px;
+    height:34px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:transparent;
+    font-size:19px;
+    cursor:pointer;
+  }
+
+  .hs-emoji.mine{
+    border-color:rgba(232,182,76,.72);
+    background:rgba(232,182,76,.12);
+  }
+
+  /* Modals */
+  .hs-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(0,0,0,.76);
+  }
+
+  .hs-modal.show{ display:flex; }
+
+  .hs-modal-box{
+    width:min(92vw,360px);
+    background:#0d0608;
+    color:#fdf0f5;
+    border:1px solid rgba(232,182,76,.65);
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 18px 60px rgba(0,0,0,.55);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  .hs-modal-box h3{
+    color:#e8b64c;
+    font-family:Georgia,serif;
+    font-weight:400;
+    margin-bottom:9px;
+  }
+
+  .hs-modal-box p{
+    color:#f4b8cc;
+    font-size:13px;
+    line-height:1.45;
+    margin-bottom:12px;
+  }
+
+  .hs-confirm{
+    display:block;
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid rgba(244,184,204,.2);
+    border-radius:8px;
+    background:rgba(244,184,204,.06);
+    color:#fff;
+    font-size:18px;
+    text-align:center;
+    outline:none;
+  }
+
+  .hs-modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:7px;
+  }
+
+  #hs-toast{
+    position:fixed;
+    z-index:100000;
+    left:50%;
+    bottom:24px;
+    transform:translate(-50%,15px);
+    opacity:0;
+    pointer-events:none;
+    padding:8px 12px;
+    border:1px solid rgba(244,184,204,.2);
+    border-radius:999px;
+    background:rgba(13,6,8,.96);
+    color:#fdf0f5;
+    font:12px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    transition:.18s ease;
+  }
+
+  #hs-toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+  }
+
+  @media(max-width:600px){
+    #hs-canvas-wrap{ aspect-ratio:4/3; }
+    #hs-toolbar{ gap:4px; padding:7px; }
+    .hs-btn{ padding:8px 9px; font-size:11px; }
+    .hs-sep{ display:none; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="curtain"></div>
+
+<div class="progress-track">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    <h1>helloinggg ❤️❤️❤️</h1>
+  </div>
+
+  <!-- MAIN YOUTUBE VIDEO -->
+  <div class="reveal">
+    <iframe
+      class="youtube-frame"
+      data-memory-id="making-of-video"
+      src="https://www.youtube-nocookie.com/embed/VzzMUXaTI3Q?rel=0"
+      title="For Em — Happy Birthday"
+      loading="eager"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- HAMY OK -->
+  <div class="reveal">
+    <video class="media" data-memory-id="hamyok" controls preload="metadata" playsinline>
+      <source src="hamyok.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ORIGINAL PHOTOS -->
+  <div class="reveal">
+    <img class="media" data-memory-id="love1" src="love1.png" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="love2" src="love1 (2).png" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="inwhat" src="inwhat.png" alt="">
+  </div>
+
+  <!-- SECOND YOUTUBE VIDEO -->
+  <div class="reveal">
+    <iframe
+      class="youtube-frame"
+      data-memory-id="old-aram-video"
+      src="https://www.youtube-nocookie.com/embed/31BIQdznu_E?rel=0"
+      title="YouTube video"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- INCEST IMAGE -->
+  <div class="reveal">
+    <img class="media" data-memory-id="incest" src="incest.png" alt="">
+  </div>
+
+  <!-- MORE ORIGINAL PHOTOS -->
+  <div class="reveal">
+    <img class="media" data-memory-id="ms1" src="ms1.png" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="samebrain1" src="samebrain.jpg" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="samebrain2" src="samebrain2.png" alt="">
+  </div>
+
+  <!-- MINING VIDEO -->
+  <div class="reveal">
+    <video class="media" data-memory-id="mining" controls preload="metadata" playsinline>
+      <source src="mining.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- NEW ADDITIONS -->
+  <div class="reveal">
+    <video class="media" data-memory-id="smile" controls preload="metadata" playsinline>
+      <source src="smile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="ok1" src="ok1.jpg" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="pepper" src="pepper.jpg" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="ilovehamy" src="ilovehamy.jpg" alt="">
+  </div>
+
+  <div class="reveal">
+    <img class="media" data-memory-id="flounder" src="flounder.jpg" alt="">
+  </div>
+
+  <!-- SECOND LAST VIDEO -->
+  <div class="reveal">
+    <video class="media" data-memory-id="final-clip" controls preload="metadata" playsinline>
+      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- SHARED WALL -->
+  <div id="hamoon-space">
+    <h2>our wall ❤️</h2>
+    <div id="hs-identity"></div>
+    <div id="hs-presence"></div>
+    <div id="hs-conn-status">setting things up…</div>
+
+    <div id="hs-toolbar">
+      <button class="hs-btn hs-mode active" data-mode="move">✋ Move</button>
+      <button class="hs-btn hs-mode" data-mode="draw">✏️ Draw</button>
+      <button class="hs-btn hs-mode" data-mode="erase">🧽 Erase</button>
+
+      <span class="hs-sep"></span>
+
+      <button class="hs-colour selected" data-colour="#f4b8cc" style="background:#f4b8cc" aria-label="pink"></button>
+      <button class="hs-colour" data-colour="#e8b64c" style="background:#e8b64c" aria-label="gold"></button>
+      <button class="hs-colour" data-colour="#fdf0f5" style="background:#fdf0f5" aria-label="white"></button>
+      <button class="hs-colour" data-colour="#0d0608" style="background:#0d0608;border-color:#555" aria-label="black"></button>
+      <input id="hs-custom-colour" type="color" value="#f4b8cc" aria-label="custom colour">
+
+      <span class="hs-sep"></span>
+
+      <input id="hs-thickness" type="range" min="1" max="20" value="3" aria-label="brush size">
+      <button class="hs-btn" id="hs-undo">↩ Undo</button>
+      <button class="hs-btn" id="hs-redo">↪ Redo</button>
+      <button class="hs-btn" id="hs-history-btn">📜 History</button>
+      <button class="hs-btn danger" id="hs-clear">🗑 Clear</button>
+    </div>
+
+    <div id="hs-canvas-wrap" class="mode-move">
+      <canvas id="hs-canvas"></canvas>
+    </div>
+
+    <div id="hs-history">
+      <div id="hs-snapshots"></div>
+    </div>
+  </div>
+
+  <!-- FINALE -->
+  <div class="finale-lead">
+    <p>one more thing...</p>
+  </div>
+
+  <div class="audio-wrap">
+    <audio data-memory-id="meow" controls preload="metadata">
+      <source src="meow.opus" type="audio/ogg">
+    </audio>
+  </div>
+
+</div>
+
+<!-- Clear wall confirmation -->
+<div class="hs-modal" id="hs-clear-modal">
+  <div class="hs-modal-box">
+    <h3>destroy the wall? 😭</h3>
+    <p>A recovery snapshot is saved first. Type <strong>69</strong> to confirm.</p>
+    <input id="hs-clear-confirm" class="hs-confirm" inputmode="numeric" maxlength="2" placeholder="69">
+    <div class="hs-modal-actions">
+      <button class="hs-btn" id="hs-clear-cancel">nah</button>
+      <button class="hs-btn danger" id="hs-clear-go" disabled>delete history 💀</button>
+    </div>
+  </div>
+</div>
+
+<div id="hs-toast"></div>
+
+<script>
+/* ============================================================
+   ORIGINAL PAGE EFFECTS
+   ============================================================ */
+
+const revealEls = document.querySelectorAll(
+  '.reveal, .finale-lead, .audio-wrap'
+);
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+},{
+  threshold:0.08
+});
+
+revealEls.forEach((element) => {
+  observer.observe(element);
+});
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+
+  const docHeight =
+    document.documentElement.scrollHeight -
+    window.innerHeight;
+
+  const percentage =
+    docHeight > 0
+      ? (scrollTop / docHeight) * 100
+      : 0;
+
+  document.getElementById('progressFill').style.width =
+    percentage + '%';
+});
+
+/* Force the first visit/reload to the TOP. */
+window.addEventListener("load", () => {
+  setTimeout(() => window.scrollTo(0, 0), 0);
+}, { once:true });
+
+
+/* ============================================================
+   COLLABORATIVE WALL + REACTIONS
+   ============================================================ */
+
+(function(){
+  "use strict";
+
+  const API = "https://hamoon-counter.andy-ng199507.workers.dev";
+  const WS_URL = "wss://hamoon-counter.andy-ng199507.workers.dev/space/live";
+
+  /*
+    Auto-unlock means the shared PIN is necessarily present in the page source.
+    That's intentional here because this is a trusted two-person page.
+  */
+  const AUTO_EDIT_PIN = "hamoon-69";
+
+  const EMOJIS = [
+    "❤️","♡","💛","😂","😭","💀","🥹","🥺","😍","🤭",
+    "😳","🫠","😤","🤡","🫡","🔥","✨","🌙","🌸","🐱"
+  ];
+
+  const canvas = document.getElementById("hs-canvas");
+  const wrap = document.getElementById("hs-canvas-wrap");
+  const ctx = canvas.getContext("2d");
+
+  const state = {
+    token:null,
+    author:null,
+    unlocked:false,
+    mode:"move",
+    colour:"#f4b8cc",
+    thickness:3,
+    strokes:[],
+    reactions:[],
+    presence:[],
+    width:1,
+    height:1,
+    dpr:1,
+    drawing:false,
+    current:null,
+    ws:null,
+    reconnectTimer:null,
+    reconnectAttempt:0,
+    eraseAt:0
+  };
+
+  let toastTimer = null;
+
+  function toast(text){
+    const el = document.getElementById("hs-toast");
+    el.textContent = text;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+  }
+
+  function detectAuthor(){
+    let timezone = "";
+    let language = "";
+
+    try{
+      timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    }catch(_){}
+
+    try{
+      language = (navigator.language || "").toLowerCase();
+    }catch(_){}
+
+    /* NZ device/timezone => Hamy */
+    if(
+      timezone === "Pacific/Auckland" ||
+      timezone === "Pacific/Chatham" ||
+      language.endsWith("-nz")
+    ){
+      return "Hamy";
+    }
+
+    /* Melbourne/Australian device/timezone => Andy */
+    if(
+      timezone === "Australia/Melbourne" ||
+      timezone.startsWith("Australia/") ||
+      language.endsWith("-au")
+    ){
+      return "Andy";
+    }
+
+    /* Fallback for an unusual device; this is primarily Andy's hosted page. */
+    return "Andy";
+  }
+
+  function authHeaders(json){
+    const h = {};
+    if(json) h["Content-Type"] = "application/json";
+    if(state.token) h["Authorization"] = "Bearer " + state.token;
+    return h;
+  }
+
+  async function rawFetch(path, options){
+    const r = await fetch(API + path, options || {});
+    if(!r.ok){
+      let msg = "";
+      try{ msg = await r.text(); }catch(_){}
+      throw new Error(msg || ("HTTP " + r.status));
+    }
+    const type = r.headers.get("content-type") || "";
+    return type.includes("application/json") ? r.json() : null;
+  }
+
+  async function autoUnlock(){
+    document.getElementById("hs-conn-status").textContent = "unlocking wall…";
+
+    const data = await rawFetch("/space/auth", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ pin:AUTO_EDIT_PIN })
+    });
+
+    if(!data || !data.token){
+      throw new Error("No edit token returned");
+    }
+
+    state.token = data.token;
+    state.unlocked = true;
+    document.getElementById("hs-toolbar").style.display = "flex";
+  }
+
+  function normaliseStroke(s){
+    if(!s) return null;
+    let points = s.points || [];
+    if(typeof points === "string"){
+      try{ points = JSON.parse(points); }catch(_){ points = []; }
+    }
+    return {
+      id:s.id,
+      author:s.author || "",
+      color:s.color || s.colour || "#f4b8cc",
+      width:Number(s.width || 3),
+      points:Array.isArray(points) ? points : []
+    };
+  }
+
+  function normaliseReaction(r){
+    return {
+      memoryId:r.memoryId || r.memory_id || "",
+      author:r.author || "",
+      emoji:r.emoji || r.reaction || ""
+    };
+  }
+
+  async function loadState(){
+    const data = await rawFetch("/space/state");
+
+    state.strokes = (data.strokes || [])
+      .map(normaliseStroke)
+      .filter(Boolean);
+
+    state.reactions = (data.reactions || [])
+      .map(normaliseReaction)
+      .filter(Boolean);
+
+    state.presence = Array.isArray(data.presence) ? data.presence : [];
+
+    redraw();
+    renderReactions();
+    renderPresence();
+  }
+
+  /* ---------- Canvas ---------- */
+
+  function resizeCanvas(){
+    const rect = wrap.getBoundingClientRect();
+
+    state.width = Math.max(1, rect.width);
+    state.height = Math.max(1, rect.height);
+    state.dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    canvas.width = Math.round(state.width * state.dpr);
+    canvas.height = Math.round(state.height * state.dpr);
+
+    canvas.style.width = state.width + "px";
+    canvas.style.height = state.height + "px";
+
+    ctx.setTransform(state.dpr,0,0,state.dpr,0,0);
+    redraw();
+  }
+
+  function normPoint(e){
+    const r = canvas.getBoundingClientRect();
+    return {
+      x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),
+      y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))
+    };
+  }
+
+  function brushWidth(width){
+    const scale = Math.max(.72,Math.min(1.4,state.width/640));
+    return Math.max(.8,Number(width || 3)*scale);
+  }
+
+  function drawStroke(s){
+    if(!s || !s.points || !s.points.length) return;
+
+    ctx.strokeStyle = s.color || "#f4b8cc";
+    ctx.fillStyle = s.color || "#f4b8cc";
+    ctx.lineWidth = brushWidth(s.width);
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    const first = s.points[0];
+
+    if(s.points.length === 1){
+      ctx.beginPath();
+      ctx.arc(
+        first.x*state.width,
+        first.y*state.height,
+        Math.max(1,brushWidth(s.width)/2),
+        0,
+        Math.PI*2
+      );
+      ctx.fill();
+      return;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(first.x*state.width,first.y*state.height);
+
+    for(let i=1;i<s.points.length;i++){
+      ctx.lineTo(
+        s.points[i].x*state.width,
+        s.points[i].y*state.height
+      );
+    }
+
+    ctx.stroke();
+  }
+
+  function redraw(){
+    ctx.clearRect(0,0,state.width,state.height);
+    state.strokes.forEach(drawStroke);
+  }
+
+  function setMode(mode){
+    state.mode = mode;
+
+    document.querySelectorAll(".hs-mode").forEach(btn => {
+      btn.classList.toggle("active",btn.dataset.mode===mode);
+    });
+
+    wrap.className = "mode-" + mode;
+  }
+
+  canvas.addEventListener("pointerdown", e => {
+    if(!state.unlocked || state.mode==="move") return;
+
+    e.preventDefault();
+
+    try{ canvas.setPointerCapture(e.pointerId); }catch(_){}
+
+    const p = normPoint(e);
+
+    if(state.mode==="draw"){
+      state.drawing = true;
+      state.current = {
+        id:crypto.randomUUID(),
+        author:state.author,
+        color:state.colour,
+        width:state.thickness,
+        points:[p],
+        createdAt:Date.now()
+      };
+    }else if(state.mode==="erase"){
+      erasePoint(p);
+    }
+  });
+
+  canvas.addEventListener("pointermove", e => {
+    if(!state.unlocked || state.mode==="move") return;
+
+    e.preventDefault();
+    const p = normPoint(e);
+
+    if(state.mode==="draw" && state.drawing && state.current){
+      const points = state.current.points;
+      const last = points[points.length-1];
+
+      const dx = p.x-last.x;
+      const dy = p.y-last.y;
+
+      if(dx*dx+dy*dy < .0000015) return;
+
+      points.push(p);
+
+      ctx.strokeStyle = state.current.color;
+      ctx.lineWidth = brushWidth(state.current.width);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(last.x*state.width,last.y*state.height);
+      ctx.lineTo(p.x*state.width,p.y*state.height);
+      ctx.stroke();
+    }else if(state.mode==="erase"){
+      erasePoint(p);
+    }
+  });
+
+  function finishStroke(){
+    if(!state.drawing || !state.current) return;
+
+    state.drawing = false;
+    const stroke = state.current;
+    state.current = null;
+
+    state.strokes.push(stroke);
+    redraw();
+
+    rawFetch("/space/stroke",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify(stroke)
+    }).catch(() => {
+      toast("stroke didn't save 😭");
+      loadState().catch(()=>{});
+    });
+  }
+
+  canvas.addEventListener("pointerup",finishStroke);
+  canvas.addEventListener("pointercancel",finishStroke);
+
+  function erasePoint(p){
+    const now = Date.now();
+    if(now-state.eraseAt<70) return;
+    state.eraseAt = now;
+
+    rawFetch("/space/erase-point",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({
+        x:p.x,
+        y:p.y,
+        radius:.03,
+        author:state.author
+      })
+    }).then(data => {
+      const ids = (data && (data.erased || data.strokeIds)) || [];
+      if(ids.length){
+        state.strokes = state.strokes.filter(s => !ids.includes(s.id));
+        redraw();
+      }
+    }).catch(() => toast("eraser didn't save"));
+  }
+
+  /* ---------- Toolbar ---------- */
+
+  document.querySelectorAll(".hs-mode").forEach(btn => {
+    btn.addEventListener("click",()=>setMode(btn.dataset.mode));
+  });
+
+  const colourButtons = Array.from(document.querySelectorAll(".hs-colour"));
+
+  colourButtons.forEach(btn => {
+    btn.addEventListener("click",()=>{
+      colourButtons.forEach(x=>x.classList.remove("selected"));
+      btn.classList.add("selected");
+      state.colour = btn.dataset.colour;
+    });
+  });
+
+  document.getElementById("hs-custom-colour").addEventListener("input",e=>{
+    state.colour = e.target.value;
+    colourButtons.forEach(x=>x.classList.remove("selected"));
+  });
+
+  document.getElementById("hs-thickness").addEventListener("input",e=>{
+    state.thickness = Number(e.target.value);
+  });
+
+  document.getElementById("hs-undo").addEventListener("click",()=>{
+    rawFetch("/space/undo",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({author:state.author})
+    }).then(loadState).catch(()=>toast("nothing to undo"));
+  });
+
+  document.getElementById("hs-redo").addEventListener("click",()=>{
+    rawFetch("/space/redo",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({author:state.author})
+    }).then(loadState).catch(()=>toast("nothing to redo"));
+  });
+
+  /* ---------- Clear + History ---------- */
+
+  const clearModal = document.getElementById("hs-clear-modal");
+  const clearInput = document.getElementById("hs-clear-confirm");
+  const clearGo = document.getElementById("hs-clear-go");
+
+  document.getElementById("hs-clear").addEventListener("click",()=>{
+    clearInput.value="";
+    clearGo.disabled=true;
+    clearModal.classList.add("show");
+    setTimeout(()=>clearInput.focus(),0);
+  });
+
+  clearInput.addEventListener("input",()=>{
+    clearGo.disabled = clearInput.value !== "69";
+  });
+
+  document.getElementById("hs-clear-cancel").addEventListener("click",()=>{
+    clearModal.classList.remove("show");
+  });
+
+  clearGo.addEventListener("click",()=>{
+    if(clearInput.value!=="69") return;
+
+    rawFetch("/space/clear",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({
+        confirm:"69",
+        confirmation:"69",
+        author:state.author
+      })
+    }).then(()=>{
+      state.strokes=[];
+      redraw();
+      clearModal.classList.remove("show");
+      toast("wall cleared ♡");
+    }).catch(()=>toast("clear failed"));
+  });
+
+  document.getElementById("hs-history-btn").addEventListener("click",async()=>{
+    const panel = document.getElementById("hs-history");
+
+    if(getComputedStyle(panel).display!=="none"){
+      panel.style.display="none";
+      return;
+    }
+
+    panel.style.display="block";
+    const target = document.getElementById("hs-snapshots");
+    target.textContent="loading…";
+
+    try{
+      const data = await rawFetch("/space/snapshots",{
+        headers:authHeaders(false)
+      });
+
+      const snaps = Array.isArray(data) ? data : ((data && data.snapshots) || []);
+      target.innerHTML="";
+
+      if(!snaps.length){
+        target.textContent="no snapshots yet";
+        return;
+      }
+
+      snaps.forEach(s=>{
+        const row = document.createElement("div");
+        row.className="hs-snap";
+
+        const label = document.createElement("span");
+        const date = s.createdAt || s.created_at;
+        label.textContent = date ? new Date(date).toLocaleString() : ("snapshot "+s.id);
+
+        const btn = document.createElement("button");
+        btn.className="hs-btn";
+        btn.textContent="Restore";
+
+        btn.addEventListener("click",()=>{
+          if(!confirm("Restore this wall snapshot?")) return;
+
+          rawFetch("/space/restore",{
+            method:"POST",
+            headers:authHeaders(true),
+            body:JSON.stringify({snapshotId:s.id})
+          }).then(()=>{
+            toast("wall restored ♡");
+            loadState();
+          }).catch(()=>toast("restore failed"));
+        });
+
+        row.append(label,btn);
+        target.appendChild(row);
+      });
+    }catch(_){
+      target.textContent="couldn't load history";
+    }
+  });
+
+  /* ---------- Reactions ---------- */
+
+  function reactionAnchor(media){
+    /*
+      Put the reaction bar inside the same .reveal block,
+      AFTER the media, so it does not create a second reveal layout.
+    */
+    const reveal = media.closest(".reveal");
+    return reveal || media.parentElement || media;
+  }
+
+  function renderReactions(){
+    document.querySelectorAll("[data-memory-id]").forEach(media=>{
+      const id = media.dataset.memoryId;
+      if(!id) return;
+
+      const anchor = reactionAnchor(media);
+
+      let bar = anchor.querySelector(':scope > .hs-memory-reactions');
+
+      if(!bar){
+        bar = document.createElement("div");
+        bar.className="hs-memory-reactions";
+        anchor.appendChild(bar);
+      }
+
+      buildReactionBar(bar,id);
+    });
+  }
+
+  function buildReactionBar(bar,memoryId){
+    bar.innerHTML="";
+
+    const rows = state.reactions.filter(r=>r.memoryId===memoryId);
+    const counts = new Map();
+
+    rows.forEach(r=>{
+      counts.set(r.emoji,(counts.get(r.emoji)||0)+1);
+    });
+
+    EMOJIS.forEach(emoji=>{
+      const count = counts.get(emoji)||0;
+      if(!count) return;
+
+      const mine = rows.some(r=>r.author===state.author && r.emoji===emoji);
+
+      const b = document.createElement("button");
+      b.className="hs-used-reaction"+(mine?" mine":"");
+      b.textContent=emoji+" "+count;
+      b.addEventListener("click",()=>toggleReaction(memoryId,emoji));
+      bar.appendChild(b);
+    });
+
+    const open = document.createElement("button");
+    open.className="hs-react-open";
+    open.textContent="♡ react";
+    bar.appendChild(open);
+
+    const picker = document.createElement("div");
+    picker.className="hs-picker";
+
+    EMOJIS.forEach(emoji=>{
+      const mine = rows.some(r=>r.author===state.author && r.emoji===emoji);
+
+      const b = document.createElement("button");
+      b.className="hs-emoji"+(mine?" mine":"");
+      b.textContent=emoji;
+      b.addEventListener("click",()=>toggleReaction(memoryId,emoji));
+      picker.appendChild(b);
+    });
+
+    open.addEventListener("click",()=>{
+      picker.classList.toggle("show");
+    });
+
+    bar.appendChild(picker);
+  }
+
+  function toggleReaction(memoryId,emoji){
+    const existing = state.reactions.findIndex(
+      r=>r.memoryId===memoryId && r.author===state.author && r.emoji===emoji
+    );
+
+    if(existing>=0){
+      state.reactions.splice(existing,1);
+    }else{
+      state.reactions.push({
+        memoryId,
+        author:state.author,
+        emoji
+      });
+    }
+
+    renderReactions();
+
+    rawFetch("/space/reaction",{
+      method:"POST",
+      headers:authHeaders(true),
+      body:JSON.stringify({
+        memoryId,
+        author:state.author,
+        emoji
+      })
+    }).then(loadState).catch(()=>{
+      toast("reaction didn't save");
+      loadState().catch(()=>{});
+    });
+  }
+
+  /* ---------- WebSocket / Presence ---------- */
+
+  function renderPresence(){
+    const names = Array.from(
+      new Set(
+        (state.presence || []).filter(x=>x==="Andy" || x==="Hamy")
+      )
+    );
+
+    const el = document.getElementById("hs-presence");
+
+    if(!names.length){
+      el.innerHTML='<span class="hs-dot" style="background:#888"></span>just you here';
+    }else if(names.length===1){
+      if(names[0]===state.author){
+        el.innerHTML='<span class="hs-dot"></span>you’re here ♡';
+      }else{
+        el.innerHTML='<span class="hs-dot"></span>'+names[0]+' is here ❤️';
+      }
+    }else{
+      el.innerHTML='<span class="hs-dot"></span>Andy + Hamy are here ❤️';
+    }
+  }
+
+  function wsUrl(){
+    const q = new URLSearchParams({
+      author:state.author,
+      token:state.token
+    });
+    return WS_URL+"?"+q.toString();
+  }
+
+  function connectWebSocket(){
+    /*
+      IMPORTANT: this is called only AFTER author detection + auto-auth.
+      That prevents the old "Unknown" connection and prevents rapidly
+      switching Andy/Hamy from creating two simultaneous presences.
+    */
+    if(!state.token || !state.author) return;
+
+    if(state.ws){
+      try{ state.ws.onclose=null; state.ws.close(); }catch(_){}
+      state.ws=null;
+    }
+
+    const ws = new WebSocket(wsUrl());
+    state.ws = ws;
+
+    document.getElementById("hs-conn-status").textContent="connecting…";
+
+    ws.onopen=()=>{
+      if(state.ws!==ws) return;
+
+      state.reconnectAttempt=0;
+      document.getElementById("hs-conn-status").textContent="connected ❤️";
+      document.getElementById("hs-conn-status").style.color="#75db9a";
+
+      loadState().catch(()=>{});
+    };
+
+    ws.onmessage=e=>{
+      if(state.ws!==ws) return;
+
+      let msg;
+      try{ msg=JSON.parse(e.data); }catch(_){ return; }
+
+      if(msg.type==="init"){
+        const s=msg.state||{};
+        state.strokes=(s.strokes||[]).map(normaliseStroke).filter(Boolean);
+        state.reactions=(s.reactions||[]).map(normaliseReaction).filter(Boolean);
+        state.presence=Array.isArray(s.presence)?s.presence:[];
+        redraw();
+        renderReactions();
+        renderPresence();
+        return;
+      }
+
+      if(msg.type==="presence"){
+        state.presence=msg.present||msg.presence||[];
+        renderPresence();
+        return;
+      }
+
+      if(msg.type==="stroke" || msg.type==="stroke.added"){
+        const s=normaliseStroke(msg.stroke);
+        if(s && !state.strokes.some(x=>x.id===s.id)){
+          state.strokes.push(s);
+          drawStroke(s);
+        }
+        return;
+      }
+
+      if(msg.type==="erase"){
+        const id=msg.strokeId||msg.id;
+        state.strokes=state.strokes.filter(s=>s.id!==id);
+        redraw();
+        return;
+      }
+
+      if(msg.type==="erase-batch" || msg.type==="stroke.erased"){
+        const ids=msg.strokeIds||msg.ids||[];
+        state.strokes=state.strokes.filter(s=>!ids.includes(s.id));
+        redraw();
+        return;
+      }
+
+      if(msg.type==="clear" || msg.type==="board.cleared"){
+        state.strokes=[];
+        redraw();
+        return;
+      }
+
+      if(
+        msg.type==="restore" ||
+        msg.type==="restore_stroke" ||
+        msg.type==="board.restored"
+      ){
+        loadState().catch(()=>{});
+        return;
+      }
+
+      if(msg.type==="reaction" || msg.type==="reaction.updated"){
+        loadState().catch(()=>{});
+      }
+    };
+
+    ws.onerror=()=>{};
+
+    ws.onclose=()=>{
+      if(state.ws!==ws) return;
+
+      state.ws=null;
+      document.getElementById("hs-conn-status").style.color="";
+      document.getElementById("hs-conn-status").textContent="reconnecting…";
+
+      const delay=Math.min(15000,900*Math.pow(2,Math.min(state.reconnectAttempt++,4)));
+
+      clearTimeout(state.reconnectTimer);
+
+      state.reconnectTimer=setTimeout(connectWebSocket,delay);
+    };
+  }
+
+  /* ---------- Start ---------- */
+
+  async function start(){
+    /*
+      Detect BEFORE opening a socket.
+      NZ => Hamy, Australia/Melbourne => Andy.
+    */
+    state.author = detectAuthor();
+
+    document.getElementById("hs-identity").textContent =
+      "automatically posting as ♡ " + state.author + " ♡";
+
+    resizeCanvas();
+    window.addEventListener("resize",resizeCanvas,{passive:true});
+
+    try{
+      await autoUnlock();
+      await loadState();
+      connectWebSocket();
+      setMode("move");
+    }catch(err){
+      document.getElementById("hs-conn-status").textContent="wall couldn't unlock 😭";
+      toast("wall setup failed");
+      console.error(err);
+    }
+  }
+
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState!=="visible") return;
+
+    loadState().catch(()=>{});
+
+    if(!state.ws || state.ws.readyState>1){
+      connectWebSocket();
+    }
+  });
+
+  window.addEventListener("online",()=>{
+    if(!state.ws || state.ws.readyState>1){
+      connectWebSocket();
+    }
+  });
+
+  start();
+
+})();
+</script>
+
+</body>
+</html>
