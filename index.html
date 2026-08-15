@@ -5,686 +5,642 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>hamoon</title>
 
+<script>
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.scrollTo(0, 0);
+</script>
+
+<script data-goatcounter="https://hamoon69.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+<script>
+(function () {
+  fetch("https://hamoon-counter.andy-ng199507.workers.dev/visit", {
+    method: "POST",
+    keepalive: true
+  }).catch(function () {});
+})();
+</script>
+
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --bg:#0d0608;
-  --pink:#f4b8cc;
-  --gold:#e8b64c;
-  --soft:rgba(244,184,204,.16);
-  --line:rgba(255,255,255,.09);
-}
-
-html{
-  scroll-behavior:smooth;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 
 body{
-  background:var(--bg);
+  background:#0d0608;
   color:#fdf0f5;
-  font-family:Georgia,serif;
+  font-family:Georgia,"Times New Roman",serif;
   overflow-x:hidden;
 }
 
 .curtain{
   position:fixed;
   inset:0;
-  background:var(--bg);
-  z-index:200;
-  animation:curtainLift .6s ease .5s forwards;
+  background:#0d0608;
+  z-index:9999;
   pointer-events:none;
+  animation:curtainLift .6s ease .5s forwards
 }
 
 @keyframes curtainLift{
   to{
     opacity:0;
-    visibility:hidden;
+    visibility:hidden
   }
 }
 
-.page{
-  width:min(640px,calc(100% - 28px));
+.progress-track{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:rgba(244,184,204,.1);
+  z-index:1000
+}
+
+.progress-fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#f4b8cc,#e8b64c)
+}
+
+.container{
+  width:100%;
+  max-width:640px;
   margin:auto;
-  padding:34px 0 120px;
+  padding:60px 24px 100px;
+  position:relative;
+  z-index:1
 }
 
-.hello{
+.intro{
   text-align:center;
-  color:var(--pink);
-  font-size:1.55rem;
-  margin:6px 0 26px;
+  padding:40px 0 24px;
+  opacity:0;
+  animation:fadeIn 1.2s ease forwards
 }
 
-.reveal{
-  margin:36px 0;
+.intro h1{
+  font-size:28px;
+  font-weight:400;
+  font-style:italic;
+  color:#f4b8cc
+}
+
+@keyframes fadeIn{
+  to{opacity:1}
+}
+
+.reveal,
+.finale-lead,
+.audio-wrap{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .8s ease,transform .8s ease;
+  margin:36px 0
+}
+
+.reveal.visible,
+.finale-lead.visible,
+.audio-wrap.visible{
   opacity:1;
-  transform:none;
+  transform:none
 }
 
 .media{
   display:block;
   width:100%;
-  max-width:100%;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid rgba(244,184,204,.12);
-  box-shadow:0 10px 35px rgba(0,0,0,.28);
-}
-
-img.media,
-video.media{
   height:auto;
+  border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)
 }
 
-.video-frame{
+.youtube-frame{
+  display:block;
   width:100%;
   aspect-ratio:16/9;
   border:0;
-  border-radius:12px;
-  display:block;
+  border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)
+}
+
+.finale-lead{
+  text-align:center;
+  padding:50px 0 10px
+}
+
+.finale-lead p{
+  font-style:italic;
+  font-size:16px;
+  color:#e8c4d3
 }
 
 .audio-wrap{
-  margin:36px 0;
-}
-
-.audio-wrap audio{
-  width:100%;
-}
-
-.final-text{
-  text-align:center;
-  color:var(--pink);
-  font-size:1.15rem;
-  margin:70px 0 28px;
-}
-
-.hs-memory-reactions{
-  margin-top:10px;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:6px;
-  position:relative;
-}
-
-.hs-used-reaction,
-.hs-react-open,
-.hs-emoji{
-  border:1px solid rgba(244,184,204,.18);
+  padding:24px;
   background:rgba(244,184,204,.06);
-  color:#fff;
-  border-radius:999px;
-  padding:5px 8px;
-  cursor:pointer;
-  font-family:inherit;
+  border:1px solid rgba(244,184,204,.2);
+  border-radius:12px
 }
 
-.hs-used-reaction.mine{
-  border-color:rgba(232,182,76,.55);
+audio{
+  width:100%;
+  filter:invert(1) hue-rotate(180deg);
+  border-radius:8px
 }
 
-.hs-react-open{
-  color:var(--pink);
+/* ========================= WALL ========================= */
+
+#hamoon-space{
+  --pink:#f4b8cc;
+  --gold:#e8b64c;
+  --white:#fdf0f5;
+  --muted:rgba(253,240,245,.58);
+  --border:rgba(244,184,204,.18);
+  --card:rgba(244,184,204,.055);
+  --danger:#ff7f8d;
+  margin:58px 0 14px
 }
 
-.hs-picker{
-  display:none;
-  position:absolute;
-  left:0;
-  top:38px;
-  z-index:40;
-  width:min(330px,calc(100vw - 40px));
-  padding:9px;
-  border-radius:12px;
-  background:#160b0f;
-  border:1px solid rgba(244,184,204,.18);
-  box-shadow:0 12px 36px rgba(0,0,0,.45);
-  flex-wrap:wrap;
-  gap:5px;
-}
-
-.hs-picker.show{
-  display:flex;
-}
-
-.hs-emoji{
-  font-size:1.1rem;
-  padding:6px 8px;
-}
-
-.hs-emoji.mine{
-  border-color:var(--gold);
-}
-
-#hs-shared-uploads{
-  margin:70px 0 50px;
-}
-
-.hs-upload-heading{
+#hamoon-space h2{
+  text-align:center;
   color:var(--gold);
+  font-size:23px;
+  font-style:italic;
+  font-weight:400;
+  margin-bottom:10px
+}
+
+#hs-auto-identity{
   text-align:center;
-  margin-bottom:12px;
-  font-size:1.2rem;
+  color:var(--muted);
+  font:11px/1.4 system-ui,sans-serif;
+  margin-bottom:7px
 }
 
-.hs-upload-sub{
-  text-align:center;
-  opacity:.55;
-  font-size:.88rem;
-  margin-bottom:16px;
-}
-
-.hs-add-memory{
-  display:block;
-  margin:0 auto 22px;
-}
-
-.hs-upload-list{
-  display:flex;
-  flex-direction:column;
-  gap:26px;
-}
-
-.hs-upload-card{
-  position:relative;
-}
-
-.hs-upload-card img,
-.hs-upload-card video{
-  width:100%;
-  border-radius:12px;
-  display:block;
-}
-
-.hs-upload-card audio{
-  width:100%;
-}
-
-.hs-upload-caption{
-  margin-top:8px;
-  color:var(--pink);
-  text-align:center;
-  white-space:pre-wrap;
-}
-
-.hs-upload-tools{
+#hs-author-buttons{
   display:flex;
   justify-content:center;
   gap:7px;
-  margin-top:8px;
   flex-wrap:wrap;
-}
-
-.hs-btn{
-  border:1px solid rgba(244,184,204,.18);
-  background:rgba(244,184,204,.06);
-  color:#fff;
-  border-radius:8px;
-  padding:7px 10px;
-  cursor:pointer;
-  font-family:inherit;
-}
-
-.hs-btn:hover,
-.hs-btn.active{
-  border-color:rgba(232,182,76,.6);
-}
-
-.hs-danger{
-  color:#ffb3bd;
-}
-
-#hs-sticker-layer{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:25;
-}
-
-.hs-sticker{
-  position:absolute;
-  pointer-events:auto;
-  touch-action:none;
-  user-select:none;
-  transform-origin:center center;
-}
-
-.hs-sticker img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  pointer-events:none;
-  user-select:none;
-}
-
-.hs-sticker.selected{
-  outline:1px dashed rgba(232,182,76,.8);
-  outline-offset:3px;
-}
-
-.hs-sticker-handle{
-  display:none;
-  position:absolute;
-  width:25px;
-  height:25px;
-  border-radius:50%;
-  background:#160b0f;
-  border:1px solid var(--gold);
-  color:#fff;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  cursor:pointer;
-  touch-action:none;
-}
-
-.hs-sticker.selected .hs-sticker-handle{
-  display:flex;
-}
-
-.hs-sticker-delete{
-  top:-13px;
-  right:-13px;
-}
-
-.hs-sticker-resize{
-  right:-13px;
-  bottom:-13px;
-  cursor:nwse-resize;
-}
-
-.hs-sticker-rotate{
-  top:-34px;
-  left:50%;
-  transform:translateX(-50%);
-  cursor:grab;
-}
-
-#hs-cursors{
-  position:fixed;
-  inset:0;
-  z-index:180;
-  pointer-events:none;
-}
-
-.hs-cursor{
-  position:fixed;
-  display:none;
-  transform:translate(-5px,-5px);
-  pointer-events:none;
-}
-
-.hs-cursor-dot{
-  width:11px;
-  height:11px;
-  border-radius:50%;
-  background:var(--gold);
-  box-shadow:0 0 0 3px rgba(232,182,76,.15);
-}
-
-.hs-cursor-label{
-  position:absolute;
-  left:10px;
-  top:10px;
-  padding:3px 6px;
-  border-radius:6px;
-  background:#160b0f;
-  color:#fff;
-  font-family:system-ui,sans-serif;
-  font-size:11px;
-  white-space:nowrap;
-  border:1px solid rgba(244,184,204,.18);
-}
-
-#hs-pets{
-  margin:65px auto 22px;
-  position:relative;
-  min-height:105px;
-  border-radius:16px;
-  border:1px solid rgba(244,184,204,.11);
-  background:rgba(244,184,204,.025);
-  overflow:hidden;
-}
-
-.hs-pet{
-  position:absolute;
-  bottom:10px;
-  text-align:center;
-  transition:left 1.2s ease,transform .35s ease;
-  user-select:none;
-  cursor:pointer;
-}
-
-.hs-pet-face{
-  font-size:2.2rem;
-  filter:drop-shadow(0 5px 8px rgba(0,0,0,.35));
-}
-
-.hs-pet-name{
-  font-family:system-ui,sans-serif;
-  font-size:.7rem;
-  opacity:.55;
-  margin-top:1px;
-}
-
-#hs-pet-andy{
-  left:16%;
-}
-
-#hs-pet-hamy{
-  left:72%;
-}
-
-#hs-pets.both #hs-pet-andy{
-  left:42%;
-}
-
-#hs-pets.both #hs-pet-hamy{
-  left:53%;
-}
-
-.hs-pet.boop{
-  animation:petBoop .42s ease;
-}
-
-@keyframes petBoop{
-  50%{
-    transform:translateY(-10px) rotate(5deg);
-  }
-}
-
-#hamoon-space{
-  position:relative;
-  width:min(900px,calc(100vw - 24px));
-  margin:28px 50% 0;
-  transform:translateX(-50%);
-}
-
-.hs-shell{
-  border:1px solid rgba(244,184,204,.13);
-  border-radius:16px;
-  background:rgba(244,184,204,.025);
-  padding:14px;
-}
-
-.hs-title{
-  text-align:center;
-  color:var(--gold);
-  font-size:1.35rem;
-  margin-bottom:8px;
-}
-
-.hs-who{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin:8px 0;
-  flex-wrap:wrap;
+  margin-bottom:8px
 }
 
 .hs-author{
-  border:1px solid rgba(244,184,204,.18);
-  color:#fff;
-  background:rgba(244,184,204,.05);
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--white);
   border-radius:999px;
-  padding:7px 11px;
+  padding:7px 13px;
   cursor:pointer;
-  font-family:inherit;
+  font-size:12px
 }
 
-.hs-author.active{
+.hs-author.selected{
   color:var(--gold);
-  border-color:rgba(232,182,76,.6);
+  border-color:var(--gold);
+  background:rgba(232,182,76,.14)
 }
 
-.hs-presence,
-.hs-connection,
+#hs-presence{
+  text-align:center;
+  color:var(--pink);
+  font:13px/1.4 system-ui,sans-serif;
+  min-height:20px
+}
+
+#hs-conn-status{
+  text-align:center;
+  color:var(--muted);
+  font:11px/1.4 system-ui,sans-serif;
+  margin-bottom:2px
+}
+
 #hs-live-clock{
   text-align:center;
-  font-family:system-ui,sans-serif;
-  font-size:.78rem;
+  color:var(--muted);
+  font:10px/1.4 system-ui,sans-serif;
+  margin-bottom:12px;
+  font-variant-numeric:tabular-nums
 }
 
-.hs-presence{
-  color:var(--pink);
-  opacity:.8;
-  margin-top:7px;
+#hs-toolbar{
+  display:none;
+  flex-direction:column;
+  gap:8px;
+  padding:10px;
+  margin-bottom:10px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--card);
+  font-family:system-ui,sans-serif
 }
 
-.hs-connection{
-  margin-top:3px;
-  opacity:.72;
-}
-
-#hs-live-clock{
-  margin-top:3px;
-  opacity:.43;
-  font-size:.7rem;
-}
-
-.hs-tools{
+.hs-tool-row{
   display:flex;
-  flex-wrap:wrap;
   justify-content:center;
   align-items:center;
   gap:7px;
-  margin:13px 0 10px;
+  flex-wrap:wrap
 }
 
-.hs-colour{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  border:0;
-  padding:0;
-  background:transparent;
+.hs-btn{
+  border:1px solid rgba(232,182,76,.27);
+  background:rgba(232,182,76,.1);
+  color:var(--gold);
+  border-radius:8px;
+  padding:8px 10px;
   cursor:pointer;
+  font-size:12px;
+  font-weight:650
 }
 
-.hs-colour::-webkit-color-swatch-wrapper{
-  padding:0;
+.hs-btn.active{
+  border-color:var(--gold);
+  background:rgba(232,182,76,.28)
 }
 
-.hs-colour::-webkit-color-swatch{
-  border:2px solid rgba(255,255,255,.45);
+.hs-btn.danger{
+  color:var(--danger);
+  border-color:rgba(255,127,141,.3);
+  background:rgba(255,127,141,.08)
+}
+
+.hs-btn:disabled{
+  opacity:.35;
+  cursor:not-allowed
+}
+
+.hs-control-label{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--pink);
+  font-size:11px
+}
+
+#hs-colour-wheel{
+  width:40px;
+  height:40px;
+  border:0;
   border-radius:50%;
+  padding:0;
+  cursor:pointer;
+  background:conic-gradient(
+    #ff4d6d,
+    #ffb703,
+    #80ed99,
+    #4cc9f0,
+    #7b2cbf,
+    #f72585,
+    #ff4d6d
+  )
 }
 
-.hs-size{
-  width:120px;
+#hs-colour-wheel::-webkit-color-swatch-wrapper{
+  padding:4px
 }
 
-.hs-canvas-wrap{
+#hs-colour-wheel::-webkit-color-swatch{
+  border:2px solid rgba(255,255,255,.8);
+  border-radius:50%
+}
+
+#hs-thickness{
+  width:100px;
+  accent-color:var(--gold)
+}
+
+#hs-canvas-wrap{
   position:relative;
   width:100%;
   aspect-ratio:2/3;
+  border:1px solid var(--border);
   border-radius:12px;
   overflow:hidden;
-  background:#fbf5f0;
-  border:1px solid rgba(0,0,0,.08);
+  background-color:#1a0d12;
+  background-image:
+    radial-gradient(
+      rgba(244,184,204,.11) .8px,
+      transparent .8px
+    );
+  background-size:18px 18px;
+  touch-action:none;
+  cursor:none;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.28),
+    inset 0 0 35px rgba(0,0,0,.18)
 }
 
 #hs-canvas{
-  position:absolute;
-  inset:0;
+  display:block;
   width:100%;
-  height:100%;
-  display:block;
-  touch-action:none;
-  cursor:none;
+  height:100%
 }
 
-.hs-tool-preview{
-  position:fixed;
-  display:none;
-  pointer-events:none;
-  z-index:190;
-  border:1.5px solid rgba(25,15,18,.65);
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-}
-
-.mode-erase .hs-tool-preview{
-  border-style:dashed;
-}
-
-.hs-selection{
-  display:none;
+#hs-tool-preview{
   position:absolute;
-  border:1.5px dashed #e8b64c;
-  background:rgba(232,182,76,.08);
-  pointer-events:none;
-  z-index:10;
-}
-
-.hs-selection.show{
-  display:block;
-}
-
-.hs-history{
+  left:0;
+  top:0;
   display:none;
-  margin-top:12px;
-  border-top:1px solid rgba(244,184,204,.11);
-  padding-top:12px;
+  pointer-events:none;
+  z-index:5;
+  border:1.5px solid rgba(255,255,255,.9);
+  border-radius:50%;
+  box-shadow:0 0 0 1px rgba(13,6,8,.65);
+  transform:translate(-50%,-50%)
+}
+
+#hs-history{
+  display:none;
+  margin-top:10px;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--card);
+  font:12px/1.45 system-ui,sans-serif
+}
+
+#hs-history-actions{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:6px
 }
 
 .hs-snap{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:12px;
-  padding:8px 0;
-  border-bottom:1px solid rgba(255,255,255,.06);
-  font-family:system-ui,sans-serif;
-  font-size:.78rem;
+  gap:8px;
+  align-items:center;
+  padding:7px 0;
+  border-bottom:1px solid rgba(244,184,204,.08);
+  color:var(--pink)
 }
 
-.hs-history-actions{
+/* ========================= REACTIONS ========================= */
+
+.hs-memory-reactions{
   display:flex;
-  justify-content:flex-end;
-  margin-top:10px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:10px auto 0;
+  font-family:system-ui,sans-serif
 }
 
-.hs-toast{
-  position:fixed;
-  left:50%;
-  bottom:18px;
-  transform:translateX(-50%) translateY(15px);
-  background:#160b0f;
-  color:#fff;
-  border:1px solid rgba(244,184,204,.18);
+.hs-used-reaction,
+.hs-react-open{
+  border:1px solid rgba(244,184,204,.15);
+  background:rgba(244,184,204,.05);
+  color:#fdf0f5;
   border-radius:999px;
-  padding:8px 13px;
-  z-index:300;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s ease;
-  font-family:system-ui,sans-serif;
-  font-size:.78rem;
+  min-height:29px;
+  padding:4px 8px;
+  cursor:pointer;
+  font-size:12px
 }
 
-.hs-toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.hs-used-reaction.mine{
+  border-color:rgba(232,182,76,.7);
+  background:rgba(232,182,76,.12)
 }
+
+.hs-react-open{
+  color:#f4b8cc
+}
+
+.hs-picker{
+  display:none;
+  width:100%;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:3px;
+  margin-top:3px;
+  padding:7px;
+  border:1px solid rgba(244,184,204,.13);
+  border-radius:10px;
+  background:rgba(13,6,8,.97)
+}
+
+.hs-picker.show{
+  display:flex
+}
+
+.hs-emoji{
+  width:34px;
+  height:34px;
+  border:1px solid transparent;
+  border-radius:8px;
+  background:transparent;
+  font-size:19px;
+  cursor:pointer
+}
+
+.hs-emoji.mine{
+  border-color:rgba(232,182,76,.72);
+  background:rgba(232,182,76,.12)
+}
+
+/* ========================= UPLOADER ========================= */
+
+#hs-add-memory-wrap{
+  margin:42px 0 12px;
+  text-align:center;
+  font-family:system-ui,sans-serif
+}
+
+#hs-add-memory{
+  border:1px solid rgba(232,182,76,.27);
+  background:rgba(232,182,76,.1);
+  color:#e8b64c;
+  border-radius:999px;
+  padding:9px 14px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:650
+}
+
+#hs-shared-memories{
+  display:none;
+  margin:16px 0 38px
+}
+
+#hs-shared-memories.show{
+  display:block
+}
+
+#hs-shared-memories h2{
+  text-align:center;
+  color:#e8b64c;
+  font-size:20px;
+  font-style:italic;
+  font-weight:400;
+  margin-bottom:12px
+}
+
+.hs-shared-memory{
+  margin:28px 0
+}
+
+.hs-shared-memory img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)
+}
+
+.hs-shared-caption{
+  text-align:center;
+  color:#e8c4d3;
+  font:13px/1.45 system-ui,sans-serif;
+  margin-top:8px
+}
+
+.hs-shared-actions{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-top:8px
+}
+
+.hs-shared-actions button{
+  border:1px solid rgba(232,182,76,.27);
+  background:rgba(232,182,76,.1);
+  color:#e8b64c;
+  border-radius:8px;
+  padding:6px 9px;
+  cursor:pointer;
+  font-size:11px
+}
+
+/* ========================= MODALS ========================= */
 
 .hs-modal{
+  display:none;
   position:fixed;
   inset:0;
-  z-index:500;
-  background:rgba(0,0,0,.65);
-  display:none;
+  z-index:99999;
   align-items:center;
   justify-content:center;
-  padding:20px;
+  padding:18px;
+  background:rgba(0,0,0,.76)
 }
 
 .hs-modal.show{
-  display:flex;
+  display:flex
 }
 
-.hs-modal-card{
-  width:min(430px,100%);
-  border:1px solid rgba(244,184,204,.18);
-  border-radius:15px;
-  padding:18px;
-  background:#160b0f;
-  box-shadow:0 18px 55px rgba(0,0,0,.5);
-}
-
-.hs-modal-card h3{
-  color:var(--gold);
-  margin-bottom:8px;
-}
-
-.hs-modal-card p{
-  font-family:system-ui,sans-serif;
-  font-size:.9rem;
-  opacity:.78;
-  margin-bottom:12px;
-}
-
-.hs-modal-card input,
-.hs-modal-card textarea,
-.hs-modal-card select{
-  width:100%;
+.hs-modal-box{
+  width:min(92vw,360px);
   background:#0d0608;
-  border:1px solid rgba(244,184,204,.18);
-  color:#fff;
-  border-radius:9px;
+  color:#fdf0f5;
+  border:1px solid rgba(232,182,76,.65);
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 18px 60px rgba(0,0,0,.55);
+  font-family:system-ui,sans-serif
+}
+
+.hs-modal-box h3{
+  color:#e8b64c;
+  font-family:Georgia,serif;
+  font-weight:400;
+  margin-bottom:9px
+}
+
+.hs-modal-box p{
+  color:#f4b8cc;
+  font-size:13px;
+  line-height:1.45;
+  margin-bottom:12px
+}
+
+.hs-confirm{
+  width:100%;
   padding:10px;
-  margin:6px 0;
-  font-family:inherit;
+  margin-bottom:10px;
+  border:1px solid rgba(244,184,204,.2);
+  border-radius:8px;
+  background:rgba(244,184,204,.06);
+  color:#fff;
+  font-size:18px;
+  text-align:center
 }
 
 .hs-modal-actions{
   display:flex;
   justify-content:flex-end;
-  gap:8px;
-  margin-top:12px;
+  gap:7px
 }
 
-.hs-file-input{
-  display:none;
+#hs-upload-modal .hs-modal-box{
+  width:min(92vw,390px)
 }
 
-@media(max-width:640px){
-  .page{
-    width:min(100% - 20px,640px);
+#hs-upload-preview{
+  display:block;
+  max-width:100%;
+  max-height:240px;
+  margin:10px auto;
+  border-radius:9px
+}
+
+#hs-upload-caption{
+  width:100%;
+  min-height:72px;
+  resize:vertical;
+  padding:9px;
+  border-radius:9px;
+  border:1px solid rgba(244,184,204,.2);
+  background:rgba(244,184,204,.06);
+  color:#fdf0f5;
+  font:13px/1.4 system-ui,sans-serif;
+  margin-top:8px
+}
+
+#hs-upload-go{
+  width:100%;
+  margin-top:10px
+}
+
+#hs-toast{
+  position:fixed;
+  z-index:100000;
+  left:50%;
+  bottom:24px;
+  transform:translate(-50%,15px);
+  opacity:0;
+  pointer-events:none;
+  padding:8px 12px;
+  border:1px solid rgba(244,184,204,.2);
+  border-radius:999px;
+  background:rgba(13,6,8,.96);
+  color:#fdf0f5;
+  font:12px/1.3 system-ui,sans-serif;
+  transition:.18s ease
+}
+
+#hs-toast.show{
+  opacity:1;
+  transform:translate(-50%,0)
+}
+
+@media(max-width:600px){
+
+  .container{
+    padding-left:16px;
+    padding-right:16px
   }
 
-  .hs-shell{
-    padding:10px;
+  #hs-toolbar{
+    padding:8px
   }
 
-  .hs-size{
-    width:95px;
-  }
-
-  .hs-sticker-handle{
-    width:30px;
-    height:30px;
-  }
-
-  .hs-sticker-delete{
-    top:-15px;
-    right:-15px;
-  }
-
-  .hs-sticker-resize{
-    right:-15px;
-    bottom:-15px;
-  }
-
-  .hs-sticker-rotate{
-    top:-39px;
+  .hs-btn{
+    font-size:11px;
+    padding:8px 9px
   }
 }
 
@@ -695,32 +651,23 @@ video.media{
 
 <div class="curtain"></div>
 
-<div id="hs-sticker-layer"></div>
-
-<div id="hs-cursors">
-  <div id="hs-cursor-Andy" class="hs-cursor">
-    <div class="hs-cursor-dot"></div>
-    <div class="hs-cursor-label">Andy</div>
-  </div>
-
-  <div id="hs-cursor-Hamy" class="hs-cursor">
-    <div class="hs-cursor-dot"></div>
-    <div class="hs-cursor-label">Hamy</div>
-  </div>
+<div class="progress-track">
+  <div class="progress-fill" id="progressFill"></div>
 </div>
 
-<div class="page">
+<div class="container">
 
-  <div class="hello">
-    helloingg ❤️❤️
+  <div class="intro">
+    <h1>helloinggg ❤️❤️❤️</h1>
   </div>
 
   <div class="reveal">
     <iframe
-      class="video-frame"
-      data-memory-id="memory-01"
-      src="https://www.youtube.com/embed/VzzMUXaTI3Q"
-      title="video"
+      class="youtube-frame"
+      data-memory-id="making-of-video"
+      src="https://www.youtube-nocookie.com/embed/VzzMUXaTI3Q?rel=0"
+      title="For Em — Happy Birthday"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen>
     </iframe>
   </div>
@@ -728,17 +675,18 @@ video.media{
   <div class="reveal">
     <video
       class="media"
-      data-memory-id="memory-02"
-      src="hamyok.mp4"
+      data-memory-id="hamyok"
       controls
+      preload="metadata"
       playsinline>
+      <source src="hamyok.mp4" type="video/mp4">
     </video>
   </div>
 
   <div class="reveal">
     <img
       class="media"
-      data-memory-id="memory-03"
+      data-memory-id="love1"
       src="love1.png"
       alt="">
   </div>
@@ -746,7 +694,7 @@ video.media{
   <div class="reveal">
     <img
       class="media"
-      data-memory-id="memory-04"
+      data-memory-id="love1-2"
       src="love1%20(2).png"
       alt="">
   </div>
@@ -754,966 +702,1354 @@ video.media{
   <div class="reveal">
     <img
       class="media"
-      data-memory-id="memory-05"
+      data-memory-id="inwhat"
       src="inwhat.png"
       alt="">
   </div>
 
   <div class="reveal">
     <iframe
-      class="video-frame"
-      data-memory-id="memory-06"
-      src="https://www.youtube.com/embed/31BIQdznu_E"
-      title="video"
+      class="youtube-frame"
+      data-memory-id="video-2"
+      src="https://www.youtube-nocookie.com/embed/31BIQdznu_E?rel=0"
+      title="memory"
       allowfullscreen>
     </iframe>
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-07"
-      src="incest.png"
-      alt="">
+    <img class="media" data-memory-id="incest" src="incest.png" alt="">
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-08"
-      src="ms1.png"
-      alt="">
+    <img class="media" data-memory-id="ms1" src="ms1.png" alt="">
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-09"
-      src="samebrain.jpg"
-      alt="">
+    <img class="media" data-memory-id="samebrain" src="samebrain.jpg" alt="">
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-10"
-      src="samebrain2.png"
-      alt="">
+    <img class="media" data-memory-id="samebrain2" src="samebrain2.png" alt="">
   </div>
 
   <div class="reveal">
-    <video
-      class="media"
-      data-memory-id="memory-11"
-      src="mining.mp4"
-      controls
-      playsinline>
+    <video class="media" data-memory-id="mining" controls preload="metadata" playsinline>
+      <source src="mining.mp4" type="video/mp4">
     </video>
   </div>
 
   <div class="reveal">
-    <video
-      class="media"
-      data-memory-id="memory-12"
-      src="smile.mp4"
-      controls
-      playsinline>
+    <video class="media" data-memory-id="smile" controls preload="metadata" playsinline>
+      <source src="smile.mp4" type="video/mp4">
     </video>
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-13"
-      src="ok1.jpg"
-      alt="">
+    <img class="media" data-memory-id="ok1" src="ok1.jpg" alt="">
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-14"
-      src="pepper.jpg"
-      alt="">
+    <img class="media" data-memory-id="pepper" src="pepper.jpg" alt="">
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-15"
-      src="ilovehamy.jpg"
-      alt="">
+    <img class="media" data-memory-id="ilovehamy" src="ilovehamy.jpg" alt="">
   </div>
 
   <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="memory-16"
-      src="flounder.jpg"
-      alt="">
+    <img class="media" data-memory-id="flounder" src="flounder.jpg" alt="">
   </div>
 
   <div class="reveal">
-    <video
-      class="media"
-      data-memory-id="memory-17"
-      src="k_kfkMTncfnSqytLRS8m_g.mp4"
-      controls
-      playsinline>
+    <video class="media" data-memory-id="old-aram" controls preload="metadata" playsinline>
+      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
     </video>
   </div>
 
-  <section id="hs-shared-uploads">
-    <div class="hs-upload-heading">
-      new stuff from us ✨
-    </div>
-
-    <div class="hs-upload-sub">
-      add a photo, video or audio without touching github
-    </div>
-
-    <button
-      id="hs-add-memory"
-      class="hs-btn hs-add-memory">
-      + add something
+  <div id="hs-add-memory-wrap">
+    <button id="hs-add-memory" type="button">
+      ＋ add a photo
     </button>
 
-    <div id="hs-upload-list" class="hs-upload-list"></div>
+    <input
+      id="hs-photo-input"
+      type="file"
+      accept="image/*"
+      hidden>
+  </div>
+
+  <section id="hs-shared-memories">
+    <h2>new stuff from us ❤️</h2>
+    <div id="hs-shared-memory-list"></div>
   </section>
 
-  <div class="final-text">
-    one more thing...
+  <div class="finale-lead">
+    <p>one more thing...</p>
   </div>
 
   <div class="audio-wrap">
     <audio
-      data-memory-id="memory-18"
-      src="meow.opus"
-      controls>
+      data-memory-id="meow"
+      controls
+      preload="metadata">
+      <source src="meow.opus" type="audio/ogg">
     </audio>
   </div>
 
-  <div id="hs-pets">
-    <div id="hs-pet-andy" class="hs-pet">
-      <div class="hs-pet-face">🐺</div>
-      <div class="hs-pet-name">Andy's husky</div>
+  <div id="hamoon-space">
+
+    <h2>our wall ❤️</h2>
+
+    <div id="hs-auto-identity"></div>
+
+    <div id="hs-author-buttons">
+
+      <button class="hs-author" data-author="Hamy">
+        ♡ Hamy ♡
+      </button>
+
+      <button class="hs-author" data-author="Andy">
+        ♡ Andy ♡
+      </button>
+
     </div>
 
-    <div id="hs-pet-hamy" class="hs-pet">
-      <div class="hs-pet-face">🐱</div>
-      <div class="hs-pet-name">Hamy's cat</div>
+    <div id="hs-presence"></div>
+
+    <div id="hs-conn-status">
+      setting things up…
     </div>
-  </div>
 
-  <section id="hamoon-space">
+    <div id="hs-live-clock"></div>
 
-    <div class="hs-shell" id="hs-shell">
+    <div id="hs-toolbar">
 
-      <div class="hs-title">
-        our wall ❤️
-      </div>
+      <div class="hs-tool-row">
 
-      <div class="hs-who">
-        <button class="hs-author" data-author="Hamy">
-          ♡ Hamy ♡
+        <label class="hs-control-label">
+          Colour
+          <input
+            id="hs-colour-wheel"
+            type="color"
+            value="#f4b8cc">
+        </label>
+
+        <label class="hs-control-label">
+          Size
+          <input
+            id="hs-thickness"
+            type="range"
+            min="1"
+            max="20"
+            value="4">
+        </label>
+
+        <button class="hs-btn" id="hs-eraser">
+          🧽 Eraser
         </button>
 
-        <button class="hs-author" data-author="Andy">
-          ♡ Andy ♡
-        </button>
-      </div>
-
-      <div class="hs-presence" id="hs-presence">
-        figuring out who's here…
-      </div>
-
-      <div class="hs-connection">
-        <span id="hs-conn-status">
-          connecting…
-        </span>
-      </div>
-
-      <div id="hs-live-clock"></div>
-
-      <div class="hs-tools">
-
-        <input
-          id="hs-colour-wheel"
-          class="hs-colour"
-          type="color"
-          value="#ef77a8">
-
-        <input
-          id="hs-thickness"
-          class="hs-size"
-          type="range"
-          min="1"
-          max="28"
-          value="6">
-
-        <button id="hs-eraser" class="hs-btn">
-          Eraser
-        </button>
-
-        <button id="hs-make-sticker" class="hs-btn">
-          Make sticker
-        </button>
-
-        <button id="hs-undo" class="hs-btn">
+        <button class="hs-btn" id="hs-undo">
           ↩ Undo
         </button>
 
-        <button id="hs-redo" class="hs-btn">
+        <button class="hs-btn" id="hs-redo">
           ↪ Redo
         </button>
 
-        <button id="hs-history-btn" class="hs-btn">
-          History
-        </button>
-
-        <button id="hs-clear-mine" class="hs-btn">
-          Clear my drawings
-        </button>
-
-        <button id="hs-clear-all" class="hs-btn hs-danger">
-          Clear all
-        </button>
-
       </div>
 
-      <div class="hs-canvas-wrap" id="hs-canvas-wrap">
-        <canvas id="hs-canvas"></canvas>
-        <div id="hs-selection" class="hs-selection"></div>
-      </div>
+      <div class="hs-tool-row">
 
-      <div class="hs-history" id="hs-history">
-        <div id="hs-snapshots"></div>
+        <button class="hs-btn" id="hs-history-btn">
+          📜 History
+        </button>
 
-        <div class="hs-history-actions">
-          <button id="hs-delete-history" class="hs-btn hs-danger">
-            Delete histories
-          </button>
-        </div>
+        <button class="hs-btn danger" id="hs-clear-mine">
+          🗑 Clear my drawings
+        </button>
+
+        <button class="hs-btn danger" id="hs-clear-all">
+          💀 Clear all
+        </button>
+
       </div>
 
     </div>
 
-  </section>
+    <div id="hs-canvas-wrap">
+      <canvas id="hs-canvas"></canvas>
+      <div id="hs-tool-preview"></div>
+    </div>
 
-</div>
+    <div id="hs-history">
 
-<div id="hs-tool-preview" class="hs-tool-preview"></div>
+      <div id="hs-history-actions">
+        <button class="hs-btn danger" id="hs-delete-history">
+          Delete histories
+        </button>
+      </div>
 
-<div id="hs-toast" class="hs-toast"></div>
+      <div id="hs-snapshots"></div>
 
-<div id="hs-confirm-modal" class="hs-modal">
-  <div class="hs-modal-card">
-
-    <h3 id="hs-confirm-title"></h3>
-
-    <p id="hs-confirm-copy"></p>
-
-    <input
-      id="hs-confirm-input"
-      type="text"
-      inputmode="numeric"
-      autocomplete="off"
-      placeholder="type 69">
-
-    <div class="hs-modal-actions">
-      <button id="hs-confirm-cancel" class="hs-btn">
-        nor
-      </button>
-
-      <button id="hs-confirm-go" class="hs-btn" disabled>
-        okiee
-      </button>
     </div>
 
   </div>
+
 </div>
 
-<div id="hs-upload-modal" class="hs-modal">
-  <div class="hs-modal-card">
+<div class="hs-modal" id="hs-upload-modal">
 
-    <h3>
-      add something ✨
-    </h3>
+  <div class="hs-modal-box">
 
-    <input
-      id="hs-upload-file"
-      class="hs-file-input"
-      type="file"
-      accept="image/*,video/*,audio/*">
+    <h3>add this photo?</h3>
 
-    <button id="hs-pick-file" class="hs-btn">
-      choose file
-    </button>
-
-    <div
-      id="hs-picked-file-name"
-      style="margin:8px 0;opacity:.55;font-size:.8rem">
-      nothing chosen yet
-    </div>
-
-    <select id="hs-upload-use">
-      <option value="timeline">
-        Timeline memory
-      </option>
-      <option value="sticker">
-        Sticker
-      </option>
-    </select>
+    <img id="hs-upload-preview" alt="">
 
     <textarea
       id="hs-upload-caption"
-      rows="3"
       placeholder="caption (optional)">
     </textarea>
 
-    <div class="hs-modal-actions">
-      <button id="hs-upload-cancel" class="hs-btn">
-        cancel
-      </button>
+    <button class="hs-btn" id="hs-upload-go" type="button">
+      add to timeline
+    </button>
 
-      <button id="hs-upload-go" class="hs-btn">
-        add
+    <div class="hs-modal-actions" style="margin-top:8px">
+      <button class="hs-btn" id="hs-upload-cancel" type="button">
+        nor
       </button>
     </div>
 
   </div>
+
 </div>
 
-<script
-  data-goatcounter="https://hamoon69.goatcounter.com/count"
-  async
-  src="//gc.zgo.at/count.js">
-</script>
+<div class="hs-modal" id="hs-confirm-modal">
 
-<script>
-fetch(
-  "https://hamoon-counter.andy-ng199507.workers.dev/visit",
-  {
-    method:"POST",
-    keepalive:true
-  }
-).catch(function(){});
-</script>
+  <div class="hs-modal-box">
+
+    <h3 id="hs-confirm-title">
+      confirm?
+    </h3>
+
+    <p id="hs-confirm-copy">
+      Type <strong>69</strong> to confirm.
+    </p>
+
+    <input
+      id="hs-confirm-input"
+      class="hs-confirm"
+      inputmode="numeric"
+      maxlength="2"
+      placeholder="69">
+
+    <div class="hs-modal-actions">
+
+      <button class="hs-btn" id="hs-confirm-cancel">
+        nor
+      </button>
+
+      <button class="hs-btn danger" id="hs-confirm-go" disabled>
+        okiee
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="hs-toast"></div>
 
 <script>
 (function(){
 
-  const API =
-    "https://hamoon-counter.andy-ng199507.workers.dev";
-
-  const WS_URL =
-    API.replace(
-      /^http/,
-      "ws"
-    ) +
-    "/space/live";
-
-  const BOARD_PIN =
-    "hamoon-69";
-
-  const EMOJIS = [
-    "❤️",
-    "💛",
-    "🧠",
-    "😂",
-    "😭",
-    "💀",
-    "🥹",
-    "🥺",
-    "😍",
-    "🤭",
-    "😳",
-    "🫠",
-    "😤",
-    "🤡",
-    "🫡",
-    "🔥",
-    "✨",
-    "🌙",
-    "🌸",
-    "🐱"
-  ];
-
-  const state = {
-    author:null,
-    detectedAuthor:null,
-    token:null,
-    ws:null,
-    reconnectAttempt:0,
-    reconnectTimer:null,
-
-    strokes:[],
-    reactions:[],
-    stickers:[],
-    uploads:[],
-    presence:[],
-
-    colour:"#ef77a8",
-    thickness:6,
-    mode:"draw",
-
-    drawing:false,
-    current:null,
-
-    width:0,
-    height:0,
-    dpr:1,
-
-    eraseAt:0,
-
-    activeTouches:new Map(),
-    twoFingerScroll:false,
-    touchScrollStartY:0,
-    pageScrollStartY:0,
-
-    switchFrom:null,
-    ignorePreviousUntil:0,
-
-    stickerSelect:false,
-    selectionStart:null,
-    selectionNow:null,
-
-    selectedSticker:null,
-    stickerDrag:null,
-
-    cursorAt:0
-  };
-
-  let pending69Action=null;
-
-  const canvas =
-    document.getElementById(
-      "hs-canvas"
+  const revealEls =
+    document.querySelectorAll(
+      ".reveal,.finale-lead,.audio-wrap"
     );
 
-  const ctx =
-    canvas.getContext(
-      "2d"
-    );
+  if(
+    "IntersectionObserver"
+    in window
+  ){
+    const observer =
+      new IntersectionObserver(
+        entries=>{
+          entries.forEach(
+            entry=>{
+              if(
+                entry.isIntersecting
+              ){
+                entry.target
+                  .classList
+                  .add(
+                    "visible"
+                  );
 
-  const wrap =
-    document.getElementById(
-      "hs-shell"
-    );
-
-  const canvasWrap =
-    document.getElementById(
-      "hs-canvas-wrap"
-    );
-
-  const selectionBox =
-    document.getElementById(
-      "hs-selection"
-    );
-
-  const toolPreview =
-    document.getElementById(
-      "hs-tool-preview"
-    );
-
-  const stickerLayer =
-    document.getElementById(
-      "hs-sticker-layer"
-    );
-
-  function toast(text){
-    const el=
-      document.getElementById(
-        "hs-toast"
+                observer
+                  .unobserve(
+                    entry.target
+                  );
+              }
+            }
+          );
+        },
+        {
+          threshold:.08
+        }
       );
 
-    el.textContent=
-      text;
-
-    el.classList.add(
-      "show"
+    revealEls.forEach(
+      el=>observer.observe(el)
     );
 
-    clearTimeout(
-      toast.timer
+  }else{
+    revealEls.forEach(
+      el=>
+        el.classList.add(
+          "visible"
+        )
     );
-
-    toast.timer=
-      setTimeout(
-        () =>
-          el.classList.remove(
-            "show"
-          ),
-        1800
-      );
   }
 
-  function detectAuthor(){
-    const tz=
+  function progress(){
+    const max =
+      document.documentElement.scrollHeight -
+      innerHeight;
+
+    const pct =
+      max > 0
+        ? Math.min(
+            100,
+            Math.max(
+              0,
+              scrollY /
+              max *
+              100
+            )
+          )
+        : 0;
+
+    document
+      .getElementById(
+        "progressFill"
+      )
+      .style
+      .width =
+        pct +
+        "%";
+  }
+
+  addEventListener(
+    "scroll",
+    progress,
+    {
+      passive:true
+    }
+  );
+
+  progress();
+
+  window.addEventListener(
+    "pageshow",
+    ()=>{
+      window.scrollTo(
+        0,
+        0
+      );
+
+      setTimeout(
+        ()=>window.scrollTo(0,0),
+        40
+      );
+    },
+    {
+      once:true
+    }
+  );
+
+})();
+</script>
+
+<script>
+(function(){
+"use strict";
+
+const API=
+  "https://hamoon-counter.andy-ng199507.workers.dev";
+
+const WS_URL=
+  "wss://hamoon-counter.andy-ng199507.workers.dev/space/live";
+
+const AUTO_EDIT_PIN=
+  "hamoon-69";
+
+const EMOJIS=[
+  "❤️","💛","🧠","😂","😭","💀","🥹","🥺","😍","🤭",
+  "😳","🫠","😤","🤡","🫡","🔥","✨","🌙","🌸","🐱"
+];
+
+const canvas=
+  document.getElementById(
+    "hs-canvas"
+  );
+
+const wrap=
+  document.getElementById(
+    "hs-canvas-wrap"
+  );
+
+const ctx=
+  canvas.getContext(
+    "2d"
+  );
+
+const toolPreview=
+  document.getElementById(
+    "hs-tool-preview"
+  );
+
+const state={
+  token:null,
+  author:null,
+  detectedAuthor:null,
+  unlocked:false,
+  mode:"draw",
+  colour:"#f4b8cc",
+  thickness:4,
+  strokes:[],
+  reactions:[],
+  uploads:[],
+  presence:[],
+  width:1,
+  height:1,
+  dpr:1,
+  drawing:false,
+  current:null,
+  ws:null,
+  reconnectTimer:null,
+  reconnectAttempt:0,
+  switchFrom:null,
+  ignorePreviousUntil:0,
+  activeTouches:new Map(),
+  twoFingerScroll:false,
+  touchScrollStartY:0,
+  pageScrollStartY:0,
+  eraseAt:0
+};
+
+let toastTimer=null;
+let pending69Action=null;
+
+function toast(text){
+
+  const el=
+    document.getElementById(
+      "hs-toast"
+    );
+
+  el.textContent=
+    text;
+
+  el.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer=
+    setTimeout(
+      ()=>{
+        el.classList.remove(
+          "show"
+        );
+      },
+      2200
+    );
+}
+
+function detectAuthor(){
+
+  let tz="";
+  let lang="";
+
+  try{
+    tz=
       Intl.DateTimeFormat()
         .resolvedOptions()
         .timeZone ||
       "";
+  }catch(_){}
 
-    const lang=
+  try{
+    lang=
       (
         navigator.language ||
         ""
       ).toLowerCase();
+  }catch(_){}
 
-    if(
-      tz==="Pacific/Auckland" ||
-      tz==="Pacific/Chatham" ||
-      lang.endsWith("-nz")
-    ){
-      return "Hamy";
-    }
+  if(
+    tz==="Pacific/Auckland" ||
+    tz==="Pacific/Chatham" ||
+    lang.endsWith("-nz")
+  ){
+    return "Hamy";
+  }
 
-    if(
-      tz==="Australia/Melbourne" ||
-      tz.startsWith("Australia/") ||
-      lang.endsWith("-au")
-    ){
-      return "Andy";
-    }
-
+  if(
+    tz==="Australia/Melbourne" ||
+    tz.startsWith("Australia/") ||
+    lang.endsWith("-au")
+  ){
     return "Andy";
   }
 
-  function headers(auth=true){
-    const h={
-      "Content-Type":"application/json"
-    };
+  return "Andy";
+}
 
-    if(
-      auth &&
-      state.token
-    ){
-      h.Authorization=
-        "Bearer "+
-        state.token;
-    }
+function updateAuthorUI(){
 
-    return h;
+  document
+    .querySelectorAll(
+      ".hs-author"
+    )
+    .forEach(
+      btn=>{
+        btn.classList.toggle(
+          "selected",
+          btn.dataset.author===
+            state.author
+        );
+      }
+    );
+
+  document
+    .getElementById(
+      "hs-auto-identity"
+    )
+    .textContent=
+      "automatically detected as ♡ "+
+      state.detectedAuthor+
+      " ♡ · posting as ♡ "+
+      state.author+
+      " ♡";
+}
+
+function headers(json){
+
+  const h={};
+
+  if(json){
+    h["Content-Type"]=
+      "application/json";
   }
 
-  async function api(
-    path,
-    options={}
+  if(
+    state.token
   ){
-    const res=
-      await fetch(
-        API+path,
-        options
-      );
-
-    if(!res.ok){
-      let text="";
-
-      try{
-        text=
-          await res.text();
-      }catch(_){}
-
-      throw new Error(
-        text ||
-        ("HTTP "+res.status)
-      );
-    }
-
-    const type=
-      res.headers.get(
-        "content-type"
-      ) ||
-      "";
-
-    if(
-      type.includes(
-        "application/json"
-      )
-    ){
-      return res.json();
-    }
-
-    return res.text();
+    h.Authorization=
+      "Bearer "+
+      state.token;
   }
 
-  async function autoUnlock(){
-    const existing=
-      sessionStorage.getItem(
-        "hamoon-token"
+  return h;
+}
+
+async function api(
+  path,
+  opts
+){
+
+  const r=
+    await fetch(
+      API+
+      path,
+      opts ||
+      {}
+    );
+
+  if(!r.ok){
+
+    let msg="";
+
+    try{
+      msg=
+        await r.text();
+    }catch(_){}
+
+    throw new Error(
+      msg ||
+      (
+        "HTTP "+
+        r.status
+      )
+    );
+  }
+
+  const type=
+    r.headers.get(
+      "content-type"
+    ) ||
+    "";
+
+  return type.includes(
+    "application/json"
+  )
+    ? r.json()
+    : null;
+}
+
+function closeCurrentSocket(){
+
+  const old=
+    state.ws;
+
+  state.ws=
+    null;
+
+  if(old){
+
+    try{
+      old.onclose=
+        null;
+
+      old.close(
+        1000,
+        "identity switch"
       );
+    }catch(_){}
+  }
+}
 
-    if(existing){
-      state.token=
-        existing;
-      return;
-    }
+function chooseAuthor(
+  name,
+  manual
+){
 
-    const data=
-      await api(
-        "/space/auth",
-        {
-          method:"POST",
-          headers:headers(false),
-          body:JSON.stringify({
-            pin:BOARD_PIN
+  if(
+    name!=="Andy" &&
+    name!=="Hamy"
+  ){
+    return;
+  }
+
+  const previous=
+    state.author;
+
+  if(
+    manual &&
+    previous &&
+    previous!==name
+  ){
+    state.switchFrom=
+      previous;
+
+    state.ignorePreviousUntil=
+      Date.now()+
+      7000;
+  }
+
+  state.author=
+    name;
+
+  updateAuthorUI();
+
+  closeCurrentSocket();
+
+  clearTimeout(
+    state.reconnectTimer
+  );
+
+  setTimeout(
+    connectWebSocket,
+    400
+  );
+}
+
+async function autoUnlock(){
+
+  const data=
+    await api(
+      "/space/auth",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+            pin:
+              AUTO_EDIT_PIN
           })
-        }
-      );
-
-    state.token=
-      data.token;
-
-    sessionStorage.setItem(
-      "hamoon-token",
-      state.token
+      }
     );
+
+  state.token=
+    data.token;
+
+  state.unlocked=
+    true;
+
+  document
+    .getElementById(
+      "hs-toolbar"
+    )
+    .style
+    .display=
+      "flex";
+}
+
+function normStroke(s){
+
+  if(!s){
+    return null;
   }
 
-  function updateAuthorUI(){
-    document
-      .querySelectorAll(
-        ".hs-author"
-      )
-      .forEach(
-        btn=>{
-          btn.classList.toggle(
-            "active",
-            btn.dataset.author ===
-              state.author
-          );
-        }
-      );
-  }
+  let points=
+    s.points;
 
-  function chooseAuthor(
-    author,
-    manual=false
+  if(
+    typeof points===
+    "string"
   ){
-    if(
-      author!=="Andy" &&
-      author!=="Hamy"
-    ){
-      return;
-    }
-
-    if(
-      state.author ===
-      author
-    ){
-      return;
-    }
-
-    const previous=
-      state.author;
-
-    if(manual){
-      state.switchFrom=
-        previous;
-
-      state.ignorePreviousUntil=
-        Date.now()+
-        7000;
-    }
-
-    closeCurrentSocket();
-
-    state.author=
-      author;
-
-    updateAuthorUI();
-
-    setTimeout(
-      connectWebSocket,
-      400
-    );
-  }
-
-  function closeCurrentSocket(){
-    clearTimeout(
-      state.reconnectTimer
-    );
-
-    if(state.ws){
-      try{
-        if(
-          state.ws.readyState ===
-          WebSocket.OPEN
-        ){
-          state.ws.send(
-            JSON.stringify({
-              type:"cursor.leave"
-            })
-          );
-        }
-      }catch(_){}
-
-      try{
-        state.ws.close();
-      }catch(_){}
-
-      state.ws=null;
-    }
-  }
-
-  function normStroke(s){
-    if(
-      !s ||
-      !s.id ||
-      !Array.isArray(
-        s.points
-      )
-    ){
-      return null;
-    }
-
-    return {
-      id:s.id,
-      author:s.author,
-      color:s.color || "#ef77a8",
-      width:Number(s.width)||6,
-      points:s.points,
-      createdAt:
-        s.createdAt ||
-        s.created_at ||
-        Date.now()
-    };
-  }
-
-  function normReaction(r){
-    if(
-      !r ||
-      !r.memoryId ||
-      !r.emoji
-    ){
-      return null;
-    }
-
-    return {
-      memoryId:r.memoryId,
-      author:r.author,
-      emoji:r.emoji
-    };
-  }
-
-  function normSticker(s){
-    if(
-      !s ||
-      !s.id ||
-      !s.src
-    ){
-      return null;
-    }
-
-    return {
-      id:s.id,
-      author:s.author,
-      src:s.src,
-
-      x:
-        Number.isFinite(
-          Number(s.x)
-        )
-          ? Number(s.x)
-          : .5,
-
-      y:
-        Number.isFinite(
-          Number(s.y)
-        )
-          ? Number(s.y)
-          : .5,
-
-      width:
-        Number.isFinite(
-          Number(s.width)
-        )
-          ? Number(s.width)
-          : .15,
-
-      height:
-        Number.isFinite(
-          Number(s.height)
-        )
-          ? Number(s.height)
-          : .15,
-
-      rotation:
-        Number.isFinite(
-          Number(s.rotation)
-        )
-          ? Number(s.rotation)
-          : 0
-    };
-  }
-
-  function normUpload(u){
-    if(
-      !u ||
-      !u.id ||
-      !u.src
-    ){
-      return null;
-    }
-
-    return {
-      id:u.id,
-      author:u.author,
-      type:u.type,
-      src:u.src,
-      caption:u.caption || "",
-      sortOrder:
-        Number(
-          u.sortOrder ??
-          u.sort_order ??
-          Date.now()
-        )
-    };
-  }
-
-  async function loadState(){
-    const data=
-      await api(
-        "/space/state",
-        {
-          headers:
-            headers(false)
-        }
-      );
-
-    state.strokes=
-      (
-        data.strokes ||
-        []
-      )
-        .map(
-          normStroke
-        )
-        .filter(
-          Boolean
+    try{
+      points=
+        JSON.parse(
+          points
         );
-
-    state.reactions=
-      (
-        data.reactions ||
-        []
-      )
-        .map(
-          normReaction
-        )
-        .filter(
-          Boolean
-        );
-
-    state.stickers=
-      (
-        data.stickers ||
-        []
-      )
-        .map(
-          normSticker
-        )
-        .filter(
-          Boolean
-        );
-
-    state.uploads=
-      (
-        data.uploads ||
-        []
-      )
-        .map(
-          normUpload
-        )
-        .filter(
-          Boolean
-        );
-
-    state.presence=
-      Array.isArray(
-        data.presence
-      )
-        ? data.presence
-        : [];
-
-    redraw();
-    renderReactions();
-    renderPresence();
-    renderPets();
-    renderStickers();
-    renderUploads();
+    }catch(_){
+      points=[];
+    }
   }
 
-  function brushWidth(
-    width
+  return {
+    id:s.id,
+    author:s.author||"",
+    color:s.color||s.colour||"#f4b8cc",
+    width:Number(s.width||3),
+    points:Array.isArray(points)?points:[]
+  };
+}
+
+function normReaction(r){
+
+  return {
+    memoryId:
+      r.memoryId||
+      r.memory_id||
+      "",
+
+    author:
+      r.author||
+      "",
+
+    emoji:
+      r.emoji||
+      r.reaction||
+      ""
+  };
+}
+
+function normUpload(u){
+
+  if(
+    !u ||
+    !u.id ||
+    !u.src
   ){
-    return Math.max(
+    return null;
+  }
+
+  return {
+    id:u.id,
+    author:u.author||"",
+    type:u.type||"image",
+    src:u.src,
+    caption:u.caption||"",
+    sortOrder:Number(
+      u.sortOrder ??
+      u.sort_order ??
+      Date.now()
+    )
+  };
+}
+
+async function loadState(){
+
+  const data=
+    await api(
+      "/space/state"
+    );
+
+  state.strokes=
+    (
+      data.strokes||
+      []
+    )
+      .map(normStroke)
+      .filter(Boolean);
+
+  state.reactions=
+    (
+      data.reactions||
+      []
+    )
+      .map(normReaction)
+      .filter(Boolean);
+
+  state.uploads=
+    (
+      data.uploads||
+      []
+    )
+      .map(normUpload)
+      .filter(Boolean);
+
+  state.presence=
+    Array.isArray(
+      data.presence
+    )
+      ? data.presence
+      : [];
+
+  redraw();
+  renderReactions();
+  renderUploads();
+  renderPresence();
+}
+
+/* ========================= CANVAS ========================= */
+
+function resizeCanvas(){
+
+  const rect=
+    wrap.getBoundingClientRect();
+
+  state.width=
+    Math.max(
       1,
-      Number(width)
+      rect.width
     );
-  }
 
-  function resizeCanvas(){
-    const rect=
-      canvas.getBoundingClientRect();
+  state.height=
+    Math.max(
+      1,
+      rect.height
+    );
 
-    state.dpr=
+  state.dpr=
+    Math.max(
+      1,
+      window.devicePixelRatio||
+      1
+    );
+
+  canvas.width=
+    Math.round(
+      state.width*
+      state.dpr
+    );
+
+  canvas.height=
+    Math.round(
+      state.height*
+      state.dpr
+    );
+
+  canvas.style.width=
+    state.width+
+    "px";
+
+  canvas.style.height=
+    state.height+
+    "px";
+
+  ctx.setTransform(
+    state.dpr,
+    0,
+    0,
+    state.dpr,
+    0,
+    0
+  );
+
+  redraw();
+}
+
+function point(e){
+
+  const r=
+    canvas.getBoundingClientRect();
+
+  return {
+    x:
       Math.max(
-        1,
-        window.devicePixelRatio ||
-        1
-      );
+        0,
+        Math.min(
+          1,
+          (
+            e.clientX-
+            r.left
+          )/
+          r.width
+        )
+      ),
 
-    state.width=
-      rect.width;
+    y:
+      Math.max(
+        0,
+        Math.min(
+          1,
+          (
+            e.clientY-
+            r.top
+          )/
+          r.height
+        )
+      )
+  };
+}
 
-    state.height=
-      rect.height;
+function brushWidth(w){
 
-    canvas.width=
-      Math.round(
-        rect.width *
-        state.dpr
-      );
+  return Math.max(
+    .8,
+    Number(w||3)*
+    Math.max(
+      .72,
+      Math.min(
+        1.4,
+        state.width/
+        640
+      )
+    )
+  );
+}
 
-    canvas.height=
-      Math.round(
-        rect.height *
-        state.dpr
-      );
+function eraserDiameterPx(){
 
-    ctx.setTransform(
-      state.dpr,
-      0,
-      0,
-      state.dpr,
-      0,
-      0
-    );
+  return Math.max(
+    12,
+    state.thickness*
+    2.8
+  );
+}
 
-    redraw();
+function eraserRadiusNorm(){
+
+  return (
+    eraserDiameterPx()/
+    2
+  )/
+  Math.max(
+    1,
+    state.width
+  );
+}
+
+function previewDiameterPx(){
+
+  return state.mode===
+    "erase"
+      ? eraserDiameterPx()
+      : Math.max(
+          4,
+          brushWidth(
+            state.thickness
+          )
+        );
+}
+
+function showToolPreview(
+  clientX,
+  clientY
+){
+
+  const rect=
+    wrap.getBoundingClientRect();
+
+  if(
+    clientX<
+      rect.left ||
+    clientX>
+      rect.right ||
+    clientY<
+      rect.top ||
+    clientY>
+      rect.bottom
+  ){
+    toolPreview.style.display=
+      "none";
+
+    return;
   }
 
-  function drawStroke(
-    stroke
+  const d=
+    previewDiameterPx();
+
+  toolPreview.style.display=
+    "block";
+
+  toolPreview.style.left=
+    (
+      clientX-
+      rect.left
+    )+
+    "px";
+
+  toolPreview.style.top=
+    (
+      clientY-
+      rect.top
+    )+
+    "px";
+
+  toolPreview.style.width=
+    d+
+    "px";
+
+  toolPreview.style.height=
+    d+
+    "px";
+
+  toolPreview.style.borderStyle=
+    state.mode===
+      "erase"
+        ? "dashed"
+        : "solid";
+}
+
+function hideToolPreview(){
+  toolPreview.style.display=
+    "none";
+}
+
+function drawStroke(s){
+
+  if(
+    !s ||
+    !Array.isArray(
+      s.points
+    ) ||
+    s.points.length<
+      1
   ){
-    const points=
-      stroke.points ||
-      [];
+    return;
+  }
+
+  const pts=
+    s.points;
+
+  ctx.strokeStyle=
+    s.color;
+
+  ctx.fillStyle=
+    s.color;
+
+  ctx.lineWidth=
+    brushWidth(
+      s.width
+    );
+
+  ctx.lineCap=
+    "round";
+
+  ctx.lineJoin=
+    "round";
+
+  if(
+    pts.length===
+    1
+  ){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      pts[0].x*
+        state.width,
+      pts[0].y*
+        state.height,
+      ctx.lineWidth/
+        2,
+      0,
+      Math.PI*
+        2
+    );
+
+    ctx.fill();
+
+    return;
+  }
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    pts[0].x*
+      state.width,
+    pts[0].y*
+      state.height
+  );
+
+  for(
+    let i=1;
+    i<pts.length;
+    i++
+  ){
+
+    ctx.lineTo(
+      pts[i].x*
+        state.width,
+      pts[i].y*
+        state.height
+    );
+  }
+
+  ctx.stroke();
+}
+
+function redraw(){
+
+  ctx.clearRect(
+    0,
+    0,
+    state.width,
+    state.height
+  );
+
+  state.strokes
+    .forEach(
+      drawStroke
+    );
+}
+
+function touchCentreY(){
+
+  const vals=
+    [
+      ...state.activeTouches.values()
+    ];
+
+  if(
+    !vals.length
+  ){
+    return 0;
+  }
+
+  return vals.reduce(
+    (
+      sum,
+      p
+    )=>
+      sum+
+      p.y,
+    0
+  )/
+  vals.length;
+}
+
+function pointerDown(e){
+
+  if(
+    !state.unlocked
+  ){
+    return;
+  }
+
+  if(
+    e.pointerType===
+    "touch"
+  ){
+
+    state.activeTouches.set(
+      e.pointerId,
+      {
+        x:e.clientX,
+        y:e.clientY
+      }
+    );
 
     if(
-      !points.length
+      state.activeTouches.size===
+      2
+    ){
+
+      state.twoFingerScroll=
+        true;
+
+      state.touchScrollStartY=
+        touchCentreY();
+
+      state.pageScrollStartY=
+        window.scrollY;
+
+      state.drawing=
+        false;
+
+      state.current=
+        null;
+
+      return;
+    }
+  }
+
+  const p=
+    point(e);
+
+  showToolPreview(
+    e.clientX,
+    e.clientY
+  );
+
+  if(
+    state.mode===
+    "erase"
+  ){
+
+    if(
+      e.pointerType===
+      "mouse" &&
+      e.button!==
+      0
     ){
       return;
     }
+
+    e.preventDefault();
+
+    erase(p);
+
+    return;
+  }
+
+  e.preventDefault();
+
+  state.drawing=
+    true;
+
+  state.current={
+    id:
+      crypto.randomUUID(),
+
+    author:
+      state.author,
+
+    color:
+      state.colour,
+
+    width:
+      state.thickness,
+
+    points:[
+      p
+    ]
+  };
+}
+
+function pointerMove(e){
+
+  if(
+    !state.unlocked
+  ){
+    return;
+  }
+
+  if(
+    e.pointerType===
+      "touch" &&
+    state.activeTouches.has(
+      e.pointerId
+    )
+  ){
+
+    state.activeTouches.set(
+      e.pointerId,
+      {
+        x:e.clientX,
+        y:e.clientY
+      }
+    );
+
+    if(
+      state.twoFingerScroll
+    ){
+
+      e.preventDefault();
+
+      window.scrollTo(
+        0,
+        state.pageScrollStartY+
+        (
+          state.touchScrollStartY-
+          touchCentreY()
+        )
+      );
+
+      return;
+    }
+  }
+
+  showToolPreview(
+    e.clientX,
+    e.clientY
+  );
+
+  const p=
+    point(e);
+
+  if(
+    state.mode===
+      "draw" &&
+    state.drawing &&
+    state.current
+  ){
+
+    e.preventDefault();
+
+    const pts=
+      state.current.points;
+
+    const last=
+      pts[
+        pts.length-
+        1
+      ];
+
+    const dx=
+      p.x-
+      last.x;
+
+    const dy=
+      p.y-
+      last.y;
+
+    if(
+      dx*
+        dx+
+      dy*
+        dy<
+      .0000015
+    ){
+      return;
+    }
+
+    pts.push(
+      p
+    );
 
     ctx.strokeStyle=
-      stroke.color;
+      state.current.color;
 
     ctx.lineWidth=
       brushWidth(
-        stroke.width
+        state.current.width
       );
 
     ctx.lineCap=
@@ -1722,743 +2058,305 @@ fetch(
     ctx.lineJoin=
       "round";
 
-    if(
-      points.length ===
-      1
-    ){
-      ctx.beginPath();
-
-      ctx.arc(
-        points[0].x *
-          state.width,
-        points[0].y *
-          state.height,
-        Math.max(
-          1,
-          ctx.lineWidth /
-          2
-        ),
-        0,
-        Math.PI *
-          2
-      );
-
-      ctx.fillStyle=
-        stroke.color;
-
-      ctx.fill();
-
-      return;
-    }
-
     ctx.beginPath();
 
     ctx.moveTo(
-      points[0].x *
+      last.x*
         state.width,
-      points[0].y *
+      last.y*
         state.height
     );
 
-    for(
-      let i=1;
-      i<points.length;
-      i++
-    ){
-      ctx.lineTo(
-        points[i].x *
-          state.width,
-        points[i].y *
-          state.height
-      );
-    }
+    ctx.lineTo(
+      p.x*
+        state.width,
+      p.y*
+        state.height
+    );
 
     ctx.stroke();
-  }
 
-  function redraw(){
-    ctx.clearRect(
-      0,
-      0,
-      state.width,
-      state.height
-    );
-
-    for(
-      const stroke
-      of state.strokes
-    ){
-      drawStroke(
-        stroke
-      );
-    }
-  }
-
-  function point(e){
-    const rect=
-      canvas.getBoundingClientRect();
-
-    return {
-      x:
-        Math.max(
-          0,
-          Math.min(
-            1,
-            (
-              e.clientX -
-              rect.left
-            ) /
-            Math.max(
-              rect.width,
-              1
-            )
-          )
-        ),
-
-      y:
-        Math.max(
-          0,
-          Math.min(
-            1,
-            (
-              e.clientY -
-              rect.top
-            ) /
-            Math.max(
-              rect.height,
-              1
-            )
-          )
-        )
-    };
-  }
-
-  function eraserDiameterPx(){
-    return Math.max(
-      12,
-      state.thickness *
-      2.8
-    );
-  }
-
-  function eraserRadiusNorm(){
-    return (
-      eraserDiameterPx() /
-      2
-    ) /
-    Math.max(
-      1,
-      state.width
-    );
-  }
-
-  function previewDiameterPx(){
-    return state.mode ===
-      "erase"
-      ? eraserDiameterPx()
-      : Math.max(
-          4,
-          brushWidth(
-            state.thickness
-          )
-        );
-  }
-
-  function showToolPreview(
-    clientX,
-    clientY
+  }else if(
+    state.mode===
+    "erase"
   ){
-    const d=
-      previewDiameterPx();
-
-    toolPreview.style.display=
-      "block";
-
-    toolPreview.style.left=
-      clientX +
-      "px";
-
-    toolPreview.style.top=
-      clientY +
-      "px";
-
-    toolPreview.style.width=
-      d +
-      "px";
-
-    toolPreview.style.height=
-      d +
-      "px";
-
-    toolPreview.style.borderStyle=
-      state.mode ===
-        "erase"
-        ? "dashed"
-        : "solid";
-  }
-
-  function hideToolPreview(){
-    toolPreview.style.display=
-      "none";
-  }
-
-  function touchCentreY(){
-    const vals=
-      Array.from(
-        state.activeTouches.values()
-      );
-
-    if(!vals.length){
-      return 0;
-    }
-
-    return vals.reduce(
-      (
-        sum,
-        p
-      ) =>
-        sum +
-        p.y,
-      0
-    ) /
-    vals.length;
-  }
-
-  function pointerDown(e){
-    if(
-      !state.token
-    ){
-      return;
-    }
 
     if(
-      state.stickerSelect
+      e.pointerType===
+      "mouse" &&
+    e.buttons!==
+      1
     ){
-      e.preventDefault();
-
-      const r=
-        canvas.getBoundingClientRect();
-
-      state.selectionStart={
-        x:
-          e.clientX -
-          r.left,
-
-        y:
-          e.clientY -
-          r.top
-      };
-
-      state.selectionNow={
-        ...state.selectionStart
-      };
-
-      updateSelectionBox();
-
-      return;
-    }
-
-    if(
-      e.pointerType ===
-      "touch"
-    ){
-      state.activeTouches.set(
-        e.pointerId,
-        {
-          x:e.clientX,
-          y:e.clientY
-        }
-      );
-
-      if(
-        state.activeTouches.size >=
-        2
-      ){
-        state.twoFingerScroll=
-          true;
-
-        state.touchScrollStartY=
-          touchCentreY();
-
-        state.pageScrollStartY=
-          window.scrollY;
-
-        state.drawing=
-          false;
-
-        state.current=
-          null;
-
-        return;
-      }
-    }
-
-    showToolPreview(
-      e.clientX,
-      e.clientY
-    );
-
-    const p=
-      point(e);
-
-    if(
-      state.mode ===
-      "erase"
-    ){
-      e.preventDefault();
-
-      erase(p);
-
       return;
     }
 
     e.preventDefault();
 
-    state.drawing=
-      true;
+    erase(p);
+  }
+}
 
-    state.current={
-      id:
-        crypto.randomUUID(),
+function pointerUp(e){
 
-      author:
-        state.author,
+  if(
+    e.pointerType===
+    "touch"
+  ){
 
-      color:
-        state.colour,
+    hideToolPreview();
 
-      width:
-        state.thickness,
-
-      points:[
-        p
-      ]
-    };
-
-    ctx.fillStyle=
-      state.colour;
-
-    ctx.beginPath();
-
-    ctx.arc(
-      p.x *
-        state.width,
-      p.y *
-        state.height,
-      Math.max(
-        1,
-        state.thickness /
-        2
-      ),
-      0,
-      Math.PI *
-        2
+    state.activeTouches.delete(
+      e.pointerId
     );
 
-    ctx.fill();
-  }
-
-  function updateSelectionBox(){
     if(
-      !state.selectionStart ||
-      !state.selectionNow
+      state.twoFingerScroll
     ){
-      selectionBox.classList.remove(
-        "show"
-      );
-
-      return;
-    }
-
-    const left=
-      Math.min(
-        state.selectionStart.x,
-        state.selectionNow.x
-      );
-
-    const top=
-      Math.min(
-        state.selectionStart.y,
-        state.selectionNow.y
-      );
-
-    const width=
-      Math.abs(
-        state.selectionNow.x -
-        state.selectionStart.x
-      );
-
-    const height=
-      Math.abs(
-        state.selectionNow.y -
-        state.selectionStart.y
-      );
-
-    selectionBox.style.left=
-      left +
-      "px";
-
-    selectionBox.style.top=
-      top +
-      "px";
-
-    selectionBox.style.width=
-      width +
-      "px";
-
-    selectionBox.style.height=
-      height +
-      "px";
-
-    selectionBox.classList.add(
-      "show"
-    );
-  }
-
-  function pointerMove(e){
-    if(
-      !state.token
-    ){
-      return;
-    }
-
-    if(
-      state.stickerSelect &&
-      state.selectionStart
-    ){
-      e.preventDefault();
-
-      const r=
-        canvas.getBoundingClientRect();
-
-      state.selectionNow={
-        x:
-          Math.max(
-            0,
-            Math.min(
-              r.width,
-              e.clientX -
-              r.left
-            )
-          ),
-
-        y:
-          Math.max(
-            0,
-            Math.min(
-              r.height,
-              e.clientY -
-              r.top
-            )
-          )
-      };
-
-      updateSelectionBox();
-
-      return;
-    }
-
-    if(
-      e.pointerType ===
-      "touch" &&
-      state.activeTouches.has(
-        e.pointerId
-      )
-    ){
-      state.activeTouches.set(
-        e.pointerId,
-        {
-          x:e.clientX,
-          y:e.clientY
-        }
-      );
 
       if(
-        state.twoFingerScroll
+        state.activeTouches.size===
+        0
       ){
-        e.preventDefault();
+        state.twoFingerScroll=
+          false;
+      }
 
-        window.scrollTo(
-          0,
-          state.pageScrollStartY +
-          (
-            state.touchScrollStartY -
-            touchCentreY()
-          )
+      return;
+    }
+  }
+
+  if(
+    !state.drawing ||
+    !state.current
+  ){
+    return;
+  }
+
+  state.drawing=
+    false;
+
+  const stroke=
+    state.current;
+
+  state.current=
+    null;
+
+  state.strokes.push(
+    stroke
+  );
+
+  redraw();
+
+  api(
+    "/space/stroke",
+    {
+      method:"POST",
+
+      headers:
+        headers(true),
+
+      body:
+        JSON.stringify(
+          stroke
+        )
+    }
+  )
+    .catch(
+      ()=>{
+        toast(
+          "stroke didn't save 😭"
         );
 
-        return;
+        loadState()
+          .catch(
+            ()=>{}
+          );
       }
-    }
-
-    showToolPreview(
-      e.clientX,
-      e.clientY
     );
+}
 
-    const p=
-      point(e);
+function erase(p){
 
-    if(
-      state.mode ===
-        "draw" &&
-      state.drawing &&
-      state.current
-    ){
-      e.preventDefault();
+  const now=
+    Date.now();
 
-      const pts=
-        state.current.points;
-
-      const last=
-        pts[
-          pts.length -
-          1
-        ];
-
-      const dx=
-        p.x -
-        last.x;
-
-      const dy=
-        p.y -
-        last.y;
-
-      if(
-        dx *
-          dx +
-        dy *
-          dy <
-        .0000015
-      ){
-        return;
-      }
-
-      pts.push(
-        p
-      );
-
-      ctx.strokeStyle=
-        state.current.color;
-
-      ctx.lineWidth=
-        brushWidth(
-          state.current.width
-        );
-
-      ctx.lineCap=
-        "round";
-
-      ctx.lineJoin=
-        "round";
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        last.x *
-          state.width,
-        last.y *
-          state.height
-      );
-
-      ctx.lineTo(
-        p.x *
-          state.width,
-        p.y *
-          state.height
-      );
-
-      ctx.stroke();
-
-    }else if(
-      state.mode ===
-      "erase"
-    ){
-      /*
-        Desktop mouse hover is preview only.
-        Left button must be held to erase.
-      */
-      if(
-        e.pointerType ===
-          "mouse" &&
-        e.buttons !==
-          1
-      ){
-        return;
-      }
-
-      e.preventDefault();
-
-      erase(p);
-    }
+  if(
+    now-
+    state.eraseAt<
+    55
+  ){
+    return;
   }
 
-  async function finishStickerSelection(){
-    if(
-      !state.selectionStart ||
-      !state.selectionNow
-    ){
-      return;
+  state.eraseAt=
+    now;
+
+  api(
+    "/space/erase-segment",
+    {
+      method:"POST",
+
+      headers:
+        headers(true),
+
+      body:
+        JSON.stringify({
+          x:p.x,
+          y:p.y,
+          radius:
+            eraserRadiusNorm(),
+          author:
+            state.author
+        })
     }
-
-    const left=
-      Math.min(
-        state.selectionStart.x,
-        state.selectionNow.x
-      );
-
-    const top=
-      Math.min(
-        state.selectionStart.y,
-        state.selectionNow.y
-      );
-
-    const width=
-      Math.abs(
-        state.selectionNow.x -
-        state.selectionStart.x
-      );
-
-    const height=
-      Math.abs(
-        state.selectionNow.y -
-        state.selectionStart.y
-      );
-
-    state.selectionStart=
-      null;
-
-    state.selectionNow=
-      null;
-
-    state.stickerSelect=
-      false;
-
-    selectionBox.classList.remove(
-      "show"
+  )
+    .then(
+      loadState
+    )
+    .catch(
+      ()=>{
+        toast(
+          "rubber failed"
+        );
+      }
     );
+}
 
-    document
-      .getElementById(
-        "hs-make-sticker"
-      )
-      .classList.remove(
-        "active"
-      );
+canvas.addEventListener(
+  "pointerdown",
+  pointerDown
+);
 
+canvas.addEventListener(
+  "pointermove",
+  pointerMove
+);
+
+canvas.addEventListener(
+  "pointerup",
+  pointerUp
+);
+
+canvas.addEventListener(
+  "pointercancel",
+  pointerUp
+);
+
+canvas.addEventListener(
+  "pointerenter",
+  e=>{
     if(
-      width <
-        18 ||
-      height <
-        18
+      e.pointerType!==
+      "touch"
     ){
-      toast(
-        "select a bigger bit"
+      showToolPreview(
+        e.clientX,
+        e.clientY
       );
-
-      return;
     }
+  }
+);
 
-    const c=
-      document.createElement(
-        "canvas"
-      );
+canvas.addEventListener(
+  "pointerleave",
+  e=>{
+    if(
+      e.pointerType!==
+        "touch" &&
+      !state.drawing
+    ){
+      hideToolPreview();
+    }
+  }
+);
 
-    const scale=
-      Math.min(
-        2,
-        700 /
-        Math.max(
-          width,
-          height
+document
+  .getElementById(
+    "hs-colour-wheel"
+  )
+  .addEventListener(
+    "input",
+    e=>{
+      state.colour=
+        e.target.value;
+    }
+  );
+
+document
+  .getElementById(
+    "hs-thickness"
+  )
+  .addEventListener(
+    "input",
+    e=>{
+
+      state.thickness=
+        Number(
+          e.target.value
+        );
+
+      if(
+        toolPreview.style.display!==
+        "none"
+      ){
+
+        const d=
+          previewDiameterPx();
+
+        toolPreview.style.width=
+          d+
+          "px";
+
+        toolPreview.style.height=
+          d+
+          "px";
+      }
+    }
+  );
+
+document
+  .getElementById(
+    "hs-eraser"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      state.mode=
+        state.mode===
+        "erase"
+          ? "draw"
+          : "erase";
+
+      document
+        .getElementById(
+          "hs-eraser"
         )
+        .classList
+        .toggle(
+          "active",
+          state.mode===
+          "erase"
+        );
+
+      wrap.classList.toggle(
+        "mode-erase",
+        state.mode===
+        "erase"
       );
+    }
+  );
 
-    c.width=
-      Math.max(
-        1,
-        Math.round(
-          width *
-          scale
-        )
-      );
+document
+  .getElementById(
+    "hs-undo"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
 
-    c.height=
-      Math.max(
-        1,
-        Math.round(
-          height *
-          scale
-        )
-      );
-
-    const x=
-      c.getContext(
-        "2d"
-      );
-
-    x.drawImage(
-      canvas,
-
-      left *
-        state.dpr,
-
-      top *
-        state.dpr,
-
-      width *
-        state.dpr,
-
-      height *
-        state.dpr,
-
-      0,
-      0,
-      c.width,
-      c.height
-    );
-
-    const src=
-      c.toDataURL(
-        "image/webp",
-        .9
-      );
-
-    const widthNorm=
-      Math.max(
-        .055,
-        Math.min(
-          .25,
-          width /
-          Math.max(
-            document.documentElement.scrollWidth,
-            1
-          )
-        )
-      );
-
-    const heightNorm=
-      Math.max(
-        .04,
-        Math.min(
-          .32,
-          widthNorm *
-          (
-            height /
-            width
-          )
-        )
-      );
-
-    const spot=
-      firstStickerSpot(
-        widthNorm,
-        heightNorm
-      );
-
-    try{
-      await api(
-        "/space/sticker",
+      api(
+        "/space/undo",
         {
           method:"POST",
           headers:
@@ -2466,3721 +2364,1925 @@ fetch(
 
           body:
             JSON.stringify({
-              id:
-                crypto.randomUUID(),
-
               author:
-                state.author,
-
-              src,
-
-              x:
-                spot.x,
-
-              y:
-                spot.y,
-
-              width:
-                widthNorm,
-
-              height:
-                heightNorm,
-
-              rotation:
-                0
+                state.author
             })
         }
-      );
-
-      toast(
-        "doodle sticker made ✨"
-      );
-
-      loadState();
-
-    }catch(_){
-      toast(
-        "sticker didn't save"
-      );
-    }
-  }
-
-  function pointerUp(e){
-    if(
-      state.stickerSelect &&
-      state.selectionStart
-    ){
-      finishStickerSelection();
-      return;
-    }
-
-    if(
-      e.pointerType ===
-      "touch"
-    ){
-      hideToolPreview();
-
-      state.activeTouches.delete(
-        e.pointerId
-      );
-
-      if(
-        state.twoFingerScroll
-      ){
-        if(
-          state.activeTouches.size ===
-          0
-        ){
-          state.twoFingerScroll=
-            false;
-        }
-
-        return;
-      }
-    }
-
-    if(
-      !state.drawing ||
-      !state.current
-    ){
-      return;
-    }
-
-    state.drawing=
-      false;
-
-    const stroke=
-      state.current;
-
-    state.current=
-      null;
-
-    state.strokes.push(
-      stroke
-    );
-
-    redraw();
-
-    api(
-      "/space/stroke",
-      {
-        method:"POST",
-        headers:
-          headers(true),
-
-        body:
-          JSON.stringify(
-            stroke
-          )
-      }
-    )
-      .catch(
-        ()=>{
-          toast(
-            "stroke didn't save 😭"
-          );
-
-          loadState()
-            .catch(
-              ()=>{}
-            );
-        }
-      );
-  }
-
-  function erase(p){
-    const now=
-      Date.now();
-
-    if(
-      now -
-      state.eraseAt <
-      55
-    ){
-      return;
-    }
-
-    state.eraseAt=
-      now;
-
-    api(
-      "/space/erase-segment",
-      {
-        method:"POST",
-        headers:
-          headers(true),
-
-        body:
-          JSON.stringify({
-            x:
-              p.x,
-
-            y:
-              p.y,
-
-            radius:
-              eraserRadiusNorm(),
-
-            author:
-              state.author
-          })
-      }
-    )
-      .then(
-        loadState
       )
-      .catch(
-        ()=>{
-          toast(
-            "rubber failed"
-          );
-        }
-      );
-  }
-
-  canvas.addEventListener(
-    "pointerdown",
-    pointerDown
-  );
-
-  canvas.addEventListener(
-    "pointermove",
-    pointerMove
-  );
-
-  canvas.addEventListener(
-    "pointerup",
-    pointerUp
-  );
-
-  canvas.addEventListener(
-    "pointercancel",
-    pointerUp
-  );
-
-  canvas.addEventListener(
-    "pointerenter",
-    e=>{
-      if(
-        e.pointerType !==
-        "touch"
-      ){
-        showToolPreview(
-          e.clientX,
-          e.clientY
-        );
-      }
-    }
-  );
-
-  canvas.addEventListener(
-    "pointerleave",
-    e=>{
-      if(
-        e.pointerType !==
-          "touch" &&
-        !state.drawing
-      ){
-        hideToolPreview();
-      }
-    }
-  );
-
-  document
-    .getElementById(
-      "hs-colour-wheel"
-    )
-    .addEventListener(
-      "input",
-      e=>{
-        state.colour=
-          e.target.value;
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-thickness"
-    )
-    .addEventListener(
-      "input",
-      e=>{
-        state.thickness=
-          Number(
-            e.target.value
-          );
-
-        if(
-          toolPreview.style.display !==
-          "none"
-        ){
-          const d=
-            previewDiameterPx();
-
-          toolPreview.style.width=
-            d+
-            "px";
-
-          toolPreview.style.height=
-            d+
-            "px";
-        }
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-eraser"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        state.mode=
-          state.mode ===
-            "erase"
-            ? "draw"
-            : "erase";
-
-        document
-          .getElementById(
-            "hs-eraser"
-          )
-          .classList.toggle(
-            "active",
-            state.mode ===
-              "erase"
-          );
-
-        wrap.classList.toggle(
-          "mode-erase",
-          state.mode ===
-            "erase"
-        );
-
-        if(
-          toolPreview.style.display !==
-          "none"
-        ){
-          const d=
-            previewDiameterPx();
-
-          toolPreview.style.width=
-            d+
-            "px";
-
-          toolPreview.style.height=
-            d+
-            "px";
-
-          toolPreview.style.borderStyle=
-            state.mode ===
-              "erase"
-              ? "dashed"
-              : "solid";
-        }
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-make-sticker"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        state.stickerSelect=
-          !state.stickerSelect;
-
-        state.selectionStart=
-          null;
-
-        state.selectionNow=
-          null;
-
-        selectionBox.classList.remove(
-          "show"
-        );
-
-        document
-          .getElementById(
-            "hs-make-sticker"
-          )
-          .classList.toggle(
-            "active",
-            state.stickerSelect
-          );
-
-        if(
-          state.stickerSelect
-        ){
-          state.mode=
-            "draw";
-
-          document
-            .getElementById(
-              "hs-eraser"
+        .then(
+          loadState
+        )
+        .catch(
+          ()=>
+            toast(
+              "nothing to undo"
             )
-            .classList.remove(
-              "active"
-            );
-
-          wrap.classList.remove(
-            "mode-erase"
-          );
-
-          hideToolPreview();
-
-          toast(
-            "drag around the doodle you want"
-          );
-        }
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-undo"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        api(
-          "/space/undo",
-          {
-            method:"POST",
-            headers:
-              headers(true),
-
-            body:
-              JSON.stringify({
-                author:
-                  state.author
-              })
-          }
-        )
-          .then(
-            loadState
-          )
-          .catch(
-            () =>
-              toast(
-                "nothing to undo"
-              )
-          );
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-redo"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        api(
-          "/space/redo",
-          {
-            method:"POST",
-            headers:
-              headers(true),
-
-            body:
-              JSON.stringify({
-                author:
-                  state.author
-              })
-          }
-        )
-          .then(
-            loadState
-          )
-          .catch(
-            () =>
-              toast(
-                "nothing to redo"
-              )
-          );
-      }
-    );
-
-  /* ---------- 69 confirmation ---------- */
-
-  const modal=
-    document.getElementById(
-      "hs-confirm-modal"
-    );
-
-  const modalTitle=
-    document.getElementById(
-      "hs-confirm-title"
-    );
-
-  const modalCopy=
-    document.getElementById(
-      "hs-confirm-copy"
-    );
-
-  const modalInput=
-    document.getElementById(
-      "hs-confirm-input"
-    );
-
-  const modalGo=
-    document.getElementById(
-      "hs-confirm-go"
-    );
-
-  function open69(
-    title,
-    copy,
-    buttonText,
-    action
-  ){
-    pending69Action=
-      action;
-
-    modalTitle.textContent=
-      title;
-
-    modalCopy.innerHTML=
-      copy+
-      " Type <strong>69</strong> to confirm.";
-
-    modalGo.textContent=
-      buttonText;
-
-    modalInput.value=
-      "";
-
-    modalGo.disabled=
-      true;
-
-    modal.classList.add(
-      "show"
-    );
-
-    setTimeout(
-      () =>
-        modalInput.focus(),
-      0
-    );
-  }
-
-  function close69(){
-    modal.classList.remove(
-      "show"
-    );
-
-    modalInput.value=
-      "";
-
-    pending69Action=
-      null;
-  }
-
-  modalInput.addEventListener(
-    "input",
-    ()=>{
-      modalGo.disabled=
-        modalInput.value !==
-        "69";
+        );
     }
   );
 
-  modalInput.addEventListener(
-    "keydown",
-    e=>{
-      if(
-        e.key ===
-          "Enter" &&
-        modalInput.value ===
-          "69"
-      ){
-        modalGo.click();
-      }
-    }
-  );
-
-  document
-    .getElementById(
-      "hs-confirm-cancel"
-    )
-    .addEventListener(
-      "click",
-      close69
-    );
-
-  modalGo.addEventListener(
+document
+  .getElementById(
+    "hs-redo"
+  )
+  .addEventListener(
     "click",
     ()=>{
-      if(
-        modalInput.value !==
-          "69" ||
-        typeof pending69Action !==
-          "function"
-      ){
-        return;
-      }
 
-      const action=
-        pending69Action;
-
-      pending69Action=
-        null;
-
-      action();
-    }
-  );
-
-  document
-    .getElementById(
-      "hs-clear-all"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        open69(
-          "clear everything?",
-          "This deletes Andy + Hamy drawings.",
-          "okiee",
-          ()=>{
-            api(
-              "/space/clear",
-              {
-                method:"POST",
-                headers:
-                  headers(true),
-
-                body:
-                  JSON.stringify({
-                    confirm:
-                      "69",
-
-                    confirmation:
-                      "69",
-
-                    author:
-                      state.author
-                  })
-              }
-            )
-              .then(
-                ()=>{
-                  state.strokes=
-                    [];
-
-                  redraw();
-
-                  close69();
-
-                  toast(
-                    "whole wall cleared"
-                  );
-                }
-              )
-              .catch(
-                () =>
-                  toast(
-                    "clear failed"
-                  )
-              );
-          }
-        );
-      }
-    );
-
-  /*
-    Clear MY drawings:
-
-    No 69 password.
-    Only clears the currently selected author's strokes.
-    Stickers/uploads are separate on the Worker.
-  */
-  document
-    .getElementById(
-      "hs-clear-mine"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        if(
-          !confirm(
-            "Clear "+
-            state.author+
-            " drawings?"
-          )
-        ){
-          return;
-        }
-
-        api(
-          "/space/clear-author",
-          {
-            method:"POST",
-            headers:
-              headers(true),
-
-            body:
-              JSON.stringify({
-                author:
-                  state.author
-              })
-          }
-        )
-          .then(
-            ()=>{
-              toast(
-                state.author+
-                " drawings cleared"
-              );
-
-              loadState();
-            }
-          )
-          .catch(
-            () =>
-              toast(
-                "clear failed"
-              )
-          );
-      }
-    );
-
-  /* ---------- history ---------- */
-
-  const historyPanel=
-    document.getElementById(
-      "hs-history"
-    );
-
-  const snapshotTarget=
-    document.getElementById(
-      "hs-snapshots"
-    );
-
-  document
-    .getElementById(
-      "hs-history-btn"
-    )
-    .addEventListener(
-      "click",
-      async()=>{
-        if(
-          getComputedStyle(
-            historyPanel
-          ).display !==
-          "none"
-        ){
-          historyPanel.style.display=
-            "none";
-
-          return;
-        }
-
-        historyPanel.style.display=
-          "block";
-
-        snapshotTarget.textContent=
-          "loading…";
-
-        try{
-          const data=
-            await api(
-              "/space/snapshots",
-              {
-                headers:
-                  headers(false)
-              }
-            );
-
-          const snaps=
-            Array.isArray(
-              data
-            )
-              ? data
-              : (
-                  (
-                    data &&
-                    data.snapshots
-                  ) ||
-                  []
-                );
-
-          snapshotTarget.innerHTML=
-            "";
-
-          if(
-            !snaps.length
-          ){
-            snapshotTarget.textContent=
-              "no snapshots yet";
-
-            return;
-          }
-
-          snaps.forEach(
-            s=>{
-              const row=
-                document.createElement(
-                  "div"
-                );
-
-              row.className=
-                "hs-snap";
-
-              const label=
-                document.createElement(
-                  "span"
-                );
-
-              const date=
-                s.createdAt ||
-                s.created_at;
-
-              label.textContent=
-                date
-                  ? new Date(
-                      date
-                    ).toLocaleString()
-                  : (
-                      "snapshot "+
-                      s.id
-                    );
-
-              const btn=
-                document.createElement(
-                  "button"
-                );
-
-              btn.className=
-                "hs-btn";
-
-              btn.textContent=
-                "Restore";
-
-              btn.addEventListener(
-                "click",
-                ()=>{
-                  if(
-                    !confirm(
-                      "Restore this wall snapshot?"
-                    )
-                  ){
-                    return;
-                  }
-
-                  api(
-                    "/space/restore",
-                    {
-                      method:"POST",
-                      headers:
-                        headers(true),
-
-                      body:
-                        JSON.stringify({
-                          snapshotId:
-                            s.id
-                        })
-                    }
-                  )
-                    .then(
-                      ()=>{
-                        toast(
-                          "wall restored"
-                        );
-
-                        loadState();
-                      }
-                    )
-                    .catch(
-                      () =>
-                        toast(
-                          "restore failed"
-                        )
-                    );
-                }
-              );
-
-              row.append(
-                label,
-                btn
-              );
-
-              snapshotTarget.appendChild(
-                row
-              );
-            }
-          );
-
-        }catch(_){
-          snapshotTarget.textContent=
-            "couldn't load history";
-        }
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-delete-history"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        open69(
-          "delete all histories?",
-          "This permanently deletes the saved wall snapshots.",
-          "delete histories 💀",
-          ()=>{
-            api(
-              "/space/snapshots",
-              {
-                method:"DELETE",
-                headers:
-                  headers(true),
-
-                body:
-                  JSON.stringify({
-                    confirm:
-                      "69",
-
-                    confirmation:
-                      "69",
-
-                    author:
-                      state.author
-                  })
-              }
-            )
-              .then(
-                ()=>{
-                  close69();
-
-                  snapshotTarget.textContent=
-                    "no snapshots yet";
-
-                  toast(
-                    "histories deleted"
-                  );
-                }
-              )
-              .catch(
-                () =>
-                  toast(
-                    "history delete failed"
-                  )
-              );
-          }
-        );
-      }
-    );
-
-  /* ---------- reactions ---------- */
-
-  function reactionAnchor(
-    media
-  ){
-    return (
-      media.closest(
-        ".reveal"
-      ) ||
-      media.closest(
-        ".audio-wrap"
-      ) ||
-      media.parentElement ||
-      media
-    );
-  }
-
-  function renderReactions(){
-    document
-      .querySelectorAll(
-        "[data-memory-id]"
-      )
-      .forEach(
-        media=>{
-          const id=
-            media.dataset.memoryId;
-
-          if(!id){
-            return;
-          }
-
-          const anchor=
-            reactionAnchor(
-              media
-            );
-
-          let bar=
-            anchor.querySelector(
-              ":scope > .hs-memory-reactions"
-            );
-
-          if(!bar){
-            bar=
-              document.createElement(
-                "div"
-              );
-
-            bar.className=
-              "hs-memory-reactions";
-
-            anchor.appendChild(
-              bar
-            );
-          }
-
-          buildReactionBar(
-            bar,
-            id
-          );
-        }
-      );
-  }
-
-  function buildReactionBar(
-    bar,
-    memoryId
-  ){
-    bar.innerHTML=
-      "";
-
-    const rows=
-      state.reactions.filter(
-        r =>
-          r.memoryId ===
-          memoryId
-      );
-
-    const counts=
-      new Map();
-
-    rows.forEach(
-      r =>
-        counts.set(
-          r.emoji,
-          (
-            counts.get(
-              r.emoji
-            ) ||
-            0
-          ) +
-          1
-        )
-    );
-
-    EMOJIS.forEach(
-      emoji=>{
-        const count=
-          counts.get(
-            emoji
-          ) ||
-          0;
-
-        if(!count){
-          return;
-        }
-
-        const mine=
-          rows.some(
-            r =>
-              r.author ===
-                state.author &&
-              r.emoji ===
-                emoji
-          );
-
-        const b=
-          document.createElement(
-            "button"
-          );
-
-        b.className=
-          "hs-used-reaction"+
-          (
-            mine
-              ? " mine"
-              : ""
-          );
-
-        b.textContent=
-          emoji+
-          " "+
-          count;
-
-        b.addEventListener(
-          "click",
-          () =>
-            toggleReaction(
-              memoryId,
-              emoji
-            )
-        );
-
-        bar.appendChild(
-          b
-        );
-      }
-    );
-
-    const open=
-      document.createElement(
-        "button"
-      );
-
-    open.className=
-      "hs-react-open";
-
-    open.textContent=
-      "react";
-
-    bar.appendChild(
-      open
-    );
-
-    const picker=
-      document.createElement(
-        "div"
-      );
-
-    picker.className=
-      "hs-picker";
-
-    EMOJIS.forEach(
-      emoji=>{
-        const mine=
-          rows.some(
-            r =>
-              r.author ===
-                state.author &&
-              r.emoji ===
-                emoji
-          );
-
-        const b=
-          document.createElement(
-            "button"
-          );
-
-        b.className=
-          "hs-emoji"+
-          (
-            mine
-              ? " mine"
-              : ""
-          );
-
-        b.textContent=
-          emoji;
-
-        b.addEventListener(
-          "click",
-          () =>
-            toggleReaction(
-              memoryId,
-              emoji
-            )
-        );
-
-        picker.appendChild(
-          b
-        );
-      }
-    );
-
-    open.addEventListener(
-      "click",
-      () =>
-        picker.classList.toggle(
-          "show"
-        )
-    );
-
-    bar.appendChild(
-      picker
-    );
-  }
-
-  function toggleReaction(
-    memoryId,
-    emoji
-  ){
-    const idx=
-      state.reactions.findIndex(
-        r =>
-          r.memoryId ===
-            memoryId &&
-          r.author ===
-            state.author &&
-          r.emoji ===
-            emoji
-      );
-
-    if(
-      idx >=
-      0
-    ){
-      state.reactions.splice(
-        idx,
-        1
-      );
-
-    }else{
-      state.reactions.push({
-        memoryId,
-        author:
-          state.author,
-        emoji
-      });
-    }
-
-    renderReactions();
-
-    api(
-      "/space/reaction",
-      {
-        method:"POST",
-        headers:
-          headers(true),
-
-        body:
-          JSON.stringify({
-            memoryId,
-            author:
-              state.author,
-            emoji
-          })
-      }
-    )
-      .then(
-        loadState
-      )
-      .catch(
-        ()=>{
-          toast(
-            "reaction didn't save"
-          );
-
-          loadState()
-            .catch(
-              ()=>{}
-            );
-        }
-      );
-  }
-
-  /* ---------- pets ---------- */
-
-  function cleanedPresence(){
-    let names=
-      Array.from(
-        new Set(
-          (
-            state.presence ||
-            []
-          ).filter(
-            x =>
-              x ===
-                "Andy" ||
-              x ===
-                "Hamy"
-          )
-        )
-      );
-
-    if(
-      state.switchFrom &&
-      Date.now() <
-        state.ignorePreviousUntil
-    ){
-      names=
-        names.filter(
-          n =>
-            n !==
-            state.switchFrom
-        );
-
-      if(
-        !names.includes(
-          state.author
-        )
-      ){
-        names.push(
-          state.author
-        );
-      }
-    }
-
-    return names;
-  }
-
-  function renderPets(){
-    const petBox=
-      document.getElementById(
-        "hs-pets"
-      );
-
-    if(!petBox){
-      return;
-    }
-
-    const names=
-      cleanedPresence();
-
-    petBox.classList.toggle(
-      "both",
-      names.includes(
-        "Andy"
-      ) &&
-      names.includes(
-        "Hamy"
-      )
-    );
-  }
-
-  document
-    .querySelectorAll(
-      ".hs-pet"
-    )
-    .forEach(
-      pet=>{
-        pet.addEventListener(
-          "click",
-          ()=>{
-            pet.classList.remove(
-              "boop"
-            );
-
-            void pet.offsetWidth;
-
-            pet.classList.add(
-              "boop"
-            );
-          }
-        );
-      }
-    );
-
-  /* ---------- live clock ---------- */
-
-  function updateLiveClock(){
-    const el=
-      document.getElementById(
-        "hs-live-clock"
-      );
-
-    if(!el){
-      return;
-    }
-
-    const now=
-      new Date();
-
-    try{
-      el.textContent=
-        new Intl.DateTimeFormat(
-          "en-AU",
-          {
-            day:"2-digit",
-            month:"short",
-            year:"numeric",
-            hour:"2-digit",
-            minute:"2-digit",
-            second:"2-digit",
-            hour12:true
-          }
-        ).format(
-          now
-        );
-
-    }catch(_){
-      el.textContent=
-        now.toLocaleString();
-    }
-  }
-
-  updateLiveClock();
-
-  setInterval(
-    updateLiveClock,
-    1000
-  );
-
-  /* ---------- presence ---------- */
-
-  function renderPresence(){
-    const names=
-      cleanedPresence();
-
-    const el=
-      document.getElementById(
-        "hs-presence"
-      );
-
-    if(
-      names.includes(
-        "Andy"
-      ) &&
-      names.includes(
-        "Hamy"
-      )
-    ){
-      el.textContent=
-        "Andy and Hamy are online";
-
-    }else if(
-      names.includes(
-        "Hamy"
-      )
-    ){
-      el.textContent=
-        "Hamy is online";
-
-    }else{
-      el.textContent=
-        state.author ===
-          "Hamy"
-          ? "Hamy is online"
-          : "Andy is online";
-    }
-
-    renderPets();
-  }
-
-  /* ---------- live cursors ---------- */
-
-  function cursorElement(
-    author
-  ){
-    return document.getElementById(
-      "hs-cursor-"+
-      author
-    );
-  }
-
-  function showRemoteCursor(
-    author,
-    x,
-    y
-  ){
-    if(
-      author ===
-      state.author
-    ){
-      return;
-    }
-
-    const el=
-      cursorElement(
-        author
-      );
-
-    if(!el){
-      return;
-    }
-
-    el.style.display=
-      "block";
-
-    el.style.left=
-      (
-        Number(x) *
-        window.innerWidth
-      ) +
-      "px";
-
-    el.style.top=
-      (
-        Number(y) *
-        window.innerHeight
-      ) +
-      "px";
-
-    clearTimeout(
-      el.hideTimer
-    );
-
-    el.hideTimer=
-      setTimeout(
-        ()=>{
-          el.style.display=
-            "none";
-        },
-        3000
-      );
-  }
-
-  function sendCursor(
-    e
-  ){
-    if(
-      !state.ws ||
-      state.ws.readyState !==
-        WebSocket.OPEN
-    ){
-      return;
-    }
-
-    const now=
-      Date.now();
-
-    if(
-      now -
-      state.cursorAt <
-      35
-    ){
-      return;
-    }
-
-    state.cursorAt=
-      now;
-
-    try{
-      state.ws.send(
-        JSON.stringify({
-          type:
-            "cursor",
-
-          x:
-            e.clientX /
-            Math.max(
-              1,
-              window.innerWidth
-            ),
-
-          y:
-            e.clientY /
-            Math.max(
-              1,
-              window.innerHeight
-            ),
-
-          active:
-            true
-        })
-      );
-    }catch(_){}
-  }
-
-  window.addEventListener(
-    "pointermove",
-    sendCursor,
-    {
-      passive:true
-    }
-  );
-
-  window.addEventListener(
-    "pointerout",
-    e=>{
-      if(
-        e.relatedTarget
-      ){
-        return;
-      }
-
-      if(
-        !state.ws ||
-        state.ws.readyState !==
-          WebSocket.OPEN
-      ){
-        return;
-      }
-
-      try{
-        state.ws.send(
-          JSON.stringify({
-            type:
-              "cursor.leave"
-          })
-        );
-      }catch(_){}
-    }
-  );
-
-  /* ---------- sticker safe zones ---------- */
-
-  function pageRect(
-    el
-  ){
-    const r=
-      el.getBoundingClientRect();
-
-    return {
-      left:
-        r.left +
-        window.scrollX,
-
-      top:
-        r.top +
-        window.scrollY,
-
-      right:
-        r.right +
-        window.scrollX,
-
-      bottom:
-        r.bottom +
-        window.scrollY
-    };
-  }
-
-  function safeRects(){
-    const selectors=[
-      ".video-frame",
-      ".media",
-      ".audio-wrap",
-      "#hamoon-space",
-      ".hello"
-    ];
-
-    return Array.from(
-      document.querySelectorAll(
-        selectors.join(
-          ","
-        )
-      )
-    ).map(
-      pageRect
-    );
-  }
-
-  function rotatedBounds(
-    x,
-    y,
-    w,
-    h,
-    rotation
-  ){
-    const rad=
-      rotation *
-      Math.PI /
-      180;
-
-    const c=
-      Math.abs(
-        Math.cos(
-          rad
-        )
-      );
-
-    const s=
-      Math.abs(
-        Math.sin(
-          rad
-        )
-      );
-
-    const rw=
-      w *
-        c +
-      h *
-        s;
-
-    const rh=
-      w *
-        s +
-      h *
-        c;
-
-    return {
-      left:
-        x -
-        rw /
-        2,
-
-      top:
-        y -
-        rh /
-        2,
-
-      right:
-        x +
-        rw /
-        2,
-
-      bottom:
-        y +
-        rh /
-        2
-    };
-  }
-
-  function intersects(
-    a,
-    b,
-    padding=8
-  ){
-    return !(
-      a.right <
-        b.left -
-        padding ||
-      a.left >
-        b.right +
-        padding ||
-      a.bottom <
-        b.top -
-        padding ||
-      a.top >
-        b.bottom +
-        padding
-    );
-  }
-
-  function stickerPixelState(
-    sticker
-  ){
-    const docW=
-      Math.max(
-        document.documentElement.scrollWidth,
-        window.innerWidth
-      );
-
-    const docH=
-      Math.max(
-        document.documentElement.scrollHeight,
-        window.innerHeight
-      );
-
-    return {
-      cx:
-        sticker.x *
-        docW,
-
-      cy:
-        sticker.y *
-        docH,
-
-      w:
-        sticker.width *
-        docW,
-
-      h:
-        sticker.height *
-        docH,
-
-      rotation:
-        sticker.rotation
-    };
-  }
-
-  function validStickerGeometry(
-    cx,
-    cy,
-    w,
-    h,
-    rotation
-  ){
-    if(
-      w <
-        35 ||
-      h <
-        35
-    ){
-      return false;
-    }
-
-    const docW=
-      Math.max(
-        document.documentElement.scrollWidth,
-        window.innerWidth
-      );
-
-    const docH=
-      Math.max(
-        document.documentElement.scrollHeight,
-        window.innerHeight
-      );
-
-    const bounds=
-      rotatedBounds(
-        cx,
-        cy,
-        w,
-        h,
-        rotation
-      );
-
-    if(
-      bounds.left <
-        5 ||
-      bounds.top <
-        5 ||
-      bounds.right >
-        docW -
-        5 ||
-      bounds.bottom >
-        docH -
-        5
-    ){
-      return false;
-    }
-
-    for(
-      const protectedRect
-      of safeRects()
-    ){
-      if(
-        intersects(
-          bounds,
-          protectedRect,
-          7
-        )
-      ){
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  function firstStickerSpot(
-    widthNorm,
-    heightNorm
-  ){
-    const docW=
-      Math.max(
-        document.documentElement.scrollWidth,
-        window.innerWidth
-      );
-
-    const docH=
-      Math.max(
-        document.documentElement.scrollHeight,
-        window.innerHeight
-      );
-
-    const w=
-      widthNorm *
-      docW;
-
-    const h=
-      heightNorm *
-      docH;
-
-    const candidates=[
-      {
-        x:.08,
-        y:.13
-      },
-      {
-        x:.91,
-        y:.16
-      },
-      {
-        x:.08,
-        y:.35
-      },
-      {
-        x:.91,
-        y:.38
-      },
-      {
-        x:.08,
-        y:.6
-      },
-      {
-        x:.91,
-        y:.62
-      },
-      {
-        x:.1,
-        y:.8
-      },
-      {
-        x:.9,
-        y:.82
-      }
-    ];
-
-    for(
-      const c
-      of candidates
-    ){
-      const cx=
-        c.x *
-        docW;
-
-      const cy=
-        c.y *
-        docH;
-
-      if(
-        validStickerGeometry(
-          cx,
-          cy,
-          w,
-          h,
-          0
-        )
-      ){
-        return {
-          x:c.x,
-          y:c.y
-        };
-      }
-    }
-
-    return {
-      x:.08,
-      y:.72
-    };
-  }
-
-  function deselectStickers(){
-    state.selectedSticker=
-      null;
-
-    document
-      .querySelectorAll(
-        ".hs-sticker.selected"
-      )
-      .forEach(
-        el =>
-          el.classList.remove(
-            "selected"
-          )
-      );
-  }
-
-  document.addEventListener(
-    "pointerdown",
-    e=>{
-      if(
-        !e.target.closest(
-          ".hs-sticker"
-        )
-      ){
-        deselectStickers();
-      }
-    }
-  );
-
-  async function saveSticker(
-    sticker
-  ){
-    try{
-      await api(
-        "/space/sticker",
+      api(
+        "/space/redo",
         {
-          method:"PUT",
+          method:"POST",
           headers:
             headers(true),
 
           body:
             JSON.stringify({
-              id:
-                sticker.id,
-
               author:
-                sticker.author,
-
-              x:
-                sticker.x,
-
-              y:
-                sticker.y,
-
-              width:
-                sticker.width,
-
-              height:
-                sticker.height,
-
-              rotation:
-                sticker.rotation
+                state.author
             })
         }
-      );
-
-    }catch(_){
-      toast(
-        "sticker didn't save"
-      );
-
-      loadState()
+      )
+        .then(
+          loadState
+        )
         .catch(
-          ()=>{}
-        );
-    }
-  }
-
-  function renderStickers(){
-    stickerLayer.innerHTML=
-      "";
-
-    const docW=
-      Math.max(
-        document.documentElement.scrollWidth,
-        window.innerWidth
-      );
-
-    const docH=
-      Math.max(
-        document.documentElement.scrollHeight,
-        window.innerHeight
-      );
-
-    state.stickers.forEach(
-      sticker=>{
-        const el=
-          document.createElement(
-            "div"
-          );
-
-        el.className=
-          "hs-sticker";
-
-        el.dataset.id=
-          sticker.id;
-
-        el.style.left=
-          (
-            sticker.x *
-            docW
-          ) +
-          "px";
-
-        el.style.top=
-          (
-            sticker.y *
-            docH
-          ) +
-          "px";
-
-        el.style.width=
-          (
-            sticker.width *
-            docW
-          ) +
-          "px";
-
-        el.style.height=
-          (
-            sticker.height *
-            docH
-          ) +
-          "px";
-
-        el.style.transform=
-          "translate(-50%,-50%) rotate("+
-          sticker.rotation+
-          "deg)";
-
-        const img=
-          document.createElement(
-            "img"
-          );
-
-        img.src=
-          sticker.src;
-
-        img.alt=
-          "";
-
-        const del=
-          document.createElement(
-            "button"
-          );
-
-        del.className=
-          "hs-sticker-handle hs-sticker-delete";
-
-        del.textContent=
-          "×";
-
-        const resize=
-          document.createElement(
-            "button"
-          );
-
-        resize.className=
-          "hs-sticker-handle hs-sticker-resize";
-
-        resize.textContent=
-          "↘";
-
-        const rotate=
-          document.createElement(
-            "button"
-          );
-
-        rotate.className=
-          "hs-sticker-handle hs-sticker-rotate";
-
-        rotate.textContent=
-          "↻";
-
-        el.append(
-          img,
-          del,
-          resize,
-          rotate
-        );
-
-        el.addEventListener(
-          "pointerdown",
-          e=>{
-            if(
-              e.target.closest(
-                ".hs-sticker-handle"
-              )
-            ){
-              return;
-            }
-
-            e.preventDefault();
-
-            deselectStickers();
-
-            state.selectedSticker=
-              sticker.id;
-
-            el.classList.add(
-              "selected"
-            );
-
-            const p=
-              stickerPixelState(
-                sticker
-              );
-
-            state.stickerDrag={
-              type:
-                "move",
-
-              pointerId:
-                e.pointerId,
-
-              startX:
-                e.clientX,
-
-              startY:
-                e.clientY,
-
-              original:
-                {
-                  ...p
-                }
-            };
-
-            try{
-              el.setPointerCapture(
-                e.pointerId
-              );
-            }catch(_){}
-          }
-        );
-
-        del.addEventListener(
-          "pointerdown",
-          e=>{
-            e.stopPropagation();
-            e.preventDefault();
-          }
-        );
-
-        del.addEventListener(
-          "click",
-          async e=>{
-            e.stopPropagation();
-
-            if(
-              !confirm(
-                "Delete this sticker?"
-              )
-            ){
-              return;
-            }
-
-            try{
-              await api(
-                "/space/sticker",
-                {
-                  method:"DELETE",
-                  headers:
-                    headers(true),
-
-                  body:
-                    JSON.stringify({
-                      id:
-                        sticker.id,
-
-                      author:
-                        sticker.author
-                    })
-                }
-              );
-
-              toast(
-                "sticker deleted"
-              );
-
-              loadState();
-
-            }catch(_){
-              toast(
-                "delete failed"
-              );
-            }
-          }
-        );
-
-        resize.addEventListener(
-          "pointerdown",
-          e=>{
-            e.stopPropagation();
-            e.preventDefault();
-
-            deselectStickers();
-
-            state.selectedSticker=
-              sticker.id;
-
-            el.classList.add(
-              "selected"
-            );
-
-            const p=
-              stickerPixelState(
-                sticker
-              );
-
-            state.stickerDrag={
-              type:
-                "resize",
-
-              pointerId:
-                e.pointerId,
-
-              startX:
-                e.clientX,
-
-              startY:
-                e.clientY,
-
-              original:
-                {
-                  ...p
-                }
-            };
-
-            try{
-              resize.setPointerCapture(
-                e.pointerId
-              );
-            }catch(_){}
-          }
-        );
-
-        rotate.addEventListener(
-          "pointerdown",
-          e=>{
-            e.stopPropagation();
-            e.preventDefault();
-
-            deselectStickers();
-
-            state.selectedSticker=
-              sticker.id;
-
-            el.classList.add(
-              "selected"
-            );
-
-            const p=
-              stickerPixelState(
-                sticker
-              );
-
-            state.stickerDrag={
-              type:
-                "rotate",
-
-              pointerId:
-                e.pointerId,
-
-              original:
-                {
-                  ...p
-                }
-            };
-
-            try{
-              rotate.setPointerCapture(
-                e.pointerId
-              );
-            }catch(_){}
-          }
-        );
-
-        stickerLayer.appendChild(
-          el
-        );
-      }
-    );
-  }
-
-  window.addEventListener(
-    "pointermove",
-    e=>{
-      const drag=
-        state.stickerDrag;
-
-      if(
-        !drag ||
-        drag.pointerId !==
-        e.pointerId
-      ){
-        return;
-      }
-
-      const sticker=
-        state.stickers.find(
-          s =>
-            s.id ===
-            state.selectedSticker
-        );
-
-      if(!sticker){
-        return;
-      }
-
-      e.preventDefault();
-
-      const docW=
-        Math.max(
-          document.documentElement.scrollWidth,
-          window.innerWidth
-        );
-
-      const docH=
-        Math.max(
-          document.documentElement.scrollHeight,
-          window.innerHeight
-        );
-
-      let cx=
-        drag.original.cx;
-
-      let cy=
-        drag.original.cy;
-
-      let w=
-        drag.original.w;
-
-      let h=
-        drag.original.h;
-
-      let rotation=
-        drag.original.rotation;
-
-      if(
-        drag.type ===
-        "move"
-      ){
-        cx=
-          drag.original.cx +
-          (
-            e.clientX -
-            drag.startX
-          );
-
-        cy=
-          drag.original.cy +
-          (
-            e.clientY -
-            drag.startY
-          );
-      }
-
-      if(
-        drag.type ===
-        "resize"
-      ){
-        const dx=
-          e.clientX -
-          drag.startX;
-
-        const dy=
-          e.clientY -
-          drag.startY;
-
-        const factor=
-          Math.max(
-            .2,
-            1 +
-            (
-              dx +
-              dy
-            ) /
-            220
-          );
-
-        w=
-          drag.original.w *
-          factor;
-
-        h=
-          drag.original.h *
-          factor;
-      }
-
-      if(
-        drag.type ===
-        "rotate"
-      ){
-        const pageX=
-          e.clientX +
-          window.scrollX;
-
-        const pageY=
-          e.clientY +
-          window.scrollY;
-
-        rotation=
-          Math.atan2(
-            pageY -
-            drag.original.cy,
-            pageX -
-            drag.original.cx
-          ) *
-          180 /
-          Math.PI +
-          90;
-      }
-
-      if(
-        !validStickerGeometry(
-          cx,
-          cy,
-          w,
-          h,
-          rotation
-        )
-      ){
-        return;
-      }
-
-      sticker.x=
-        cx /
-        docW;
-
-      sticker.y=
-        cy /
-        docH;
-
-      sticker.width=
-        w /
-        docW;
-
-      sticker.height=
-        h /
-        docH;
-
-      sticker.rotation=
-        rotation;
-
-      renderStickers();
-
-      const el=
-        stickerLayer.querySelector(
-          '[data-id="'+
-          sticker.id+
-          '"]'
-        );
-
-      if(el){
-        el.classList.add(
-          "selected"
-        );
-      }
-    },
-    {
-      passive:false
-    }
-  );
-
-  window.addEventListener(
-    "pointerup",
-    e=>{
-      const drag=
-        state.stickerDrag;
-
-      if(
-        !drag ||
-        drag.pointerId !==
-        e.pointerId
-      ){
-        return;
-      }
-
-      const sticker=
-        state.stickers.find(
-          s =>
-            s.id ===
-            state.selectedSticker
-        );
-
-      state.stickerDrag=
-        null;
-
-      if(sticker){
-        saveSticker(
-          sticker
-        );
-      }
-    }
-  );
-
-  /* ---------- uploads ---------- */
-
-  const uploadModal=
-    document.getElementById(
-      "hs-upload-modal"
-    );
-
-  const uploadFile=
-    document.getElementById(
-      "hs-upload-file"
-    );
-
-  const uploadUse=
-    document.getElementById(
-      "hs-upload-use"
-    );
-
-  const uploadCaption=
-    document.getElementById(
-      "hs-upload-caption"
-    );
-
-  const pickedName=
-    document.getElementById(
-      "hs-picked-file-name"
-    );
-
-  document
-    .getElementById(
-      "hs-add-memory"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        uploadFile.value=
-          "";
-
-        uploadCaption.value=
-          "";
-
-        uploadUse.value=
-          "timeline";
-
-        pickedName.textContent=
-          "nothing chosen yet";
-
-        uploadModal.classList.add(
-          "show"
-        );
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-pick-file"
-    )
-    .addEventListener(
-      "click",
-      () =>
-        uploadFile.click()
-    );
-
-  uploadFile.addEventListener(
-    "change",
-    ()=>{
-      const file=
-        uploadFile.files[
-          0
-        ];
-
-      pickedName.textContent=
-        file
-          ? file.name
-          : "nothing chosen yet";
-
-      if(
-        file &&
-        !file.type.startsWith(
-          "image/"
-        )
-      ){
-        uploadUse.value=
-          "timeline";
-
-        uploadUse.disabled=
-          true;
-
-      }else{
-        uploadUse.disabled=
-          false;
-      }
-    }
-  );
-
-  document
-    .getElementById(
-      "hs-upload-cancel"
-    )
-    .addEventListener(
-      "click",
-      ()=>{
-        uploadModal.classList.remove(
-          "show"
-        );
-      }
-    );
-
-  /*
-    At this stage we use Data URLs so photos/stickers work
-    without Hamy touching GitHub.
-
-    Keep image uploads reasonably small.
-    Larger video/audio storage should later be moved to R2.
-  */
-  function fileToDataURL(
-    file
-  ){
-    return new Promise(
-      (
-        resolve,
-        reject
-      )=>{
-        const reader=
-          new FileReader();
-
-        reader.onload=
-          () =>
-            resolve(
-              reader.result
-            );
-
-        reader.onerror=
-          reject;
-
-        reader.readAsDataURL(
-          file
-        );
-      }
-    );
-  }
-
-  document
-    .getElementById(
-      "hs-upload-go"
-    )
-    .addEventListener(
-      "click",
-      async()=>{
-        const file=
-          uploadFile.files[
-            0
-          ];
-
-        if(!file){
-          toast(
-            "choose something first"
-          );
-
-          return;
-        }
-
-        if(
-          file.size >
-          3 *
-          1024 *
-          1024
-        ){
-          toast(
-            "keep uploads under 3 MB for now"
-          );
-
-          return;
-        }
-
-        let src;
-
-        try{
-          src=
-            await fileToDataURL(
-              file
-            );
-
-        }catch(_){
-          toast(
-            "couldn't read file"
-          );
-
-          return;
-        }
-
-        const use=
-          uploadUse.value;
-
-        if(
-          use ===
-          "sticker"
-        ){
-          if(
-            !file.type.startsWith(
-              "image/"
+          ()=>
+            toast(
+              "nothing to redo"
             )
-          ){
-            toast(
-              "stickers need an image"
-            );
+        );
+    }
+  );
 
-            return;
-          }
+/* ========================= CONFIRM MODAL ========================= */
 
-          const widthNorm=
-            .14;
+const modal=
+  document.getElementById(
+    "hs-confirm-modal"
+  );
 
-          const heightNorm=
-            .14;
+const modalTitle=
+  document.getElementById(
+    "hs-confirm-title"
+  );
 
-          const spot=
-            firstStickerSpot(
-              widthNorm,
-              heightNorm
-            );
+const modalCopy=
+  document.getElementById(
+    "hs-confirm-copy"
+  );
 
-          try{
-            await api(
-              "/space/sticker",
-              {
-                method:"POST",
-                headers:
-                  headers(true),
+const modalInput=
+  document.getElementById(
+    "hs-confirm-input"
+  );
 
-                body:
-                  JSON.stringify({
-                    id:
-                      crypto.randomUUID(),
+const modalGo=
+  document.getElementById(
+    "hs-confirm-go"
+  );
 
-                    author:
-                      state.author,
+function open69(
+  title,
+  copy,
+  buttonText,
+  action
+){
 
-                    src,
+  pending69Action=
+    action;
 
-                    x:
-                      spot.x,
+  modalTitle.textContent=
+    title;
 
-                    y:
-                      spot.y,
+  modalCopy.innerHTML=
+    copy+
+    " Type <strong>69</strong> to confirm.";
 
-                    width:
-                      widthNorm,
+  modalGo.textContent=
+    buttonText;
 
-                    height:
-                      heightNorm,
+  modalInput.value=
+    "";
 
-                    rotation:
-                      0
-                  })
-              }
-            );
+  modalGo.disabled=
+    true;
 
-            uploadModal.classList.remove(
-              "show"
-            );
+  modal.classList.add(
+    "show"
+  );
 
-            toast(
-              "sticker added ✨"
-            );
+  setTimeout(
+    ()=>modalInput.focus(),
+    0
+  );
+}
 
-            loadState();
+function close69(){
 
-          }catch(_){
-            toast(
-              "sticker upload failed"
-            );
-          }
+  modal.classList.remove(
+    "show"
+  );
 
-          return;
-        }
+  modalInput.value=
+    "";
 
-        let type=
-          "image";
+  pending69Action=
+    null;
+}
 
-        if(
-          file.type.startsWith(
-            "video/"
-          )
-        ){
-          type=
-            "video";
+modalInput.addEventListener(
+  "input",
+  ()=>{
+    modalGo.disabled=
+      modalInput.value!==
+      "69";
+  }
+);
 
-        }else if(
-          file.type.startsWith(
-            "audio/"
-          )
-        ){
-          type=
-            "audio";
-        }
+modalInput.addEventListener(
+  "keydown",
+  e=>{
+    if(
+      e.key===
+        "Enter" &&
+      modalInput.value===
+        "69"
+    ){
+      modalGo.click();
+    }
+  }
+);
 
-        try{
-          await api(
-            "/space/upload",
+document
+  .getElementById(
+    "hs-confirm-cancel"
+  )
+  .addEventListener(
+    "click",
+    close69
+  );
+
+modalGo.addEventListener(
+  "click",
+  ()=>{
+
+    if(
+      modalInput.value!==
+        "69" ||
+      typeof pending69Action!==
+        "function"
+    ){
+      return;
+    }
+
+    const action=
+      pending69Action;
+
+    pending69Action=
+      null;
+
+    action();
+  }
+);
+
+document
+  .getElementById(
+    "hs-clear-all"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      open69(
+        "clear everything?",
+        "This deletes Andy + Hamy drawings.",
+        "okiee",
+        ()=>{
+
+          api(
+            "/space/clear",
             {
               method:"POST",
+
               headers:
                 headers(true),
 
               body:
                 JSON.stringify({
-                  id:
-                    crypto.randomUUID(),
+                  confirm:
+                    "69",
+
+                  confirmation:
+                    "69",
 
                   author:
-                    state.author,
-
-                  type,
-
-                  src,
-
-                  caption:
-                    uploadCaption.value.trim(),
-
-                  sortOrder:
-                    Date.now()
+                    state.author
                 })
+            }
+          )
+            .then(
+              ()=>{
+
+                state.strokes=
+                  [];
+
+                redraw();
+
+                close69();
+
+                toast(
+                  "whole wall cleared"
+                );
+              }
+            )
+            .catch(
+              ()=>
+                toast(
+                  "clear failed"
+                )
+            );
+        }
+      );
+    }
+  );
+
+document
+  .getElementById(
+    "hs-clear-mine"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      if(
+        !confirm(
+          "Clear "+
+          state.author+
+          " drawings?"
+        )
+      ){
+        return;
+      }
+
+      api(
+        "/space/clear-author",
+        {
+          method:"POST",
+
+          headers:
+            headers(true),
+
+          body:
+            JSON.stringify({
+              author:
+                state.author
+            })
+        }
+      )
+        .then(
+          ()=>{
+
+            toast(
+              state.author+
+              " drawings cleared"
+            );
+
+            loadState();
+          }
+        )
+        .catch(
+          ()=>
+            toast(
+              "clear failed"
+            )
+        );
+    }
+  );
+
+/* ========================= HISTORY ========================= */
+
+const historyPanel=
+  document.getElementById(
+    "hs-history"
+  );
+
+const snapshotTarget=
+  document.getElementById(
+    "hs-snapshots"
+  );
+
+document
+  .getElementById(
+    "hs-history-btn"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
+
+      if(
+        getComputedStyle(
+          historyPanel
+        ).display!==
+        "none"
+      ){
+
+        historyPanel.style.display=
+          "none";
+
+        return;
+      }
+
+      historyPanel.style.display=
+        "block";
+
+      snapshotTarget.textContent=
+        "loading…";
+
+      try{
+
+        const data=
+          await api(
+            "/space/snapshots",
+            {
+              headers:
+                headers(false)
             }
           );
 
-          uploadModal.classList.remove(
-            "show"
-          );
+        const snaps=
+          Array.isArray(data)
+            ? data
+            : (
+                data &&
+                data.snapshots
+              ) ||
+              [];
 
-          toast(
-            "added ✨"
-          );
+        snapshotTarget.innerHTML=
+          "";
 
-          loadState();
+        if(
+          !snaps.length
+        ){
 
-        }catch(_){
-          toast(
-            "upload failed"
-          );
+          snapshotTarget.textContent=
+            "no snapshots yet";
+
+          return;
         }
+
+        snaps.forEach(
+          s=>{
+
+            const row=
+              document.createElement(
+                "div"
+              );
+
+            row.className=
+              "hs-snap";
+
+            const label=
+              document.createElement(
+                "span"
+              );
+
+            const date=
+              s.createdAt||
+              s.created_at;
+
+            label.textContent=
+              date
+                ? new Date(
+                    date
+                  ).toLocaleString()
+                : (
+                    "snapshot "+
+                    s.id
+                  );
+
+            const btn=
+              document.createElement(
+                "button"
+              );
+
+            btn.className=
+              "hs-btn";
+
+            btn.textContent=
+              "Restore";
+
+            btn.addEventListener(
+              "click",
+              ()=>{
+
+                if(
+                  !confirm(
+                    "Restore this wall snapshot?"
+                  )
+                ){
+                  return;
+                }
+
+                api(
+                  "/space/restore",
+                  {
+                    method:"POST",
+
+                    headers:
+                      headers(true),
+
+                    body:
+                      JSON.stringify({
+                        snapshotId:
+                          s.id
+                      })
+                  }
+                )
+                  .then(
+                    ()=>{
+
+                      toast(
+                        "wall restored"
+                      );
+
+                      loadState();
+                    }
+                  )
+                  .catch(
+                    ()=>
+                      toast(
+                        "restore failed"
+                      )
+                  );
+              }
+            );
+
+            row.append(
+              label,
+              btn
+            );
+
+            snapshotTarget.appendChild(
+              row
+            );
+          }
+        );
+
+      }catch(_){
+
+        snapshotTarget.textContent=
+          "couldn't load history";
+      }
+    }
+  );
+
+document
+  .getElementById(
+    "hs-delete-history"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      open69(
+        "delete all histories?",
+        "This permanently deletes the saved wall snapshots.",
+        "delete histories 💀",
+        ()=>{
+
+          api(
+            "/space/snapshots",
+            {
+              method:"DELETE",
+
+              headers:
+                headers(true),
+
+              body:
+                JSON.stringify({
+                  confirm:
+                    "69",
+
+                  confirmation:
+                    "69",
+
+                  author:
+                    state.author
+                })
+            }
+          )
+            .then(
+              ()=>{
+
+                close69();
+
+                snapshotTarget.textContent=
+                  "no snapshots yet";
+
+                toast(
+                  "histories deleted"
+                );
+              }
+            )
+            .catch(
+              ()=>
+                toast(
+                  "history delete failed"
+                )
+            );
+        }
+      );
+    }
+  );
+
+/* ========================= UPLOADS ========================= */
+
+const uploadModal=
+  document.getElementById(
+    "hs-upload-modal"
+  );
+
+const photoInput=
+  document.getElementById(
+    "hs-photo-input"
+  );
+
+const uploadPreview=
+  document.getElementById(
+    "hs-upload-preview"
+  );
+
+const uploadCaption=
+  document.getElementById(
+    "hs-upload-caption"
+  );
+
+let pendingPhoto=null;
+let pendingPhotoSrc="";
+
+function fileToDataURL(file){
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    )=>{
+
+      const reader=
+        new FileReader();
+
+      reader.onload=
+        ()=>
+          resolve(
+            reader.result
+          );
+
+      reader.onerror=
+        reject;
+
+      reader.readAsDataURL(
+        file
+      );
+    }
+  );
+}
+
+document
+  .getElementById(
+    "hs-add-memory"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      photoInput.value=
+        "";
+
+      photoInput.click();
+    }
+  );
+
+photoInput.addEventListener(
+  "change",
+  async()=>{
+
+    const file=
+      photoInput.files &&
+      photoInput.files[0];
+
+    if(!file){
+      return;
+    }
+
+    if(
+      !file.type.startsWith(
+        "image/"
+      )
+    ){
+
+      toast(
+        "pick a photo"
+      );
+
+      return;
+    }
+
+    if(
+      file.size >
+      3*
+      1024*
+      1024
+    ){
+
+      toast(
+        "keep photos under 3 MB for now"
+      );
+
+      return;
+    }
+
+    try{
+
+      pendingPhoto=
+        file;
+
+      pendingPhotoSrc=
+        await fileToDataURL(
+          file
+        );
+
+      uploadPreview.src=
+        pendingPhotoSrc;
+
+      uploadCaption.value=
+        "";
+
+      uploadModal.classList.add(
+        "show"
+      );
+
+    }catch(_){
+
+      toast(
+        "couldn't read that photo"
+      );
+    }
+  }
+);
+
+document
+  .getElementById(
+    "hs-upload-cancel"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      uploadModal.classList.remove(
+        "show"
+      );
+
+      pendingPhoto=
+        null;
+
+      pendingPhotoSrc=
+        "";
+    }
+  );
+
+document
+  .getElementById(
+    "hs-upload-go"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
+
+      if(
+        !pendingPhoto ||
+        !pendingPhotoSrc
+      ){
+
+        toast(
+          "choose a photo first"
+        );
+
+        return;
+      }
+
+      const button=
+        document.getElementById(
+          "hs-upload-go"
+        );
+
+      button.disabled=
+        true;
+
+      button.textContent=
+        "adding…";
+
+      try{
+
+        await api(
+          "/space/upload",
+          {
+            method:"POST",
+
+            headers:
+              headers(true),
+
+            body:
+              JSON.stringify({
+                id:
+                  crypto.randomUUID(),
+
+                author:
+                  state.author,
+
+                type:
+                  "image",
+
+                src:
+                  pendingPhotoSrc,
+
+                caption:
+                  uploadCaption
+                    .value
+                    .trim(),
+
+                sortOrder:
+                  Date.now()
+              })
+          }
+        );
+
+        uploadModal.classList.remove(
+          "show"
+        );
+
+        pendingPhoto=
+          null;
+
+        pendingPhotoSrc=
+          "";
+
+        toast(
+          "photo added ❤️"
+        );
+
+        await loadState();
+
+      }catch(_){
+
+        toast(
+          "photo didn't save"
+        );
+
+      }finally{
+
+        button.disabled=
+          false;
+
+        button.textContent=
+          "add to timeline";
+      }
+    }
+  );
+
+async function deleteUpload(
+  item
+){
+
+  if(
+    !confirm(
+      "Delete this photo?"
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    await api(
+      "/space/upload",
+      {
+        method:"DELETE",
+
+        headers:
+          headers(true),
+
+        body:
+          JSON.stringify({
+            id:
+              item.id,
+
+            author:
+              item.author
+          })
       }
     );
 
-  async function deleteUpload(
-    item
+    toast(
+      "photo deleted"
+    );
+
+    await loadState();
+
+  }catch(_){
+
+    toast(
+      "delete failed"
+    );
+  }
+}
+
+async function editUpload(
+  item
+){
+
+  const caption=
+    prompt(
+      "Caption:",
+      item.caption||
+      ""
+    );
+
+  if(
+    caption===
+    null
   ){
-    if(
-      !confirm(
-        "Delete this upload?"
+    return;
+  }
+
+  try{
+
+    await api(
+      "/space/upload",
+      {
+        method:"PUT",
+
+        headers:
+          headers(true),
+
+        body:
+          JSON.stringify({
+            id:
+              item.id,
+
+            author:
+              item.author,
+
+            caption
+          })
+      }
+    );
+
+    await loadState();
+
+  }catch(_){
+
+    toast(
+      "caption didn't save"
+    );
+  }
+}
+
+function renderUploads(){
+
+  const section=
+    document.getElementById(
+      "hs-shared-memories"
+    );
+
+  const list=
+    document.getElementById(
+      "hs-shared-memory-list"
+    );
+
+  if(
+    !section ||
+    !list
+  ){
+    return;
+  }
+
+  const uploads=
+    state.uploads
+      .filter(
+        u=>
+          u.type===
+          "image"
       )
-    ){
-      return;
-    }
-
-    try{
-      await api(
-        "/space/upload",
-        {
-          method:"DELETE",
-          headers:
-            headers(true),
-
-          body:
-            JSON.stringify({
-              id:
-                item.id,
-
-              author:
-                item.author
-            })
-        }
+      .slice()
+      .sort(
+        (
+          a,
+          b
+        )=>
+          a.sortOrder-
+          b.sortOrder
       );
 
-      toast(
-        "deleted"
-      );
+  section.classList.toggle(
+    "show",
+    uploads.length>
+      0
+  );
 
-      loadState();
+  list.innerHTML=
+    "";
 
-    }catch(_){
-      toast(
-        "delete failed"
-      );
-    }
-  }
+  uploads.forEach(
+    item=>{
 
-  async function moveUpload(
-    item,
-    direction
-  ){
-    const ordered=
-      state.uploads
-        .slice()
-        .sort(
-          (
-            a,
-            b
-          ) =>
-            a.sortOrder -
-            b.sortOrder
+      const card=
+        document.createElement(
+          "div"
         );
 
-    const index=
-      ordered.findIndex(
-        x =>
-          x.id ===
-          item.id
-      );
+      card.className=
+        "hs-shared-memory";
 
-    const targetIndex=
-      index +
-      direction;
-
-    if(
-      index <
-        0 ||
-      targetIndex <
-        0 ||
-      targetIndex >=
-        ordered.length
-    ){
-      return;
-    }
-
-    const other=
-      ordered[
-        targetIndex
-      ];
-
-    const a=
-      item.sortOrder;
-
-    item.sortOrder=
-      other.sortOrder;
-
-    other.sortOrder=
-      a;
-
-    try{
-      await Promise.all([
-        api(
-          "/space/upload",
-          {
-            method:"PUT",
-            headers:
-              headers(true),
-
-            body:
-              JSON.stringify({
-                id:
-                  item.id,
-
-                author:
-                  item.author,
-
-                sortOrder:
-                  item.sortOrder
-              })
-          }
-        ),
-
-        api(
-          "/space/upload",
-          {
-            method:"PUT",
-            headers:
-              headers(true),
-
-            body:
-              JSON.stringify({
-                id:
-                  other.id,
-
-                author:
-                  other.author,
-
-                sortOrder:
-                  other.sortOrder
-              })
-          }
-        )
-      ]);
-
-      loadState();
-
-    }catch(_){
-      toast(
-        "move failed"
-      );
-    }
-  }
-
-  async function editUploadCaption(
-    item
-  ){
-    const text=
-      prompt(
-        "Caption:",
-        item.caption ||
-        ""
-      );
-
-    if(
-      text ===
-      null
-    ){
-      return;
-    }
-
-    try{
-      await api(
-        "/space/upload",
-        {
-          method:"PUT",
-          headers:
-            headers(true),
-
-          body:
-            JSON.stringify({
-              id:
-                item.id,
-
-              author:
-                item.author,
-
-              caption:
-                text
-            })
-        }
-      );
-
-      loadState();
-
-    }catch(_){
-      toast(
-        "caption didn't save"
-      );
-    }
-  }
-
-  function renderUploads(){
-    const target=
-      document.getElementById(
-        "hs-upload-list"
-      );
-
-    target.innerHTML=
-      "";
-
-    const ordered=
-      state.uploads
-        .slice()
-        .sort(
-          (
-            a,
-            b
-          ) =>
-            a.sortOrder -
-            b.sortOrder
+      const img=
+        document.createElement(
+          "img"
         );
 
-    if(
-      !ordered.length
-    ){
-      target.innerHTML=
-        '<div style="text-align:center;opacity:.35;font-size:.82rem">nothing here yet</div>';
+      img.src=
+        item.src;
 
-      return;
-    }
+      img.alt=
+        "";
 
-    ordered.forEach(
-      item=>{
-        const card=
+      img.dataset.memoryId=
+        "upload-"+
+        item.id;
+
+      card.appendChild(
+        img
+      );
+
+      if(
+        item.caption
+      ){
+
+        const caption=
           document.createElement(
             "div"
           );
 
-        card.className=
-          "hs-upload-card";
+        caption.className=
+          "hs-shared-caption";
 
-        let media;
-
-        if(
-          item.type ===
-          "video"
-        ){
-          media=
-            document.createElement(
-              "video"
-            );
-
-          media.controls=
-            true;
-
-          media.playsInline=
-            true;
-
-        }else if(
-          item.type ===
-          "audio"
-        ){
-          media=
-            document.createElement(
-              "audio"
-            );
-
-          media.controls=
-            true;
-
-        }else{
-          media=
-            document.createElement(
-              "img"
-            );
-
-          media.alt=
-            "";
-        }
-
-        media.src=
-          item.src;
-
-        media.dataset.memoryId=
-          "upload-"+
-          item.id;
+        caption.textContent=
+          item.caption;
 
         card.appendChild(
-          media
+          caption
+        );
+      }
+
+      const actions=
+        document.createElement(
+          "div"
         );
 
-        if(
-          item.caption
-        ){
-          const caption=
+      actions.className=
+        "hs-shared-actions";
+
+      const edit=
+        document.createElement(
+          "button"
+        );
+
+      edit.type=
+        "button";
+
+      edit.textContent=
+        "caption";
+
+      edit.addEventListener(
+        "click",
+        ()=>
+          editUpload(
+            item
+          )
+      );
+
+      const del=
+        document.createElement(
+          "button"
+        );
+
+      del.type=
+        "button";
+
+      del.textContent=
+        "delete";
+
+      del.addEventListener(
+        "click",
+        ()=>
+          deleteUpload(
+            item
+          )
+      );
+
+      actions.append(
+        edit,
+        del
+      );
+
+      card.appendChild(
+        actions
+      );
+
+      list.appendChild(
+        card
+      );
+    }
+  );
+
+  renderReactions();
+}
+
+/* ========================= REACTIONS ========================= */
+
+function reactionAnchor(media){
+
+  return (
+    media.closest(
+      ".reveal"
+    ) ||
+    media.closest(
+      ".audio-wrap"
+    ) ||
+    media.parentElement ||
+    media
+  );
+}
+
+function renderReactions(){
+
+  document
+    .querySelectorAll(
+      "[data-memory-id]"
+    )
+    .forEach(
+      media=>{
+
+        const id=
+          media.dataset.memoryId;
+
+        if(!id){
+          return;
+        }
+
+        const anchor=
+          reactionAnchor(
+            media
+          );
+
+        let bar=
+          anchor.querySelector(
+            ":scope > .hs-memory-reactions"
+          );
+
+        if(!bar){
+
+          bar=
             document.createElement(
               "div"
             );
 
-          caption.className=
-            "hs-upload-caption";
+          bar.className=
+            "hs-memory-reactions";
 
-          caption.textContent=
-            item.caption;
-
-          card.appendChild(
-            caption
+          anchor.appendChild(
+            bar
           );
         }
 
-        const tools=
-          document.createElement(
-            "div"
-          );
-
-        tools.className=
-          "hs-upload-tools";
-
-        const up=
-          document.createElement(
-            "button"
-          );
-
-        up.className=
-          "hs-btn";
-
-        up.textContent=
-          "↑";
-
-        up.addEventListener(
-          "click",
-          () =>
-            moveUpload(
-              item,
-              -1
-            )
-        );
-
-        const down=
-          document.createElement(
-            "button"
-          );
-
-        down.className=
-          "hs-btn";
-
-        down.textContent=
-          "↓";
-
-        down.addEventListener(
-          "click",
-          () =>
-            moveUpload(
-              item,
-              1
-            )
-        );
-
-        const edit=
-          document.createElement(
-            "button"
-          );
-
-        edit.className=
-          "hs-btn";
-
-        edit.textContent=
-          "caption";
-
-        edit.addEventListener(
-          "click",
-          () =>
-            editUploadCaption(
-              item
-            )
-        );
-
-        const del=
-          document.createElement(
-            "button"
-          );
-
-        del.className=
-          "hs-btn hs-danger";
-
-        del.textContent=
-          "delete";
-
-        del.addEventListener(
-          "click",
-          () =>
-            deleteUpload(
-              item
-            )
-        );
-
-        tools.append(
-          up,
-          down,
-          edit,
-          del
-        );
-
-        card.appendChild(
-          tools
-        );
-
-        target.appendChild(
-          card
+        buildReactionBar(
+          bar,
+          id
         );
       }
     );
+}
 
-    renderReactions();
-  }
+function buildReactionBar(
+  bar,
+  memoryId
+){
 
-  /* ---------- websocket ---------- */
+  bar.innerHTML=
+    "";
 
-  function wsUrl(){
-    const q=
-      new URLSearchParams({
-        author:
-          state.author,
-
-        token:
-          state.token
-      });
-
-    return (
-      WS_URL+
-      "?"+
-      q.toString()
+  const rows=
+    state.reactions.filter(
+      r=>
+        r.memoryId===
+        memoryId
     );
-  }
 
-  function connectWebSocket(){
-    if(
-      !state.token ||
-      !state.author
-    ){
-      return;
-    }
+  const counts=
+    new Map();
 
-    closeCurrentSocket();
+  rows.forEach(
+    r=>
+      counts.set(
+        r.emoji,
+        (
+          counts.get(
+            r.emoji
+          )||
+          0
+        )+
+        1
+      )
+  );
 
-    const ws=
-      new WebSocket(
-        wsUrl()
+  EMOJIS.forEach(
+    emoji=>{
+
+      const count=
+        counts.get(
+          emoji
+        )||
+        0;
+
+      if(!count){
+        return;
+      }
+
+      const mine=
+        rows.some(
+          r=>
+            r.author===
+              state.author &&
+            r.emoji===
+              emoji
+        );
+
+      const b=
+        document.createElement(
+          "button"
+        );
+
+      b.className=
+        "hs-used-reaction"+
+        (
+          mine
+            ? " mine"
+            : ""
+        );
+
+      b.textContent=
+        emoji+
+        " "+
+        count;
+
+      b.addEventListener(
+        "click",
+        ()=>
+          toggleReaction(
+            memoryId,
+            emoji
+          )
       );
 
-    state.ws=
-      ws;
+      bar.appendChild(
+        b
+      );
+    }
+  );
+
+  const open=
+    document.createElement(
+      "button"
+    );
+
+  open.className=
+    "hs-react-open";
+
+  open.textContent=
+    "♡ react";
+
+  bar.appendChild(
+    open
+  );
+
+  const picker=
+    document.createElement(
+      "div"
+    );
+
+  picker.className=
+    "hs-picker";
+
+  EMOJIS.forEach(
+    emoji=>{
+
+      const mine=
+        rows.some(
+          r=>
+            r.author===
+              state.author &&
+            r.emoji===
+              emoji
+        );
+
+      const b=
+        document.createElement(
+          "button"
+        );
+
+      b.className=
+        "hs-emoji"+
+        (
+          mine
+            ? " mine"
+            : ""
+        );
+
+      b.textContent=
+        emoji;
+
+      b.addEventListener(
+        "click",
+        ()=>
+          toggleReaction(
+            memoryId,
+            emoji
+          )
+      );
+
+      picker.appendChild(
+        b
+      );
+    }
+  );
+
+  open.addEventListener(
+    "click",
+    ()=>
+      picker.classList.toggle(
+        "show"
+      )
+  );
+
+  bar.appendChild(
+    picker
+  );
+}
+
+function toggleReaction(
+  memoryId,
+  emoji
+){
+
+  const idx=
+    state.reactions
+      .findIndex(
+        r=>
+          r.memoryId===
+            memoryId &&
+          r.author===
+            state.author &&
+          r.emoji===
+            emoji
+      );
+
+  if(
+    idx>=
+    0
+  ){
+
+    state.reactions.splice(
+      idx,
+      1
+    );
+
+  }else{
+
+    state.reactions.push({
+      memoryId,
+      author:
+        state.author,
+      emoji
+    });
+  }
+
+  renderReactions();
+
+  api(
+    "/space/reaction",
+    {
+      method:"POST",
+
+      headers:
+        headers(true),
+
+      body:
+        JSON.stringify({
+          memoryId,
+          author:
+            state.author,
+          emoji
+        })
+    }
+  )
+    .then(
+      loadState
+    )
+    .catch(
+      ()=>{
+
+        toast(
+          "reaction didn't save"
+        );
+
+        loadState()
+          .catch(
+            ()=>{}
+          );
+      }
+    );
+}
+
+/* ========================= CLOCK / PRESENCE ========================= */
+
+function updateLiveClock(){
+
+  const el=
+    document.getElementById(
+      "hs-live-clock"
+    );
+
+  if(!el){
+    return;
+  }
+
+  const now=
+    new Date();
+
+  try{
+
+    el.textContent=
+      new Intl.DateTimeFormat(
+        "en-AU",
+        {
+          day:"2-digit",
+          month:"short",
+          year:"numeric",
+          hour:"2-digit",
+          minute:"2-digit",
+          second:"2-digit",
+          hour12:true
+        }
+      ).format(
+        now
+      );
+
+  }catch(_){
+
+    el.textContent=
+      now.toLocaleString();
+  }
+}
+
+updateLiveClock();
+
+setInterval(
+  updateLiveClock,
+  1000
+);
+
+function cleanedPresence(){
+
+  let names=
+    Array.from(
+      new Set(
+        (
+          state.presence||
+          []
+        )
+          .filter(
+            x=>
+              x==="Andy"||
+              x==="Hamy"
+          )
+      )
+    );
+
+  if(
+    state.switchFrom &&
+    Date.now()<
+      state.ignorePreviousUntil
+  ){
+
+    names=
+      names.filter(
+        n=>
+          n!==
+          state.switchFrom
+      );
+
+    if(
+      !names.includes(
+        state.author
+      )
+    ){
+      names.push(
+        state.author
+      );
+    }
+  }
+
+  return names;
+}
+
+function renderPresence(){
+
+  const names=
+    cleanedPresence();
+
+  const el=
+    document.getElementById(
+      "hs-presence"
+    );
+
+  if(
+    names.includes(
+      "Andy"
+    ) &&
+    names.includes(
+      "Hamy"
+    )
+  ){
+
+    el.textContent=
+      "Andy and Hamy are online";
+
+  }else if(
+    names.includes(
+      "Hamy"
+    )
+  ){
+
+    el.textContent=
+      "Hamy is online";
+
+  }else{
+
+    el.textContent=
+      state.author===
+      "Hamy"
+        ? "Hamy is online"
+        : "Andy is online";
+  }
+}
+
+/* ========================= SOCKET ========================= */
+
+function wsUrl(){
+
+  const q=
+    new URLSearchParams({
+      author:
+        state.author,
+      token:
+        state.token
+    });
+
+  return (
+    WS_URL+
+    "?"+
+    q.toString()
+  );
+}
+
+function connectWebSocket(){
+
+  if(
+    !state.token ||
+    !state.author
+  ){
+    return;
+  }
+
+  closeCurrentSocket();
+
+  const ws=
+    new WebSocket(
+      wsUrl()
+    );
+
+  state.ws=
+    ws;
+
+  document
+    .getElementById(
+      "hs-conn-status"
+    )
+    .textContent=
+      "connecting…";
+
+  ws.onopen=
+    ()=>{
+
+      if(
+        state.ws!==
+        ws
+      ){
+        return;
+      }
+
+      state.reconnectAttempt=
+        0;
+
+      document
+        .getElementById(
+          "hs-conn-status"
+        )
+        .textContent=
+          "● connected";
+
+      document
+        .getElementById(
+          "hs-conn-status"
+        )
+        .style
+        .color=
+          "#75db9a";
+
+      loadState()
+        .catch(
+          ()=>{}
+        );
+    };
+
+  ws.onmessage=
+    e=>{
+
+      if(
+        state.ws!==
+        ws
+      ){
+        return;
+      }
+
+      let msg;
+
+      try{
+        msg=
+          JSON.parse(
+            e.data
+          );
+      }catch(_){
+        return;
+      }
+
+      if(
+        msg.type===
+        "init"
+      ){
+
+        const s=
+          msg.state||
+          {};
+
+        state.strokes=
+          (
+            s.strokes||
+            []
+          )
+            .map(normStroke)
+            .filter(Boolean);
+
+        state.reactions=
+          (
+            s.reactions||
+            []
+          )
+            .map(normReaction)
+            .filter(Boolean);
+
+        state.uploads=
+          (
+            s.uploads||
+            []
+          )
+            .map(normUpload)
+            .filter(Boolean);
+
+        state.presence=
+          Array.isArray(
+            s.presence
+          )
+            ? s.presence
+            : [];
+
+        redraw();
+        renderReactions();
+        renderUploads();
+        renderPresence();
+
+        return;
+      }
+
+      if(
+        msg.type===
+        "presence"
+      ){
+
+        state.presence=
+          msg.present||
+          msg.presence||
+          [];
+
+        renderPresence();
+
+        return;
+      }
+
+      if(
+        msg.type===
+          "upload.added" ||
+        msg.type===
+          "upload.updated" ||
+        msg.type===
+          "upload.deleted"
+      ){
+
+        loadState()
+          .catch(
+            ()=>{}
+          );
+
+        return;
+      }
+
+      if(
+        msg.type===
+          "stroke" ||
+        msg.type===
+          "stroke.added"
+      ){
+
+        const s=
+          normStroke(
+            msg.stroke
+          );
+
+        if(
+          s &&
+          !state.strokes.some(
+            x=>
+              x.id===
+              s.id
+          )
+        ){
+
+          state.strokes.push(
+            s
+          );
+
+          drawStroke(
+            s
+          );
+        }
+
+        return;
+      }
+
+      if(
+        msg.type===
+          "erase" ||
+        msg.type===
+          "erase-batch" ||
+        msg.type===
+          "stroke.erased" ||
+        msg.type===
+          "erase.segment" ||
+        msg.type===
+          "stroke.segment.erased" ||
+        msg.type===
+          "author.cleared" ||
+        msg.type===
+          "restore" ||
+        msg.type===
+          "restore_stroke" ||
+        msg.type===
+          "board.restored"
+      ){
+
+        loadState()
+          .catch(
+            ()=>{}
+          );
+
+        return;
+      }
+
+      if(
+        msg.type===
+          "clear" ||
+        msg.type===
+          "board.cleared"
+      ){
+
+        state.strokes=
+          [];
+
+        redraw();
+
+        return;
+      }
+
+      if(
+        msg.type===
+          "reaction" ||
+        msg.type===
+          "reaction.updated"
+      ){
+
+        loadState()
+          .catch(
+            ()=>{}
+          );
+      }
+    };
+
+  ws.onerror=
+    ()=>{};
+
+  ws.onclose=
+    ()=>{
+
+      if(
+        state.ws!==
+        ws
+      ){
+        return;
+      }
+
+      state.ws=
+        null;
+
+      document
+        .getElementById(
+          "hs-conn-status"
+        )
+        .style
+        .color=
+          "";
+
+      document
+        .getElementById(
+          "hs-conn-status"
+        )
+        .textContent=
+          "reconnecting…";
+
+      const delay=
+        Math.min(
+          15000,
+          900*
+          Math.pow(
+            2,
+            Math.min(
+              state.reconnectAttempt++,
+              4
+            )
+          )
+        );
+
+      clearTimeout(
+        state.reconnectTimer
+      );
+
+      state.reconnectTimer=
+        setTimeout(
+          connectWebSocket,
+          delay
+        );
+    };
+}
+
+document
+  .querySelectorAll(
+    ".hs-author"
+  )
+  .forEach(
+    btn=>{
+
+      btn.addEventListener(
+        "click",
+        ()=>
+          chooseAuthor(
+            btn.dataset.author,
+            true
+          )
+      );
+    }
+  );
+
+async function start(){
+
+  state.detectedAuthor=
+    detectAuthor();
+
+  state.author=
+    state.detectedAuthor;
+
+  updateAuthorUI();
+
+  renderPresence();
+
+  resizeCanvas();
+
+  window.addEventListener(
+    "resize",
+    resizeCanvas,
+    {
+      passive:true
+    }
+  );
+
+  try{
+
+    await autoUnlock();
+
+    await loadState();
+
+    connectWebSocket();
+
+  }catch(err){
 
     document
       .getElementById(
         "hs-conn-status"
       )
       .textContent=
-        "connecting…";
+        "wall couldn't unlock 😭";
 
-    ws.onopen=
-      ()=>{
-        if(
-          state.ws !==
-          ws
-        ){
-          return;
-        }
+    toast(
+      "wall setup failed"
+    );
 
-        state.reconnectAttempt=
-          0;
-
-        const status=
-          document.getElementById(
-            "hs-conn-status"
-          );
-
-        status.textContent=
-          "● connected";
-
-        status.style.color=
-          "#75db9a";
-
-        loadState()
-          .catch(
-            ()=>{}
-          );
-      };
-
-    ws.onmessage=
-      e=>{
-        if(
-          state.ws !==
-          ws
-        ){
-          return;
-        }
-
-        let msg;
-
-        try{
-          msg=
-            JSON.parse(
-              e.data
-            );
-
-        }catch(_){
-          return;
-        }
-
-        if(
-          msg.type ===
-          "init"
-        ){
-          const s=
-            msg.state ||
-            {};
-
-          state.strokes=
-            (
-              s.strokes ||
-              []
-            )
-              .map(
-                normStroke
-              )
-              .filter(
-                Boolean
-              );
-
-          state.reactions=
-            (
-              s.reactions ||
-              []
-            )
-              .map(
-                normReaction
-              )
-              .filter(
-                Boolean
-              );
-
-          state.stickers=
-            (
-              s.stickers ||
-              []
-            )
-              .map(
-                normSticker
-              )
-              .filter(
-                Boolean
-              );
-
-          state.uploads=
-            (
-              s.uploads ||
-              []
-            )
-              .map(
-                normUpload
-              )
-              .filter(
-                Boolean
-              );
-
-          state.presence=
-            Array.isArray(
-              s.presence
-            )
-              ? s.presence
-              : [];
-
-          redraw();
-          renderReactions();
-          renderPresence();
-          renderPets();
-          renderStickers();
-          renderUploads();
-
-          return;
-        }
-
-        if(
-          msg.type ===
-          "presence"
-        ){
-          state.presence=
-            msg.present ||
-            msg.presence ||
-            [];
-
-          renderPresence();
-          renderPets();
-
-          return;
-        }
-
-        if(
-          msg.type ===
-          "cursor"
-        ){
-          if(
-            msg.active ===
-            false
-          ){
-            const el=
-              cursorElement(
-                msg.author
-              );
-
-            if(el){
-              el.style.display=
-                "none";
-            }
-
-          }else{
-            showRemoteCursor(
-              msg.author,
-              msg.x,
-              msg.y
-            );
-          }
-
-          return;
-        }
-
-        if(
-          msg.type ===
-          "cursor.leave"
-        ){
-          const el=
-            cursorElement(
-              msg.author
-            );
-
-          if(el){
-            el.style.display=
-              "none";
-          }
-
-          return;
-        }
-
-        if(
-          msg.type ===
-            "sticker.added" ||
-          msg.type ===
-            "sticker.updated" ||
-          msg.type ===
-            "sticker.deleted" ||
-          msg.type ===
-            "upload.added" ||
-          msg.type ===
-            "upload.updated" ||
-          msg.type ===
-            "upload.deleted"
-        ){
-          loadState()
-            .catch(
-              ()=>{}
-            );
-
-          return;
-        }
-
-        if(
-          msg.type ===
-            "stroke" ||
-          msg.type ===
-            "stroke.added"
-        ){
-          const s=
-            normStroke(
-              msg.stroke
-            );
-
-          if(
-            s &&
-            !state.strokes.some(
-              x =>
-                x.id ===
-                s.id
-            )
-          ){
-            state.strokes.push(
-              s
-            );
-
-            drawStroke(
-              s
-            );
-          }
-
-          return;
-        }
-
-        if(
-          msg.type ===
-            "erase" ||
-          msg.type ===
-            "erase-batch" ||
-          msg.type ===
-            "stroke.erased" ||
-          msg.type ===
-            "erase.segment" ||
-          msg.type ===
-            "stroke.segment.erased" ||
-          msg.type ===
-            "author.cleared" ||
-          msg.type ===
-            "restore" ||
-          msg.type ===
-            "restore_stroke" ||
-          msg.type ===
-            "board.restored"
-        ){
-          loadState()
-            .catch(
-              ()=>{}
-            );
-
-          return;
-        }
-
-        if(
-          msg.type ===
-            "clear" ||
-          msg.type ===
-            "board.cleared"
-        ){
-          state.strokes=
-            [];
-
-          redraw();
-
-          return;
-        }
-
-        if(
-          msg.type ===
-            "reaction" ||
-          msg.type ===
-            "reaction.updated"
-        ){
-          loadState()
-            .catch(
-              ()=>{}
-            );
-        }
-      };
-
-    ws.onerror=
-      ()=>{};
-
-    ws.onclose=
-      ()=>{
-        if(
-          state.ws !==
-          ws
-        ){
-          return;
-        }
-
-        state.ws=
-          null;
-
-        const status=
-          document.getElementById(
-            "hs-conn-status"
-          );
-
-        status.style.color=
-          "";
-
-        status.textContent=
-          "reconnecting…";
-
-        const delay=
-          Math.min(
-            15000,
-            900 *
-            Math.pow(
-              2,
-              Math.min(
-                state.reconnectAttempt++,
-                4
-              )
-            )
-          );
-
-        clearTimeout(
-          state.reconnectTimer
-        );
-
-        state.reconnectTimer=
-          setTimeout(
-            connectWebSocket,
-            delay
-          );
-      };
+    console.error(
+      err
+    );
   }
+}
 
-  document
-    .querySelectorAll(
-      ".hs-author"
-    )
-    .forEach(
-      btn=>{
-        btn.addEventListener(
-          "click",
-          () =>
-            chooseAuthor(
-              btn.dataset.author,
-              true
-            )
-        );
-      }
-    );
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
 
-  async function start(){
-    state.detectedAuthor=
-      detectAuthor();
+    if(
+      document.visibilityState!==
+      "visible"
+    ){
+      return;
+    }
 
-    state.author=
-      state.detectedAuthor;
+    loadState()
+      .catch(
+        ()=>{}
+      );
 
-    updateAuthorUI();
-
-    renderPresence();
-
-    resizeCanvas();
-
-    renderStickers();
-
-    window.addEventListener(
-      "resize",
-      ()=>{
-        resizeCanvas();
-        renderStickers();
-      },
-      {
-        passive:true
-      }
-    );
-
-    try{
-      await autoUnlock();
-
-      await loadState();
+    if(
+      !state.ws ||
+      state.ws.readyState>
+      1
+    ){
 
       connectWebSocket();
-
-    }catch(err){
-      document
-        .getElementById(
-          "hs-conn-status"
-        )
-        .textContent=
-          "wall couldn't unlock 😭";
-
-      toast(
-        "wall setup failed"
-      );
-
-      console.error(
-        err
-      );
     }
   }
+);
 
-  document.addEventListener(
-    "visibilitychange",
-    ()=>{
-      if(
-        document.visibilityState !==
-        "visible"
-      ){
-        return;
-      }
+window.addEventListener(
+  "online",
+  ()=>{
 
-      loadState()
-        .catch(
-          ()=>{}
-        );
+    if(
+      !state.ws ||
+      state.ws.readyState>
+      1
+    ){
 
-      if(
-        !state.ws ||
-        state.ws.readyState >
-        1
-      ){
-        connectWebSocket();
-      }
+      connectWebSocket();
     }
-  );
+  }
+);
 
-  window.addEventListener(
-    "online",
-    ()=>{
-      if(
-        !state.ws ||
-        state.ws.readyState >
-        1
-      ){
-        connectWebSocket();
-      }
-    }
-  );
-
-  start();
+start();
 
 })();
 </script>
