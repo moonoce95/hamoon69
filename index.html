@@ -2,29 +2,42 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>hamoon</title>
 
 <script>
-if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-window.scrollTo(0, 0);
+if("scrollRestoration" in history){
+  history.scrollRestoration="manual";
+}
+window.scrollTo(0,0);
 </script>
 
-<script data-goatcounter="https://hamoon69.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<script
+  data-goatcounter="https://hamoon69.goatcounter.com/count"
+  async
+  src="//gc.zgo.at/count.js">
+</script>
 
 <script>
-(function () {
-  fetch("https://hamoon-counter.andy-ng199507.workers.dev/visit", {
-    method: "POST",
-    keepalive: true
-  }).catch(function () {});
-})();
+fetch(
+  "https://hamoon-counter.andy-ng199507.workers.dev/visit",
+  {
+    method:"POST",
+    keepalive:true
+  }
+).catch(()=>{});
 </script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
 
 body{
   background:#0d0608;
@@ -39,13 +52,13 @@ body{
   background:#0d0608;
   z-index:9999;
   pointer-events:none;
-  animation:curtainLift .6s ease .5s forwards
+  animation:lift .6s ease .5s forwards;
 }
 
-@keyframes curtainLift{
+@keyframes lift{
   to{
     opacity:0;
-    visibility:hidden
+    visibility:hidden;
   }
 }
 
@@ -56,13 +69,17 @@ body{
   right:0;
   height:2px;
   background:rgba(244,184,204,.1);
-  z-index:1000
+  z-index:1000;
 }
 
 .progress-fill{
   height:100%;
   width:0;
-  background:linear-gradient(90deg,#f4b8cc,#e8b64c)
+  background:linear-gradient(
+    90deg,
+    #f4b8cc,
+    #e8b64c
+  );
 }
 
 .container{
@@ -71,49 +88,59 @@ body{
   margin:auto;
   padding:60px 24px 100px;
   position:relative;
-  z-index:1
+  z-index:1;
 }
 
 .intro{
   text-align:center;
   padding:40px 0 24px;
   opacity:0;
-  animation:fadeIn 1.2s ease forwards
+  animation:fade 1.2s ease forwards;
 }
 
 .intro h1{
   font-size:28px;
   font-weight:400;
   font-style:italic;
-  color:#f4b8cc
+  color:#f4b8cc;
 }
 
-@keyframes fadeIn{
-  to{opacity:1}
+@keyframes fade{
+  to{
+    opacity:1;
+  }
 }
 
 .reveal,
 .finale-lead,
-.audio-wrap{
+.audio-wrap,
+.uploaded-memory{
   opacity:0;
   transform:translateY(24px);
-  transition:opacity .8s ease,transform .8s ease;
-  margin:36px 0
+  transition:
+    opacity .8s ease,
+    transform .8s ease;
+  margin:36px 0;
 }
 
 .reveal.visible,
 .finale-lead.visible,
-.audio-wrap.visible{
+.audio-wrap.visible,
+.uploaded-memory.visible{
   opacity:1;
-  transform:none
+  transform:none;
 }
 
-.media{
+.media,
+.uploaded-memory img,
+.uploaded-memory video{
   display:block;
   width:100%;
   height:auto;
   border-radius:10px;
-  box-shadow:0 12px 30px rgba(0,0,0,.5)
+  box-shadow:
+    0 12px 30px
+    rgba(0,0,0,.5);
 }
 
 .youtube-frame{
@@ -122,34 +149,453 @@ body{
   aspect-ratio:16/9;
   border:0;
   border-radius:10px;
-  box-shadow:0 12px 30px rgba(0,0,0,.5)
+  box-shadow:
+    0 12px 30px
+    rgba(0,0,0,.5);
 }
 
 .finale-lead{
   text-align:center;
-  padding:50px 0 10px
+  padding:50px 0 10px;
 }
 
 .finale-lead p{
   font-style:italic;
   font-size:16px;
-  color:#e8c4d3
+  color:#e8c4d3;
 }
 
 .audio-wrap{
   padding:24px;
-  background:rgba(244,184,204,.06);
-  border:1px solid rgba(244,184,204,.2);
-  border-radius:12px
+  background:
+    rgba(244,184,204,.06);
+  border:
+    1px solid
+    rgba(244,184,204,.2);
+  border-radius:12px;
 }
 
 audio{
   width:100%;
-  filter:invert(1) hue-rotate(180deg);
-  border-radius:8px
+  filter:
+    invert(1)
+    hue-rotate(180deg);
+  border-radius:8px;
 }
 
-/* ========================= WALL ========================= */
+/* =========================
+   REACTIONS
+   ========================= */
+
+.memory-reactions{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:10px auto 0;
+  font-family:
+    system-ui,
+    sans-serif;
+}
+
+.used-reaction,
+.react-open{
+  border:
+    1px solid
+    rgba(244,184,204,.15);
+  background:
+    rgba(244,184,204,.05);
+  color:#fdf0f5;
+  border-radius:999px;
+  min-height:29px;
+  padding:4px 8px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.used-reaction.mine{
+  border-color:
+    rgba(232,182,76,.7);
+  background:
+    rgba(232,182,76,.12);
+}
+
+.react-open{
+  color:#f4b8cc;
+}
+
+.react-picker{
+  display:none;
+  width:100%;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:3px;
+  margin-top:3px;
+  padding:7px;
+  border:
+    1px solid
+    rgba(244,184,204,.13);
+  border-radius:10px;
+  background:
+    rgba(13,6,8,.97);
+}
+
+.react-picker.show{
+  display:flex;
+}
+
+.emoji-btn{
+  width:34px;
+  height:34px;
+  border:
+    1px solid
+    transparent;
+  border-radius:8px;
+  background:transparent;
+  font-size:19px;
+  cursor:pointer;
+}
+
+.emoji-btn.mine{
+  border-color:
+    rgba(232,182,76,.72);
+  background:
+    rgba(232,182,76,.12);
+}
+
+/* =========================
+   MOVE UP / DOWN
+   ========================= */
+
+#timeline-zone > .reveal,
+#timeline-zone > .uploaded-memory{
+  position:relative;
+}
+
+.order-controls{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin:9px auto 0;
+  font-family:
+    system-ui,
+    sans-serif;
+}
+
+.order-controls button{
+  border:
+    1px solid
+    rgba(232,182,76,.20);
+  background:
+    rgba(232,182,76,.06);
+  color:#e8b64c;
+  border-radius:8px;
+  min-width:40px;
+  padding:5px 9px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.order-controls button:disabled{
+  opacity:.22;
+  cursor:not-allowed;
+}
+
+/* =========================
+   UPLOADER
+   ========================= */
+
+#add-wrap{
+  text-align:center;
+  margin:42px 0 18px;
+  font-family:
+    system-ui,
+    sans-serif;
+}
+
+#add-something{
+  border:
+    1px solid
+    rgba(232,182,76,.3);
+  background:
+    rgba(232,182,76,.1);
+  color:#e8b64c;
+  border-radius:999px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:
+    rgba(0,0,0,.76);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(
+    94vw,
+    430px
+  );
+  background:#0d0608;
+  color:#fdf0f5;
+  border:
+    1px solid
+    rgba(232,182,76,.65);
+  border-radius:14px;
+  padding:20px;
+  box-shadow:
+    0 18px 60px
+    rgba(0,0,0,.55);
+  font-family:
+    system-ui,
+    sans-serif;
+}
+
+.modal-box h3{
+  color:#e8b64c;
+  font-family:Georgia,serif;
+  font-weight:400;
+  margin-bottom:9px;
+}
+
+.modal-box p{
+  color:#f4b8cc;
+  font-size:13px;
+  line-height:1.45;
+  margin-bottom:12px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:7px;
+  margin-top:10px;
+}
+
+.add-grid{
+  display:grid;
+  grid-template-columns:
+    1fr 1fr;
+  gap:8px;
+  margin:12px 0;
+}
+
+.add-choice{
+  min-height:78px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  font-size:23px;
+}
+
+.add-choice span{
+  font-size:12px;
+}
+
+#record-status{
+  min-height:18px;
+  color:#f4b8cc;
+  text-align:center;
+  font:
+    12px/1.4
+    system-ui,
+    sans-serif;
+}
+
+#preview-image,
+#preview-video{
+  display:none;
+  width:100%;
+  max-height:48vh;
+  object-fit:contain;
+  border-radius:10px;
+  background:#080406;
+}
+
+#preview-audio{
+  display:none;
+  width:100%;
+}
+
+#upload-caption{
+  width:100%;
+  min-height:72px;
+  resize:vertical;
+  padding:9px;
+  margin-top:8px;
+  border-radius:9px;
+  border:
+    1px solid
+    rgba(244,184,204,.18);
+  background:
+    rgba(244,184,204,.05);
+  color:#fdf0f5;
+  font:
+    13px/1.4
+    system-ui,
+    sans-serif;
+}
+
+#upload-size{
+  min-height:16px;
+  margin-top:6px;
+  text-align:center;
+  color:
+    rgba(253,240,245,.48);
+  font:
+    10px/1.35
+    system-ui,
+    sans-serif;
+}
+
+.upload-go{
+  width:100%;
+  margin-top:9px;
+}
+
+.uploaded-memory audio{
+  width:100%;
+}
+
+.upload-caption{
+  text-align:center;
+  color:#e8c4d3;
+  font:
+    13px/1.45
+    system-ui,
+    sans-serif;
+  margin-top:8px;
+  white-space:pre-wrap;
+}
+
+.upload-meta{
+  text-align:center;
+  color:
+    rgba(253,240,245,.38);
+  font:
+    10px/1.35
+    system-ui,
+    sans-serif;
+  margin-top:4px;
+}
+
+.upload-actions{
+  display:flex;
+  justify-content:center;
+  margin-top:6px;
+}
+
+.upload-actions button{
+  border:
+    1px solid
+    rgba(255,127,141,.24);
+  background:
+    rgba(255,127,141,.06);
+  color:#ff9ca7;
+  border-radius:8px;
+  padding:5px 8px;
+  cursor:pointer;
+  font-size:11px;
+}
+
+/* =========================
+   PHOTO ZOOM VIEWER
+   ========================= */
+
+#lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:200000;
+  background:
+    rgba(4,2,3,.96);
+  overflow:hidden;
+  touch-action:none;
+  user-select:none;
+}
+
+#lightbox.show{
+  display:block;
+}
+
+#lightbox-stage{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  touch-action:none;
+  cursor:grab;
+}
+
+#lightbox-stage.dragging{
+  cursor:grabbing;
+}
+
+#lightbox-img{
+  position:absolute;
+  left:50%;
+  top:50%;
+  max-width:92vw;
+  max-height:88vh;
+  transform-origin:
+    center center;
+  will-change:transform;
+  pointer-events:none;
+  user-select:none;
+}
+
+#lightbox-close{
+  position:absolute;
+  right:14px;
+  top:12px;
+  z-index:3;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:
+    1px solid
+    rgba(244,184,204,.24);
+  background:
+    rgba(13,6,8,.84);
+  color:#fdf0f5;
+  font-size:27px;
+  cursor:pointer;
+}
+
+#lightbox-hint{
+  position:absolute;
+  left:50%;
+  bottom:14px;
+  z-index:3;
+  transform:
+    translateX(-50%);
+  color:
+    rgba(253,240,245,.56);
+  font:
+    11px/1.3
+    system-ui,
+    sans-serif;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+/* =========================
+   WHITEBOARD
+   ========================= */
 
 #hamoon-space{
   --pink:#f4b8cc;
@@ -159,7 +605,8 @@ audio{
   --border:rgba(244,184,204,.18);
   --card:rgba(244,184,204,.055);
   --danger:#ff7f8d;
-  margin:58px 0 14px
+
+  margin:58px 0 14px;
 }
 
 #hamoon-space h2{
@@ -168,479 +615,331 @@ audio{
   font-size:23px;
   font-style:italic;
   font-weight:400;
-  margin-bottom:10px
+  margin-bottom:10px;
 }
 
-#hs-auto-identity{
+#auto-id{
   text-align:center;
   color:var(--muted);
-  font:11px/1.4 system-ui,sans-serif;
-  margin-bottom:7px
+  font:
+    11px/1.4
+    system-ui,
+    sans-serif;
+  margin-bottom:7px;
 }
 
-#hs-author-buttons{
+#author-buttons{
   display:flex;
   justify-content:center;
   gap:7px;
   flex-wrap:wrap;
-  margin-bottom:8px
+  margin-bottom:8px;
 }
 
-.hs-author{
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--white);
+.author{
+  border:
+    1px solid
+    var(--border);
+  background:
+    var(--card);
+  color:
+    var(--white);
   border-radius:999px;
   padding:7px 13px;
   cursor:pointer;
-  font-size:12px
+  font-size:12px;
 }
 
-.hs-author.selected{
+.author.selected{
   color:var(--gold);
-  border-color:var(--gold);
-  background:rgba(232,182,76,.14)
+  border-color:
+    var(--gold);
+  background:
+    rgba(232,182,76,.14);
 }
 
-#hs-presence{
+#presence{
   text-align:center;
   color:var(--pink);
-  font:13px/1.4 system-ui,sans-serif;
-  min-height:20px
+  font:
+    13px/1.4
+    system-ui,
+    sans-serif;
+  min-height:20px;
 }
 
-#hs-conn-status{
+#conn{
   text-align:center;
   color:var(--muted);
-  font:11px/1.4 system-ui,sans-serif;
-  margin-bottom:2px
+  font:
+    11px/1.4
+    system-ui,
+    sans-serif;
+  margin-bottom:2px;
 }
 
-#hs-live-clock{
+#clock{
   text-align:center;
   color:var(--muted);
-  font:10px/1.4 system-ui,sans-serif;
+  font:
+    10px/1.4
+    system-ui,
+    sans-serif;
   margin-bottom:12px;
-  font-variant-numeric:tabular-nums
+  font-variant-numeric:
+    tabular-nums;
 }
 
-#hs-toolbar{
+#toolbar{
   display:none;
   flex-direction:column;
   gap:8px;
   padding:10px;
   margin-bottom:10px;
-  border:1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
   border-radius:12px;
-  background:var(--card);
-  font-family:system-ui,sans-serif
+  background:
+    var(--card);
+  font-family:
+    system-ui,
+    sans-serif;
 }
 
-.hs-tool-row{
+.tool-row{
   display:flex;
   justify-content:center;
   align-items:center;
   gap:7px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
 }
 
-.hs-btn{
-  border:1px solid rgba(232,182,76,.27);
-  background:rgba(232,182,76,.1);
+.btn{
+  border:
+    1px solid
+    rgba(232,182,76,.27);
+  background:
+    rgba(232,182,76,.1);
   color:var(--gold);
   border-radius:8px;
   padding:8px 10px;
   cursor:pointer;
   font-size:12px;
-  font-weight:650
+  font-weight:650;
 }
 
-.hs-btn.active{
+.btn.active{
   border-color:var(--gold);
-  background:rgba(232,182,76,.28)
+  background:
+    rgba(232,182,76,.28);
 }
 
-.hs-btn.danger{
+.btn.danger{
   color:var(--danger);
-  border-color:rgba(255,127,141,.3);
-  background:rgba(255,127,141,.08)
+  border-color:
+    rgba(255,127,141,.3);
+  background:
+    rgba(255,127,141,.08);
 }
 
-.hs-btn:disabled{
+.btn:disabled{
   opacity:.35;
-  cursor:not-allowed
+  cursor:not-allowed;
 }
 
-.hs-control-label{
+.control-label{
   display:inline-flex;
   align-items:center;
   gap:6px;
   color:var(--pink);
-  font-size:11px
+  font-size:11px;
 }
 
-#hs-colour-wheel{
+#colour{
   width:40px;
   height:40px;
   border:0;
   border-radius:50%;
   padding:0;
   cursor:pointer;
-  background:conic-gradient(
-    #ff4d6d,
-    #ffb703,
-    #80ed99,
-    #4cc9f0,
-    #7b2cbf,
-    #f72585,
-    #ff4d6d
-  )
+  background:
+    conic-gradient(
+      #ff4d6d,
+      #ffb703,
+      #80ed99,
+      #4cc9f0,
+      #7b2cbf,
+      #f72585,
+      #ff4d6d
+    );
 }
 
-#hs-colour-wheel::-webkit-color-swatch-wrapper{
-  padding:4px
+#colour::-webkit-color-swatch-wrapper{
+  padding:4px;
 }
 
-#hs-colour-wheel::-webkit-color-swatch{
-  border:2px solid rgba(255,255,255,.8);
-  border-radius:50%
+#colour::-webkit-color-swatch{
+  border:
+    2px solid
+    rgba(255,255,255,.8);
+  border-radius:50%;
 }
 
-#hs-thickness{
+#size{
   width:100px;
-  accent-color:var(--gold)
+  accent-color:
+    var(--gold);
 }
 
-#hs-canvas-wrap{
+#canvas-wrap{
   position:relative;
   width:100%;
   aspect-ratio:2/3;
-  border:1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
   border-radius:12px;
   overflow:hidden;
+
+  /* DARK BOARD RESTORED */
   background-color:#1a0d12;
   background-image:
     radial-gradient(
-      rgba(244,184,204,.11) .8px,
+      rgba(244,184,204,.11)
+      .8px,
       transparent .8px
     );
-  background-size:18px 18px;
+  background-size:
+    18px 18px;
+
   touch-action:none;
   cursor:none;
+
   box-shadow:
-    0 12px 30px rgba(0,0,0,.28),
-    inset 0 0 35px rgba(0,0,0,.18)
+    0 12px 30px
+    rgba(0,0,0,.28),
+    inset 0 0 35px
+    rgba(0,0,0,.18);
 }
 
-#hs-canvas{
+#board{
   display:block;
   width:100%;
-  height:100%
+  height:100%;
 }
 
-#hs-tool-preview{
+#tool-preview{
   position:absolute;
   left:0;
   top:0;
   display:none;
   pointer-events:none;
   z-index:5;
-  border:1.5px solid rgba(255,255,255,.9);
+  border:
+    1.5px solid
+    rgba(255,255,255,.9);
   border-radius:50%;
-  box-shadow:0 0 0 1px rgba(13,6,8,.65);
-  transform:translate(-50%,-50%)
+  box-shadow:
+    0 0 0 1px
+    rgba(13,6,8,.65);
+  transform:
+    translate(-50%,-50%);
 }
 
-#hs-history{
+#history{
   display:none;
   margin-top:10px;
   padding:10px;
-  border:1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
   border-radius:10px;
-  background:var(--card);
-  font:12px/1.45 system-ui,sans-serif
+  background:
+    var(--card);
+  font:
+    12px/1.45
+    system-ui,
+    sans-serif;
 }
 
-#hs-history-actions{
+.snap{
   display:flex;
-  justify-content:flex-end;
-  margin-bottom:6px
-}
-
-.hs-snap{
-  display:flex;
-  justify-content:space-between;
+  justify-content:
+    space-between;
   gap:8px;
   align-items:center;
   padding:7px 0;
-  border-bottom:1px solid rgba(244,184,204,.08);
-  color:var(--pink)
+  border-bottom:
+    1px solid
+    rgba(244,184,204,.08);
+  color:var(--pink);
 }
 
-/* ========================= REACTIONS ========================= */
-
-.hs-memory-reactions{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:5px;
-  margin:10px auto 0;
-  font-family:system-ui,sans-serif
-}
-
-.hs-used-reaction,
-.hs-react-open{
-  border:1px solid rgba(244,184,204,.15);
-  background:rgba(244,184,204,.05);
-  color:#fdf0f5;
-  border-radius:999px;
-  min-height:29px;
-  padding:4px 8px;
-  cursor:pointer;
-  font-size:12px
-}
-
-.hs-used-reaction.mine{
-  border-color:rgba(232,182,76,.7);
-  background:rgba(232,182,76,.12)
-}
-
-.hs-react-open{
-  color:#f4b8cc
-}
-
-.hs-picker{
-  display:none;
-  width:100%;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:3px;
-  margin-top:3px;
-  padding:7px;
-  border:1px solid rgba(244,184,204,.13);
-  border-radius:10px;
-  background:rgba(13,6,8,.97)
-}
-
-.hs-picker.show{
-  display:flex
-}
-
-.hs-emoji{
-  width:34px;
-  height:34px;
-  border:1px solid transparent;
-  border-radius:8px;
-  background:transparent;
-  font-size:19px;
-  cursor:pointer
-}
-
-.hs-emoji.mine{
-  border-color:rgba(232,182,76,.72);
-  background:rgba(232,182,76,.12)
-}
-
-/* ========================= UPLOADER ========================= */
-
-#hs-add-memory-wrap{
-  margin:42px 0 12px;
-  text-align:center;
-  font-family:system-ui,sans-serif
-}
-
-#hs-add-memory{
-  border:1px solid rgba(232,182,76,.27);
-  background:rgba(232,182,76,.1);
-  color:#e8b64c;
-  border-radius:999px;
-  padding:9px 14px;
-  cursor:pointer;
-  font-size:12px;
-  font-weight:650
-}
-
-#hs-shared-memories{
-  display:none;
-  margin:16px 0 38px
-}
-
-#hs-shared-memories.show{
-  display:block
-}
-
-#hs-shared-memories h2{
-  text-align:center;
-  color:#e8b64c;
-  font-size:20px;
-  font-style:italic;
-  font-weight:400;
-  margin-bottom:12px
-}
-
-.hs-shared-memory{
-  margin:28px 0
-}
-
-.hs-shared-memory img{
-  display:block;
-  width:100%;
-  height:auto;
-  border-radius:10px;
-  box-shadow:0 12px 30px rgba(0,0,0,.5)
-}
-
-.hs-shared-caption{
-  text-align:center;
-  color:#e8c4d3;
-  font:13px/1.45 system-ui,sans-serif;
-  margin-top:8px
-}
-
-.hs-shared-actions{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  margin-top:8px
-}
-
-.hs-shared-actions button{
-  border:1px solid rgba(232,182,76,.27);
-  background:rgba(232,182,76,.1);
-  color:#e8b64c;
-  border-radius:8px;
-  padding:6px 9px;
-  cursor:pointer;
-  font-size:11px
-}
-
-/* ========================= MODALS ========================= */
-
-.hs-modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:rgba(0,0,0,.76)
-}
-
-.hs-modal.show{
-  display:flex
-}
-
-.hs-modal-box{
-  width:min(92vw,360px);
-  background:#0d0608;
-  color:#fdf0f5;
-  border:1px solid rgba(232,182,76,.65);
-  border-radius:14px;
-  padding:20px;
-  box-shadow:0 18px 60px rgba(0,0,0,.55);
-  font-family:system-ui,sans-serif
-}
-
-.hs-modal-box h3{
-  color:#e8b64c;
-  font-family:Georgia,serif;
-  font-weight:400;
-  margin-bottom:9px
-}
-
-.hs-modal-box p{
-  color:#f4b8cc;
-  font-size:13px;
-  line-height:1.45;
-  margin-bottom:12px
-}
-
-.hs-confirm{
+.confirm-input{
   width:100%;
   padding:10px;
   margin-bottom:10px;
-  border:1px solid rgba(244,184,204,.2);
+  border:
+    1px solid
+    rgba(244,184,204,.2);
   border-radius:8px;
-  background:rgba(244,184,204,.06);
+  background:
+    rgba(244,184,204,.06);
   color:#fff;
   font-size:18px;
-  text-align:center
+  text-align:center;
 }
 
-.hs-modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:7px
-}
-
-#hs-upload-modal .hs-modal-box{
-  width:min(92vw,390px)
-}
-
-#hs-upload-preview{
-  display:block;
-  max-width:100%;
-  max-height:240px;
-  margin:10px auto;
-  border-radius:9px
-}
-
-#hs-upload-caption{
-  width:100%;
-  min-height:72px;
-  resize:vertical;
-  padding:9px;
-  border-radius:9px;
-  border:1px solid rgba(244,184,204,.2);
-  background:rgba(244,184,204,.06);
-  color:#fdf0f5;
-  font:13px/1.4 system-ui,sans-serif;
-  margin-top:8px
-}
-
-#hs-upload-go{
-  width:100%;
-  margin-top:10px
-}
-
-#hs-toast{
+#toast{
   position:fixed;
   z-index:100000;
   left:50%;
   bottom:24px;
-  transform:translate(-50%,15px);
+  transform:
+    translate(-50%,15px);
   opacity:0;
   pointer-events:none;
   padding:8px 12px;
-  border:1px solid rgba(244,184,204,.2);
+  border:
+    1px solid
+    rgba(244,184,204,.2);
   border-radius:999px;
-  background:rgba(13,6,8,.96);
+  background:
+    rgba(13,6,8,.96);
   color:#fdf0f5;
-  font:12px/1.3 system-ui,sans-serif;
-  transition:.18s ease
+  font:
+    12px/1.3
+    system-ui,
+    sans-serif;
+  transition:.18s ease;
 }
 
-#hs-toast.show{
+#toast.show{
   opacity:1;
-  transform:translate(-50%,0)
+  transform:
+    translate(-50%,0);
 }
 
 @media(max-width:600px){
 
   .container{
     padding-left:16px;
-    padding-right:16px
+    padding-right:16px;
   }
 
-  #hs-toolbar{
-    padding:8px
+  #toolbar{
+    padding:8px;
   }
 
-  .hs-btn{
+  .btn{
     font-size:11px;
-    padding:8px 9px
+    padding:8px 9px;
+  }
+
+  .add-grid{
+    grid-template-columns:
+      1fr 1fr;
   }
 }
 
@@ -652,140 +951,247 @@ audio{
 <div class="curtain"></div>
 
 <div class="progress-track">
-  <div class="progress-fill" id="progressFill"></div>
+  <div
+    class="progress-fill"
+    id="progress">
+  </div>
 </div>
 
 <div class="container">
 
   <div class="intro">
-    <h1>helloinggg ❤️❤️❤️</h1>
+    <h1>
+      helloinggg ❤️❤️❤️
+    </h1>
   </div>
 
-  <div class="reveal">
+  <!-- FIRST YOUTUBE IS LOCKED.
+       NOTHING CAN MOVE ABOVE THIS. -->
+  <div
+    class="reveal"
+    id="locked-youtube">
+
     <iframe
       class="youtube-frame"
       data-memory-id="making-of-video"
       src="https://www.youtube-nocookie.com/embed/VzzMUXaTI3Q?rel=0"
       title="For Em — Happy Birthday"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allow="
+        accelerometer;
+        autoplay;
+        clipboard-write;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture;
+        web-share"
       allowfullscreen>
     </iframe>
+
   </div>
 
-  <div class="reveal">
-    <video
-      class="media"
-      data-memory-id="hamyok"
-      controls
-      preload="metadata"
-      playsinline>
-      <source src="hamyok.mp4" type="video/mp4">
-    </video>
+  <!-- EVERYTHING INSIDE THIS AREA CAN MOVE UP / DOWN -->
+  <div id="timeline-zone">
+
+    <div class="reveal">
+      <video
+        class="media"
+        data-memory-id="hamyok"
+        controls
+        preload="metadata"
+        playsinline>
+        <source
+          src="hamyok.mp4"
+          type="video/mp4">
+      </video>
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="love1"
+        src="love1.png"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="love2"
+        src="love1 (2).png"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="inwhat"
+        src="inwhat.png"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <iframe
+        class="youtube-frame"
+        data-memory-id="old-aram-video"
+        src="https://www.youtube-nocookie.com/embed/31BIQdznu_E?rel=0"
+        title="YouTube video"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="incest"
+        src="incest.png"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="ms1"
+        src="ms1.png"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="samebrain1"
+        src="samebrain.jpg"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="samebrain2"
+        src="samebrain2.png"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <video
+        class="media"
+        data-memory-id="mining"
+        controls
+        preload="metadata"
+        playsinline>
+        <source
+          src="mining.mp4"
+          type="video/mp4">
+      </video>
+    </div>
+
+    <div class="reveal">
+      <video
+        class="media"
+        data-memory-id="smile"
+        controls
+        preload="metadata"
+        playsinline>
+        <source
+          src="smile.mp4"
+          type="video/mp4">
+      </video>
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="ok1"
+        src="ok1.jpg"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="pepper"
+        src="pepper.jpg"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="ilovehamy"
+        src="ilovehamy.jpg"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <img
+        class="media"
+        data-memory-id="flounder"
+        src="flounder.jpg"
+        alt="">
+    </div>
+
+    <div class="reveal">
+      <video
+        class="media"
+        data-memory-id="final-clip"
+        controls
+        preload="metadata"
+        playsinline>
+        <source
+          src="k_kfkMTncfnSqytLRS8m_g.mp4"
+          type="video/mp4">
+      </video>
+    </div>
+
   </div>
 
-  <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="love1"
-      src="love1.png"
-      alt="">
-  </div>
-
-  <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="love1-2"
-      src="love1%20(2).png"
-      alt="">
-  </div>
-
-  <div class="reveal">
-    <img
-      class="media"
-      data-memory-id="inwhat"
-      src="inwhat.png"
-      alt="">
-  </div>
-
-  <div class="reveal">
-    <iframe
-      class="youtube-frame"
-      data-memory-id="video-2"
-      src="https://www.youtube-nocookie.com/embed/31BIQdznu_E?rel=0"
-      title="memory"
-      allowfullscreen>
-    </iframe>
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="incest" src="incest.png" alt="">
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="ms1" src="ms1.png" alt="">
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="samebrain" src="samebrain.jpg" alt="">
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="samebrain2" src="samebrain2.png" alt="">
-  </div>
-
-  <div class="reveal">
-    <video class="media" data-memory-id="mining" controls preload="metadata" playsinline>
-      <source src="mining.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div class="reveal">
-    <video class="media" data-memory-id="smile" controls preload="metadata" playsinline>
-      <source src="smile.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="ok1" src="ok1.jpg" alt="">
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="pepper" src="pepper.jpg" alt="">
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="ilovehamy" src="ilovehamy.jpg" alt="">
-  </div>
-
-  <div class="reveal">
-    <img class="media" data-memory-id="flounder" src="flounder.jpg" alt="">
-  </div>
-
-  <div class="reveal">
-    <video class="media" data-memory-id="old-aram" controls preload="metadata" playsinline>
-      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div id="hs-add-memory-wrap">
-    <button id="hs-add-memory" type="button">
-      ＋ add a photo
+  <!-- NOOB FRIENDLY UPLOAD BUTTON -->
+  <div id="add-wrap">
+    <button
+      id="add-something"
+      type="button">
+      ＋ add something
     </button>
-
-    <input
-      id="hs-photo-input"
-      type="file"
-      accept="image/*"
-      hidden>
   </div>
 
-  <section id="hs-shared-memories">
-    <h2>new stuff from us ❤️</h2>
-    <div id="hs-shared-memory-list"></div>
-  </section>
+  <!-- PHONE CAPTURE INPUTS -->
+  <input
+    id="take-photo"
+    type="file"
+    accept="image/*"
+    capture="environment"
+    hidden>
+
+  <input
+    id="choose-photo"
+    type="file"
+    accept="image/*"
+    hidden>
+
+  <input
+    id="record-video"
+    type="file"
+    accept="video/*"
+    capture="environment"
+    hidden>
+
+  <input
+    id="choose-video"
+    type="file"
+    accept="video/*"
+    hidden>
+
+  <input
+    id="choose-audio"
+    type="file"
+    accept="audio/*"
+    hidden>
+
+  <!-- NOTHING CAN MOVE BELOW HERE -->
 
   <div class="finale-lead">
-    <p>one more thing...</p>
+    <p>
+      one more thing...
+    </p>
   </div>
 
   <div class="audio-wrap">
@@ -793,83 +1199,111 @@ audio{
       data-memory-id="meow"
       controls
       preload="metadata">
-      <source src="meow.opus" type="audio/ogg">
+      <source
+        src="meow.opus"
+        type="audio/ogg">
     </audio>
   </div>
 
+  <!-- WHITEBOARD -->
+
   <div id="hamoon-space">
 
-    <h2>our wall ❤️</h2>
+    <h2>
+      our wall ❤️
+    </h2>
 
-    <div id="hs-auto-identity"></div>
+    <div id="auto-id"></div>
 
-    <div id="hs-author-buttons">
+    <div id="author-buttons">
 
-      <button class="hs-author" data-author="Hamy">
+      <button
+        class="author"
+        data-author="Hamy">
         ♡ Hamy ♡
       </button>
 
-      <button class="hs-author" data-author="Andy">
+      <button
+        class="author"
+        data-author="Andy">
         ♡ Andy ♡
       </button>
 
     </div>
 
-    <div id="hs-presence"></div>
+    <div id="presence"></div>
 
-    <div id="hs-conn-status">
+    <div id="conn">
       setting things up…
     </div>
 
-    <div id="hs-live-clock"></div>
+    <div id="clock"></div>
 
-    <div id="hs-toolbar">
+    <div id="toolbar">
 
-      <div class="hs-tool-row">
+      <div class="tool-row">
 
-        <label class="hs-control-label">
-          Colour
+        <label class="control-label">
+
+          🎨 colour
+
           <input
-            id="hs-colour-wheel"
+            id="colour"
             type="color"
             value="#f4b8cc">
+
         </label>
 
-        <label class="hs-control-label">
-          Size
+        <label class="control-label">
+
+          size
+
           <input
-            id="hs-thickness"
+            id="size"
             type="range"
             min="1"
-            max="20"
+            max="30"
             value="4">
+
         </label>
 
-        <button class="hs-btn" id="hs-eraser">
+        <button
+          class="btn"
+          id="eraser">
           🧽 Eraser
         </button>
 
-        <button class="hs-btn" id="hs-undo">
+        <button
+          class="btn"
+          id="undo">
           ↩ Undo
         </button>
 
-        <button class="hs-btn" id="hs-redo">
+        <button
+          class="btn"
+          id="redo">
           ↪ Redo
         </button>
 
       </div>
 
-      <div class="hs-tool-row">
+      <div class="tool-row">
 
-        <button class="hs-btn" id="hs-history-btn">
+        <button
+          class="btn"
+          id="history-btn">
           📜 History
         </button>
 
-        <button class="hs-btn danger" id="hs-clear-mine">
+        <button
+          class="btn danger"
+          id="clear-mine">
           🗑 Clear my drawings
         </button>
 
-        <button class="hs-btn danger" id="hs-clear-all">
+        <button
+          class="btn danger"
+          id="clear-all">
           💀 Clear all
         </button>
 
@@ -877,20 +1311,31 @@ audio{
 
     </div>
 
-    <div id="hs-canvas-wrap">
-      <canvas id="hs-canvas"></canvas>
-      <div id="hs-tool-preview"></div>
+    <div id="canvas-wrap">
+
+      <canvas id="board"></canvas>
+
+      <div id="tool-preview"></div>
+
     </div>
 
-    <div id="hs-history">
+    <div id="history">
 
-      <div id="hs-history-actions">
-        <button class="hs-btn danger" id="hs-delete-history">
+      <div
+        style="
+          display:flex;
+          justify-content:flex-end;
+          margin-bottom:6px">
+
+        <button
+          class="btn danger"
+          id="delete-history">
           Delete histories
         </button>
+
       </div>
 
-      <div id="hs-snapshots"></div>
+      <div id="snapshots"></div>
 
     </div>
 
@@ -898,59 +1343,205 @@ audio{
 
 </div>
 
-<div class="hs-modal" id="hs-upload-modal">
+<!-- ADD MENU -->
 
-  <div class="hs-modal-box">
+<div
+  class="modal"
+  id="add-modal">
 
-    <h3>add this photo?</h3>
+  <div class="modal-box">
 
-    <img id="hs-upload-preview" alt="">
+    <h3>
+      add something ❤️
+    </h3>
+
+    <p>
+      pick what you wanna add
+    </p>
+
+    <div class="add-grid">
+
+      <button
+        class="btn add-choice"
+        data-add="take-photo">
+
+        📷
+
+        <span>
+          Take photo
+        </span>
+
+      </button>
+
+      <button
+        class="btn add-choice"
+        data-add="choose-photo">
+
+        🖼️
+
+        <span>
+          Choose photo
+        </span>
+
+      </button>
+
+      <button
+        class="btn add-choice"
+        data-add="record-video">
+
+        🎥
+
+        <span>
+          Record video
+        </span>
+
+      </button>
+
+      <button
+        class="btn add-choice"
+        data-add="choose-video">
+
+        📹
+
+        <span>
+          Choose video
+        </span>
+
+      </button>
+
+      <button
+        class="btn add-choice"
+        data-add="record-audio">
+
+        🎙️
+
+        <span id="record-label">
+          Record audio
+        </span>
+
+      </button>
+
+      <button
+        class="btn add-choice"
+        data-add="choose-audio">
+
+        🎵
+
+        <span>
+          Choose audio
+        </span>
+
+      </button>
+
+    </div>
+
+    <div id="record-status"></div>
+
+    <div class="modal-actions">
+
+      <button
+        class="btn"
+        id="add-close">
+        nor
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- UPLOAD PREVIEW -->
+
+<div
+  class="modal"
+  id="upload-modal">
+
+  <div class="modal-box">
+
+    <h3 id="upload-title">
+      add this?
+    </h3>
+
+    <img
+      id="preview-image"
+      alt="">
+
+    <video
+      id="preview-video"
+      controls
+      playsinline>
+    </video>
+
+    <audio
+      id="preview-audio"
+      controls>
+    </audio>
 
     <textarea
-      id="hs-upload-caption"
+      id="upload-caption"
       placeholder="caption (optional)">
     </textarea>
 
-    <button class="hs-btn" id="hs-upload-go" type="button">
+    <div id="upload-size"></div>
+
+    <button
+      class="btn upload-go"
+      id="upload-go">
       add to timeline
     </button>
 
-    <div class="hs-modal-actions" style="margin-top:8px">
-      <button class="hs-btn" id="hs-upload-cancel" type="button">
+    <div class="modal-actions">
+
+      <button
+        class="btn"
+        id="upload-cancel">
         nor
       </button>
+
     </div>
 
   </div>
 
 </div>
 
-<div class="hs-modal" id="hs-confirm-modal">
+<!-- 69 CONFIRM -->
 
-  <div class="hs-modal-box">
+<div
+  class="modal"
+  id="confirm-modal">
 
-    <h3 id="hs-confirm-title">
+  <div class="modal-box">
+
+    <h3 id="confirm-title">
       confirm?
     </h3>
 
-    <p id="hs-confirm-copy">
-      Type <strong>69</strong> to confirm.
+    <p id="confirm-copy">
+      Type
+      <strong>69</strong>
+      to confirm.
     </p>
 
     <input
-      id="hs-confirm-input"
-      class="hs-confirm"
+      id="confirm-input"
+      class="confirm-input"
       inputmode="numeric"
       maxlength="2"
       placeholder="69">
 
-    <div class="hs-modal-actions">
+    <div class="modal-actions">
 
-      <button class="hs-btn" id="hs-confirm-cancel">
+      <button
+        class="btn"
+        id="confirm-cancel">
         nor
       </button>
 
-      <button class="hs-btn danger" id="hs-confirm-go" disabled>
+      <button
+        class="btn danger"
+        id="confirm-go"
+        disabled>
         okiee
       </button>
 
@@ -960,85 +1551,113 @@ audio{
 
 </div>
 
-<div id="hs-toast"></div>
+<!-- PHOTO VIEWER -->
+
+<div id="lightbox">
+
+  <button
+    id="lightbox-close"
+    type="button">
+    ×
+  </button>
+
+  <div id="lightbox-stage">
+
+    <img
+      id="lightbox-img"
+      alt="">
+
+  </div>
+
+  <div id="lightbox-hint">
+    tap to zoom · pinch / wheel · drag to move
+  </div>
+
+</div>
+
+<div id="toast"></div>
 
 <script>
 (function(){
 
-  const revealEls =
-    document.querySelectorAll(
-      ".reveal,.finale-lead,.audio-wrap"
-    );
+  function observe(){
 
-  if(
-    "IntersectionObserver"
-    in window
-  ){
-    const observer =
-      new IntersectionObserver(
-        entries=>{
-          entries.forEach(
-            entry=>{
-              if(
-                entry.isIntersecting
-              ){
-                entry.target
-                  .classList
-                  .add(
-                    "visible"
-                  );
-
-                observer
-                  .unobserve(
-                    entry.target
-                  );
-              }
-            }
-          );
-        },
-        {
-          threshold:.08
-        }
+    const els=
+      document.querySelectorAll(
+        ".reveal,.finale-lead,.audio-wrap,.uploaded-memory"
       );
 
-    revealEls.forEach(
-      el=>observer.observe(el)
-    );
+    if(
+      "IntersectionObserver"
+      in window
+    ){
 
-  }else{
-    revealEls.forEach(
-      el=>
-        el.classList.add(
-          "visible"
-        )
-    );
+      const observer=
+        new IntersectionObserver(
+          entries=>{
+
+            entries.forEach(
+              entry=>{
+
+                if(
+                  entry.isIntersecting
+                ){
+
+                  entry.target
+                    .classList
+                    .add(
+                      "visible"
+                    );
+                }
+              }
+            );
+          },
+          {
+            threshold:.06
+          }
+        );
+
+      els.forEach(
+        el=>
+          observer.observe(
+            el
+          )
+      );
+
+    }else{
+
+      els.forEach(
+        el=>
+          el.classList.add(
+            "visible"
+          )
+      );
+    }
   }
 
-  function progress(){
-    const max =
-      document.documentElement.scrollHeight -
-      innerHeight;
+  window.observeHamoon=
+    observe;
 
-    const pct =
-      max > 0
-        ? Math.min(
-            100,
-            Math.max(
-              0,
-              scrollY /
-              max *
-              100
-            )
-          )
-        : 0;
+  observe();
+
+  function progress(){
+
+    const max=
+      document.documentElement
+        .scrollHeight-
+      innerHeight;
 
     document
       .getElementById(
-        "progressFill"
+        "progress"
       )
       .style
-      .width =
-        pct +
+      .width=
+        (
+          max>0
+            ? scrollY/max*100
+            : 0
+        )+
         "%";
   }
 
@@ -1052,24 +1671,6 @@ audio{
 
   progress();
 
-  window.addEventListener(
-    "pageshow",
-    ()=>{
-      window.scrollTo(
-        0,
-        0
-      );
-
-      setTimeout(
-        ()=>window.scrollTo(0,0),
-        40
-      );
-    },
-    {
-      once:true
-    }
-  );
-
 })();
 </script>
 
@@ -1080,25 +1681,77 @@ audio{
 const API=
   "https://hamoon-counter.andy-ng199507.workers.dev";
 
-const WS_URL=
+const WS=
   "wss://hamoon-counter.andy-ng199507.workers.dev/space/live";
 
-const AUTO_EDIT_PIN=
+const PIN=
   "hamoon-69";
 
 const EMOJIS=[
-  "❤️","💛","🧠","😂","😭","💀","🥹","🥺","😍","🤭",
-  "😳","🫠","😤","🤡","🫡","🔥","✨","🌙","🌸","🐱"
+  "❤️",
+  "💛",
+  "🧠",
+  "😂",
+  "😭",
+  "💀",
+  "🥹",
+  "🥺",
+  "😍",
+  "🤭",
+  "😳",
+  "🫠",
+  "😤",
+  "🤡",
+  "🫡",
+  "🔥",
+  "✨",
+  "🌙",
+  "🌸",
+  "🐱"
 ];
+
+const state={
+  token:null,
+  author:null,
+  detected:null,
+
+  strokes:[],
+  reactions:[],
+  uploads:[],
+  presence:[],
+
+  mode:"draw",
+  colour:"#f4b8cc",
+  size:4,
+
+  width:1,
+  height:1,
+  dpr:1,
+
+  drawing:false,
+  current:null,
+
+  eraseAt:0,
+
+  ws:null,
+  reconnect:0,
+
+  activeTouches:
+    new Map(),
+
+  twoFinger:false,
+  scrollStart:0,
+  touchStart:0
+};
 
 const canvas=
   document.getElementById(
-    "hs-canvas"
+    "board"
   );
 
 const wrap=
   document.getElementById(
-    "hs-canvas-wrap"
+    "canvas-wrap"
   );
 
 const ctx=
@@ -1106,48 +1759,28 @@ const ctx=
     "2d"
   );
 
-const toolPreview=
+const preview=
   document.getElementById(
-    "hs-tool-preview"
+    "tool-preview"
   );
 
-const state={
-  token:null,
-  author:null,
-  detectedAuthor:null,
-  unlocked:false,
-  mode:"draw",
-  colour:"#f4b8cc",
-  thickness:4,
-  strokes:[],
-  reactions:[],
-  uploads:[],
-  presence:[],
-  width:1,
-  height:1,
-  dpr:1,
-  drawing:false,
-  current:null,
-  ws:null,
-  reconnectTimer:null,
-  reconnectAttempt:0,
-  switchFrom:null,
-  ignorePreviousUntil:0,
-  activeTouches:new Map(),
-  twoFingerScroll:false,
-  touchScrollStartY:0,
-  pageScrollStartY:0,
-  eraseAt:0
-};
+const zone=
+  document.getElementById(
+    "timeline-zone"
+  );
 
 let toastTimer=null;
-let pending69Action=null;
+let pending69=null;
+
+/* =========================
+   HELPERS
+   ========================= */
 
 function toast(text){
 
   const el=
     document.getElementById(
-      "hs-toast"
+      "toast"
     );
 
   el.textContent=
@@ -1168,42 +1801,48 @@ function toast(text){
           "show"
         );
       },
-      2200
+      1800
     );
 }
 
-function detectAuthor(){
+function detect(){
 
   let tz="";
   let lang="";
 
   try{
+
     tz=
       Intl.DateTimeFormat()
         .resolvedOptions()
-        .timeZone ||
+        .timeZone||
       "";
+
   }catch(_){}
 
   try{
+
     lang=
       (
-        navigator.language ||
+        navigator.language||
         ""
-      ).toLowerCase();
+      )
+        .toLowerCase();
+
   }catch(_){}
 
   if(
-    tz==="Pacific/Auckland" ||
-    tz==="Pacific/Chatham" ||
+    tz==="Pacific/Auckland"||
+    tz==="Pacific/Chatham"||
     lang.endsWith("-nz")
   ){
     return "Hamy";
   }
 
   if(
-    tz==="Australia/Melbourne" ||
-    tz.startsWith("Australia/") ||
+    tz.startsWith(
+      "Australia/"
+    )||
     lang.endsWith("-au")
   ){
     return "Andy";
@@ -1212,46 +1851,24 @@ function detectAuthor(){
   return "Andy";
 }
 
-function updateAuthorUI(){
-
-  document
-    .querySelectorAll(
-      ".hs-author"
-    )
-    .forEach(
-      btn=>{
-        btn.classList.toggle(
-          "selected",
-          btn.dataset.author===
-            state.author
-        );
-      }
-    );
-
-  document
-    .getElementById(
-      "hs-auto-identity"
-    )
-    .textContent=
-      "automatically detected as ♡ "+
-      state.detectedAuthor+
-      " ♡ · posting as ♡ "+
-      state.author+
-      " ♡";
-}
-
-function headers(json){
+function headers(
+  json=true
+){
 
   const h={};
 
   if(json){
-    h["Content-Type"]=
+
+    h[
+      "Content-Type"
+    ]=
       "application/json";
   }
 
   if(
     state.token
   ){
+
     h.Authorization=
       "Bearer "+
       state.token;
@@ -1262,116 +1879,52 @@ function headers(json){
 
 async function api(
   path,
-  opts
+  options={}
 ){
 
-  const r=
+  const response=
     await fetch(
       API+
       path,
-      opts ||
-      {}
+      options
     );
 
-  if(!r.ok){
+  if(
+    !response.ok
+  ){
 
-    let msg="";
+    let text="";
 
     try{
-      msg=
-        await r.text();
+
+      text=
+        await response.text();
+
     }catch(_){}
 
     throw new Error(
-      msg ||
+      text||
       (
         "HTTP "+
-        r.status
+        response.status
       )
     );
   }
 
   const type=
-    r.headers.get(
+    response.headers.get(
       "content-type"
-    ) ||
+    )||
     "";
 
   return type.includes(
     "application/json"
   )
-    ? r.json()
+    ? response.json()
     : null;
 }
 
-function closeCurrentSocket(){
-
-  const old=
-    state.ws;
-
-  state.ws=
-    null;
-
-  if(old){
-
-    try{
-      old.onclose=
-        null;
-
-      old.close(
-        1000,
-        "identity switch"
-      );
-    }catch(_){}
-  }
-}
-
-function chooseAuthor(
-  name,
-  manual
-){
-
-  if(
-    name!=="Andy" &&
-    name!=="Hamy"
-  ){
-    return;
-  }
-
-  const previous=
-    state.author;
-
-  if(
-    manual &&
-    previous &&
-    previous!==name
-  ){
-    state.switchFrom=
-      previous;
-
-    state.ignorePreviousUntil=
-      Date.now()+
-      7000;
-  }
-
-  state.author=
-    name;
-
-  updateAuthorUI();
-
-  closeCurrentSocket();
-
-  clearTimeout(
-    state.reconnectTimer
-  );
-
-  setTimeout(
-    connectWebSocket,
-    400
-  );
-}
-
-async function autoUnlock(){
+async function unlock(){
 
   const data=
     await api(
@@ -1386,8 +1939,7 @@ async function autoUnlock(){
 
         body:
           JSON.stringify({
-            pin:
-              AUTO_EDIT_PIN
+            pin:PIN
           })
       }
     );
@@ -1395,94 +1947,196 @@ async function autoUnlock(){
   state.token=
     data.token;
 
-  state.unlocked=
-    true;
-
   document
     .getElementById(
-      "hs-toolbar"
+      "toolbar"
     )
     .style
     .display=
       "flex";
 }
 
-function normStroke(s){
+/* =========================
+   AUTHOR
+   ========================= */
 
-  if(!s){
-    return null;
+function updateAuthor(){
+
+  document
+    .querySelectorAll(
+      ".author"
+    )
+    .forEach(
+      button=>{
+
+        button.classList.toggle(
+          "selected",
+          button.dataset.author===
+            state.author
+        );
+      }
+    );
+
+  document
+    .getElementById(
+      "auto-id"
+    )
+    .textContent=
+      "automatically detected as ♡ "+
+      state.detected+
+      " ♡ · posting as ♡ "+
+      state.author+
+      " ♡";
+}
+
+function chooseAuthor(
+  author
+){
+
+  if(
+    author!=="Andy"&&
+    author!=="Hamy"
+  ){
+    return;
   }
 
+  state.author=
+    author;
+
+  updateAuthor();
+
+  connect();
+
+  renderPresence();
+
+  renderReactions();
+}
+
+/* =========================
+   NORMALISERS
+   ========================= */
+
+function normStroke(
+  stroke
+){
+
   let points=
-    s.points;
+    stroke?.points||
+    [];
 
   if(
     typeof points===
     "string"
   ){
+
     try{
+
       points=
         JSON.parse(
           points
         );
+
     }catch(_){
+
       points=[];
     }
   }
 
-  return {
-    id:s.id,
-    author:s.author||"",
-    color:s.color||s.colour||"#f4b8cc",
-    width:Number(s.width||3),
-    points:Array.isArray(points)?points:[]
+  if(!stroke){
+    return null;
+  }
+
+  return{
+    id:
+      stroke.id,
+
+    author:
+      stroke.author,
+
+    color:
+      stroke.color||
+      "#f4b8cc",
+
+    width:
+      Number(
+        stroke.width||
+        3
+      ),
+
+    points:
+      Array.isArray(
+        points
+      )
+        ? points
+        : []
   };
 }
 
-function normReaction(r){
+function normReaction(
+  reaction
+){
 
-  return {
+  return{
     memoryId:
-      r.memoryId||
-      r.memory_id||
+      reaction.memoryId||
+      reaction.memory_id||
       "",
 
     author:
-      r.author||
+      reaction.author||
       "",
 
     emoji:
-      r.emoji||
-      r.reaction||
+      reaction.emoji||
       ""
   };
 }
 
-function normUpload(u){
+function normUpload(
+  upload
+){
 
   if(
-    !u ||
-    !u.id ||
-    !u.src
+    !upload||
+    !upload.id||
+    !upload.src
   ){
     return null;
   }
 
-  return {
-    id:u.id,
-    author:u.author||"",
-    type:u.type||"image",
-    src:u.src,
-    caption:u.caption||"",
-    sortOrder:Number(
-      u.sortOrder ??
-      u.sort_order ??
-      Date.now()
-    )
+  return{
+    id:
+      upload.id,
+
+    author:
+      upload.author||
+      "",
+
+    type:
+      upload.type||
+      "image",
+
+    src:
+      upload.src,
+
+    caption:
+      upload.caption||
+      "",
+
+    sortOrder:
+      Number(
+        upload.sortOrder??
+        upload.sort_order??
+        Date.now()
+      )
   };
 }
 
-async function loadState(){
+/* =========================
+   LOAD STATE
+   ========================= */
+
+async function load(){
 
   const data=
     await api(
@@ -1494,24 +2148,33 @@ async function loadState(){
       data.strokes||
       []
     )
-      .map(normStroke)
-      .filter(Boolean);
+      .map(
+        normStroke
+      )
+      .filter(
+        Boolean
+      );
 
   state.reactions=
     (
       data.reactions||
       []
     )
-      .map(normReaction)
-      .filter(Boolean);
+      .map(
+        normReaction
+      );
 
   state.uploads=
     (
       data.uploads||
       []
     )
-      .map(normUpload)
-      .filter(Boolean);
+      .map(
+        normUpload
+      )
+      .filter(
+        Boolean
+      );
 
   state.presence=
     Array.isArray(
@@ -1521,14 +2184,2215 @@ async function loadState(){
       : [];
 
   redraw();
-  renderReactions();
+
   renderUploads();
+
+  setupOrder();
+
+  applyOrder();
+
+  renderReactions();
+
   renderPresence();
 }
 
-/* ========================= CANVAS ========================= */
+/* =========================
+   MOVE UP / DOWN
+   ========================= */
 
-function resizeCanvas(){
+const ORDER_KEY=
+  "hamoon_timeline_order_v2";
+
+function itemId(
+  node
+){
+
+  if(
+    node.dataset.timelineId
+  ){
+    return node.dataset.timelineId;
+  }
+
+  const media=
+    node.querySelector(
+      "[data-memory-id]"
+    );
+
+  if(media){
+
+    node.dataset.timelineId=
+      "static:"+
+      media.dataset.memoryId;
+
+    return node.dataset.timelineId;
+  }
+
+  return "";
+}
+
+function items(){
+
+  return[
+    ...zone.children
+  ]
+    .filter(
+      node=>
+        node.classList.contains(
+          "reveal"
+        )||
+        node.classList.contains(
+          "uploaded-memory"
+        )
+    );
+}
+
+function saveOrder(){
+
+  try{
+
+    localStorage.setItem(
+      ORDER_KEY,
+      JSON.stringify(
+        items()
+          .map(
+            itemId
+          )
+          .filter(
+            Boolean
+          )
+      )
+    );
+
+  }catch(_){}
+}
+
+function applyOrder(){
+
+  let saved=[];
+
+  try{
+
+    saved=
+      JSON.parse(
+        localStorage.getItem(
+          ORDER_KEY
+        )||
+        "[]"
+      );
+
+  }catch(_){
+
+    saved=[];
+  }
+
+  if(
+    !Array.isArray(
+      saved
+    )||
+    !saved.length
+  ){
+
+    refreshOrder();
+
+    return;
+  }
+
+  const map=
+    new Map(
+      items()
+        .map(
+          node=>[
+            itemId(
+              node
+            ),
+            node
+          ]
+        )
+    );
+
+  saved.forEach(
+    id=>{
+
+      const node=
+        map.get(
+          id
+        );
+
+      if(node){
+
+        zone.appendChild(
+          node
+        );
+
+        map.delete(
+          id
+        );
+      }
+    }
+  );
+
+  map.forEach(
+    node=>
+      zone.appendChild(
+        node
+      )
+  );
+
+  refreshOrder();
+}
+
+function setupOrder(){
+
+  items()
+    .forEach(
+      itemId
+    );
+
+  refreshOrder();
+}
+
+function refreshOrder(){
+
+  const list=
+    items();
+
+  list.forEach(
+    (
+      node,
+      index
+    )=>{
+
+      let controls=
+        node.querySelector(
+          ":scope > .order-controls"
+        );
+
+      if(!controls){
+
+        controls=
+          document.createElement(
+            "div"
+          );
+
+        controls.className=
+          "order-controls";
+
+        const up=
+          document.createElement(
+            "button"
+          );
+
+        up.type=
+          "button";
+
+        up.textContent=
+          "↑";
+
+        up.title=
+          "Move up";
+
+        const down=
+          document.createElement(
+            "button"
+          );
+
+        down.type=
+          "button";
+
+        down.textContent=
+          "↓";
+
+        down.title=
+          "Move down";
+
+        controls.append(
+          up,
+          down
+        );
+
+        node.appendChild(
+          controls
+        );
+
+        up.addEventListener(
+          "click",
+          ()=>{
+
+            const now=
+              items();
+
+            const current=
+              now.indexOf(
+                node
+              );
+
+            if(
+              current<=0
+            ){
+              return;
+            }
+
+            zone.insertBefore(
+              node,
+              now[
+                current-1
+              ]
+            );
+
+            saveOrder();
+
+            refreshOrder();
+          }
+        );
+
+        down.addEventListener(
+          "click",
+          ()=>{
+
+            const now=
+              items();
+
+            const current=
+              now.indexOf(
+                node
+              );
+
+            if(
+              current<0||
+              current>=
+                now.length-1
+            ){
+              return;
+            }
+
+            zone.insertBefore(
+              node,
+              now[
+                current+2
+              ]||
+              null
+            );
+
+            saveOrder();
+
+            refreshOrder();
+          }
+        );
+      }
+
+      const buttons=
+        controls.querySelectorAll(
+          "button"
+        );
+
+      buttons[0].disabled=
+        index===0;
+
+      buttons[1].disabled=
+        index===
+        list.length-1;
+    }
+  );
+}
+
+/* =========================
+   UPLOADER
+   ========================= */
+
+const addModal=
+  document.getElementById(
+    "add-modal"
+  );
+
+const uploadModal=
+  document.getElementById(
+    "upload-modal"
+  );
+
+const pImg=
+  document.getElementById(
+    "preview-image"
+  );
+
+const pVid=
+  document.getElementById(
+    "preview-video"
+  );
+
+const pAud=
+  document.getElementById(
+    "preview-audio"
+  );
+
+const captionInput=
+  document.getElementById(
+    "upload-caption"
+  );
+
+const uploadGo=
+  document.getElementById(
+    "upload-go"
+  );
+
+const uploadSize=
+  document.getElementById(
+    "upload-size"
+  );
+
+const recordLabel=
+  document.getElementById(
+    "record-label"
+  );
+
+const recordStatus=
+  document.getElementById(
+    "record-status"
+  );
+
+let pendingFile=null;
+let pendingType=null;
+let previewUrl=null;
+
+let recorder=null;
+let recStream=null;
+let recChunks=[];
+let recTimer=null;
+let recStart=0;
+
+function closeAdd(){
+
+  addModal.classList.remove(
+    "show"
+  );
+}
+
+function resetUpload(){
+
+  if(
+    previewUrl&&
+    previewUrl.startsWith(
+      "blob:"
+    )
+  ){
+
+    URL.revokeObjectURL(
+      previewUrl
+    );
+  }
+
+  previewUrl=null;
+  pendingFile=null;
+  pendingType=null;
+
+  pImg.style.display=
+    "none";
+
+  pVid.style.display=
+    "none";
+
+  pAud.style.display=
+    "none";
+
+  pVid.pause();
+
+  pAud.pause();
+
+  pImg.removeAttribute(
+    "src"
+  );
+
+  pVid.removeAttribute(
+    "src"
+  );
+
+  pAud.removeAttribute(
+    "src"
+  );
+
+  captionInput.value=
+    "";
+
+  uploadSize.textContent=
+    "";
+}
+
+function closeUpload(){
+
+  uploadModal.classList.remove(
+    "show"
+  );
+
+  resetUpload();
+}
+
+function humanSize(
+  bytes
+){
+
+  if(
+    bytes<1024
+  ){
+    return bytes+
+      " B";
+  }
+
+  if(
+    bytes<1024*
+    1024
+  ){
+
+    return(
+      bytes/1024
+    ).toFixed(1)+
+    " KB";
+  }
+
+  return(
+    bytes/
+    (
+      1024*
+      1024
+    )
+  ).toFixed(1)+
+  " MB";
+}
+
+function picked(
+  file
+){
+
+  if(!file){
+    return;
+  }
+
+  resetUpload();
+
+  pendingFile=
+    file;
+
+  if(
+    file.type.startsWith(
+      "image/"
+    )
+  ){
+
+    pendingType=
+      "image";
+
+  }else if(
+    file.type.startsWith(
+      "video/"
+    )
+  ){
+
+    pendingType=
+      "video";
+
+  }else if(
+    file.type.startsWith(
+      "audio/"
+    )
+  ){
+
+    pendingType=
+      "audio";
+
+  }else{
+
+    toast(
+      "unsupported file"
+    );
+
+    return;
+  }
+
+  previewUrl=
+    URL.createObjectURL(
+      file
+    );
+
+  if(
+    pendingType===
+    "image"
+  ){
+
+    pImg.src=
+      previewUrl;
+
+    pImg.style.display=
+      "block";
+  }
+
+  if(
+    pendingType===
+    "video"
+  ){
+
+    pVid.src=
+      previewUrl;
+
+    pVid.style.display=
+      "block";
+  }
+
+  if(
+    pendingType===
+    "audio"
+  ){
+
+    pAud.src=
+      previewUrl;
+
+    pAud.style.display=
+      "block";
+  }
+
+  document
+    .getElementById(
+      "upload-title"
+    )
+    .textContent=
+      "add this "+
+      (
+        pendingType===
+        "image"
+          ? "photo"
+          : pendingType
+      )+
+      "?";
+
+  uploadSize.textContent=
+    humanSize(
+      file.size
+    );
+
+  closeAdd();
+
+  uploadModal.classList.add(
+    "show"
+  );
+}
+
+function clickInput(
+  id
+){
+
+  const input=
+    document.getElementById(
+      id
+    );
+
+  input.value=
+    "";
+
+  input.click();
+}
+
+document
+  .getElementById(
+    "add-something"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      addModal.classList.add(
+        "show"
+      );
+    }
+  );
+
+document
+  .getElementById(
+    "add-close"
+  )
+  .addEventListener(
+    "click",
+    closeAdd
+  );
+
+document
+  .getElementById(
+    "upload-cancel"
+  )
+  .addEventListener(
+    "click",
+    closeUpload
+  );
+
+document
+  .querySelectorAll(
+    ".add-choice"
+  )
+  .forEach(
+    button=>{
+
+      button.addEventListener(
+        "click",
+        async()=>{
+
+          const type=
+            button.dataset.add;
+
+          if(
+            type===
+            "take-photo"
+          ){
+
+            clickInput(
+              "take-photo"
+            );
+
+            return;
+          }
+
+          if(
+            type===
+            "choose-photo"
+          ){
+
+            clickInput(
+              "choose-photo"
+            );
+
+            return;
+          }
+
+          if(
+            type===
+            "record-video"
+          ){
+
+            clickInput(
+              "record-video"
+            );
+
+            return;
+          }
+
+          if(
+            type===
+            "choose-video"
+          ){
+
+            clickInput(
+              "choose-video"
+            );
+
+            return;
+          }
+
+          if(
+            type===
+            "choose-audio"
+          ){
+
+            clickInput(
+              "choose-audio"
+            );
+
+            return;
+          }
+
+          if(
+            type===
+            "record-audio"
+          ){
+
+            if(
+              recorder&&
+              recorder.state===
+              "recording"
+            ){
+
+              recorder.stop();
+
+            }else{
+
+              await startAudio();
+            }
+          }
+        }
+      );
+    }
+  );
+
+[
+  "take-photo",
+  "choose-photo",
+  "record-video",
+  "choose-video",
+  "choose-audio"
+]
+  .forEach(
+    id=>{
+
+      document
+        .getElementById(
+          id
+        )
+        .addEventListener(
+          "change",
+          event=>{
+
+            const file=
+              event.target.files?.[
+                0
+              ];
+
+            if(file){
+
+              picked(
+                file
+              );
+            }
+          }
+        );
+    }
+  );
+
+async function startAudio(){
+
+  if(
+    !navigator.mediaDevices
+      ?.getUserMedia||
+    typeof MediaRecorder===
+      "undefined"
+  ){
+
+    toast(
+      "audio recording isn't supported here"
+    );
+
+    return;
+  }
+
+  try{
+
+    recStream=
+      await navigator.mediaDevices
+        .getUserMedia({
+          audio:true
+        });
+
+    recChunks=[];
+
+    let options={};
+
+    for(
+      const mimeType
+      of [
+        "audio/webm;codecs=opus",
+        "audio/mp4",
+        "audio/webm"
+      ]
+    ){
+
+      if(
+        MediaRecorder
+          .isTypeSupported
+          ?.(
+            mimeType
+          )
+      ){
+
+        options={
+          mimeType
+        };
+
+        break;
+      }
+    }
+
+    recorder=
+      new MediaRecorder(
+        recStream,
+        options
+      );
+
+    recorder.addEventListener(
+      "dataavailable",
+      event=>{
+
+        if(
+          event.data
+            ?.size
+        ){
+
+          recChunks.push(
+            event.data
+          );
+        }
+      }
+    );
+
+    recorder.addEventListener(
+      "stop",
+      ()=>{
+
+        clearInterval(
+          recTimer
+        );
+
+        const mime=
+          recorder.mimeType||
+          recChunks[0]?.type||
+          "audio/webm";
+
+        const blob=
+          new Blob(
+            recChunks,
+            {
+              type:mime
+            }
+          );
+
+        const extension=
+          mime.includes(
+            "mp4"
+          )
+            ? "m4a"
+            : "webm";
+
+        recStream
+          ?.getTracks()
+          .forEach(
+            track=>
+              track.stop()
+          );
+
+        recStream=null;
+        recorder=null;
+
+        recordLabel.textContent=
+          "Record audio";
+
+        recordStatus.textContent=
+          "";
+
+        picked(
+          new File(
+            [
+              blob
+            ],
+            "hamoon-voice-"+
+            Date.now()+
+            "."+
+            extension,
+            {
+              type:mime
+            }
+          )
+        );
+      }
+    );
+
+    recorder.start(
+      250
+    );
+
+    recStart=
+      Date.now();
+
+    recordLabel.textContent=
+      "Stop recording";
+
+    function tick(){
+
+      const seconds=
+        Math.floor(
+          (
+            Date.now()-
+            recStart
+          )/
+          1000
+        );
+
+      const mins=
+        String(
+          Math.floor(
+            seconds/60
+          )
+        )
+          .padStart(
+            2,
+            "0"
+          );
+
+      const secs=
+        String(
+          seconds%60
+        )
+          .padStart(
+            2,
+            "0"
+          );
+
+      recordStatus.textContent=
+        "recording… "+
+        mins+
+        ":"+
+        secs+
+        " · tap again to stop";
+    }
+
+    tick();
+
+    recTimer=
+      setInterval(
+        tick,
+        500
+      );
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+    toast(
+      "microphone permission was blocked"
+    );
+  }
+}
+
+function fileToDataURL(
+  file
+){
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    )=>{
+
+      const reader=
+        new FileReader();
+
+      reader.onload=
+        ()=>
+          resolve(
+            reader.result
+          );
+
+      reader.onerror=
+        reject;
+
+      reader.readAsDataURL(
+        file
+      );
+    }
+  );
+}
+
+async function imageData(
+  file
+){
+
+  const bitmap=
+    await createImageBitmap(
+      file
+    );
+
+  const maxSide=
+    1800;
+
+  const scale=
+    Math.min(
+      1,
+      maxSide/
+      Math.max(
+        bitmap.width,
+        bitmap.height
+      )
+    );
+
+  const width=
+    Math.max(
+      1,
+      Math.round(
+        bitmap.width*
+        scale
+      )
+    );
+
+  const height=
+    Math.max(
+      1,
+      Math.round(
+        bitmap.height*
+        scale
+      )
+    );
+
+  const canvas=
+    document.createElement(
+      "canvas"
+    );
+
+  canvas.width=
+    width;
+
+  canvas.height=
+    height;
+
+  canvas
+    .getContext(
+      "2d"
+    )
+    .drawImage(
+      bitmap,
+      0,
+      0,
+      width,
+      height
+    );
+
+  bitmap.close?.();
+
+  let quality=.88;
+
+  let data=
+    canvas.toDataURL(
+      "image/webp",
+      quality
+    );
+
+  while(
+    data.length>
+      1700000&&
+    quality>.58
+  ){
+
+    quality-=.08;
+
+    data=
+      canvas.toDataURL(
+        "image/webp",
+        quality
+      );
+  }
+
+  return data;
+}
+
+uploadGo.addEventListener(
+  "click",
+  async()=>{
+
+    if(
+      !pendingFile||
+      !pendingType
+    ){
+      return;
+    }
+
+    /*
+      TEMP LIMIT UNTIL R2 IS CONNECTED.
+      Photos are compressed automatically.
+    */
+    if(
+      pendingType!==
+        "image"&&
+      pendingFile.size>
+        8*
+        1024*
+        1024
+    ){
+
+      toast(
+        "that one's too big until R2 is connected"
+      );
+
+      return;
+    }
+
+    uploadGo.disabled=
+      true;
+
+    uploadGo.textContent=
+      "adding…";
+
+    try{
+
+      const src=
+        pendingType===
+          "image"
+          ? await imageData(
+              pendingFile
+            )
+          : await fileToDataURL(
+              pendingFile
+            );
+
+      const upload={
+        id:
+          crypto.randomUUID(),
+
+        author:
+          state.author,
+
+        type:
+          pendingType,
+
+        src,
+
+        caption:
+          captionInput
+            .value
+            .trim(),
+
+        sortOrder:
+          Date.now()
+      };
+
+      await api(
+        "/space/upload",
+        {
+          method:"POST",
+
+          headers:
+            headers(),
+
+          body:
+            JSON.stringify(
+              upload
+            )
+        }
+      );
+
+      closeUpload();
+
+      toast(
+        "added ❤️"
+      );
+
+      await load();
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+      toast(
+        "upload didn't save"
+      );
+
+    }finally{
+
+      uploadGo.disabled=
+        false;
+
+      uploadGo.textContent=
+        "add to timeline";
+    }
+  }
+);
+
+async function deleteUpload(
+  upload
+){
+
+  if(
+    !confirm(
+      "Delete this "+
+      upload.type+
+      "?"
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    await api(
+      "/space/upload",
+      {
+        method:"DELETE",
+
+        headers:
+          headers(),
+
+        body:
+          JSON.stringify({
+            id:
+              upload.id,
+
+            author:
+              upload.author
+          })
+      }
+    );
+
+    toast(
+      "deleted"
+    );
+
+    await load();
+
+    saveOrder();
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+    toast(
+      "delete failed"
+    );
+  }
+}
+
+function renderUploads(){
+
+  zone
+    .querySelectorAll(
+      ".uploaded-memory"
+    )
+    .forEach(
+      node=>
+        node.remove()
+    );
+
+  state.uploads
+    .slice()
+    .sort(
+      (
+        a,
+        b
+      )=>
+        a.sortOrder-
+        b.sortOrder
+    )
+    .forEach(
+      upload=>{
+
+        const node=
+          document.createElement(
+            "div"
+          );
+
+        node.className=
+          "uploaded-memory visible";
+
+        node.dataset.timelineId=
+          "upload:"+
+          upload.id;
+
+        let media;
+
+        if(
+          upload.type===
+          "video"
+        ){
+
+          media=
+            document.createElement(
+              "video"
+            );
+
+          media.controls=
+            true;
+
+          media.playsInline=
+            true;
+
+          media.preload=
+            "metadata";
+
+        }else if(
+          upload.type===
+          "audio"
+        ){
+
+          media=
+            document.createElement(
+              "audio"
+            );
+
+          media.controls=
+            true;
+
+          media.preload=
+            "metadata";
+
+        }else{
+
+          media=
+            document.createElement(
+              "img"
+            );
+
+          media.alt=
+            "";
+        }
+
+        media.src=
+          upload.src;
+
+        media.dataset.memoryId=
+          "upload-"+
+          upload.id;
+
+        node.appendChild(
+          media
+        );
+
+        if(
+          upload.caption
+        ){
+
+          const caption=
+            document.createElement(
+              "div"
+            );
+
+          caption.className=
+            "upload-caption";
+
+          caption.textContent=
+            upload.caption;
+
+          node.appendChild(
+            caption
+          );
+        }
+
+        const meta=
+          document.createElement(
+            "div"
+          );
+
+        meta.className=
+          "upload-meta";
+
+        meta.textContent=
+          "added by "+
+          upload.author;
+
+        node.appendChild(
+          meta
+        );
+
+        const actions=
+          document.createElement(
+            "div"
+          );
+
+        actions.className=
+          "upload-actions";
+
+        const del=
+          document.createElement(
+            "button"
+          );
+
+        del.type=
+          "button";
+
+        del.textContent=
+          "delete";
+
+        del.addEventListener(
+          "click",
+          ()=>
+            deleteUpload(
+              upload
+            )
+        );
+
+        actions.appendChild(
+          del
+        );
+
+        node.appendChild(
+          actions
+        );
+
+        zone.appendChild(
+          node
+        );
+      }
+    );
+
+  refreshOrder();
+
+  bindZoom();
+
+  window.observeHamoon?.();
+}
+
+/* =========================
+   PHOTO ZOOM
+   ========================= */
+
+const lightbox=
+  document.getElementById(
+    "lightbox"
+  );
+
+const stage=
+  document.getElementById(
+    "lightbox-stage"
+  );
+
+const lightboxImg=
+  document.getElementById(
+    "lightbox-img"
+  );
+
+const zoom={
+  scale:1,
+  x:0,
+  y:0,
+
+  pointers:
+    new Map(),
+
+  startDistance:0,
+  startScale:1,
+
+  pan:null,
+  moved:false
+};
+
+function applyZoom(){
+
+  lightboxImg.style.transform=
+    "translate(-50%,-50%) "+
+    "translate("+
+    zoom.x+
+    "px,"+
+    zoom.y+
+    "px) "+
+    "scale("+
+    zoom.scale+
+    ")";
+}
+
+function resetZoom(){
+
+  zoom.scale=1;
+  zoom.x=0;
+  zoom.y=0;
+
+  zoom.pointers.clear();
+
+  zoom.pan=null;
+
+  applyZoom();
+}
+
+function clampZoom(){
+
+  zoom.scale=
+    Math.max(
+      1,
+      Math.min(
+        8,
+        zoom.scale
+      )
+    );
+
+  if(
+    zoom.scale<=
+    1.001
+  ){
+
+    zoom.x=0;
+    zoom.y=0;
+  }
+}
+
+function openLightbox(
+  src
+){
+
+  lightboxImg.src=
+    src;
+
+  resetZoom();
+
+  lightbox.classList.add(
+    "show"
+  );
+
+  document.body.style.overflow=
+    "hidden";
+}
+
+function closeLightbox(){
+
+  lightbox.classList.remove(
+    "show"
+  );
+
+  lightboxImg.removeAttribute(
+    "src"
+  );
+
+  document.body.style.overflow=
+    "";
+
+  resetZoom();
+}
+
+function bindZoom(){
+
+  document
+    .querySelectorAll(
+      "#timeline-zone img.media,"+
+      "#timeline-zone .uploaded-memory img"
+    )
+    .forEach(
+      image=>{
+
+        if(
+          image.dataset.zoomBound
+        ){
+          return;
+        }
+
+        image.dataset.zoomBound=
+          "1";
+
+        image.style.cursor=
+          "zoom-in";
+
+        image.addEventListener(
+          "click",
+          ()=>{
+
+            openLightbox(
+              image.currentSrc||
+              image.src
+            );
+          }
+        );
+      }
+    );
+}
+
+document
+  .getElementById(
+    "lightbox-close"
+  )
+  .addEventListener(
+    "click",
+    closeLightbox
+  );
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(
+      event.key===
+        "Escape"&&
+      lightbox.classList.contains(
+        "show"
+      )
+    ){
+
+      closeLightbox();
+    }
+  }
+);
+
+function pointerDistance(){
+
+  const values=[
+    ...zoom.pointers.values()
+  ];
+
+  if(
+    values.length<
+    2
+  ){
+    return 0;
+  }
+
+  return Math.hypot(
+    values[0].x-
+    values[1].x,
+
+    values[0].y-
+    values[1].y
+  );
+}
+
+stage.addEventListener(
+  "pointerdown",
+  event=>{
+
+    event.preventDefault();
+
+    zoom.pointers.set(
+      event.pointerId,
+      {
+        x:event.clientX,
+        y:event.clientY
+      }
+    );
+
+    zoom.moved=
+      false;
+
+    try{
+
+      stage.setPointerCapture(
+        event.pointerId
+      );
+
+    }catch(_){}
+
+    if(
+      zoom.pointers.size===
+      2
+    ){
+
+      zoom.startDistance=
+        pointerDistance();
+
+      zoom.startScale=
+        zoom.scale;
+
+      zoom.pan=null;
+
+    }else{
+
+      zoom.pan={
+        id:
+          event.pointerId,
+
+        x:
+          event.clientX,
+
+        y:
+          event.clientY,
+
+        oldX:
+          zoom.x,
+
+        oldY:
+          zoom.y
+      };
+    }
+  }
+);
+
+stage.addEventListener(
+  "pointermove",
+  event=>{
+
+    if(
+      !zoom.pointers.has(
+        event.pointerId
+      )
+    ){
+      return;
+    }
+
+    const old=
+      zoom.pointers.get(
+        event.pointerId
+      );
+
+    zoom.pointers.set(
+      event.pointerId,
+      {
+        x:event.clientX,
+        y:event.clientY
+      }
+    );
+
+    if(
+      Math.abs(
+        event.clientX-
+        old.x
+      )>
+        2||
+      Math.abs(
+        event.clientY-
+        old.y
+      )>
+        2
+    ){
+
+      zoom.moved=
+        true;
+    }
+
+    if(
+      zoom.pointers.size>=
+      2
+    ){
+
+      const distance=
+        pointerDistance();
+
+      if(
+        zoom.startDistance
+      ){
+
+        zoom.scale=
+          zoom.startScale*
+          distance/
+          zoom.startDistance;
+
+        clampZoom();
+
+        applyZoom();
+      }
+
+      return;
+    }
+
+    if(
+      zoom.scale>
+        1&&
+      zoom.pan?.id===
+        event.pointerId
+    ){
+
+      zoom.x=
+        zoom.pan.oldX+
+        event.clientX-
+        zoom.pan.x;
+
+      zoom.y=
+        zoom.pan.oldY+
+        event.clientY-
+        zoom.pan.y;
+
+      applyZoom();
+    }
+  }
+);
+
+function endPointer(
+  event
+){
+
+  if(
+    !zoom.pointers.has(
+      event.pointerId
+    )
+  ){
+    return;
+  }
+
+  const single=
+    zoom.pointers.size===
+    1;
+
+  zoom.pointers.delete(
+    event.pointerId
+  );
+
+  if(
+    single&&
+    !zoom.moved
+  ){
+
+    /* TAP ONCE = ZOOM IN
+       TAP AGAIN = ZOOM OUT */
+
+    if(
+      zoom.scale<=
+      1.05
+    ){
+
+      zoom.scale=
+        2.5;
+
+    }else{
+
+      zoom.scale=1;
+      zoom.x=0;
+      zoom.y=0;
+    }
+
+    clampZoom();
+
+    applyZoom();
+  }
+
+  if(
+    zoom.pointers.size===
+    1
+  ){
+
+    const [
+      id,
+      point
+    ]=
+      [
+        ...zoom.pointers.entries()
+      ][0];
+
+    zoom.pan={
+      id,
+
+      x:
+        point.x,
+
+      y:
+        point.y,
+
+      oldX:
+        zoom.x,
+
+      oldY:
+        zoom.y
+    };
+
+  }else{
+
+    zoom.pan=null;
+  }
+}
+
+stage.addEventListener(
+  "pointerup",
+  endPointer
+);
+
+stage.addEventListener(
+  "pointercancel",
+  endPointer
+);
+
+stage.addEventListener(
+  "wheel",
+  event=>{
+
+    event.preventDefault();
+
+    zoom.scale*=
+      event.deltaY<
+      0
+        ? 1.16
+        : .86;
+
+    clampZoom();
+
+    applyZoom();
+  },
+  {
+    passive:false
+  }
+);
+
+/* =========================
+   REACTIONS
+   ========================= */
+
+function reactionAnchor(
+  media
+){
+
+  return(
+    media.closest(
+      ".reveal"
+    )||
+    media.closest(
+      ".audio-wrap"
+    )||
+    media.closest(
+      ".uploaded-memory"
+    )||
+    media.parentElement||
+    media
+  );
+}
+
+function renderReactions(){
+
+  document
+    .querySelectorAll(
+      "[data-memory-id]"
+    )
+    .forEach(
+      media=>{
+
+        const id=
+          media.dataset.memoryId;
+
+        if(!id){
+          return;
+        }
+
+        const anchor=
+          reactionAnchor(
+            media
+          );
+
+        let bar=
+          anchor.querySelector(
+            ":scope > .memory-reactions"
+          );
+
+        if(!bar){
+
+          bar=
+            document.createElement(
+              "div"
+            );
+
+          bar.className=
+            "memory-reactions";
+
+          anchor.appendChild(
+            bar
+          );
+        }
+
+        bar.innerHTML=
+          "";
+
+        const rows=
+          state.reactions
+            .filter(
+              reaction=>
+                reaction.memoryId===
+                id
+            );
+
+        const counts=
+          new Map();
+
+        rows.forEach(
+          reaction=>{
+
+            counts.set(
+              reaction.emoji,
+              (
+                counts.get(
+                  reaction.emoji
+                )||
+                0
+              )+
+              1
+            );
+          }
+        );
+
+        EMOJIS.forEach(
+          emoji=>{
+
+            const count=
+              counts.get(
+                emoji
+              )||
+              0;
+
+            if(!count){
+              return;
+            }
+
+            const button=
+              document.createElement(
+                "button"
+              );
+
+            const mine=
+              rows.some(
+                reaction=>
+                  reaction.author===
+                    state.author&&
+                  reaction.emoji===
+                    emoji
+              );
+
+            button.className=
+              "used-reaction"+
+              (
+                mine
+                  ? " mine"
+                  : ""
+              );
+
+            button.textContent=
+              emoji+
+              " "+
+              count;
+
+            button.addEventListener(
+              "click",
+              ()=>
+                toggleReaction(
+                  id,
+                  emoji
+                )
+            );
+
+            bar.appendChild(
+              button
+            );
+          }
+        );
+
+        /* HEART REACT BUTTON RESTORED */
+
+        const open=
+          document.createElement(
+            "button"
+          );
+
+        open.className=
+          "react-open";
+
+        open.textContent=
+          "♡ react";
+
+        bar.appendChild(
+          open
+        );
+
+        const picker=
+          document.createElement(
+            "div"
+          );
+
+        picker.className=
+          "react-picker";
+
+        EMOJIS.forEach(
+          emoji=>{
+
+            const button=
+              document.createElement(
+                "button"
+              );
+
+            const mine=
+              rows.some(
+                reaction=>
+                  reaction.author===
+                    state.author&&
+                  reaction.emoji===
+                    emoji
+              );
+
+            button.className=
+              "emoji-btn"+
+              (
+                mine
+                  ? " mine"
+                  : ""
+              );
+
+            button.textContent=
+              emoji;
+
+            button.addEventListener(
+              "click",
+              ()=>
+                toggleReaction(
+                  id,
+                  emoji
+                )
+            );
+
+            picker.appendChild(
+              button
+            );
+          }
+        );
+
+        open.addEventListener(
+          "click",
+          ()=>{
+
+            picker.classList.toggle(
+              "show"
+            );
+          }
+        );
+
+        bar.appendChild(
+          picker
+        );
+      }
+    );
+}
+
+function toggleReaction(
+  memoryId,
+  emoji
+){
+
+  const index=
+    state.reactions
+      .findIndex(
+        reaction=>
+          reaction.memoryId===
+            memoryId&&
+          reaction.author===
+            state.author&&
+          reaction.emoji===
+            emoji
+      );
+
+  if(
+    index>=0
+  ){
+
+    state.reactions.splice(
+      index,
+      1
+    );
+
+  }else{
+
+    state.reactions.push({
+      memoryId,
+      author:
+        state.author,
+      emoji
+    });
+  }
+
+  renderReactions();
+
+  api(
+    "/space/reaction",
+    {
+      method:"POST",
+
+      headers:
+        headers(),
+
+      body:
+        JSON.stringify({
+          memoryId,
+          author:
+            state.author,
+          emoji
+        })
+    }
+  )
+    .then(
+      load
+    )
+    .catch(
+      ()=>{
+
+        toast(
+          "reaction didn't save"
+        );
+      }
+    );
+}
+
+/* =========================
+   WHITEBOARD
+   ========================= */
+
+function resize(){
 
   const rect=
     wrap.getBoundingClientRect();
@@ -1548,7 +4412,7 @@ function resizeCanvas(){
   state.dpr=
     Math.max(
       1,
-      window.devicePixelRatio||
+      devicePixelRatio||
       1
     );
 
@@ -1564,14 +4428,6 @@ function resizeCanvas(){
       state.dpr
     );
 
-  canvas.style.width=
-    state.width+
-    "px";
-
-  canvas.style.height=
-    state.height+
-    "px";
-
   ctx.setTransform(
     state.dpr,
     0,
@@ -1584,45 +4440,16 @@ function resizeCanvas(){
   redraw();
 }
 
-function point(e){
-
-  const r=
-    canvas.getBoundingClientRect();
-
-  return {
-    x:
-      Math.max(
-        0,
-        Math.min(
-          1,
-          (
-            e.clientX-
-            r.left
-          )/
-          r.width
-        )
-      ),
-
-    y:
-      Math.max(
-        0,
-        Math.min(
-          1,
-          (
-            e.clientY-
-            r.top
-          )/
-          r.height
-        )
-      )
-  };
-}
-
-function brushWidth(w){
+function brushWidth(
+  width
+){
 
   return Math.max(
     .8,
-    Number(w||3)*
+    Number(
+      width||
+      3
+    )*
     Math.max(
       .72,
       Math.min(
@@ -1632,187 +4459,6 @@ function brushWidth(w){
       )
     )
   );
-}
-
-function eraserDiameterPx(){
-
-  return Math.max(
-    12,
-    state.thickness*
-    2.8
-  );
-}
-
-function eraserRadiusNorm(){
-
-  return (
-    eraserDiameterPx()/
-    2
-  )/
-  Math.max(
-    1,
-    state.width
-  );
-}
-
-function previewDiameterPx(){
-
-  return state.mode===
-    "erase"
-      ? eraserDiameterPx()
-      : Math.max(
-          4,
-          brushWidth(
-            state.thickness
-          )
-        );
-}
-
-function showToolPreview(
-  clientX,
-  clientY
-){
-
-  const rect=
-    wrap.getBoundingClientRect();
-
-  if(
-    clientX<
-      rect.left ||
-    clientX>
-      rect.right ||
-    clientY<
-      rect.top ||
-    clientY>
-      rect.bottom
-  ){
-    toolPreview.style.display=
-      "none";
-
-    return;
-  }
-
-  const d=
-    previewDiameterPx();
-
-  toolPreview.style.display=
-    "block";
-
-  toolPreview.style.left=
-    (
-      clientX-
-      rect.left
-    )+
-    "px";
-
-  toolPreview.style.top=
-    (
-      clientY-
-      rect.top
-    )+
-    "px";
-
-  toolPreview.style.width=
-    d+
-    "px";
-
-  toolPreview.style.height=
-    d+
-    "px";
-
-  toolPreview.style.borderStyle=
-    state.mode===
-      "erase"
-        ? "dashed"
-        : "solid";
-}
-
-function hideToolPreview(){
-  toolPreview.style.display=
-    "none";
-}
-
-function drawStroke(s){
-
-  if(
-    !s ||
-    !Array.isArray(
-      s.points
-    ) ||
-    s.points.length<
-      1
-  ){
-    return;
-  }
-
-  const pts=
-    s.points;
-
-  ctx.strokeStyle=
-    s.color;
-
-  ctx.fillStyle=
-    s.color;
-
-  ctx.lineWidth=
-    brushWidth(
-      s.width
-    );
-
-  ctx.lineCap=
-    "round";
-
-  ctx.lineJoin=
-    "round";
-
-  if(
-    pts.length===
-    1
-  ){
-
-    ctx.beginPath();
-
-    ctx.arc(
-      pts[0].x*
-        state.width,
-      pts[0].y*
-        state.height,
-      ctx.lineWidth/
-        2,
-      0,
-      Math.PI*
-        2
-    );
-
-    ctx.fill();
-
-    return;
-  }
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    pts[0].x*
-      state.width,
-    pts[0].y*
-      state.height
-  );
-
-  for(
-    let i=1;
-    i<pts.length;
-    i++
-  ){
-
-    ctx.lineTo(
-      pts[i].x*
-        state.width,
-      pts[i].y*
-        state.height
-    );
-  }
-
-  ctx.stroke();
 }
 
 function redraw(){
@@ -1830,294 +4476,500 @@ function redraw(){
     );
 }
 
-function touchCentreY(){
-
-  const vals=
-    [
-      ...state.activeTouches.values()
-    ];
+function drawStroke(
+  stroke
+){
 
   if(
-    !vals.length
+    !stroke
+      ?.points
+      ?.length
+  ){
+    return;
+  }
+
+  ctx.strokeStyle=
+    stroke.color;
+
+  ctx.fillStyle=
+    stroke.color;
+
+  ctx.lineWidth=
+    brushWidth(
+      stroke.width
+    );
+
+  ctx.lineCap=
+    "round";
+
+  ctx.lineJoin=
+    "round";
+
+  const points=
+    stroke.points;
+
+  if(
+    points.length===
+    1
+  ){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      points[0].x*
+      state.width,
+
+      points[0].y*
+      state.height,
+
+      ctx.lineWidth/
+      2,
+
+      0,
+
+      Math.PI*
+      2
+    );
+
+    ctx.fill();
+
+    return;
+  }
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    points[0].x*
+    state.width,
+
+    points[0].y*
+    state.height
+  );
+
+  for(
+    let i=1;
+    i<
+    points.length;
+    i++
+  ){
+
+    ctx.lineTo(
+      points[i].x*
+      state.width,
+
+      points[i].y*
+      state.height
+    );
+  }
+
+  ctx.stroke();
+}
+
+function boardPoint(
+  event
+){
+
+  const rect=
+    canvas.getBoundingClientRect();
+
+  return{
+    x:
+      Math.max(
+        0,
+        Math.min(
+          1,
+          (
+            event.clientX-
+            rect.left
+          )/
+          rect.width
+        )
+      ),
+
+    y:
+      Math.max(
+        0,
+        Math.min(
+          1,
+          (
+            event.clientY-
+            rect.top
+          )/
+          rect.height
+        )
+      )
+  };
+}
+
+function eraserDiameter(){
+
+  return Math.max(
+    12,
+    state.size*
+    2.8
+  );
+}
+
+function eraserRadius(){
+
+  return(
+    eraserDiameter()/
+    2
+  )/
+  Math.max(
+    1,
+    state.width
+  );
+}
+
+function showPreview(
+  event
+){
+
+  const rect=
+    wrap.getBoundingClientRect();
+
+  if(
+    event.clientX<
+      rect.left||
+    event.clientX>
+      rect.right||
+    event.clientY<
+      rect.top||
+    event.clientY>
+      rect.bottom
+  ){
+
+    preview.style.display=
+      "none";
+
+    return;
+  }
+
+  const diameter=
+    state.mode===
+      "erase"
+      ? eraserDiameter()
+      : Math.max(
+          4,
+          brushWidth(
+            state.size
+          )
+        );
+
+  preview.style.display=
+    "block";
+
+  preview.style.left=
+    event.clientX-
+    rect.left+
+    "px";
+
+  preview.style.top=
+    event.clientY-
+    rect.top+
+    "px";
+
+  preview.style.width=
+    diameter+
+    "px";
+
+  preview.style.height=
+    diameter+
+    "px";
+
+  preview.style.borderStyle=
+    state.mode===
+      "erase"
+      ? "dashed"
+      : "solid";
+}
+
+function touchCentreY(){
+
+  const values=[
+    ...state.activeTouches.values()
+  ];
+
+  if(
+    !values.length
   ){
     return 0;
   }
 
-  return vals.reduce(
+  return values.reduce(
     (
-      sum,
-      p
+      total,
+      point
     )=>
-      sum+
-      p.y,
+      total+
+      point.y,
     0
   )/
-  vals.length;
+  values.length;
 }
 
-function pointerDown(e){
+canvas.addEventListener(
+  "pointerdown",
+  event=>{
 
-  if(
-    !state.unlocked
-  ){
-    return;
-  }
+    if(
+      event.pointerType===
+      "touch"
+    ){
 
-  if(
-    e.pointerType===
-    "touch"
-  ){
+      state.activeTouches.set(
+        event.pointerId,
+        {
+          x:event.clientX,
+          y:event.clientY
+        }
+      );
 
-    state.activeTouches.set(
-      e.pointerId,
-      {
-        x:e.clientX,
-        y:e.clientY
+      if(
+        state.activeTouches.size>=
+        2
+      ){
+
+        state.twoFinger=
+          true;
+
+        state.touchStart=
+          touchCentreY();
+
+        state.scrollStart=
+          scrollY;
+
+        state.drawing=
+          false;
+
+        state.current=
+          null;
+
+        return;
       }
-    );
-
-    if(
-      state.activeTouches.size===
-      2
-    ){
-
-      state.twoFingerScroll=
-        true;
-
-      state.touchScrollStartY=
-        touchCentreY();
-
-      state.pageScrollStartY=
-        window.scrollY;
-
-      state.drawing=
-        false;
-
-      state.current=
-        null;
-
-      return;
-    }
-  }
-
-  const p=
-    point(e);
-
-  showToolPreview(
-    e.clientX,
-    e.clientY
-  );
-
-  if(
-    state.mode===
-    "erase"
-  ){
-
-    if(
-      e.pointerType===
-      "mouse" &&
-      e.button!==
-      0
-    ){
-      return;
     }
 
-    e.preventDefault();
-
-    erase(p);
-
-    return;
-  }
-
-  e.preventDefault();
-
-  state.drawing=
-    true;
-
-  state.current={
-    id:
-      crypto.randomUUID(),
-
-    author:
-      state.author,
-
-    color:
-      state.colour,
-
-    width:
-      state.thickness,
-
-    points:[
-      p
-    ]
-  };
-}
-
-function pointerMove(e){
-
-  if(
-    !state.unlocked
-  ){
-    return;
-  }
-
-  if(
-    e.pointerType===
-      "touch" &&
-    state.activeTouches.has(
-      e.pointerId
-    )
-  ){
-
-    state.activeTouches.set(
-      e.pointerId,
-      {
-        x:e.clientX,
-        y:e.clientY
-      }
+    showPreview(
+      event
     );
 
+    const point=
+      boardPoint(
+        event
+      );
+
     if(
-      state.twoFingerScroll
+      state.mode===
+      "erase"
     ){
 
-      e.preventDefault();
+      event.preventDefault();
 
-      window.scrollTo(
-        0,
-        state.pageScrollStartY+
-        (
-          state.touchScrollStartY-
-          touchCentreY()
-        )
+      erase(
+        point
       );
 
       return;
     }
+
+    event.preventDefault();
+
+    state.drawing=
+      true;
+
+    state.current={
+      id:
+        crypto.randomUUID(),
+
+      author:
+        state.author,
+
+      color:
+        state.colour,
+
+      width:
+        state.size,
+
+      points:[
+        point
+      ]
+    };
   }
+);
 
-  showToolPreview(
-    e.clientX,
-    e.clientY
-  );
-
-  const p=
-    point(e);
-
-  if(
-    state.mode===
-      "draw" &&
-    state.drawing &&
-    state.current
-  ){
-
-    e.preventDefault();
-
-    const pts=
-      state.current.points;
-
-    const last=
-      pts[
-        pts.length-
-        1
-      ];
-
-    const dx=
-      p.x-
-      last.x;
-
-    const dy=
-      p.y-
-      last.y;
+canvas.addEventListener(
+  "pointermove",
+  event=>{
 
     if(
-      dx*
+      event.pointerType===
+        "touch"&&
+      state.activeTouches.has(
+        event.pointerId
+      )
+    ){
+
+      state.activeTouches.set(
+        event.pointerId,
+        {
+          x:event.clientX,
+          y:event.clientY
+        }
+      );
+
+      if(
+        state.twoFinger
+      ){
+
+        event.preventDefault();
+
+        scrollTo(
+          0,
+          state.scrollStart+
+          (
+            state.touchStart-
+            touchCentreY()
+          )
+        );
+
+        return;
+      }
+    }
+
+    showPreview(
+      event
+    );
+
+    const point=
+      boardPoint(
+        event
+      );
+
+    if(
+      state.mode===
+        "draw"&&
+      state.drawing&&
+      state.current
+    ){
+
+      event.preventDefault();
+
+      const points=
+        state.current.points;
+
+      const last=
+        points[
+          points.length-
+          1
+        ];
+
+      const dx=
+        point.x-
+        last.x;
+
+      const dy=
+        point.y-
+        last.y;
+
+      if(
+        dx*
         dx+
-      dy*
+        dy*
         dy<
-      .0000015
-    ){
-      return;
-    }
+        .0000015
+      ){
+        return;
+      }
 
-    pts.push(
-      p
-    );
-
-    ctx.strokeStyle=
-      state.current.color;
-
-    ctx.lineWidth=
-      brushWidth(
-        state.current.width
+      points.push(
+        point
       );
 
-    ctx.lineCap=
-      "round";
+      ctx.strokeStyle=
+        state.current.color;
 
-    ctx.lineJoin=
-      "round";
+      ctx.lineWidth=
+        brushWidth(
+          state.current.width
+        );
 
-    ctx.beginPath();
+      ctx.lineCap=
+        "round";
 
-    ctx.moveTo(
-      last.x*
+      ctx.lineJoin=
+        "round";
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        last.x*
         state.width,
-      last.y*
-        state.height
-    );
 
-    ctx.lineTo(
-      p.x*
+        last.y*
+        state.height
+      );
+
+      ctx.lineTo(
+        point.x*
         state.width,
-      p.y*
+
+        point.y*
         state.height
-    );
+      );
 
-    ctx.stroke();
+      ctx.stroke();
 
-  }else if(
-    state.mode===
-    "erase"
-  ){
-
-    if(
-      e.pointerType===
-      "mouse" &&
-    e.buttons!==
-      1
+    }else if(
+      state.mode===
+      "erase"
     ){
-      return;
+
+      /*
+        PC hover only previews.
+        Left mouse button must be held.
+      */
+
+      if(
+        event.pointerType===
+          "mouse"&&
+        event.buttons!==
+          1
+      ){
+        return;
+      }
+
+      event.preventDefault();
+
+      erase(
+        point
+      );
     }
-
-    e.preventDefault();
-
-    erase(p);
   }
-}
+);
 
-function pointerUp(e){
+function finishStroke(
+  event
+){
 
   if(
-    e.pointerType===
+    event.pointerType===
     "touch"
   ){
-
-    hideToolPreview();
 
     state.activeTouches.delete(
-      e.pointerId
+      event.pointerId
     );
 
     if(
-      state.twoFingerScroll
+      state.twoFinger
     ){
 
       if(
-        state.activeTouches.size===
-        0
+        !state.activeTouches.size
       ){
-        state.twoFingerScroll=
+
+        state.twoFinger=
           false;
       }
 
@@ -2126,7 +4978,7 @@ function pointerUp(e){
   }
 
   if(
-    !state.drawing ||
+    !state.drawing||
     !state.current
   ){
     return;
@@ -2153,7 +5005,7 @@ function pointerUp(e){
       method:"POST",
 
       headers:
-        headers(true),
+        headers(),
 
       body:
         JSON.stringify(
@@ -2163,19 +5015,29 @@ function pointerUp(e){
   )
     .catch(
       ()=>{
+
         toast(
-          "stroke didn't save 😭"
+          "stroke didn't save"
         );
 
-        loadState()
-          .catch(
-            ()=>{}
-          );
+        load();
       }
     );
 }
 
-function erase(p){
+canvas.addEventListener(
+  "pointerup",
+  finishStroke
+);
+
+canvas.addEventListener(
+  "pointercancel",
+  finishStroke
+);
+
+function erase(
+  point
+){
 
   const now=
     Date.now();
@@ -2197,24 +5059,30 @@ function erase(p){
       method:"POST",
 
       headers:
-        headers(true),
+        headers(),
 
       body:
         JSON.stringify({
-          x:p.x,
-          y:p.y,
+          x:
+            point.x,
+
+          y:
+            point.y,
+
           radius:
-            eraserRadiusNorm(),
+            eraserRadius(),
+
           author:
             state.author
         })
     }
   )
     .then(
-      loadState
+      load
     )
     .catch(
       ()=>{
+
         toast(
           "rubber failed"
         );
@@ -2222,101 +5090,37 @@ function erase(p){
     );
 }
 
-canvas.addEventListener(
-  "pointerdown",
-  pointerDown
-);
-
-canvas.addEventListener(
-  "pointermove",
-  pointerMove
-);
-
-canvas.addEventListener(
-  "pointerup",
-  pointerUp
-);
-
-canvas.addEventListener(
-  "pointercancel",
-  pointerUp
-);
-
-canvas.addEventListener(
-  "pointerenter",
-  e=>{
-    if(
-      e.pointerType!==
-      "touch"
-    ){
-      showToolPreview(
-        e.clientX,
-        e.clientY
-      );
-    }
-  }
-);
-
-canvas.addEventListener(
-  "pointerleave",
-  e=>{
-    if(
-      e.pointerType!==
-        "touch" &&
-      !state.drawing
-    ){
-      hideToolPreview();
-    }
-  }
-);
-
 document
   .getElementById(
-    "hs-colour-wheel"
+    "colour"
   )
   .addEventListener(
     "input",
-    e=>{
+    event=>{
+
       state.colour=
-        e.target.value;
+        event.target.value;
     }
   );
 
 document
   .getElementById(
-    "hs-thickness"
+    "size"
   )
   .addEventListener(
     "input",
-    e=>{
+    event=>{
 
-      state.thickness=
+      state.size=
         Number(
-          e.target.value
+          event.target.value
         );
-
-      if(
-        toolPreview.style.display!==
-        "none"
-      ){
-
-        const d=
-          previewDiameterPx();
-
-        toolPreview.style.width=
-          d+
-          "px";
-
-        toolPreview.style.height=
-          d+
-          "px";
-      }
     }
   );
 
 document
   .getElementById(
-    "hs-eraser"
+    "eraser"
   )
   .addEventListener(
     "click",
@@ -2330,7 +5134,7 @@ document
 
       document
         .getElementById(
-          "hs-eraser"
+          "eraser"
         )
         .classList
         .toggle(
@@ -2338,18 +5142,12 @@ document
           state.mode===
           "erase"
         );
-
-      wrap.classList.toggle(
-        "mode-erase",
-        state.mode===
-        "erase"
-      );
     }
   );
 
 document
   .getElementById(
-    "hs-undo"
+    "undo"
   )
   .addEventListener(
     "click",
@@ -2359,8 +5157,9 @@ document
         "/space/undo",
         {
           method:"POST",
+
           headers:
-            headers(true),
+            headers(),
 
           body:
             JSON.stringify({
@@ -2370,20 +5169,22 @@ document
         }
       )
         .then(
-          loadState
+          load
         )
         .catch(
-          ()=>
+          ()=>{
+
             toast(
               "nothing to undo"
-            )
+            );
+          }
         );
     }
   );
 
 document
   .getElementById(
-    "hs-redo"
+    "redo"
   )
   .addEventListener(
     "click",
@@ -2393,8 +5194,9 @@ document
         "/space/redo",
         {
           method:"POST",
+
           headers:
-            headers(true),
+            headers(),
 
           body:
             JSON.stringify({
@@ -2404,42 +5206,46 @@ document
         }
       )
         .then(
-          loadState
+          load
         )
         .catch(
-          ()=>
+          ()=>{
+
             toast(
               "nothing to redo"
-            )
+            );
+          }
         );
     }
   );
 
-/* ========================= CONFIRM MODAL ========================= */
+/* =========================
+   CLEAR / HISTORY
+   ========================= */
 
-const modal=
+const confirmModal=
   document.getElementById(
-    "hs-confirm-modal"
+    "confirm-modal"
   );
 
-const modalTitle=
+const confirmTitle=
   document.getElementById(
-    "hs-confirm-title"
+    "confirm-title"
   );
 
-const modalCopy=
+const confirmCopy=
   document.getElementById(
-    "hs-confirm-copy"
+    "confirm-copy"
   );
 
-const modalInput=
+const confirmInput=
   document.getElementById(
-    "hs-confirm-input"
+    "confirm-input"
   );
 
-const modalGo=
+const confirmGo=
   document.getElementById(
-    "hs-confirm-go"
+    "confirm-go"
   );
 
 function open69(
@@ -2449,98 +5255,100 @@ function open69(
   action
 ){
 
-  pending69Action=
+  pending69=
     action;
 
-  modalTitle.textContent=
+  confirmTitle.textContent=
     title;
 
-  modalCopy.innerHTML=
+  confirmCopy.innerHTML=
     copy+
-    " Type <strong>69</strong> to confirm.";
+    ' Type <strong>69</strong> to confirm.';
 
-  modalGo.textContent=
+  confirmGo.textContent=
     buttonText;
 
-  modalInput.value=
+  confirmInput.value=
     "";
 
-  modalGo.disabled=
+  confirmGo.disabled=
     true;
 
-  modal.classList.add(
+  confirmModal.classList.add(
     "show"
   );
 
   setTimeout(
-    ()=>modalInput.focus(),
+    ()=>{
+
+      confirmInput.focus();
+
+    },
     0
   );
 }
 
 function close69(){
 
-  modal.classList.remove(
+  confirmModal.classList.remove(
     "show"
   );
 
-  modalInput.value=
-    "";
-
-  pending69Action=
-    null;
+  pending69=null;
 }
 
-modalInput.addEventListener(
+confirmInput.addEventListener(
   "input",
   ()=>{
-    modalGo.disabled=
-      modalInput.value!==
+
+    confirmGo.disabled=
+      confirmInput.value!==
       "69";
   }
 );
 
-modalInput.addEventListener(
+confirmInput.addEventListener(
   "keydown",
-  e=>{
+  event=>{
+
     if(
-      e.key===
-        "Enter" &&
-      modalInput.value===
+      event.key===
+        "Enter"&&
+      confirmInput.value===
         "69"
     ){
-      modalGo.click();
+
+      confirmGo.click();
     }
   }
 );
 
 document
   .getElementById(
-    "hs-confirm-cancel"
+    "confirm-cancel"
   )
   .addEventListener(
     "click",
     close69
   );
 
-modalGo.addEventListener(
+confirmGo.addEventListener(
   "click",
   ()=>{
 
     if(
-      modalInput.value!==
-        "69" ||
-      typeof pending69Action!==
+      confirmInput.value!==
+        "69"||
+      typeof pending69!==
         "function"
     ){
       return;
     }
 
     const action=
-      pending69Action;
+      pending69;
 
-    pending69Action=
-      null;
+    pending69=null;
 
     action();
   }
@@ -2548,7 +5356,7 @@ modalGo.addEventListener(
 
 document
   .getElementById(
-    "hs-clear-all"
+    "clear-all"
   )
   .addEventListener(
     "click",
@@ -2556,8 +5364,11 @@ document
 
       open69(
         "clear everything?",
+
         "This deletes Andy + Hamy drawings.",
+
         "okiee",
+
         ()=>{
 
           api(
@@ -2566,7 +5377,7 @@ document
               method:"POST",
 
               headers:
-                headers(true),
+                headers(),
 
               body:
                 JSON.stringify({
@@ -2597,19 +5408,25 @@ document
               }
             )
             .catch(
-              ()=>
+              ()=>{
+
                 toast(
                   "clear failed"
-                )
+                );
+              }
             );
         }
       );
     }
   );
 
+/*
+  NO PASSWORD FOR CLEAR MY DRAWINGS.
+*/
+
 document
   .getElementById(
-    "hs-clear-mine"
+    "clear-mine"
   )
   .addEventListener(
     "click",
@@ -2631,7 +5448,7 @@ document
           method:"POST",
 
           headers:
-            headers(true),
+            headers(),
 
           body:
             JSON.stringify({
@@ -2648,33 +5465,33 @@ document
               " drawings cleared"
             );
 
-            loadState();
+            load();
           }
         )
         .catch(
-          ()=>
+          ()=>{
+
             toast(
               "clear failed"
-            )
+            );
+          }
         );
     }
   );
 
-/* ========================= HISTORY ========================= */
-
-const historyPanel=
+const history=
   document.getElementById(
-    "hs-history"
+    "history"
   );
 
-const snapshotTarget=
+const snapshots=
   document.getElementById(
-    "hs-snapshots"
+    "snapshots"
   );
 
 document
   .getElementById(
-    "hs-history-btn"
+    "history-btn"
   )
   .addEventListener(
     "click",
@@ -2682,21 +5499,21 @@ document
 
       if(
         getComputedStyle(
-          historyPanel
+          history
         ).display!==
         "none"
       ){
 
-        historyPanel.style.display=
+        history.style.display=
           "none";
 
         return;
       }
 
-      historyPanel.style.display=
+      history.style.display=
         "block";
 
-      snapshotTarget.textContent=
+      snapshots.textContent=
         "loading…";
 
       try{
@@ -2710,30 +5527,31 @@ document
             }
           );
 
-        const snaps=
-          Array.isArray(data)
+        const list=
+          Array.isArray(
+            data
+          )
             ? data
             : (
-                data &&
-                data.snapshots
-              ) ||
-              [];
+                data?.snapshots||
+                []
+              );
 
-        snapshotTarget.innerHTML=
+        snapshots.innerHTML=
           "";
 
         if(
-          !snaps.length
+          !list.length
         ){
 
-          snapshotTarget.textContent=
+          snapshots.textContent=
             "no snapshots yet";
 
           return;
         }
 
-        snaps.forEach(
-          s=>{
+        list.forEach(
+          snapshot=>{
 
             const row=
               document.createElement(
@@ -2741,39 +5559,36 @@ document
               );
 
             row.className=
-              "hs-snap";
+              "snap";
 
             const label=
               document.createElement(
                 "span"
               );
 
-            const date=
-              s.createdAt||
-              s.created_at;
+            const time=
+              snapshot.createdAt||
+              snapshot.created_at;
 
             label.textContent=
-              date
+              time
                 ? new Date(
-                    date
+                    time
                   ).toLocaleString()
-                : (
-                    "snapshot "+
-                    s.id
-                  );
+                : "saved wall";
 
-            const btn=
+            const restore=
               document.createElement(
                 "button"
               );
 
-            btn.className=
-              "hs-btn";
+            restore.className=
+              "btn";
 
-            btn.textContent=
+            restore.textContent=
               "Restore";
 
-            btn.addEventListener(
+            restore.addEventListener(
               "click",
               ()=>{
 
@@ -2791,12 +5606,12 @@ document
                     method:"POST",
 
                     headers:
-                      headers(true),
+                      headers(),
 
                     body:
                       JSON.stringify({
                         snapshotId:
-                          s.id
+                          snapshot.id
                       })
                   }
                 )
@@ -2807,24 +5622,26 @@ document
                         "wall restored"
                       );
 
-                      loadState();
+                      load();
                     }
                   )
                   .catch(
-                    ()=>
+                    ()=>{
+
                       toast(
                         "restore failed"
-                      )
+                      );
+                    }
                   );
               }
             );
 
             row.append(
               label,
-              btn
+              restore
             );
 
-            snapshotTarget.appendChild(
+            snapshots.appendChild(
               row
             );
           }
@@ -2832,7 +5649,7 @@ document
 
       }catch(_){
 
-        snapshotTarget.textContent=
+        snapshots.textContent=
           "couldn't load history";
       }
     }
@@ -2840,7 +5657,7 @@ document
 
 document
   .getElementById(
-    "hs-delete-history"
+    "delete-history"
   )
   .addEventListener(
     "click",
@@ -2848,8 +5665,11 @@ document
 
       open69(
         "delete all histories?",
+
         "This permanently deletes the saved wall snapshots.",
+
         "delete histories 💀",
+
         ()=>{
 
           api(
@@ -2858,7 +5678,7 @@ document
               method:"DELETE",
 
               headers:
-                headers(true),
+                headers(),
 
               body:
                 JSON.stringify({
@@ -2878,7 +5698,7 @@ document
 
                 close69();
 
-                snapshotTarget.textContent=
+                snapshots.textContent=
                   "no snapshots yet";
 
                 toast(
@@ -2887,945 +5707,53 @@ document
               }
             )
             .catch(
-              ()=>
+              ()=>{
+
                 toast(
                   "history delete failed"
-                )
+                );
+              }
             );
         }
       );
     }
   );
 
-/* ========================= UPLOADS ========================= */
-
-const uploadModal=
-  document.getElementById(
-    "hs-upload-modal"
-  );
-
-const photoInput=
-  document.getElementById(
-    "hs-photo-input"
-  );
-
-const uploadPreview=
-  document.getElementById(
-    "hs-upload-preview"
-  );
-
-const uploadCaption=
-  document.getElementById(
-    "hs-upload-caption"
-  );
-
-let pendingPhoto=null;
-let pendingPhotoSrc="";
-
-function fileToDataURL(file){
-
-  return new Promise(
-    (
-      resolve,
-      reject
-    )=>{
-
-      const reader=
-        new FileReader();
-
-      reader.onload=
-        ()=>
-          resolve(
-            reader.result
-          );
-
-      reader.onerror=
-        reject;
-
-      reader.readAsDataURL(
-        file
-      );
-    }
-  );
-}
-
-document
-  .getElementById(
-    "hs-add-memory"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      photoInput.value=
-        "";
-
-      photoInput.click();
-    }
-  );
-
-photoInput.addEventListener(
-  "change",
-  async()=>{
-
-    const file=
-      photoInput.files &&
-      photoInput.files[0];
-
-    if(!file){
-      return;
-    }
-
-    if(
-      !file.type.startsWith(
-        "image/"
-      )
-    ){
-
-      toast(
-        "pick a photo"
-      );
-
-      return;
-    }
-
-    if(
-      file.size >
-      3*
-      1024*
-      1024
-    ){
-
-      toast(
-        "keep photos under 3 MB for now"
-      );
-
-      return;
-    }
-
-    try{
-
-      pendingPhoto=
-        file;
-
-      pendingPhotoSrc=
-        await fileToDataURL(
-          file
-        );
-
-      uploadPreview.src=
-        pendingPhotoSrc;
-
-      uploadCaption.value=
-        "";
-
-      uploadModal.classList.add(
-        "show"
-      );
-
-    }catch(_){
-
-      toast(
-        "couldn't read that photo"
-      );
-    }
-  }
-);
-
-document
-  .getElementById(
-    "hs-upload-cancel"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      uploadModal.classList.remove(
-        "show"
-      );
-
-      pendingPhoto=
-        null;
-
-      pendingPhotoSrc=
-        "";
-    }
-  );
-
-document
-  .getElementById(
-    "hs-upload-go"
-  )
-  .addEventListener(
-    "click",
-    async()=>{
-
-      if(
-        !pendingPhoto ||
-        !pendingPhotoSrc
-      ){
-
-        toast(
-          "choose a photo first"
-        );
-
-        return;
-      }
-
-      const button=
-        document.getElementById(
-          "hs-upload-go"
-        );
-
-      button.disabled=
-        true;
-
-      button.textContent=
-        "adding…";
-
-      try{
-
-        await api(
-          "/space/upload",
-          {
-            method:"POST",
-
-            headers:
-              headers(true),
-
-            body:
-              JSON.stringify({
-                id:
-                  crypto.randomUUID(),
-
-                author:
-                  state.author,
-
-                type:
-                  "image",
-
-                src:
-                  pendingPhotoSrc,
-
-                caption:
-                  uploadCaption
-                    .value
-                    .trim(),
-
-                sortOrder:
-                  Date.now()
-              })
-          }
-        );
-
-        uploadModal.classList.remove(
-          "show"
-        );
-
-        pendingPhoto=
-          null;
-
-        pendingPhotoSrc=
-          "";
-
-        toast(
-          "photo added ❤️"
-        );
-
-        await loadState();
-
-      }catch(_){
-
-        toast(
-          "photo didn't save"
-        );
-
-      }finally{
-
-        button.disabled=
-          false;
-
-        button.textContent=
-          "add to timeline";
-      }
-    }
-  );
-
-async function deleteUpload(
-  item
-){
-
-  if(
-    !confirm(
-      "Delete this photo?"
-    )
-  ){
-    return;
-  }
-
-  try{
-
-    await api(
-      "/space/upload",
-      {
-        method:"DELETE",
-
-        headers:
-          headers(true),
-
-        body:
-          JSON.stringify({
-            id:
-              item.id,
-
-            author:
-              item.author
-          })
-      }
-    );
-
-    toast(
-      "photo deleted"
-    );
-
-    await loadState();
-
-  }catch(_){
-
-    toast(
-      "delete failed"
-    );
-  }
-}
-
-async function editUpload(
-  item
-){
-
-  const caption=
-    prompt(
-      "Caption:",
-      item.caption||
-      ""
-    );
-
-  if(
-    caption===
-    null
-  ){
-    return;
-  }
-
-  try{
-
-    await api(
-      "/space/upload",
-      {
-        method:"PUT",
-
-        headers:
-          headers(true),
-
-        body:
-          JSON.stringify({
-            id:
-              item.id,
-
-            author:
-              item.author,
-
-            caption
-          })
-      }
-    );
-
-    await loadState();
-
-  }catch(_){
-
-    toast(
-      "caption didn't save"
-    );
-  }
-}
-
-function renderUploads(){
-
-  const section=
-    document.getElementById(
-      "hs-shared-memories"
-    );
-
-  const list=
-    document.getElementById(
-      "hs-shared-memory-list"
-    );
-
-  if(
-    !section ||
-    !list
-  ){
-    return;
-  }
-
-  const uploads=
-    state.uploads
-      .filter(
-        u=>
-          u.type===
-          "image"
-      )
-      .slice()
-      .sort(
-        (
-          a,
-          b
-        )=>
-          a.sortOrder-
-          b.sortOrder
-      );
-
-  section.classList.toggle(
-    "show",
-    uploads.length>
-      0
-  );
-
-  list.innerHTML=
-    "";
-
-  uploads.forEach(
-    item=>{
-
-      const card=
-        document.createElement(
-          "div"
-        );
-
-      card.className=
-        "hs-shared-memory";
-
-      const img=
-        document.createElement(
-          "img"
-        );
-
-      img.src=
-        item.src;
-
-      img.alt=
-        "";
-
-      img.dataset.memoryId=
-        "upload-"+
-        item.id;
-
-      card.appendChild(
-        img
-      );
-
-      if(
-        item.caption
-      ){
-
-        const caption=
-          document.createElement(
-            "div"
-          );
-
-        caption.className=
-          "hs-shared-caption";
-
-        caption.textContent=
-          item.caption;
-
-        card.appendChild(
-          caption
-        );
-      }
-
-      const actions=
-        document.createElement(
-          "div"
-        );
-
-      actions.className=
-        "hs-shared-actions";
-
-      const edit=
-        document.createElement(
-          "button"
-        );
-
-      edit.type=
-        "button";
-
-      edit.textContent=
-        "caption";
-
-      edit.addEventListener(
-        "click",
-        ()=>
-          editUpload(
-            item
-          )
-      );
-
-      const del=
-        document.createElement(
-          "button"
-        );
-
-      del.type=
-        "button";
-
-      del.textContent=
-        "delete";
-
-      del.addEventListener(
-        "click",
-        ()=>
-          deleteUpload(
-            item
-          )
-      );
-
-      actions.append(
-        edit,
-        del
-      );
-
-      card.appendChild(
-        actions
-      );
-
-      list.appendChild(
-        card
-      );
-    }
-  );
-
-  renderReactions();
-}
-
-/* ========================= REACTIONS ========================= */
-
-function reactionAnchor(media){
-
-  return (
-    media.closest(
-      ".reveal"
-    ) ||
-    media.closest(
-      ".audio-wrap"
-    ) ||
-    media.parentElement ||
-    media
-  );
-}
-
-function renderReactions(){
-
-  document
-    .querySelectorAll(
-      "[data-memory-id]"
-    )
-    .forEach(
-      media=>{
-
-        const id=
-          media.dataset.memoryId;
-
-        if(!id){
-          return;
-        }
-
-        const anchor=
-          reactionAnchor(
-            media
-          );
-
-        let bar=
-          anchor.querySelector(
-            ":scope > .hs-memory-reactions"
-          );
-
-        if(!bar){
-
-          bar=
-            document.createElement(
-              "div"
-            );
-
-          bar.className=
-            "hs-memory-reactions";
-
-          anchor.appendChild(
-            bar
-          );
-        }
-
-        buildReactionBar(
-          bar,
-          id
-        );
-      }
-    );
-}
-
-function buildReactionBar(
-  bar,
-  memoryId
-){
-
-  bar.innerHTML=
-    "";
-
-  const rows=
-    state.reactions.filter(
-      r=>
-        r.memoryId===
-        memoryId
-    );
-
-  const counts=
-    new Map();
-
-  rows.forEach(
-    r=>
-      counts.set(
-        r.emoji,
-        (
-          counts.get(
-            r.emoji
-          )||
-          0
-        )+
-        1
-      )
-  );
-
-  EMOJIS.forEach(
-    emoji=>{
-
-      const count=
-        counts.get(
-          emoji
-        )||
-        0;
-
-      if(!count){
-        return;
-      }
-
-      const mine=
-        rows.some(
-          r=>
-            r.author===
-              state.author &&
-            r.emoji===
-              emoji
-        );
-
-      const b=
-        document.createElement(
-          "button"
-        );
-
-      b.className=
-        "hs-used-reaction"+
-        (
-          mine
-            ? " mine"
-            : ""
-        );
-
-      b.textContent=
-        emoji+
-        " "+
-        count;
-
-      b.addEventListener(
-        "click",
-        ()=>
-          toggleReaction(
-            memoryId,
-            emoji
-          )
-      );
-
-      bar.appendChild(
-        b
-      );
-    }
-  );
-
-  const open=
-    document.createElement(
-      "button"
-    );
-
-  open.className=
-    "hs-react-open";
-
-  open.textContent=
-    "♡ react";
-
-  bar.appendChild(
-    open
-  );
-
-  const picker=
-    document.createElement(
-      "div"
-    );
-
-  picker.className=
-    "hs-picker";
-
-  EMOJIS.forEach(
-    emoji=>{
-
-      const mine=
-        rows.some(
-          r=>
-            r.author===
-              state.author &&
-            r.emoji===
-              emoji
-        );
-
-      const b=
-        document.createElement(
-          "button"
-        );
-
-      b.className=
-        "hs-emoji"+
-        (
-          mine
-            ? " mine"
-            : ""
-        );
-
-      b.textContent=
-        emoji;
-
-      b.addEventListener(
-        "click",
-        ()=>
-          toggleReaction(
-            memoryId,
-            emoji
-          )
-      );
-
-      picker.appendChild(
-        b
-      );
-    }
-  );
-
-  open.addEventListener(
-    "click",
-    ()=>
-      picker.classList.toggle(
-        "show"
-      )
-  );
-
-  bar.appendChild(
-    picker
-  );
-}
-
-function toggleReaction(
-  memoryId,
-  emoji
-){
-
-  const idx=
-    state.reactions
-      .findIndex(
-        r=>
-          r.memoryId===
-            memoryId &&
-          r.author===
-            state.author &&
-          r.emoji===
-            emoji
-      );
-
-  if(
-    idx>=
-    0
-  ){
-
-    state.reactions.splice(
-      idx,
-      1
-    );
-
-  }else{
-
-    state.reactions.push({
-      memoryId,
-      author:
-        state.author,
-      emoji
-    });
-  }
-
-  renderReactions();
-
-  api(
-    "/space/reaction",
-    {
-      method:"POST",
-
-      headers:
-        headers(true),
-
-      body:
-        JSON.stringify({
-          memoryId,
-          author:
-            state.author,
-          emoji
-        })
-    }
-  )
-    .then(
-      loadState
-    )
-    .catch(
-      ()=>{
-
-        toast(
-          "reaction didn't save"
-        );
-
-        loadState()
-          .catch(
-            ()=>{}
-          );
-      }
-    );
-}
-
-/* ========================= CLOCK / PRESENCE ========================= */
-
-function updateLiveClock(){
-
-  const el=
-    document.getElementById(
-      "hs-live-clock"
-    );
-
-  if(!el){
-    return;
-  }
-
-  const now=
-    new Date();
-
-  try{
-
-    el.textContent=
-      new Intl.DateTimeFormat(
-        "en-AU",
-        {
-          day:"2-digit",
-          month:"short",
-          year:"numeric",
-          hour:"2-digit",
-          minute:"2-digit",
-          second:"2-digit",
-          hour12:true
-        }
-      ).format(
-        now
-      );
-
-  }catch(_){
-
-    el.textContent=
-      now.toLocaleString();
-  }
-}
-
-updateLiveClock();
-
-setInterval(
-  updateLiveClock,
-  1000
-);
-
-function cleanedPresence(){
-
-  let names=
-    Array.from(
-      new Set(
-        (
-          state.presence||
-          []
-        )
-          .filter(
-            x=>
-              x==="Andy"||
-              x==="Hamy"
-          )
-      )
-    );
-
-  if(
-    state.switchFrom &&
-    Date.now()<
-      state.ignorePreviousUntil
-  ){
-
-    names=
-      names.filter(
-        n=>
-          n!==
-          state.switchFrom
-      );
-
-    if(
-      !names.includes(
-        state.author
-      )
-    ){
-      names.push(
-        state.author
-      );
-    }
-  }
-
-  return names;
-}
+/* =========================
+   PRESENCE / CLOCK
+   ========================= */
 
 function renderPresence(){
 
-  const names=
-    cleanedPresence();
-
-  const el=
-    document.getElementById(
-      "hs-presence"
-    );
+  const names=[
+    ...new Set(
+      (
+        state.presence||
+        []
+      )
+        .filter(
+          name=>
+            name==="Andy"||
+            name==="Hamy"
+        )
+    )
+  ];
 
   if(
     names.includes(
       "Andy"
-    ) &&
+    )&&
     names.includes(
       "Hamy"
     )
   ){
 
-    el.textContent=
-      "Andy and Hamy are online";
+    document
+      .getElementById(
+        "presence"
+      )
+      .textContent=
+        "Andy and Hamy are online";
 
   }else if(
     names.includes(
@@ -3833,52 +5761,103 @@ function renderPresence(){
     )
   ){
 
-    el.textContent=
-      "Hamy is online";
+    document
+      .getElementById(
+        "presence"
+      )
+      .textContent=
+        "Hamy is online";
 
   }else{
 
-    el.textContent=
-      state.author===
-      "Hamy"
-        ? "Hamy is online"
-        : "Andy is online";
+    document
+      .getElementById(
+        "presence"
+      )
+      .textContent=
+        state.author===
+        "Hamy"
+          ? "Hamy is online"
+          : "Andy is online";
   }
 }
 
-/* ========================= SOCKET ========================= */
+function updateClock(){
 
-function wsUrl(){
+  try{
 
-  const q=
-    new URLSearchParams({
-      author:
-        state.author,
-      token:
-        state.token
-    });
+    document
+      .getElementById(
+        "clock"
+      )
+      .textContent=
+        new Intl.DateTimeFormat(
+          "en-AU",
+          {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit",
+            hour12:true
+          }
+        )
+          .format(
+            new Date()
+          );
 
-  return (
-    WS_URL+
-    "?"+
-    q.toString()
-  );
+  }catch(_){}
 }
 
-function connectWebSocket(){
+updateClock();
+
+setInterval(
+  updateClock,
+  1000
+);
+
+/* =========================
+   WEBSOCKET
+   ========================= */
+
+function connect(){
 
   if(
-    !state.token ||
+    !state.token||
     !state.author
   ){
     return;
   }
 
-  closeCurrentSocket();
+  if(
+    state.ws
+  ){
+
+    try{
+
+      state.ws.onclose=
+        null;
+
+      state.ws.close();
+
+    }catch(_){}
+  }
+
+  const query=
+    new URLSearchParams({
+      author:
+        state.author,
+
+      token:
+        state.token
+    });
 
   const ws=
     new WebSocket(
-      wsUrl()
+      WS+
+      "?"+
+      query
     );
 
   state.ws=
@@ -3886,12 +5865,13 @@ function connectWebSocket(){
 
   document
     .getElementById(
-      "hs-conn-status"
+      "conn"
     )
     .textContent=
       "connecting…";
 
-  ws.onopen=
+  ws.addEventListener(
+    "open",
     ()=>{
 
       if(
@@ -3901,32 +5881,30 @@ function connectWebSocket(){
         return;
       }
 
-      state.reconnectAttempt=
+      state.reconnect=
         0;
 
-      document
-        .getElementById(
-          "hs-conn-status"
-        )
-        .textContent=
-          "● connected";
+      const connection=
+        document.getElementById(
+          "conn"
+        );
 
-      document
-        .getElementById(
-          "hs-conn-status"
-        )
-        .style
-        .color=
-          "#75db9a";
+      connection.textContent=
+        "● connected";
 
-      loadState()
+      connection.style.color=
+        "#75db9a";
+
+      load()
         .catch(
           ()=>{}
         );
-    };
+    }
+  );
 
-  ws.onmessage=
-    e=>{
+  ws.addEventListener(
+    "message",
+    event=>{
 
       if(
         state.ws!==
@@ -3935,73 +5913,88 @@ function connectWebSocket(){
         return;
       }
 
-      let msg;
+      let message;
 
       try{
-        msg=
+
+        message=
           JSON.parse(
-            e.data
+            event.data
           );
+
       }catch(_){
+
         return;
       }
 
       if(
-        msg.type===
+        message.type===
         "init"
       ){
 
-        const s=
-          msg.state||
+        const data=
+          message.state||
           {};
 
         state.strokes=
           (
-            s.strokes||
+            data.strokes||
             []
           )
-            .map(normStroke)
-            .filter(Boolean);
+            .map(
+              normStroke
+            )
+            .filter(
+              Boolean
+            );
 
         state.reactions=
           (
-            s.reactions||
+            data.reactions||
             []
           )
-            .map(normReaction)
-            .filter(Boolean);
+            .map(
+              normReaction
+            );
 
         state.uploads=
           (
-            s.uploads||
+            data.uploads||
             []
           )
-            .map(normUpload)
-            .filter(Boolean);
+            .map(
+              normUpload
+            )
+            .filter(
+              Boolean
+            );
 
         state.presence=
-          Array.isArray(
-            s.presence
-          )
-            ? s.presence
-            : [];
+          data.presence||
+          [];
 
         redraw();
-        renderReactions();
+
         renderUploads();
+
+        setupOrder();
+
+        applyOrder();
+
+        renderReactions();
+
         renderPresence();
 
         return;
       }
 
       if(
-        msg.type===
+        message.type===
         "presence"
       ){
 
         state.presence=
-          msg.present||
-          msg.presence||
+          message.present||
           [];
 
         renderPresence();
@@ -4010,89 +6003,39 @@ function connectWebSocket(){
       }
 
       if(
-        msg.type===
-          "upload.added" ||
-        msg.type===
-          "upload.updated" ||
-        msg.type===
-          "upload.deleted"
-      ){
-
-        loadState()
-          .catch(
-            ()=>{}
-          );
-
-        return;
-      }
-
-      if(
-        msg.type===
-          "stroke" ||
-        msg.type===
-          "stroke.added"
-      ){
-
-        const s=
-          normStroke(
-            msg.stroke
-          );
-
-        if(
-          s &&
-          !state.strokes.some(
-            x=>
-              x.id===
-              s.id
+        message.type
+          ?.startsWith(
+            "upload."
           )
-        ){
-
-          state.strokes.push(
-            s
-          );
-
-          drawStroke(
-            s
-          );
-        }
-
-        return;
-      }
-
-      if(
-        msg.type===
-          "erase" ||
-        msg.type===
-          "erase-batch" ||
-        msg.type===
-          "stroke.erased" ||
-        msg.type===
-          "erase.segment" ||
-        msg.type===
-          "stroke.segment.erased" ||
-        msg.type===
-          "author.cleared" ||
-        msg.type===
-          "restore" ||
-        msg.type===
-          "restore_stroke" ||
-        msg.type===
-          "board.restored"
       ){
 
-        loadState()
-          .catch(
-            ()=>{}
-          );
+        load();
 
         return;
       }
 
       if(
-        msg.type===
-          "clear" ||
-        msg.type===
-          "board.cleared"
+        [
+          "erase",
+          "erase-batch",
+          "erase.segment",
+          "author.cleared",
+          "restore",
+          "board.restored"
+        ]
+          .includes(
+            message.type
+          )
+      ){
+
+        load();
+
+        return;
+      }
+
+      if(
+        message.type===
+        "clear"
       ){
 
         state.strokes=
@@ -4104,23 +6047,49 @@ function connectWebSocket(){
       }
 
       if(
-        msg.type===
-          "reaction" ||
-        msg.type===
-          "reaction.updated"
+        message.type===
+        "reaction"
       ){
 
-        loadState()
-          .catch(
-            ()=>{}
-          );
+        load();
+
+        return;
       }
-    };
 
-  ws.onerror=
-    ()=>{};
+      if(
+        message.type===
+          "stroke"&&
+        message.stroke
+      ){
 
-  ws.onclose=
+        const stroke=
+          normStroke(
+            message.stroke
+          );
+
+        if(
+          stroke&&
+          !state.strokes.some(
+            existing=>
+              existing.id===
+              stroke.id
+          )
+        ){
+
+          state.strokes.push(
+            stroke
+          );
+
+          drawStroke(
+            stroke
+          );
+        }
+      }
+    }
+  );
+
+  ws.addEventListener(
+    "close",
     ()=>{
 
       if(
@@ -4130,102 +6099,105 @@ function connectWebSocket(){
         return;
       }
 
-      state.ws=
-        null;
+      state.ws=null;
 
-      document
-        .getElementById(
-          "hs-conn-status"
-        )
-        .style
-        .color=
-          "";
+      const connection=
+        document.getElementById(
+          "conn"
+        );
 
-      document
-        .getElementById(
-          "hs-conn-status"
-        )
-        .textContent=
-          "reconnecting…";
+      connection.style.color=
+        "";
 
-      const delay=
+      connection.textContent=
+        "reconnecting…";
+
+      setTimeout(
+        connect,
         Math.min(
           15000,
           900*
           Math.pow(
             2,
             Math.min(
-              state.reconnectAttempt++,
+              state.reconnect++,
               4
             )
           )
-        );
-
-      clearTimeout(
-        state.reconnectTimer
+        )
       );
-
-      state.reconnectTimer=
-        setTimeout(
-          connectWebSocket,
-          delay
-        );
-    };
+    }
+  );
 }
+
+/* =========================
+   START
+   ========================= */
 
 document
   .querySelectorAll(
-    ".hs-author"
+    ".author"
   )
   .forEach(
-    btn=>{
+    button=>{
 
-      btn.addEventListener(
+      button.addEventListener(
         "click",
-        ()=>
+        ()=>{
+
           chooseAuthor(
-            btn.dataset.author,
-            true
-          )
+            button.dataset.author
+          );
+        }
       );
     }
   );
 
 async function start(){
 
-  state.detectedAuthor=
-    detectAuthor();
+  state.detected=
+    detect();
 
   state.author=
-    state.detectedAuthor;
+    state.detected;
 
-  updateAuthorUI();
+  updateAuthor();
 
   renderPresence();
 
-  resizeCanvas();
+  resize();
 
-  window.addEventListener(
+  addEventListener(
     "resize",
-    resizeCanvas,
+    resize,
     {
       passive:true
     }
   );
 
+  setupOrder();
+
+  applyOrder();
+
+  bindZoom();
+
   try{
 
-    await autoUnlock();
+    await unlock();
 
-    await loadState();
+    await load();
 
-    connectWebSocket();
+    connect();
 
-  }catch(err){
+  }catch(error){
+
+    console.error(
+      error
+    );
 
     document
       .getElementById(
-        "hs-conn-status"
+        "conn"
       )
       .textContent=
         "wall couldn't unlock 😭";
@@ -4233,54 +6205,8 @@ async function start(){
     toast(
       "wall setup failed"
     );
-
-    console.error(
-      err
-    );
   }
 }
-
-document.addEventListener(
-  "visibilitychange",
-  ()=>{
-
-    if(
-      document.visibilityState!==
-      "visible"
-    ){
-      return;
-    }
-
-    loadState()
-      .catch(
-        ()=>{}
-      );
-
-    if(
-      !state.ws ||
-      state.ws.readyState>
-      1
-    ){
-
-      connectWebSocket();
-    }
-  }
-);
-
-window.addEventListener(
-  "online",
-  ()=>{
-
-    if(
-      !state.ws ||
-      state.ws.readyState>
-      1
-    ){
-
-      connectWebSocket();
-    }
-  }
-);
 
 start();
 
