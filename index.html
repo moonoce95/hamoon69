@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hamoon</title>
+
+<script>
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.scrollTo(0, 0);
+</script>
+
+<!-- GoatCounter -->
+<script data-goatcounter="https://hamoon69.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+<!-- Private Hamoon counter: restored to the original working POST -->
+<script>
+(function () {
+  fetch("https://hamoon-counter.andy-ng199507.workers.dev/visit", {
+    method: "POST",
+    keepalive: true
+  }).catch(function () {});
+})();
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:#0d0608;
+  color:#fdf0f5;
+  font-family:Georgia,"Times New Roman",serif;
+  overflow-x:hidden;
+}
+.curtain{
+  position:fixed;inset:0;background:#0d0608;z-index:9999;
+  pointer-events:none;animation:curtainLift .6s ease .5s forwards
+}
+@keyframes curtainLift{to{opacity:0;visibility:hidden}}
+.progress-track{
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:rgba(244,184,204,.1);z-index:1000
+}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#f4b8cc,#e8b64c)}
+.container{width:100%;max-width:640px;margin:auto;padding:60px 24px 100px;position:relative;z-index:1}
+.intro{text-align:center;padding:40px 0 24px;opacity:0;animation:fadeIn 1.2s ease forwards}
+.intro h1{font-size:28px;font-weight:400;font-style:italic;color:#f4b8cc}
+@keyframes fadeIn{to{opacity:1}}
+.reveal,.finale-lead,.audio-wrap{
+  opacity:0;transform:translateY(24px);
+  transition:opacity .8s ease,transform .8s ease;margin:36px 0
+}
+.reveal.visible,.finale-lead.visible,.audio-wrap.visible{opacity:1;transform:none}
+.media{
+  display:block;width:100%;height:auto;border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)
+}
+.youtube-frame{
+  display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)
+}
+.finale-lead{text-align:center;padding:50px 0 10px}
+.finale-lead p{font-style:italic;font-size:16px;color:#e8c4d3}
+.audio-wrap{
+  padding:24px;background:rgba(244,184,204,.06);
+  border:1px solid rgba(244,184,204,.2);border-radius:12px
+}
+audio{width:100%;filter:invert(1) hue-rotate(180deg);border-radius:8px}
+
+/* ========================= SHARED WALL ========================= */
+#hamoon-space{
+  --pink:#f4b8cc;
+  --gold:#e8b64c;
+  --white:#fdf0f5;
+  --muted:rgba(253,240,245,.58);
+  --border:rgba(244,184,204,.18);
+  --card:rgba(244,184,204,.055);
+  --danger:#ff7f8d;
+  margin:58px 0 14px;
+}
+#hamoon-space h2{
+  text-align:center;color:var(--gold);font-size:23px;
+  font-style:italic;font-weight:400;margin-bottom:10px
+}
+#hs-auto-identity{
+  text-align:center;color:var(--muted);
+  font:11px/1.4 system-ui,sans-serif;margin-bottom:7px
+}
+#hs-author-buttons{
+  display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:8px
+}
+.hs-author{
+  border:1px solid var(--border);background:var(--card);color:var(--white);
+  border-radius:999px;padding:7px 13px;cursor:pointer;font-size:12px
+}
+.hs-author.selected{
+  color:var(--gold);border-color:var(--gold);background:rgba(232,182,76,.14)
+}
+#hs-presence{
+  text-align:center;color:var(--pink);font:13px/1.4 system-ui,sans-serif;min-height:20px
+}
+#hs-conn-status{
+  text-align:center;color:var(--muted);font:11px/1.4 system-ui,sans-serif;margin-bottom:12px
+}
+#hs-toolbar{
+  display:none;flex-direction:column;gap:8px;padding:10px;margin-bottom:10px;
+  border:1px solid var(--border);border-radius:12px;background:var(--card);
+  font-family:system-ui,sans-serif
+}
+.hs-tool-row{
+  display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap
+}
+.hs-btn{
+  border:1px solid rgba(232,182,76,.27);background:rgba(232,182,76,.1);
+  color:var(--gold);border-radius:8px;padding:8px 10px;cursor:pointer;
+  font-size:12px;font-weight:650
+}
+.hs-btn.active{border-color:var(--gold);background:rgba(232,182,76,.28)}
+.hs-btn.danger{
+  color:var(--danger);border-color:rgba(255,127,141,.3);
+  background:rgba(255,127,141,.08)
+}
+.hs-btn:disabled{opacity:.35;cursor:not-allowed}
+.hs-control-label{
+  display:inline-flex;align-items:center;gap:6px;color:var(--pink);font-size:11px
+}
+
+/* Native colour picker, visually presented as a colour-wheel button */
+#hs-colour-wheel{
+  width:40px;height:40px;border:0;border-radius:50%;padding:0;cursor:pointer;
+  background:conic-gradient(#ff4d6d,#ffb703,#80ed99,#4cc9f0,#7b2cbf,#f72585,#ff4d6d)
+}
+#hs-colour-wheel::-webkit-color-swatch-wrapper{padding:4px}
+#hs-colour-wheel::-webkit-color-swatch{
+  border:2px solid rgba(255,255,255,.8);border-radius:50%
+}
+#hs-colour-wheel::-moz-color-swatch{
+  border:2px solid rgba(255,255,255,.8);border-radius:50%
+}
+#hs-thickness{width:100px;accent-color:var(--gold)}
+
+/* Old board was 2:1. 2:3 is ~3x as tall for the same width. */
+#hs-canvas-wrap{
+  width:100%;aspect-ratio:2/3;border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;background-color:#1a0d12;
+  background-image:radial-gradient(rgba(244,184,204,.11) .8px,transparent .8px);
+  background-size:18px 18px;touch-action:none;cursor:crosshair;
+  box-shadow:0 12px 30px rgba(0,0,0,.28),inset 0 0 35px rgba(0,0,0,.18)
+}
+#hs-canvas-wrap.mode-erase{cursor:cell}
+#hs-canvas{display:block;width:100%;height:100%}
+#hs-board-hint{
+  text-align:center;color:var(--muted);font:10px/1.35 system-ui,sans-serif;margin-top:7px
+}
+
+#hs-history{
+  display:none;margin-top:10px;padding:10px;border:1px solid var(--border);
+  border-radius:10px;background:var(--card);font:12px/1.45 system-ui,sans-serif
+}
+#hs-history-actions{display:flex;justify-content:flex-end;margin-bottom:6px}
+.hs-snap{
+  display:flex;justify-content:space-between;gap:8px;align-items:center;
+  padding:7px 0;border-bottom:1px solid rgba(244,184,204,.08);color:var(--pink)
+}
+
+/* reactions */
+.hs-memory-reactions{
+  display:flex;justify-content:center;align-items:center;flex-wrap:wrap;
+  gap:5px;margin:10px auto 0;font-family:system-ui,sans-serif
+}
+.hs-used-reaction,.hs-react-open{
+  border:1px solid rgba(244,184,204,.15);background:rgba(244,184,204,.05);
+  color:#fdf0f5;border-radius:999px;min-height:29px;padding:4px 8px;
+  cursor:pointer;font-size:12px
+}
+.hs-used-reaction.mine{
+  border-color:rgba(232,182,76,.7);background:rgba(232,182,76,.12)
+}
+.hs-react-open{color:#f4b8cc}
+.hs-picker{
+  display:none;width:100%;justify-content:center;flex-wrap:wrap;gap:3px;
+  margin-top:3px;padding:7px;border:1px solid rgba(244,184,204,.13);
+  border-radius:10px;background:rgba(13,6,8,.97)
+}
+.hs-picker.show{display:flex}
+.hs-emoji{
+  width:34px;height:34px;border:1px solid transparent;border-radius:8px;
+  background:transparent;font-size:19px;cursor:pointer
+}
+.hs-emoji.mine{
+  border-color:rgba(232,182,76,.72);background:rgba(232,182,76,.12)
+}
+
+/* 69 confirmation */
+.hs-modal{
+  display:none;position:fixed;inset:0;z-index:99999;align-items:center;
+  justify-content:center;padding:18px;background:rgba(0,0,0,.76)
+}
+.hs-modal.show{display:flex}
+.hs-modal-box{
+  width:min(92vw,360px);background:#0d0608;color:#fdf0f5;
+  border:1px solid rgba(232,182,76,.65);border-radius:14px;padding:20px;
+  box-shadow:0 18px 60px rgba(0,0,0,.55);font-family:system-ui,sans-serif
+}
+.hs-modal-box h3{
+  color:#e8b64c;font-family:Georgia,serif;font-weight:400;margin-bottom:9px
+}
+.hs-modal-box p{color:#f4b8cc;font-size:13px;line-height:1.45;margin-bottom:12px}
+.hs-confirm{
+  width:100%;padding:10px;margin-bottom:10px;border:1px solid rgba(244,184,204,.2);
+  border-radius:8px;background:rgba(244,184,204,.06);color:#fff;
+  font-size:18px;text-align:center
+}
+.hs-modal-actions{display:flex;justify-content:flex-end;gap:7px}
+#hs-toast{
+  position:fixed;z-index:100000;left:50%;bottom:24px;
+  transform:translate(-50%,15px);opacity:0;pointer-events:none;padding:8px 12px;
+  border:1px solid rgba(244,184,204,.2);border-radius:999px;
+  background:rgba(13,6,8,.96);color:#fdf0f5;font:12px/1.3 system-ui,sans-serif;
+  transition:.18s ease
+}
+#hs-toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:600px){
+  .container{padding-left:16px;padding-right:16px}
+  #hs-toolbar{padding:8px}
+  .hs-btn{font-size:11px;padding:8px 9px}
+}
+</style>
+</head>
+
+<body>
+<div class="curtain"></div>
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="container">
+  <div class="intro"><h1>helloinggg ❤️❤️❤️</h1></div>
+
+  <div class="reveal">
+    <iframe class="youtube-frame" data-memory-id="making-of-video"
+      src="https://www.youtube-nocookie.com/embed/VzzMUXaTI3Q?rel=0"
+      title="For Em — Happy Birthday"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+
+  <div class="reveal">
+    <video class="media" data-memory-id="hamyok" controls preload="metadata" playsinline>
+      <source src="hamyok.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="reveal"><img class="media" data-memory-id="love1" src="love1.png" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="love2" src="love1 (2).png" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="inwhat" src="inwhat.png" alt=""></div>
+
+  <div class="reveal">
+    <iframe class="youtube-frame" data-memory-id="old-aram-video"
+      src="https://www.youtube-nocookie.com/embed/31BIQdznu_E?rel=0"
+      title="YouTube video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+
+  <div class="reveal"><img class="media" data-memory-id="incest" src="incest.png" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="ms1" src="ms1.png" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="samebrain1" src="samebrain.jpg" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="samebrain2" src="samebrain2.png" alt=""></div>
+
+  <div class="reveal">
+    <video class="media" data-memory-id="mining" controls preload="metadata" playsinline>
+      <source src="mining.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="reveal">
+    <video class="media" data-memory-id="smile" controls preload="metadata" playsinline>
+      <source src="smile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="reveal"><img class="media" data-memory-id="ok1" src="ok1.jpg" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="pepper" src="pepper.jpg" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="ilovehamy" src="ilovehamy.jpg" alt=""></div>
+  <div class="reveal"><img class="media" data-memory-id="flounder" src="flounder.jpg" alt=""></div>
+
+  <div class="reveal">
+    <video class="media" data-memory-id="final-clip" controls preload="metadata" playsinline>
+      <source src="k_kfkMTncfnSqytLRS8m_g.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- meow above the wall -->
+  <div class="finale-lead"><p>one more thing...</p></div>
+
+  <div class="audio-wrap">
+    <audio data-memory-id="meow" controls preload="metadata">
+      <source src="meow.opus" type="audio/ogg">
+    </audio>
+  </div>
+
+  <!-- wall -->
+  <div id="hamoon-space">
+    <h2>our wall</h2>
+
+    <div id="hs-auto-identity"></div>
+
+    <div id="hs-author-buttons">
+      <button class="hs-author" data-author="Hamy">♡ Hamy ♡</button>
+      <button class="hs-author" data-author="Andy">♡ Andy ♡</button>
+    </div>
+
+    <div id="hs-presence"></div>
+    <div id="hs-conn-status">setting things up…</div>
+
+    <div id="hs-toolbar">
+      <div class="hs-tool-row">
+        <label class="hs-control-label">
+          🎨 colour
+          <input id="hs-colour-wheel" type="color" value="#f4b8cc">
+        </label>
+
+        <label class="hs-control-label">
+          size
+          <input id="hs-thickness" type="range" min="1" max="30" value="4">
+        </label>
+
+        <button class="hs-btn" id="hs-eraser">🧽 Eraser</button>
+        <button class="hs-btn" id="hs-undo">↩ Undo mine</button>
+        <button class="hs-btn" id="hs-redo">↪ Redo mine</button>
+      </div>
+
+      <div class="hs-tool-row">
+        <button class="hs-btn" id="hs-history-btn">📜 History</button>
+        <button class="hs-btn danger" id="hs-clear-mine">🗑 Clear my drawings</button>
+        <button class="hs-btn danger" id="hs-clear-all">💀 Clear all</button>
+      </div>
+    </div>
+
+    <div id="hs-canvas-wrap"><canvas id="hs-canvas"></canvas></div>
+    <div id="hs-history">
+      <div id="hs-history-actions">
+        <button class="hs-btn danger" id="hs-delete-history">Delete histories</button>
+      </div>
+      <div id="hs-snapshots"></div>
+    </div>
+  </div>
+</div>
+
+<div class="hs-modal" id="hs-confirm-modal">
+  <div class="hs-modal-box">
+    <h3 id="hs-confirm-title">confirm?</h3>
+    <p id="hs-confirm-copy">Type <strong>69</strong> to confirm.</p>
+    <input id="hs-confirm-input" class="hs-confirm" inputmode="numeric" maxlength="2" placeholder="69">
+    <div class="hs-modal-actions">
+      <button class="hs-btn" id="hs-confirm-cancel">nah</button>
+      <button class="hs-btn danger" id="hs-confirm-go" disabled>do it 💀</button>
+    </div>
+  </div>
+</div>
+
+<div id="hs-toast"></div>
+
+<script>
+/* ========================= PAGE EFFECTS ========================= */
+(function(){
+  const revealEls=document.querySelectorAll(".reveal,.finale-lead,.audio-wrap");
+
+  if("IntersectionObserver" in window){
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    },{threshold:.08});
+    revealEls.forEach(el=>obs.observe(el));
+  }else{
+    revealEls.forEach(el=>el.classList.add("visible"));
+  }
+
+  function progress(){
+    const max=document.documentElement.scrollHeight-window.innerHeight;
+    document.getElementById("progressFill").style.width=
+      (max>0?(window.scrollY/max)*100:0)+"%";
+  }
+
+  window.addEventListener("scroll",progress,{passive:true});
+  progress();
+
+  window.addEventListener("pageshow",()=>{
+    window.scrollTo(0,0);
+    setTimeout(()=>window.scrollTo(0,0),40);
+  },{once:true});
+
+  window.addEventListener("load",()=>{
+    window.scrollTo(0,0);
+    setTimeout(()=>window.scrollTo(0,0),80);
+  },{once:true});
+})();
+
+/* ========================= WALL + REACTIONS ========================= */
+(function(){
+  "use strict";
+
+  const API="https://hamoon-counter.andy-ng199507.workers.dev";
+  const WS_URL="wss://hamoon-counter.andy-ng199507.workers.dev/space/live";
+  const AUTO_EDIT_PIN="hamoon-69";
+
+  const EMOJIS=[
+    "❤️","♡","💛","😂","😭","💀","🥹","🥺","😍","🤭",
+    "😳","🫠","😤","🤡","🫡","🔥","✨","🌙","🌸","🐱"
+  ];
+
+  const canvas=document.getElementById("hs-canvas");
+  const wrap=document.getElementById("hs-canvas-wrap");
+  const ctx=canvas.getContext("2d");
+
+  const state={
+    token:null,
+    author:null,
+    detectedAuthor:null,
+    unlocked:false,
+    mode:"draw",
+    colour:"#f4b8cc",
+    thickness:4,
+    strokes:[],
+    reactions:[],
+    presence:[],
+    width:1,
+    height:1,
+    dpr:1,
+    drawing:false,
+    current:null,
+    ws:null,
+    reconnectTimer:null,
+    reconnectAttempt:0,
+    switchFrom:null,
+    ignorePreviousUntil:0,
+    activeTouches:new Map(),
+    twoFingerScroll:false,
+    touchScrollStartY:0,
+    pageScrollStartY:0,
+    eraseAt:0
+  };
+
+  let toastTimer=null;
+  let pending69Action=null;
+
+  function toast(text){
+    const el=document.getElementById("hs-toast");
+    el.textContent=text;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>el.classList.remove("show"),2200);
+  }
+
+  function detectAuthor(){
+    let tz="",lang="";
+    try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(_){}
+    try{lang=(navigator.language||"").toLowerCase()}catch(_){}
+
+    if(tz==="Pacific/Auckland"||tz==="Pacific/Chatham"||lang.endsWith("-nz")) return "Hamy";
+    if(tz==="Australia/Melbourne"||tz.startsWith("Australia/")||lang.endsWith("-au")) return "Andy";
+    return "Andy";
+  }
+
+  function updateAuthorUI(){
+    document.querySelectorAll(".hs-author").forEach(btn=>{
+      btn.classList.toggle("selected",btn.dataset.author===state.author);
+    });
+
+    document.getElementById("hs-auto-identity").textContent=
+      "automatically detected as ♡ "+state.detectedAuthor+
+      " ♡ · posting as ♡ "+state.author+" ♡";
+  }
+
+  function headers(json){
+    const h={};
+    if(json) h["Content-Type"]="application/json";
+    if(state.token) h.Authorization="Bearer "+state.token;
+    return h;
+  }
+
+  async function api(path,opts){
+    const r=await fetch(API+path,opts||{});
+    if(!r.ok){
+      let msg="";
+      try{msg=await r.text()}catch(_){}
+      throw new Error(msg||("HTTP "+r.status));
+    }
+    const type=r.headers.get("content-type")||"";
+    return type.includes("application/json")?r.json():null;
+  }
+
+  function closeCurrentSocket(){
+    const old=state.ws;
+    state.ws=null;
+    if(old){
+      try{
+        old.onclose=null;
+        old.close(1000,"identity switch");
+      }catch(_){}
+    }
+  }
+
+  function chooseAuthor(name,manual){
+    if(name!=="Andy"&&name!=="Hamy") return;
+    if(name===state.author){
+      updateAuthorUI();
+      return;
+    }
+
+    const old=state.author;
+    state.switchFrom=old;
+    state.ignorePreviousUntil=Date.now()+7000;
+    state.author=name;
+    updateAuthorUI();
+
+    closeCurrentSocket();
+    clearTimeout(state.reconnectTimer);
+    state.reconnectTimer=setTimeout(connectWebSocket,400);
+
+    if(manual) toast("posting as ♡ "+name+" ♡");
+    renderPresence();
+    renderReactions();
+  }
+
+  async function autoUnlock(){
+    const data=await api("/space/auth",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({pin:AUTO_EDIT_PIN})
+    });
+
+    if(!data||!data.token) throw new Error("No token");
+
+    state.token=data.token;
+    state.unlocked=true;
+    document.getElementById("hs-toolbar").style.display="flex";
+  }
+
+  function normStroke(s){
+    if(!s) return null;
+    let points=s.points||[];
+    if(typeof points==="string"){
+      try{points=JSON.parse(points)}catch(_){points=[]}
+    }
+    return {
+      id:s.id,
+      author:s.author||"",
+      color:s.color||s.colour||"#f4b8cc",
+      width:Number(s.width||3),
+      points:Array.isArray(points)?points:[]
+    };
+  }
+
+  function normReaction(r){
+    return {
+      memoryId:r.memoryId||r.memory_id||"",
+      author:r.author||"",
+      emoji:r.emoji||r.reaction||""
+    };
+  }
+
+  async function loadState(){
+    const data=await api("/space/state");
+    state.strokes=(data.strokes||[]).map(normStroke).filter(Boolean);
+    state.reactions=(data.reactions||[]).map(normReaction).filter(Boolean);
+    state.presence=Array.isArray(data.presence)?data.presence:[];
+    redraw();
+    renderReactions();
+    renderPresence();
+  }
+
+  /* ---------- canvas ---------- */
+  function resizeCanvas(){
+    const rect=wrap.getBoundingClientRect();
+    state.width=Math.max(1,rect.width);
+    state.height=Math.max(1,rect.height);
+    state.dpr=Math.max(1,window.devicePixelRatio||1);
+
+    canvas.width=Math.round(state.width*state.dpr);
+    canvas.height=Math.round(state.height*state.dpr);
+    canvas.style.width=state.width+"px";
+    canvas.style.height=state.height+"px";
+
+    ctx.setTransform(state.dpr,0,0,state.dpr,0,0);
+    redraw();
+  }
+
+  function point(e){
+    const r=canvas.getBoundingClientRect();
+    return {
+      x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),
+      y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))
+    };
+  }
+
+  function brushWidth(w){
+    return Math.max(.8,Number(w||3)*Math.max(.72,Math.min(1.4,state.width/640)));
+  }
+
+  function drawStroke(s){
+    if(!s||!s.points||!s.points.length) return;
+
+    ctx.strokeStyle=s.color||"#f4b8cc";
+    ctx.fillStyle=s.color||"#f4b8cc";
+    ctx.lineWidth=brushWidth(s.width);
+    ctx.lineCap="round";
+    ctx.lineJoin="round";
+
+    const first=s.points[0];
+
+    if(s.points.length===1){
+      ctx.beginPath();
+      ctx.arc(
+        first.x*state.width,
+        first.y*state.height,
+        Math.max(1,brushWidth(s.width)/2),
+        0,
+        Math.PI*2
+      );
+      ctx.fill();
+      return;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(first.x*state.width,first.y*state.height);
+
+    for(let i=1;i<s.points.length;i++){
+      ctx.lineTo(s.points[i].x*state.width,s.points[i].y*state.height);
+    }
+
+    ctx.stroke();
+  }
+
+  function redraw(){
+    ctx.clearRect(0,0,state.width,state.height);
+    state.strokes.forEach(drawStroke);
+  }
+
+  function touchCentreY(){
+    const values=[...state.activeTouches.values()];
+    if(!values.length) return 0;
+    return values.reduce((sum,p)=>sum+p.y,0)/values.length;
+  }
+
+  function cancelStroke(){
+    state.drawing=false;
+    state.current=null;
+    redraw();
+  }
+
+  function pointerDown(e){
+    if(!state.unlocked) return;
+
+    if(e.pointerType==="touch"){
+      state.activeTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+
+      if(state.activeTouches.size>=2){
+        if(state.drawing) cancelStroke();
+
+        state.twoFingerScroll=true;
+        state.touchScrollStartY=touchCentreY();
+        state.pageScrollStartY=window.scrollY;
+
+        e.preventDefault();
+        return;
+      }
+    }
+
+    e.preventDefault();
+
+    try{canvas.setPointerCapture(e.pointerId)}catch(_){}
+
+    const p=point(e);
+
+    if(state.mode==="draw"){
+      state.drawing=true;
+      state.current={
+        id:crypto.randomUUID(),
+        author:state.author,
+        color:state.colour,
+        width:state.thickness,
+        points:[p],
+        createdAt:Date.now()
+      };
+    }else{
+      erase(p);
+    }
+  }
+
+  function pointerMove(e){
+    if(!state.unlocked) return;
+
+    if(e.pointerType==="touch"&&state.activeTouches.has(e.pointerId)){
+      state.activeTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+
+      if(state.twoFingerScroll){
+        e.preventDefault();
+        window.scrollTo(
+          0,
+          state.pageScrollStartY+(state.touchScrollStartY-touchCentreY())
+        );
+        return;
+      }
+    }
+
+    e.preventDefault();
+    const p=point(e);
+
+    if(state.mode==="draw"&&state.drawing&&state.current){
+      const pts=state.current.points;
+      const last=pts[pts.length-1];
+      const dx=p.x-last.x;
+      const dy=p.y-last.y;
+
+      if(dx*dx+dy*dy<.0000015) return;
+
+      pts.push(p);
+
+      ctx.strokeStyle=state.current.color;
+      ctx.lineWidth=brushWidth(state.current.width);
+      ctx.lineCap="round";
+      ctx.lineJoin="round";
+      ctx.beginPath();
+      ctx.moveTo(last.x*state.width,last.y*state.height);
+      ctx.lineTo(p.x*state.width,p.y*state.height);
+      ctx.stroke();
+    }else if(state.mode==="erase"){
+      erase(p);
+    }
+  }
+
+  function pointerUp(e){
+    if(e.pointerType==="touch"){
+      state.activeTouches.delete(e.pointerId);
+
+      if(state.twoFingerScroll){
+        if(state.activeTouches.size===0) state.twoFingerScroll=false;
+        return;
+      }
+    }
+
+    if(!state.drawing||!state.current) return;
+
+    state.drawing=false;
+    const stroke=state.current;
+    state.current=null;
+
+    state.strokes.push(stroke);
+    redraw();
+
+    api("/space/stroke",{
+      method:"POST",
+      headers:headers(true),
+      body:JSON.stringify(stroke)
+    }).catch(()=>{
+      toast("stroke didn't save 😭");
+      loadState().catch(()=>{});
+    });
+  }
+
+  /*
+    Requires the small Worker patch: this splits strokes so the eraser behaves
+    like a real rubber instead of deleting a whole line.
+  */
+  function erase(p){
+    const now=Date.now();
+    if(now-state.eraseAt<55) return;
+    state.eraseAt=now;
+
+    api("/space/erase-segment",{
+      method:"POST",
+      headers:headers(true),
+      body:JSON.stringify({
+        x:p.x,
+        y:p.y,
+        radius:.022,
+        author:state.author
+      })
+    }).then(loadState).catch(()=>{
+      toast("rubber needs the Worker patch");
+    });
+  }
+
+  canvas.addEventListener("pointerdown",pointerDown);
+  canvas.addEventListener("pointermove",pointerMove);
+  canvas.addEventListener("pointerup",pointerUp);
+  canvas.addEventListener("pointercancel",pointerUp);
+
+  document.getElementById("hs-colour-wheel").addEventListener("input",e=>{
+    state.colour=e.target.value;
+  });
+
+  document.getElementById("hs-thickness").addEventListener("input",e=>{
+    state.thickness=Number(e.target.value);
+  });
+
+  document.getElementById("hs-eraser").addEventListener("click",()=>{
+    state.mode=state.mode==="erase"?"draw":"erase";
+    document.getElementById("hs-eraser").classList.toggle("active",state.mode==="erase");
+    wrap.classList.toggle("mode-erase",state.mode==="erase");
+  });
+
+  document.getElementById("hs-undo").addEventListener("click",()=>{
+    api("/space/undo",{
+      method:"POST",
+      headers:headers(true),
+      body:JSON.stringify({author:state.author})
+    }).then(loadState).catch(()=>toast("nothing of yours to undo"));
+  });
+
+  document.getElementById("hs-redo").addEventListener("click",()=>{
+    api("/space/redo",{
+      method:"POST",
+      headers:headers(true),
+      body:JSON.stringify({author:state.author})
+    }).then(loadState).catch(()=>toast("nothing of yours to redo"));
+  });
+
+  /* ---------- universal 69 modal ---------- */
+  const modal=document.getElementById("hs-confirm-modal");
+  const modalTitle=document.getElementById("hs-confirm-title");
+  const modalCopy=document.getElementById("hs-confirm-copy");
+  const modalInput=document.getElementById("hs-confirm-input");
+  const modalGo=document.getElementById("hs-confirm-go");
+
+  function open69(title,copy,buttonText,action){
+    pending69Action=action;
+    modalTitle.textContent=title;
+    modalCopy.innerHTML=copy+" Type <strong>69</strong> to confirm.";
+    modalGo.textContent=buttonText;
+    modalInput.value="";
+    modalGo.disabled=true;
+    modal.classList.add("show");
+    setTimeout(()=>modalInput.focus(),0);
+  }
+
+  function close69(){
+    modal.classList.remove("show");
+    modalInput.value="";
+    pending69Action=null;
+  }
+
+  modalInput.addEventListener("input",()=>{
+    modalGo.disabled=modalInput.value!=="69";
+  });
+
+  modalInput.addEventListener("keydown",e=>{
+    if(e.key==="Enter"&&modalInput.value==="69") modalGo.click();
+  });
+
+  document.getElementById("hs-confirm-cancel").addEventListener("click",close69);
+
+  modalGo.addEventListener("click",()=>{
+    if(modalInput.value!=="69"||typeof pending69Action!=="function") return;
+    const action=pending69Action;
+    pending69Action=null;
+    action();
+  });
+
+  document.getElementById("hs-clear-all").addEventListener("click",()=>{
+    open69(
+      "clear everything?",
+      "This deletes Andy + Hamy drawings. A recovery snapshot should be made first.",
+      "clear all 💀",
+      ()=>{
+        api("/space/clear",{
+          method:"POST",
+          headers:headers(true),
+          body:JSON.stringify({
+            confirm:"69",
+            confirmation:"69",
+            author:state.author
+          })
+        }).then(()=>{
+          state.strokes=[];
+          redraw();
+          close69();
+          toast("whole wall cleared");
+        }).catch(()=>toast("clear failed"));
+      }
+    );
+  });
+
+  document.getElementById("hs-clear-mine").addEventListener("click",()=>{
+    open69(
+      "clear my drawings?",
+      "This only removes strokes attributed to ♡ "+state.author+" ♡.",
+      "clear mine 💀",
+      ()=>{
+        api("/space/clear-author",{
+          method:"POST",
+          headers:headers(true),
+          body:JSON.stringify({
+            author:state.author,
+            confirm:"69",
+            confirmation:"69"
+          })
+        }).then(()=>{
+          close69();
+          toast(state.author+" drawings cleared");
+          loadState();
+        }).catch(()=>toast("clear mine needs the Worker patch"));
+      }
+    );
+  });
+
+  /* ---------- history ---------- */
+  const historyPanel=document.getElementById("hs-history");
+  const snapshotTarget=document.getElementById("hs-snapshots");
+
+  document.getElementById("hs-history-btn").addEventListener("click",async()=>{
+    if(getComputedStyle(historyPanel).display!=="none"){
+      historyPanel.style.display="none";
+      return;
+    }
+
+    historyPanel.style.display="block";
+    snapshotTarget.textContent="loading…";
+
+    try{
+      const data=await api("/space/snapshots",{headers:headers(false)});
+      const snaps=Array.isArray(data)?data:((data&&data.snapshots)||[]);
+      snapshotTarget.innerHTML="";
+
+      if(!snaps.length){
+        snapshotTarget.textContent="no snapshots yet";
+        return;
+      }
+
+      snaps.forEach(s=>{
+        const row=document.createElement("div");
+        row.className="hs-snap";
+
+        const label=document.createElement("span");
+        const date=s.createdAt||s.created_at;
+        label.textContent=date?new Date(date).toLocaleString():("snapshot "+s.id);
+
+        const btn=document.createElement("button");
+        btn.className="hs-btn";
+        btn.textContent="Restore";
+
+        btn.addEventListener("click",()=>{
+          if(!confirm("Restore this wall snapshot?")) return;
+
+          api("/space/restore",{
+            method:"POST",
+            headers:headers(true),
+            body:JSON.stringify({snapshotId:s.id})
+          }).then(()=>{
+            toast("wall restored");
+            loadState();
+          }).catch(()=>toast("restore failed"));
+        });
+
+        row.append(label,btn);
+        snapshotTarget.appendChild(row);
+      });
+    }catch(_){
+      snapshotTarget.textContent="couldn't load history";
+    }
+  });
+
+  document.getElementById("hs-delete-history").addEventListener("click",()=>{
+    open69(
+      "delete all histories?",
+      "This permanently deletes the saved wall snapshots.",
+      "delete histories 💀",
+      ()=>{
+        api("/space/snapshots",{
+          method:"DELETE",
+          headers:headers(true),
+          body:JSON.stringify({
+            confirm:"69",
+            confirmation:"69",
+            author:state.author
+          })
+        }).then(()=>{
+          close69();
+          snapshotTarget.textContent="no snapshots yet";
+          toast("histories deleted");
+        }).catch(()=>toast("history delete needs the Worker patch"));
+      }
+    );
+  });
+
+  /* ---------- reactions ---------- */
+  function reactionAnchor(media){
+    return media.closest(".reveal")||
+           media.closest(".audio-wrap")||
+           media.parentElement||
+           media;
+  }
+
+  function renderReactions(){
+    document.querySelectorAll("[data-memory-id]").forEach(media=>{
+      const id=media.dataset.memoryId;
+      if(!id) return;
+
+      const anchor=reactionAnchor(media);
+      let bar=anchor.querySelector(":scope > .hs-memory-reactions");
+
+      if(!bar){
+        bar=document.createElement("div");
+        bar.className="hs-memory-reactions";
+        anchor.appendChild(bar);
+      }
+
+      buildReactionBar(bar,id);
+    });
+  }
+
+  function buildReactionBar(bar,memoryId){
+    bar.innerHTML="";
+
+    const rows=state.reactions.filter(r=>r.memoryId===memoryId);
+    const counts=new Map();
+
+    rows.forEach(r=>counts.set(r.emoji,(counts.get(r.emoji)||0)+1));
+
+    EMOJIS.forEach(emoji=>{
+      const count=counts.get(emoji)||0;
+      if(!count) return;
+
+      const mine=rows.some(r=>r.author===state.author&&r.emoji===emoji);
+      const b=document.createElement("button");
+
+      b.className="hs-used-reaction"+(mine?" mine":"");
+      b.textContent=emoji+" "+count;
+      b.addEventListener("click",()=>toggleReaction(memoryId,emoji));
+
+      bar.appendChild(b);
+    });
+
+    const open=document.createElement("button");
+    open.className="hs-react-open";
+    open.textContent="♡ react";
+    bar.appendChild(open);
+
+    const picker=document.createElement("div");
+    picker.className="hs-picker";
+
+    EMOJIS.forEach(emoji=>{
+      const mine=rows.some(r=>r.author===state.author&&r.emoji===emoji);
+      const b=document.createElement("button");
+
+      b.className="hs-emoji"+(mine?" mine":"");
+      b.textContent=emoji;
+      b.addEventListener("click",()=>toggleReaction(memoryId,emoji));
+
+      picker.appendChild(b);
+    });
+
+    open.addEventListener("click",()=>picker.classList.toggle("show"));
+    bar.appendChild(picker);
+  }
+
+  function toggleReaction(memoryId,emoji){
+    const idx=state.reactions.findIndex(
+      r=>r.memoryId===memoryId&&r.author===state.author&&r.emoji===emoji
+    );
+
+    if(idx>=0) state.reactions.splice(idx,1);
+    else state.reactions.push({memoryId,author:state.author,emoji});
+
+    renderReactions();
+
+    api("/space/reaction",{
+      method:"POST",
+      headers:headers(true),
+      body:JSON.stringify({
+        memoryId,
+        author:state.author,
+        emoji
+      })
+    }).then(loadState).catch(()=>{
+      toast("reaction didn't save");
+      loadState().catch(()=>{});
+    });
+  }
+
+  /* ---------- presence ---------- */
+  function cleanedPresence(){
+    let names=Array.from(
+      new Set((state.presence||[]).filter(x=>x==="Andy"||x==="Hamy"))
+    );
+
+    /* prevent a manual Andy->Hamy switch from briefly showing this tab as both */
+    if(state.switchFrom&&Date.now()<state.ignorePreviousUntil){
+      names=names.filter(n=>n!==state.switchFrom);
+      if(!names.includes(state.author)) names.push(state.author);
+    }
+
+    return names;
+  }
+
+  function renderPresence(){
+    const names=cleanedPresence();
+    const el=document.getElementById("hs-presence");
+
+    if(names.includes("Andy")&&names.includes("Hamy")){
+      el.textContent="Andy and Hamy are here";
+    }else if(names.includes("Hamy")){
+      el.textContent="Hamy is here";
+    }else{
+      el.textContent=state.author==="Hamy"?"Hamy is here":"Andy is here";
+    }
+  }
+
+  function wsUrl(){
+    const q=new URLSearchParams({
+      author:state.author,
+      token:state.token
+    });
+    return WS_URL+"?"+q.toString();
+  }
+
+  function connectWebSocket(){
+    if(!state.token||!state.author) return;
+
+    closeCurrentSocket();
+
+    const ws=new WebSocket(wsUrl());
+    state.ws=ws;
+    document.getElementById("hs-conn-status").textContent="connecting…";
+
+    ws.onopen=()=>{
+      if(state.ws!==ws) return;
+
+      state.reconnectAttempt=0;
+      document.getElementById("hs-conn-status").textContent="connected";
+      document.getElementById("hs-conn-status").style.color="#75db9a";
+
+      loadState().catch(()=>{});
+    };
+
+    ws.onmessage=e=>{
+      if(state.ws!==ws) return;
+
+      let msg;
+      try{msg=JSON.parse(e.data)}catch(_){return}
+
+      if(msg.type==="init"){
+        const s=msg.state||{};
+        state.strokes=(s.strokes||[]).map(normStroke).filter(Boolean);
+        state.reactions=(s.reactions||[]).map(normReaction).filter(Boolean);
+        state.presence=Array.isArray(s.presence)?s.presence:[];
+        redraw();
+        renderReactions();
+        renderPresence();
+        return;
+      }
+
+      if(msg.type==="presence"){
+        state.presence=msg.present||msg.presence||[];
+        renderPresence();
+        return;
+      }
+
+      if(msg.type==="stroke"||msg.type==="stroke.added"){
+        const s=normStroke(msg.stroke);
+        if(s&&!state.strokes.some(x=>x.id===s.id)){
+          state.strokes.push(s);
+          drawStroke(s);
+        }
+        return;
+      }
+
+      if(
+        msg.type==="erase"||
+        msg.type==="erase-batch"||
+        msg.type==="stroke.erased"||
+        msg.type==="erase.segment"||
+        msg.type==="stroke.segment.erased"||
+        msg.type==="author.cleared"||
+        msg.type==="restore"||
+        msg.type==="restore_stroke"||
+        msg.type==="board.restored"
+      ){
+        loadState().catch(()=>{});
+        return;
+      }
+
+      if(msg.type==="clear"||msg.type==="board.cleared"){
+        state.strokes=[];
+        redraw();
+        return;
+      }
+
+      if(msg.type==="reaction"||msg.type==="reaction.updated"){
+        loadState().catch(()=>{});
+      }
+    };
+
+    ws.onerror=()=>{};
+
+    ws.onclose=()=>{
+      if(state.ws!==ws) return;
+
+      state.ws=null;
+      document.getElementById("hs-conn-status").style.color="";
+      document.getElementById("hs-conn-status").textContent="reconnecting…";
+
+      const delay=Math.min(
+        15000,
+        900*Math.pow(2,Math.min(state.reconnectAttempt++,4))
+      );
+
+      clearTimeout(state.reconnectTimer);
+      state.reconnectTimer=setTimeout(connectWebSocket,delay);
+    };
+  }
+
+  document.querySelectorAll(".hs-author").forEach(btn=>{
+    btn.addEventListener("click",()=>chooseAuthor(btn.dataset.author,true));
+  });
+
+  async function start(){
+    state.detectedAuthor=detectAuthor();
+    state.author=state.detectedAuthor;
+
+    updateAuthorUI();
+    renderPresence();
+
+    resizeCanvas();
+    window.addEventListener("resize",resizeCanvas,{passive:true});
+
+    try{
+      await autoUnlock();
+      await loadState();
+      connectWebSocket();
+    }catch(err){
+      document.getElementById("hs-conn-status").textContent="wall couldn't unlock 😭";
+      toast("wall setup failed");
+      console.error(err);
+    }
+  }
+
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState!=="visible") return;
+    loadState().catch(()=>{});
+    if(!state.ws||state.ws.readyState>1) connectWebSocket();
+  });
+
+  window.addEventListener("online",()=>{
+    if(!state.ws||state.ws.readyState>1) connectWebSocket();
+  });
+
+  start();
+})();
+</script>
+</body>
+</html>
