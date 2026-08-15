@@ -129,8 +129,9 @@ audio{
 
 /* ========================= UPLOADER ========================= */
 #add-wrap{
-  display:flex;justify-content:center;gap:7px;flex-wrap:wrap;
-  text-align:center;margin:0 0 12px;font-family:system-ui,sans-serif
+  display:grid;grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:stretch;gap:7px;width:100%;margin:0;
+  text-align:center;font-family:system-ui,sans-serif
 }
 #add-something,#decorate-toggle{
   border:1px solid rgba(232,182,76,.3);
@@ -138,6 +139,7 @@ audio{
   color:#e8b64c;border-radius:999px;padding:7px 11px;
   cursor:pointer;font-size:11px;font-weight:700
 }
+#add-wrap #make-wall-sticker{width:100%;min-width:0}
 .modal{
   display:none;position:fixed;inset:0;z-index:99999;
   align-items:center;justify-content:center;padding:18px;
@@ -490,6 +492,8 @@ body.decorating #sticker-dock{display:block}
   .btn{font-size:11px;padding:8px 6px}
   .tool-actions{gap:6px}
   .add-grid{grid-template-columns:1fr 1fr}
+  #add-wrap{grid-template-columns:minmax(0,1fr) auto auto;gap:5px}
+  #add-something,#decorate-toggle{padding:7px 8px;font-size:10px}
   #colour-popover{
     position:fixed;left:50%;top:50%;transform:translate(-50%,-50%)
   }
@@ -621,11 +625,6 @@ body.decorating #sticker-dock{display:block}
 
   <div id="hamoon-space">
 
-    <div id="add-wrap">
-      <button id="add-something" type="button">＋ add something</button>
-      <button id="decorate-toggle" type="button">✨ decorate</button>
-    </div>
-
     <h2>our little space ☁️</h2>
 
     <div id="auto-id"></div>
@@ -667,7 +666,11 @@ body.decorating #sticker-dock{display:block}
           <button class="btn danger" id="clear-all">💀 Clear all</button>
         </div>
 
-        <button class="btn" id="make-wall-sticker">✨ make a sticker from this</button>
+        <div id="add-wrap">
+          <button class="btn" id="make-wall-sticker" type="button">✨ make a sticker from this</button>
+          <button id="add-something" type="button">＋ add something</button>
+          <button id="decorate-toggle" type="button">✨ decorate</button>
+        </div>
 
       </div>
     </div>
@@ -676,7 +679,7 @@ body.decorating #sticker-dock{display:block}
       <canvas id="board"></canvas>
       <div id="tool-preview"></div>
       <div id="sticker-capture">
-        <div id="sticker-capture-tip">draw a box around what you want ♡</div>
+        <div id="sticker-capture-tip">draw a box around what you want em ❤️</div>
         <div id="sticker-capture-box"></div>
         <button class="btn" id="sticker-capture-cancel" type="button">nor</button>
       </div>
@@ -917,6 +920,10 @@ function readableError(error,fallback){
   }
 }
 
+function isNotFound(error){
+  return /not found|http 404/i.test(String(error?.message||""));
+}
+
 function detect(){
   let tz="";
   let lang="";
@@ -1083,7 +1090,40 @@ function normUpload(upload){
   };
 }
 
-function normSticker(sticker){
+const STICKER_CAPTION="__HAMOON_STICKER_V1__";
+
+function stickerFromUpload(upload){
+  if(!upload?.caption?.startsWith(STICKER_CAPTION)) return null;
+
+  try{
+    const layout=JSON.parse(upload.caption.slice(STICKER_CAPTION.length));
+    return normSticker({
+      id:upload.id,
+      author:upload.author,
+      src:upload.src,
+      x:layout.x,
+      y:layout.y,
+      width:layout.width,
+      height:layout.height,
+      rotation:layout.rotation,
+      createdAt:upload.createdAt??upload.created_at
+    },"upload");
+  }catch(_){
+    return null;
+  }
+}
+
+function stickerCaption(sticker){
+  return STICKER_CAPTION+JSON.stringify({
+    x:sticker.x,
+    y:sticker.y,
+    width:sticker.width,
+    height:sticker.height,
+    rotation:sticker.rotation
+  });
+}
+
+function normSticker(sticker,storage="sticker"){
   if(!sticker||!sticker.id||!sticker.src){
     return null;
   }
@@ -1097,7 +1137,8 @@ function normSticker(sticker){
     width:Number(sticker.width??.17),
     height:Number(sticker.height??.17),
     rotation:Number(sticker.rotation??0),
-    createdAt:Number(sticker.createdAt??sticker.created_at??Date.now())
+    createdAt:Number(sticker.createdAt??sticker.created_at??Date.now()),
+    storage
   };
 }
 
@@ -1105,6 +1146,9 @@ function normSticker(sticker){
 
 async function load(){
   const data=await api("/space/state");
+  const allUploads=(data.uploads||[])
+    .map(normUpload)
+    .filter(Boolean);
 
   state.strokes=(data.strokes||[])
     .map(normStroke)
@@ -1113,13 +1157,12 @@ async function load(){
   state.reactions=(data.reactions||[])
     .map(normReaction);
 
-  state.uploads=(data.uploads||[])
-    .map(normUpload)
-    .filter(Boolean);
+  state.uploads=allUploads.filter(upload=>!upload.caption.startsWith(STICKER_CAPTION));
 
-  state.stickers=(data.stickers||[])
-    .map(normSticker)
-    .filter(Boolean);
+  state.stickers=[
+    ...(data.stickers||[]).map(sticker=>normSticker(sticker,"sticker")),
+    ...allUploads.map(stickerFromUpload)
+  ].filter(Boolean);
 
   state.presence=Array.isArray(data.presence)
     ? data.presence
@@ -1916,18 +1959,60 @@ function renderStickers(){
   selectSticker(stickerById(oldSelected)?oldSelected:null);
 }
 
+async function createStickerRecord(sticker){
+  try{
+    await api("/space/sticker",{
+      method:"POST",headers:headers(),body:JSON.stringify(sticker)
+    });
+    sticker.storage="sticker";
+  }catch(error){
+    if(!isNotFound(error)) throw error;
+
+    await api("/space/upload",{
+      method:"POST",
+      headers:headers(),
+      body:JSON.stringify({
+        id:sticker.id,
+        author:sticker.author,
+        type:"image",
+        src:sticker.src,
+        caption:stickerCaption(sticker),
+        sortOrder:sticker.createdAt||Date.now()
+      })
+    });
+    sticker.storage="upload";
+  }
+}
+
 async function saveSticker(sticker){
+  if(sticker.storage==="upload"){
+    await api("/space/upload",{
+      method:"PUT",
+      headers:headers(),
+      body:JSON.stringify({
+        id:sticker.id,
+        author:sticker.author,
+        caption:stickerCaption(sticker),
+        sortOrder:sticker.createdAt
+      })
+    });
+    return;
+  }
+
   await api("/space/sticker",{
-    method:"PUT",
+    method:"PUT",headers:headers(),body:JSON.stringify(sticker)
+  });
+}
+
+async function deleteStickerRecord(sticker,withConfirmation=false){
+  const path=sticker.storage==="upload"?"/space/upload":"/space/sticker";
+  await api(path,{
+    method:"DELETE",
     headers:headers(),
     body:JSON.stringify({
       id:sticker.id,
       author:sticker.author,
-      x:sticker.x,
-      y:sticker.y,
-      width:sticker.width,
-      height:sticker.height,
-      rotation:sticker.rotation
+      ...(withConfirmation?{confirm:"69",confirmation:"69"}:{})
     })
   });
 }
@@ -1990,16 +2075,7 @@ document.getElementById("sticker-delete").addEventListener("click",()=>{
     "delete sticker",
     async()=>{
       try{
-        await api("/space/sticker",{
-          method:"DELETE",
-          headers:headers(),
-          body:JSON.stringify({
-            id:sticker.id,
-            author:sticker.author,
-            confirm:"69",
-            confirmation:"69"
-          })
-        });
+        await deleteStickerRecord(sticker,true);
         close69();
         selectedStickerId=null;
         await load();
@@ -2019,25 +2095,17 @@ stickerAuthorEdit.addEventListener("change",async()=>{
 
   const oldAuthor=sticker.author;
   try{
-    await api("/space/sticker",{
-      method:"DELETE",headers:headers(),
-      body:JSON.stringify({id:sticker.id,author:oldAuthor})
-    });
-    await api("/space/sticker",{
-      method:"POST",headers:headers(),
-      body:JSON.stringify({...sticker,author:nextAuthor})
-    });
+    await deleteStickerRecord(sticker);
     sticker.author=nextAuthor;
+    await createStickerRecord(sticker);
     renderStickers();
     selectSticker(sticker.id);
     toast("sticker now says "+nextAuthor+" ♡");
   }catch(error){
     console.error(error);
     try{
-      await api("/space/sticker",{
-        method:"POST",headers:headers(),
-        body:JSON.stringify({...sticker,author:oldAuthor})
-      });
+      sticker.author=oldAuthor;
+      await createStickerRecord(sticker);
     }catch(_){}
     await load().catch(()=>{});
     toast("name change didn't save");
@@ -2107,13 +2175,13 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
     y:clamp((wallRect.top-containerRect.top+wallRect.height*.25)/containerRect.height,.08,.92),
     width,
     height:width/pendingSticker.aspect,
-    rotation:Math.round(Math.random()*12-6)
+    rotation:Math.round(Math.random()*12-6),
+    createdAt:Date.now(),
+    storage:"sticker"
   };
 
   try{
-    await api("/space/sticker",{
-      method:"POST",headers:headers(),body:JSON.stringify(sticker)
-    });
+    await createStickerRecord(sticker);
     closeStickerPreview();
     await load();
     setDecorating(true);
@@ -2134,7 +2202,11 @@ function startStickerCapture(){
   captureStart=null;
   captureBox.style.display="none";
   captureLayer.classList.add("show");
-  wrap.scrollIntoView({behavior:"smooth",block:"center"});
+  const rect=wrap.getBoundingClientRect();
+  scrollTo({
+    top:Math.max(0,scrollY+rect.top-innerHeight*.22),
+    behavior:"smooth"
+  });
 }
 
 function stopStickerCapture(){
@@ -3597,6 +3669,9 @@ function connect(){
 
     if(message.type==="init"){
       const data=message.state||{};
+      const allUploads=(data.uploads||[])
+        .map(normUpload)
+        .filter(Boolean);
 
       state.strokes=(data.strokes||[])
         .map(normStroke)
@@ -3605,13 +3680,12 @@ function connect(){
       state.reactions=(data.reactions||[])
         .map(normReaction);
 
-      state.uploads=(data.uploads||[])
-        .map(normUpload)
-        .filter(Boolean);
+      state.uploads=allUploads.filter(upload=>!upload.caption.startsWith(STICKER_CAPTION));
 
-      state.stickers=(data.stickers||[])
-        .map(normSticker)
-        .filter(Boolean);
+      state.stickers=[
+        ...(data.stickers||[]).map(sticker=>normSticker(sticker,"sticker")),
+        ...allUploads.map(stickerFromUpload)
+      ].filter(Boolean);
 
       state.presence=data.presence||[];
 
