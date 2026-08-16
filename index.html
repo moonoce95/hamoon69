@@ -612,15 +612,6 @@ body.dock-collapsed #sticker-close{display:none}
   font:13px/1.5 system-ui,sans-serif;margin-bottom:14px;
   font-variant-numeric:tabular-nums
 }
-#save-status{
-  min-height:18px;margin:-10px 0 10px;text-align:center;
-  color:rgba(253,240,245,.42);font:700 11px/1.4 system-ui,sans-serif;
-  transition:color .18s ease
-}
-#save-status.saving{color:#e8b64c}
-#save-status.saved{color:#8ed7ad}
-#save-status.error{color:#ff9ca7}
-
 /* Clean aligned toolbar */
 #toolbar{
   display:none;
@@ -914,8 +905,6 @@ body.decorating #undo-toast{bottom:calc(var(--dock-height,140px) + 12px)}
     <div id="presence"></div>
     <div id="conn">setting things up…</div>
     <div id="clock"></div>
-    <div id="save-status" aria-live="polite"></div>
-
     <div id="toolbar">
       <div class="toolbar-layout">
 
@@ -1203,7 +1192,6 @@ const zone=document.getElementById("timeline-zone");
 let toastTimer=null;
 let pending69=null;
 let pendingRequires69=true;
-let saveStatusTimer=null;
 let activeUndoAction=null;
 const suppressedUploadIds=new Set();
 const suppressedStickerIds=new Set();
@@ -1220,26 +1208,7 @@ function toast(text){
   toastTimer=setTimeout(()=>el.classList.remove("show"),1800);
 }
 
-function setSaveStatus(kind,text){
-  const el=document.getElementById("save-status");
-  if(!el) return;
-  clearTimeout(saveStatusTimer);
-  el.className=kind||"";
-  el.textContent=text||(
-    kind==="saving"
-      ? "saving…"
-      : kind==="error"
-        ? "not saved"
-        : "all saved ♡"
-  );
-
-  if(kind==="saved"){
-    saveStatusTimer=setTimeout(()=>{
-      el.className="";
-      el.textContent="all saved ♡";
-    },1800);
-  }
-}
+function setSaveStatus(){ /* status indicator intentionally removed */ }
 
 function hideUndoToast(){
   document.getElementById("undo-toast")?.classList.remove("show");
@@ -2994,7 +2963,6 @@ function moveStickerTransform(event,sticker){
     sticker.rotation=edit.startRotation+(angle-edit.startAngle)*180/Math.PI;
     edit.node.style.transform="translate(-50%,-50%) rotate("+sticker.rotation+"deg)";
   }
-  queueLiveStickerUpdate(sticker);
 }
 
 function finishStickerTransform(event,sticker){
@@ -3006,7 +2974,7 @@ function finishStickerTransform(event,sticker){
   safeStickerPosition(sticker);
   renderStickers();
   selectSticker(sticker.id);
-  queueLiveStickerUpdate(sticker,true);
+  saveStickerEdit(sticker);
 }
 
 function addStickerHandles(node,sticker){
@@ -3131,7 +3099,6 @@ function renderStickers(){
         snapStickerDuringDrag(sticker);
         node.style.left=(sticker.x*100)+"%";
         node.style.top=(sticker.y*100)+"%";
-        queueLiveStickerUpdate(sticker);
       });
 
       const finishDrag=event=>{
@@ -3141,7 +3108,7 @@ function renderStickers(){
         safeStickerPosition(sticker);
         renderStickers();
         selectSticker(sticker.id);
-        queueLiveStickerUpdate(sticker,true);
+        saveStickerEdit(sticker);
       };
 
       node.addEventListener("pointerup",finishDrag);
@@ -3235,11 +3202,6 @@ async function saveSticker(sticker){
   });
 }
 
-let liveStickerTimer=null;
-let liveStickerPending=null;
-let liveStickerSaving=false;
-let liveStickerLastStarted=0;
-const LIVE_STICKER_INTERVAL=55;
 const liveStickerLocalLocks=new Map();
 
 function stickerSnapshot(sticker){
@@ -3257,49 +3219,14 @@ function stickerSnapshot(sticker){
   };
 }
 
-async function flushLiveStickerUpdate(){
-  liveStickerTimer=null;
-  if(liveStickerSaving||!liveStickerPending) return;
-  const sticker=liveStickerPending;
-  liveStickerPending=null;
-  liveStickerSaving=true;
-  liveStickerLastStarted=performance.now();
-  let saved=false;
-  try{
-    await saveSticker(sticker);
-    saved=true;
-  }catch(error){
+function saveStickerEdit(sticker){
+  const snapshot=stickerSnapshot(sticker);
+  // Ignore our own websocket echo briefly so the sticker cannot rubber-band.
+  liveStickerLocalLocks.set(sticker.id,performance.now()+1800);
+  saveSticker(snapshot).catch(error=>{
     console.error(error);
-    setSaveStatus("error","sticker not saved");
-    toast(readableError(error,"live sticker update didn't save"));
-  }finally{
-    liveStickerSaving=false;
-    if(liveStickerPending){
-      const wait=Math.max(0,LIVE_STICKER_INTERVAL-(performance.now()-liveStickerLastStarted));
-      liveStickerTimer=setTimeout(flushLiveStickerUpdate,wait);
-    }else if(saved){
-      setSaveStatus("saved");
-    }
-  }
-}
-
-function queueLiveStickerUpdate(sticker,immediate=false){
-  setSaveStatus("saving","saving sticker…");
-  liveStickerPending=stickerSnapshot(sticker);
-  liveStickerLocalLocks.set(sticker.id,performance.now()+800);
-
-  if(immediate){
-    if(liveStickerTimer!==null){
-      clearTimeout(liveStickerTimer);
-      liveStickerTimer=null;
-    }
-    if(!liveStickerSaving) flushLiveStickerUpdate();
-    return;
-  }
-
-  if(liveStickerTimer!==null||liveStickerSaving) return;
-  const wait=Math.max(0,LIVE_STICKER_INTERVAL-(performance.now()-liveStickerLastStarted));
-  liveStickerTimer=setTimeout(flushLiveStickerUpdate,wait);
+    toast(readableError(error,"sticker edit didn't save"));
+  });
 }
 
 function applyRemoteStickerUpdate(patch){
