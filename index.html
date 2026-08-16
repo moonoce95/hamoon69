@@ -349,14 +349,39 @@ body.decorating #sticker-dock{display:block}
   width:100%;margin-top:9px;padding:10px;border:1px solid rgba(244,184,204,.18);
   border-radius:8px;background:#170b10;color:#fdf0f5;text-align:center
 }
+#sticker-crop-stage{display:flex;justify-content:center;width:100%}
+#sticker-crop-media{position:relative;display:inline-block;max-width:100%;line-height:0}
 #sticker-preview{
-  display:block;width:100%;max-height:46vh;object-fit:contain;
+  display:block;max-width:100%;max-height:46vh;width:auto;height:auto;object-fit:contain;
   border-radius:12px;background-image:linear-gradient(45deg,#26131a 25%,transparent 25%),
     linear-gradient(-45deg,#26131a 25%,transparent 25%),
     linear-gradient(45deg,transparent 75%,#26131a 75%),
     linear-gradient(-45deg,transparent 75%,#26131a 75%);
   background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0
 }
+#sticker-crop-overlay{
+  display:none;position:absolute;inset:0;z-index:4;cursor:crosshair;
+  touch-action:none;background:rgba(0,0,0,.38);border-radius:12px
+}
+#sticker-crop-overlay.show{display:block}
+#sticker-crop-box{
+  position:absolute;border:2px solid #fff;border-radius:7px;
+  background:rgba(244,184,204,.08);box-shadow:0 0 0 9999px rgba(0,0,0,.2);
+  pointer-events:none
+}
+#sticker-crop-box::before,#sticker-crop-box::after{
+  content:"";position:absolute;width:14px;height:14px;border:2px solid #e8b64c
+}
+#sticker-crop-box::before{left:-3px;top:-3px;border-right:0;border-bottom:0}
+#sticker-crop-box::after{right:-3px;bottom:-3px;border-left:0;border-top:0}
+.sticker-preview-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.sticker-preview-actions:not(.cropping){grid-template-columns:1fr}
+.sticker-preview-actions .btn{width:100%;padding:10px}
+#sticker-crop-hint{
+  margin:7px 0 0;text-align:center;color:#f4b8cc;
+  font:11px/1.35 system-ui,sans-serif
+}
+.is-hidden{display:none!important}
 .sticker-help{
   color:rgba(253,240,245,.62);font:12px/1.45 system-ui,sans-serif;
   text-align:center;margin:8px 0
@@ -766,7 +791,7 @@ body.decorating #sticker-dock{display:block}
         <div id="add-wrap">
           <button id="decorate-toggle" type="button">✨ decorate</button>
           <button class="btn" id="make-wall-sticker" type="button">✨ make a sticker</button>
-          <button id="add-something" type="button">＋ add something</button>
+          <button id="add-something" type="button">＋ add cute stuff</button>
           <button class="btn" id="history-btn" type="button">📜 History</button>
           <button class="btn danger" id="clear-mine" type="button">🗑 Clear mine</button>
           <button class="btn danger" id="clear-all" type="button">💀 Clear all</button>
@@ -800,7 +825,7 @@ body.decorating #sticker-dock{display:block}
 <!-- ADD MENU -->
 <div class="modal" id="add-modal">
   <div class="modal-box">
-    <h3>add something ❤️</h3>
+    <h3>add cute stuff ❤️</h3>
 
     <div class="add-section-title">add to the timeline</div>
     <div class="add-grid">
@@ -830,7 +855,19 @@ body.decorating #sticker-dock{display:block}
 <div class="modal" id="sticker-modal">
   <div class="modal-box">
     <h3>make this a sticker? ✨</h3>
-    <img id="sticker-preview" alt="Sticker preview">
+    <div id="sticker-crop-stage">
+      <div id="sticker-crop-media">
+        <img id="sticker-preview" alt="Sticker preview">
+        <div id="sticker-crop-overlay" aria-label="Draw a crop box">
+          <div id="sticker-crop-box"></div>
+        </div>
+      </div>
+    </div>
+    <p id="sticker-crop-hint" class="is-hidden">drag a box around what you want ✨</p>
+    <div class="sticker-preview-actions" id="sticker-preview-actions">
+      <button class="btn" id="sticker-crop" type="button">crop</button>
+      <button class="btn is-hidden" id="sticker-crop-cancel" type="button">cancel crop</button>
+    </div>
     <select id="sticker-author" aria-label="Sticker author">
       <option value="Hamy">added by ♡ Hamy ♡</option>
       <option value="Andy">added by ♡ Andy ♡</option>
@@ -1919,6 +1956,12 @@ const stickerLayer=document.getElementById("sticker-layer");
 const stickerModal=document.getElementById("sticker-modal");
 const stickerPreview=document.getElementById("sticker-preview");
 const stickerAuthor=document.getElementById("sticker-author");
+const stickerCropOverlay=document.getElementById("sticker-crop-overlay");
+const stickerCropBox=document.getElementById("sticker-crop-box");
+const stickerCropButton=document.getElementById("sticker-crop");
+const stickerCropCancel=document.getElementById("sticker-crop-cancel");
+const stickerCropHint=document.getElementById("sticker-crop-hint");
+const stickerPreviewActions=document.getElementById("sticker-preview-actions");
 const stickerAuthorEdit=document.getElementById("sticker-author-edit");
 const stickerDock=document.getElementById("sticker-dock");
 const stickerDockTitle=document.getElementById("sticker-dock-title");
@@ -1930,6 +1973,9 @@ let selectedStickerId=null;
 let stickerDrag=null;
 let stickerTransform=null;
 let captureStart=null;
+let stickerCropping=false;
+let stickerCropStart=null;
+let stickerCropRect={x:.08,y:.08,width:.84,height:.84};
 const viewportMeta=document.querySelector('meta[name="viewport"]');
 const phoneDevice=Math.min(screen.width,screen.height)<=600;
 const phoneContentWidth=Math.min(screen.width,screen.height);
@@ -2562,14 +2608,123 @@ async function stickerDataFromFile(file){
   return{src:out.toDataURL("image/webp",.88),aspect:out.width/out.height};
 }
 
+function renderStickerCropBox(){
+  stickerCropBox.style.left=(stickerCropRect.x*100)+"%";
+  stickerCropBox.style.top=(stickerCropRect.y*100)+"%";
+  stickerCropBox.style.width=(stickerCropRect.width*100)+"%";
+  stickerCropBox.style.height=(stickerCropRect.height*100)+"%";
+}
+
+function setStickerCropMode(on){
+  stickerCropping=on;
+  stickerCropStart=null;
+  stickerCropOverlay.classList.toggle("show",on);
+  stickerCropHint.classList.toggle("is-hidden",!on);
+  stickerCropCancel.classList.toggle("is-hidden",!on);
+  stickerPreviewActions.classList.toggle("cropping",on);
+  stickerCropButton.textContent=on?"apply crop":"crop";
+  if(on) renderStickerCropBox();
+}
+
+function stickerCropPoint(event){
+  const rect=stickerCropOverlay.getBoundingClientRect();
+  return{
+    x:clamp((event.clientX-rect.left)/Math.max(1,rect.width),0,1),
+    y:clamp((event.clientY-rect.top)/Math.max(1,rect.height),0,1)
+  };
+}
+
+stickerCropOverlay.addEventListener("pointerdown",event=>{
+  event.preventDefault();
+  stickerCropStart=stickerCropPoint(event);
+  stickerCropRect={x:stickerCropStart.x,y:stickerCropStart.y,width:0,height:0};
+  stickerCropOverlay.setPointerCapture?.(event.pointerId);
+  renderStickerCropBox();
+});
+
+stickerCropOverlay.addEventListener("pointermove",event=>{
+  if(!stickerCropStart) return;
+  event.preventDefault();
+  const point=stickerCropPoint(event);
+  stickerCropRect={
+    x:Math.min(stickerCropStart.x,point.x),
+    y:Math.min(stickerCropStart.y,point.y),
+    width:Math.abs(point.x-stickerCropStart.x),
+    height:Math.abs(point.y-stickerCropStart.y)
+  };
+  renderStickerCropBox();
+});
+
+function finishStickerCropSelection(event){
+  if(!stickerCropStart) return;
+  event.preventDefault();
+  stickerCropStart=null;
+  if(stickerCropRect.width<.025||stickerCropRect.height<.025){
+    stickerCropRect={x:.08,y:.08,width:.84,height:.84};
+    renderStickerCropBox();
+  }
+}
+
+stickerCropOverlay.addEventListener("pointerup",finishStickerCropSelection);
+stickerCropOverlay.addEventListener("pointercancel",finishStickerCropSelection);
+
+function imageFromSource(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=()=>reject(new Error("crop couldn't open"));
+    img.src=src;
+  });
+}
+
+async function applyStickerCrop(){
+  if(!pendingSticker||stickerCropRect.width<.025||stickerCropRect.height<.025) return;
+  const img=await imageFromSource(pendingSticker.src);
+  const sx=Math.round(stickerCropRect.x*img.naturalWidth);
+  const sy=Math.round(stickerCropRect.y*img.naturalHeight);
+  const sw=Math.max(1,Math.round(stickerCropRect.width*img.naturalWidth));
+  const sh=Math.max(1,Math.round(stickerCropRect.height*img.naturalHeight));
+  const scale=Math.min(1,512/Math.max(sw,sh));
+  const out=document.createElement("canvas");
+  out.width=Math.max(1,Math.round(sw*scale));
+  out.height=Math.max(1,Math.round(sh*scale));
+  out.getContext("2d").drawImage(img,sx,sy,sw,sh,0,0,out.width,out.height);
+  pendingSticker={src:out.toDataURL("image/webp",.9),aspect:out.width/out.height};
+  stickerPreview.src=pendingSticker.src;
+  stickerCropRect={x:.08,y:.08,width:.84,height:.84};
+  setStickerCropMode(false);
+  toast("cropped ✨");
+}
+
+stickerCropButton.addEventListener("click",async()=>{
+  if(!pendingSticker) return;
+  if(!stickerCropping){
+    setStickerCropMode(true);
+    return;
+  }
+  stickerCropButton.disabled=true;
+  try{
+    await applyStickerCrop();
+  }catch(error){
+    toast(error.message||"crop didn't work");
+  }finally{
+    stickerCropButton.disabled=false;
+  }
+});
+
+stickerCropCancel.addEventListener("click",()=>setStickerCropMode(false));
+
 function openStickerPreview(data){
   pendingSticker=data;
   stickerPreview.src=data.src;
   stickerAuthor.value=state.author;
+  stickerCropRect={x:.08,y:.08,width:.84,height:.84};
+  setStickerCropMode(false);
   stickerModal.classList.add("show");
 }
 
 function closeStickerPreview(){
+  setStickerCropMode(false);
   stickerModal.classList.remove("show");
   stickerPreview.removeAttribute("src");
   pendingSticker=null;
