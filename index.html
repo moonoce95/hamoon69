@@ -177,8 +177,13 @@ audio{
 
 /* ========================= REACTIONS ========================= */
 .memory-reactions{
-  display:flex;justify-content:center;align-items:center;
-  flex-wrap:wrap;gap:5px;margin:10px auto 0;
+  display:flex;justify-content:flex-start;align-items:center;
+  flex:1 1 auto;min-width:0;flex-wrap:wrap;gap:5px;margin:0;
+  font-family:system-ui,sans-serif
+}
+.memory-footer{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:10px;width:100%;margin:10px auto 0;
   font-family:system-ui,sans-serif
 }
 .used-reaction,.react-open{
@@ -193,7 +198,7 @@ audio{
 }
 .react-open{color:#f4b8cc}
 .react-picker{
-  display:none;width:100%;justify-content:center;flex-wrap:wrap;
+  display:none;width:100%;justify-content:flex-start;flex-wrap:wrap;
   gap:3px;margin-top:3px;padding:7px;
   border:1px solid rgba(244,184,204,.13);
   border-radius:10px;background:rgba(13,6,8,.97)
@@ -211,14 +216,15 @@ audio{
 /* ========================= TIMELINE ORDER ========================= */
 #timeline-zone>.reveal,#timeline-zone>.uploaded-memory{position:relative}
 .order-controls{
-  display:flex;justify-content:center;gap:6px;margin:9px auto 0;
+  display:flex;justify-content:flex-end;flex:0 0 auto;
+  gap:6px;margin:0 0 0 auto;
   font-family:system-ui,sans-serif
 }
 .order-controls button{
   border:1px solid rgba(232,182,76,.20);
   background:rgba(232,182,76,.06);
-  color:#e8b64c;border-radius:8px;min-width:40px;
-  padding:5px 9px;cursor:pointer;font-size:12px
+  color:#e8b64c;border-radius:9px;min-width:42px;min-height:37px;
+  padding:6px 10px;cursor:pointer;font-size:16px;font-weight:750
 }
 .order-controls button:disabled{opacity:.22;cursor:not-allowed}
 
@@ -1116,6 +1122,7 @@ const zone=document.getElementById("timeline-zone");
 
 let toastTimer=null;
 let pending69=null;
+let pendingRequires69=true;
 
 /* ========================= HELPERS ========================= */
 
@@ -1403,6 +1410,18 @@ async function load(){
 
 const ORDER_KEY="hamoon_timeline_order_v2";
 
+function memoryFooter(anchor){
+  let footer=anchor.querySelector(":scope > .memory-footer");
+
+  if(!footer){
+    footer=document.createElement("div");
+    footer.className="memory-footer";
+    anchor.appendChild(footer);
+  }
+
+  return footer;
+}
+
 function itemId(node){
   if(node.dataset.timelineId){
     return node.dataset.timelineId;
@@ -1479,7 +1498,8 @@ function refreshOrder(){
   const list=items();
 
   list.forEach((node,index)=>{
-    let controls=node.querySelector(":scope > .order-controls");
+    const footer=memoryFooter(node);
+    let controls=footer.querySelector(":scope > .order-controls");
 
     if(!controls){
       controls=document.createElement("div");
@@ -1496,7 +1516,7 @@ function refreshOrder(){
       down.title="Move down";
 
       controls.append(up,down);
-      node.appendChild(controls);
+      footer.appendChild(controls);
 
       up.addEventListener("click",()=>{
         const now=items();
@@ -2659,6 +2679,8 @@ async function saveSticker(sticker){
 let liveStickerTimer=null;
 let liveStickerPending=null;
 let liveStickerSaving=false;
+let liveStickerLastStarted=0;
+const LIVE_STICKER_INTERVAL=55;
 const liveStickerLocalLocks=new Map();
 
 function stickerSnapshot(sticker){
@@ -2677,10 +2699,12 @@ function stickerSnapshot(sticker){
 }
 
 async function flushLiveStickerUpdate(){
+  liveStickerTimer=null;
   if(liveStickerSaving||!liveStickerPending) return;
   const sticker=liveStickerPending;
   liveStickerPending=null;
   liveStickerSaving=true;
+  liveStickerLastStarted=performance.now();
   try{
     await saveSticker(sticker);
   }catch(error){
@@ -2689,8 +2713,8 @@ async function flushLiveStickerUpdate(){
   }finally{
     liveStickerSaving=false;
     if(liveStickerPending){
-      clearTimeout(liveStickerTimer);
-      liveStickerTimer=setTimeout(flushLiveStickerUpdate,35);
+      const wait=Math.max(0,LIVE_STICKER_INTERVAL-(performance.now()-liveStickerLastStarted));
+      liveStickerTimer=setTimeout(flushLiveStickerUpdate,wait);
     }
   }
 }
@@ -2698,8 +2722,19 @@ async function flushLiveStickerUpdate(){
 function queueLiveStickerUpdate(sticker,immediate=false){
   liveStickerPending=stickerSnapshot(sticker);
   liveStickerLocalLocks.set(sticker.id,performance.now()+800);
-  clearTimeout(liveStickerTimer);
-  liveStickerTimer=setTimeout(flushLiveStickerUpdate,immediate?0:70);
+
+  if(immediate){
+    if(liveStickerTimer!==null){
+      clearTimeout(liveStickerTimer);
+      liveStickerTimer=null;
+    }
+    if(!liveStickerSaving) flushLiveStickerUpdate();
+    return;
+  }
+
+  if(liveStickerTimer!==null||liveStickerSaving) return;
+  const wait=Math.max(0,LIVE_STICKER_INTERVAL-(performance.now()-liveStickerLastStarted));
+  liveStickerTimer=setTimeout(flushLiveStickerUpdate,wait);
 }
 
 function applyRemoteStickerUpdate(patch){
@@ -3554,15 +3589,16 @@ function renderReactions(){
     }
 
     const anchor=reactionAnchor(media);
+    const footer=memoryFooter(anchor);
 
-    let bar=anchor.querySelector(
+    let bar=footer.querySelector(
       ":scope > .memory-reactions"
     );
 
     if(!bar){
       bar=document.createElement("div");
       bar.className="memory-reactions";
-      anchor.appendChild(bar);
+      footer.prepend(bar);
     }
 
     bar.innerHTML="";
@@ -4277,6 +4313,7 @@ const confirmGo=document.getElementById("confirm-go");
 
 function open69(title,copy,buttonText,action){
   pending69=action;
+  pendingRequires69=true;
   confirmTitle.textContent=title;
 
   confirmCopy.innerHTML=
@@ -4284,6 +4321,7 @@ function open69(title,copy,buttonText,action){
     '<br><br>Type <strong>69</strong> to confirm below.';
 
   confirmGo.textContent=buttonText;
+  confirmInput.classList.remove("is-hidden");
   confirmInput.value="";
   confirmGo.disabled=true;
   confirmModal.classList.add("show");
@@ -4291,8 +4329,23 @@ function open69(title,copy,buttonText,action){
   setTimeout(()=>confirmInput.focus(),0);
 }
 
+function openSimpleConfirm(title,copy,buttonText,action){
+  pending69=action;
+  pendingRequires69=false;
+  confirmTitle.textContent=title;
+  confirmCopy.textContent=copy;
+  confirmGo.textContent=buttonText;
+  confirmInput.value="";
+  confirmInput.classList.add("is-hidden");
+  confirmGo.disabled=false;
+  confirmModal.classList.add("show");
+  setTimeout(()=>confirmGo.focus(),0);
+}
+
 function close69(){
   confirmModal.classList.remove("show");
+  confirmInput.classList.remove("is-hidden");
+  pendingRequires69=true;
   pending69=null;
 }
 
@@ -4313,14 +4366,16 @@ document.getElementById("confirm-cancel").addEventListener("click",close69);
 
 confirmGo.addEventListener("click",()=>{
   if(
-    confirmInput.value!=="69"||
+    (pendingRequires69&&confirmInput.value!=="69")||
     typeof pending69!=="function"
   ){
     return;
   }
 
   const action=pending69;
-  pending69=null;
+  if(pendingRequires69){
+    pending69=null;
+  }
   action();
 });
 
@@ -4356,31 +4411,37 @@ document.getElementById("clear-all").addEventListener("click",()=>{
 });
 
 document.getElementById("clear-mine").addEventListener("click",()=>{
-  open69(
+  openSimpleConfirm(
     "clear "+state.author+"’s drawings?",
     "This deletes all of "+state.author+"’s drawings.",
     "clear mine",
-    ()=>{
-      api(
-        "/space/clear-author",
-        {
-          method:"POST",
-          headers:headers(),
-          body:JSON.stringify({
-            author:state.author,
-            confirm:"69",
-            confirmation:"69"
-          })
-        }
-      )
-        .then(()=>{
-          close69();
-          toast(state.author+"’s drawings cleared");
-          load();
-        })
-        .catch(()=>{
-          toast("clear failed");
-        });
+    async()=>{
+      confirmGo.disabled=true;
+      confirmGo.textContent="clearing…";
+
+      try{
+        await api(
+          "/space/clear-author",
+          {
+            method:"POST",
+            headers:headers(),
+            body:JSON.stringify({
+              author:state.author,
+              confirm:"69",
+              confirmation:"69"
+            })
+          }
+        );
+
+        close69();
+        toast(state.author+"’s drawings cleared");
+        await load();
+      }catch(error){
+        console.error(error);
+        confirmGo.disabled=false;
+        confirmGo.textContent="clear mine";
+        toast("clear failed");
+      }
     }
   );
 });
@@ -4536,10 +4597,20 @@ function renderPresence(){
 
 function updateClock(){
   try{
+    const viewer=state.detected||detect();
+    const isHamy=viewer==="Hamy";
+    const timeZone=isHamy
+      ? "Pacific/Auckland"
+      : "Australia/Melbourne";
+    const zoneLabel=isHamy
+      ? "NZ time"
+      : "Aus time";
+
     document.getElementById("clock").textContent=
       new Intl.DateTimeFormat(
         "en-AU",
         {
+          timeZone,
           day:"2-digit",
           month:"short",
           year:"numeric",
@@ -4548,7 +4619,8 @@ function updateClock(){
           second:"2-digit",
           hour12:true
         }
-      ).format(new Date());
+      ).format(new Date())+
+      " ("+zoneLabel+")";
   }catch(_){}
 }
 
