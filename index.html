@@ -31,8 +31,9 @@ body{
   font-family:Georgia,"Times New Roman",serif;
   overflow-x:hidden
 }
-body.phone-wide-canvas{
-  width:1100px;min-width:1100px;overflow-x:auto;touch-action:pan-y pinch-zoom
+html.phone-wide-canvas,body.phone-wide-canvas{
+  width:1100px;min-width:1100px;overflow-x:auto;
+  touch-action:pan-x pan-y pinch-zoom
 }
 body.phone-wide-canvas .container{
   width:var(--phone-content-width);max-width:none;
@@ -232,7 +233,7 @@ audio{
 }
 .decorate-side-zone{
   position:absolute;top:0;bottom:0;z-index:0;pointer-events:auto;
-  cursor:pointer;background:transparent
+  cursor:pointer;background:transparent;touch-action:pan-x pan-y pinch-zoom
 }
 .decorate-centre-zone{
   position:absolute;top:0;bottom:0;z-index:0;pointer-events:none;
@@ -301,6 +302,8 @@ body.decorating #sticker-dock{display:block}
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px
 }
 .sticker-dock-actions .btn{min-width:0;padding:10px 6px;font-size:12px}
+#sticker-delete{grid-column:1;grid-row:2}
+#sticker-done{grid-column:4;grid-row:2}
 #sticker-author-edit{
   width:100%;margin-top:9px;padding:10px;border:1px solid rgba(244,184,204,.18);
   border-radius:8px;background:#170b10;color:#fdf0f5;text-align:center
@@ -553,6 +556,8 @@ body.decorating #sticker-dock{display:block}
   }
   .site-sticker{max-width:84px;max-height:84px}
   .sticker-dock-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #sticker-delete{grid-column:1;grid-row:3}
+  #sticker-done{grid-column:3;grid-row:3}
 }
 </style>
 </head>
@@ -802,9 +807,9 @@ body.decorating #sticker-dock{display:block}
     <button class="btn" id="sticker-bigger" type="button">＋ bigger</button>
     <button class="btn" id="sticker-left" type="button">↶ left</button>
     <button class="btn" id="sticker-right" type="button">↷ right</button>
-    <button class="btn danger" id="sticker-delete" type="button">delete</button>
     <button class="btn" id="sticker-done" type="button">done</button>
     <button class="btn" id="sticker-add-photo" type="button">＋ photo</button>
+    <button class="btn danger" id="sticker-delete" type="button">delete</button>
   </div>
   <button id="sticker-close" type="button" aria-label="Close decorate mode"></button>
   <select id="sticker-author-edit" aria-label="Change sticker author">
@@ -1905,10 +1910,13 @@ function centerPhoneCanvas(top=scrollY){
   if(document.scrollingElement){
     document.scrollingElement.scrollLeft=targetLeft;
   }
+  document.documentElement.scrollLeft=targetLeft;
+  document.body.scrollLeft=targetLeft;
 }
 
 if(phoneDevice&&viewportMeta){
   document.body.classList.add("phone-wide-canvas");
+  document.documentElement.classList.add("phone-wide-canvas");
   document.documentElement.style.setProperty("--phone-content-width",phoneContentWidth+"px");
   viewportMeta.setAttribute("content",normalViewport);
   [0,60,180,420,850].forEach(delay=>{
@@ -2270,6 +2278,39 @@ function renderStickers(){
   selectSticker(stickerById(oldSelected)?oldSelected:null);
 }
 
+function focusSticker(id,behavior="smooth"){
+  const node=stickerLayer.querySelector(
+    '[data-sticker-id="'+CSS.escape(id)+'"]'
+  );
+  if(!node) return;
+
+  const rect=node.getBoundingClientRect();
+  const view=window.visualViewport;
+  const viewWidth=view?.width||innerWidth;
+  const viewHeight=view?.height||innerHeight;
+  const absoluteX=scrollX+rect.left+rect.width/2;
+  const absoluteY=scrollY+rect.top+rect.height/2;
+  const targetLeft=Math.max(0,absoluteX-viewWidth/2);
+  const targetTop=Math.max(0,absoluteY-viewHeight*.42);
+
+  scrollTo({left:targetLeft,top:targetTop,behavior});
+  document.documentElement.scrollLeft=targetLeft;
+  document.body.scrollLeft=targetLeft;
+}
+
+function focusNewSticker(id){
+  [90,260,560].forEach((delay,index)=>{
+    setTimeout(()=>{
+      if(
+        selectedStickerId===id&&
+        document.body.classList.contains("decorating")
+      ){
+        focusSticker(id,index===2?"smooth":"auto");
+      }
+    },delay);
+  });
+}
+
 async function createStickerRecord(sticker){
   try{
     await api("/space/sticker",{
@@ -2527,6 +2568,7 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
     await load();
     setDecorating(true);
     selectSticker(sticker.id);
+    focusNewSticker(sticker.id);
     toast("sticker added ✨ drag it wherever you want");
   }catch(error){
     console.error(error);
