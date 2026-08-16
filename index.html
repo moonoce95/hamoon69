@@ -324,6 +324,10 @@ body.phone-wide-canvas .sticker-dock-actions .btn{padding:9px 4px;font-size:11px
 body.phone-wide-canvas #sticker-delete{grid-column:1;grid-row:2}
 body.phone-wide-canvas #sticker-done{grid-column:4;grid-row:2}
 body.phone-wide-canvas #sticker-author-edit{margin-top:6px;padding:7px;font-size:11px}
+body.decorating::after{
+  content:"";display:block;height:var(--sticker-dock-space,0px);
+  pointer-events:none
+}
 body.decorating #sticker-dock{display:block}
 #sticker-close{
   position:absolute;right:9px;top:8px;width:28px;height:28px;padding:0;
@@ -337,13 +341,14 @@ body.decorating #sticker-dock{display:block}
 #sticker-close::before{transform:rotate(45deg)}
 #sticker-close::after{transform:rotate(-45deg)}
 #sticker-dock-title{
-  text-align:center;color:#f4b8cc;font-size:13px;line-height:1.4;margin-bottom:9px
+  display:none
 }
 .sticker-dock-actions{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px
 }
 .sticker-dock-actions .btn{min-width:0;padding:10px 6px;font-size:12px}
 #sticker-delete{grid-column:1;grid-row:2}
+#sticker-crop-selected{grid-column:3;grid-row:2}
 #sticker-done{grid-column:4;grid-row:2}
 #sticker-author-edit{
   width:100%;margin-top:9px;padding:10px;border:1px solid rgba(244,184,204,.18);
@@ -359,6 +364,7 @@ body.decorating #sticker-dock{display:block}
     linear-gradient(-45deg,transparent 75%,#26131a 75%);
   background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0
 }
+#sticker-modal{z-index:200001}
 #sticker-crop-overlay{
   display:none;position:absolute;inset:0;z-index:4;cursor:crosshair;
   touch-action:none;background:rgba(0,0,0,.38);border-radius:12px
@@ -854,7 +860,7 @@ body.decorating #sticker-dock{display:block}
 <!-- STICKER PREVIEW -->
 <div class="modal" id="sticker-modal">
   <div class="modal-box">
-    <h3>make this a sticker? ✨</h3>
+    <h3 id="sticker-modal-title">make this a sticker? ✨</h3>
     <div id="sticker-crop-stage">
       <div id="sticker-crop-media">
         <img id="sticker-preview" alt="Sticker preview">
@@ -881,7 +887,7 @@ body.decorating #sticker-dock{display:block}
 
 <!-- STICKER DECORATE DOCK -->
 <div id="sticker-dock">
-  <div id="sticker-dock-title">tap a sticker · pinch to zoom ✨</div>
+  <div id="sticker-dock-title" aria-live="polite"></div>
   <div class="sticker-dock-actions">
     <button class="btn" id="sticker-smaller" type="button">− smaller</button>
     <button class="btn" id="sticker-bigger" type="button">＋ bigger</button>
@@ -889,6 +895,7 @@ body.decorating #sticker-dock{display:block}
     <button class="btn" id="sticker-right" type="button">↷ right</button>
     <button class="btn" id="sticker-done" type="button">done</button>
     <button class="btn" id="sticker-add-photo" type="button">＋ photo</button>
+    <button class="btn" id="sticker-crop-selected" type="button" disabled>crop</button>
     <button class="btn danger" id="sticker-delete" type="button">delete</button>
   </div>
   <button id="sticker-close" type="button" aria-label="Close decorate mode"></button>
@@ -1954,6 +1961,7 @@ function renderUploads(){
 
 const stickerLayer=document.getElementById("sticker-layer");
 const stickerModal=document.getElementById("sticker-modal");
+const stickerModalTitle=document.getElementById("sticker-modal-title");
 const stickerPreview=document.getElementById("sticker-preview");
 const stickerAuthor=document.getElementById("sticker-author");
 const stickerCropOverlay=document.getElementById("sticker-crop-overlay");
@@ -1976,6 +1984,7 @@ let captureStart=null;
 let stickerCropping=false;
 let stickerCropStart=null;
 let stickerCropRect={x:.08,y:.08,width:.84,height:.84};
+let editingStickerCropId=null;
 const viewportMeta=document.querySelector('meta[name="viewport"]');
 const phoneDevice=Math.min(screen.width,screen.height)<=600;
 const phoneContentWidth=Math.min(screen.width,screen.height);
@@ -2136,6 +2145,28 @@ function positionStickerDock(){
     view.offsetTop+view.height-stickerDock.offsetHeight*keepReadable
   )+"px";
   stickerDock.style.bottom="auto";
+
+  requestAnimationFrame(()=>{
+    if(!document.body.classList.contains("decorating")) return;
+    const dockSpace=Math.ceil(stickerDock.getBoundingClientRect().height)+12;
+    document.body.style.setProperty("--sticker-dock-space",dockSpace+"px");
+    document.documentElement.style.scrollPaddingBottom=dockSpace+"px";
+  });
+}
+
+function keepSelectedAboveDock(behavior="smooth"){
+  const sticker=selectedSticker();
+  if(!sticker||!document.body.classList.contains("decorating")) return;
+  const node=stickerLayer.querySelector('[data-sticker-id="'+CSS.escape(sticker.id)+'"]');
+  if(!node) return;
+  const nodeRect=node.getBoundingClientRect();
+  const dockRect=stickerDock.getBoundingClientRect();
+  const safeBottom=dockRect.top-18;
+  const safeTop=(window.visualViewport?.offsetTop||0)+18;
+  let move=0;
+  if(nodeRect.bottom>safeBottom) move=nodeRect.bottom-safeBottom;
+  if(nodeRect.top-move<safeTop) move=nodeRect.top-safeTop;
+  if(Math.abs(move)>1) scrollBy({top:move,left:0,behavior});
 }
 
 if(window.visualViewport){
@@ -2148,7 +2179,7 @@ function updateStickerDock(){
   const sticker=selectedSticker();
   const controls=[
     "sticker-smaller","sticker-bigger","sticker-left",
-    "sticker-right","sticker-delete"
+    "sticker-right","sticker-delete","sticker-crop-selected"
   ];
 
   controls.forEach(id=>{
@@ -2158,12 +2189,12 @@ function updateStickerDock(){
   stickerAuthorEdit.disabled=!sticker;
 
   if(!sticker){
-    stickerDockTitle.textContent="tap a sticker to edit ✨";
+    stickerDockTitle.textContent="";
     positionStickerDock();
     return;
   }
 
-  stickerDockTitle.textContent="♡ "+sticker.author+" ♡ · drag · corners resize · dot rotates";
+  stickerDockTitle.textContent="";
   stickerAuthorEdit.value=sticker.author;
   positionStickerDock();
 }
@@ -2381,10 +2412,15 @@ function focusSticker(id,behavior="smooth"){
   const view=window.visualViewport;
   const viewWidth=view?.width||innerWidth;
   const viewHeight=view?.height||innerHeight;
+  const viewTop=view?.offsetTop||0;
+  const dockTop=document.body.classList.contains("decorating")
+    ? stickerDock.getBoundingClientRect().top
+    : viewTop+viewHeight;
+  const usableHeight=Math.max(180,dockTop-viewTop);
   const absoluteX=scrollX+rect.left+rect.width/2;
   const absoluteY=scrollY+rect.top+rect.height/2;
   const targetLeft=Math.max(0,absoluteX-viewWidth/2);
-  const targetTop=Math.max(0,absoluteY-viewHeight*.42);
+  const targetTop=Math.max(0,absoluteY-usableHeight*.44);
 
   scrollTo({left:targetLeft,top:targetTop,behavior});
   document.documentElement.scrollLeft=targetLeft;
@@ -2472,6 +2508,8 @@ function setDecorating(on){
     selectSticker(current?.id||newest?.id||null);
   }else{
     selectSticker(null);
+    document.body.style.removeProperty("--sticker-dock-space");
+    document.documentElement.style.removeProperty("scroll-padding-bottom");
     stickerDock.style.removeProperty("left");
     stickerDock.style.removeProperty("top");
     stickerDock.style.removeProperty("bottom");
@@ -2480,7 +2518,10 @@ function setDecorating(on){
     stickerDock.style.removeProperty("transform-origin");
   }
   updateStickerDock();
-  if(on) requestAnimationFrame(positionStickerDock);
+  if(on) requestAnimationFrame(()=>{
+    positionStickerDock();
+    requestAnimationFrame(()=>keepSelectedAboveDock("auto"));
+  });
 }
 
 document.getElementById("decorate-toggle").addEventListener("click",()=>{
@@ -2493,6 +2534,15 @@ document.getElementById("sticker-done").addEventListener("click",()=>setDecorati
 document.getElementById("sticker-add-photo").addEventListener("click",()=>{
   setDecorating(false);
   clickInput("choose-sticker");
+});
+
+document.getElementById("sticker-crop-selected").addEventListener("click",()=>{
+  const sticker=selectedSticker();
+  if(!sticker) return;
+  openStickerPreview(
+    {src:sticker.src,aspect:sticker.width/Math.max(.001,sticker.height)},
+    {editId:sticker.id,autoCrop:true}
+  );
 });
 
 document.addEventListener("keydown",event=>{
@@ -2714,10 +2764,17 @@ stickerCropButton.addEventListener("click",async()=>{
 
 stickerCropCancel.addEventListener("click",()=>setStickerCropMode(false));
 
-function openStickerPreview(data){
+function openStickerPreview(data,{editId=null,autoCrop=false}={}){
+  editingStickerCropId=editId;
   pendingSticker=data;
+  if(autoCrop){
+    stickerPreview.addEventListener("load",()=>setStickerCropMode(true),{once:true});
+  }
   stickerPreview.src=data.src;
   stickerAuthor.value=state.author;
+  stickerAuthor.classList.toggle("is-hidden",Boolean(editId));
+  stickerModalTitle.textContent=editId?"crop this sticker? ✨":"make this a sticker? ✨";
+  document.getElementById("sticker-create").textContent=editId?"save crop ✨":"add sticker ✨";
   stickerCropRect={x:.08,y:.08,width:.84,height:.84};
   setStickerCropMode(false);
   stickerModal.classList.add("show");
@@ -2727,6 +2784,10 @@ function closeStickerPreview(){
   setStickerCropMode(false);
   stickerModal.classList.remove("show");
   stickerPreview.removeAttribute("src");
+  stickerAuthor.classList.remove("is-hidden");
+  stickerModalTitle.textContent="make this a sticker? ✨";
+  document.getElementById("sticker-create").textContent="add sticker ✨";
+  editingStickerCropId=null;
   pendingSticker=null;
 }
 
@@ -2746,7 +2807,32 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
   if(!pendingSticker) return;
   const button=document.getElementById("sticker-create");
   button.disabled=true;
-  button.textContent="adding…";
+  button.textContent=editingStickerCropId?"saving…":"adding…";
+
+  if(editingStickerCropId){
+    const editId=editingStickerCropId;
+    const sticker=stickerById(editId);
+    try{
+      if(!sticker) throw new Error("sticker isn't here anymore");
+      sticker.src=pendingSticker.src;
+      sticker.height=sticker.width/pendingSticker.aspect;
+      safeStickerPosition(sticker);
+      await saveSticker(sticker);
+      closeStickerPreview();
+      renderStickers();
+      selectSticker(editId);
+      requestAnimationFrame(()=>keepSelectedAboveDock("auto"));
+      toast("crop saved ✨");
+    }catch(error){
+      console.error(error);
+      toast(readableError(error,"crop didn't save"));
+      button.textContent="save crop ✨";
+    }finally{
+      button.disabled=false;
+    }
+    return;
+  }
+
   const container=document.querySelector(".container");
   const containerRect=container.getBoundingClientRect();
   const wallRect=wrap.getBoundingClientRect();
