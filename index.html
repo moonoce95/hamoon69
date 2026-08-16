@@ -3,6 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5">
+<script>
+(function(){
+  var phoneWidth=Math.min(screen.width||innerWidth,screen.height||innerHeight);
+  if(phoneWidth>600) return;
+
+  var meta=document.querySelector('meta[name="viewport"]');
+  document.documentElement.classList.add("phone-wide-canvas");
+  document.documentElement.style.setProperty("--phone-content-width",phoneWidth+"px");
+  meta.setAttribute("content","width=1100,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5");
+
+  function centre(){
+    var viewportWidth=window.visualViewport?window.visualViewport.width:phoneWidth;
+    var left=Math.max(0,(1100-viewportWidth)/2);
+    window.scrollTo(left,0);
+    if(document.scrollingElement) document.scrollingElement.scrollLeft=left;
+    document.documentElement.scrollLeft=left;
+    if(document.body) document.body.scrollLeft=left;
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    [0,50,160,360].forEach(function(delay){setTimeout(centre,delay)});
+  },{once:true});
+})();
+</script>
 <meta name="theme-color" content="#0d0608">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d0608'/%3E%3Cpath d='M32 52S9 39 9 22c0-12 15-16 23-5 8-11 23-7 23 5 0 17-23 30-23 30Z' fill='%23f4b8cc'/%3E%3C/svg%3E">
 <title>hamoon</title>
@@ -35,7 +59,7 @@ html.phone-wide-canvas,body.phone-wide-canvas{
   width:1100px;min-width:1100px;overflow-x:auto;
   touch-action:pan-x pan-y pinch-zoom
 }
-body.phone-wide-canvas .container{
+html.phone-wide-canvas .container,body.phone-wide-canvas .container{
   width:var(--phone-content-width);max-width:none;
   margin-left:calc((1100px - var(--phone-content-width))/2);
   margin-right:calc((1100px - var(--phone-content-width))/2)
@@ -283,6 +307,23 @@ body.decorating .site-sticker.selected{
   background:rgba(13,6,8,.97);box-shadow:0 16px 50px rgba(0,0,0,.62);
   font-family:system-ui,sans-serif;padding-top:39px
 }
+body.phone-wide-canvas #sticker-dock{
+  border-left:0;border-right:0;border-bottom:0;
+  border-radius:16px 16px 0 0;
+  background:#12090c;
+  box-shadow:0 -12px 36px rgba(0,0,0,.72);
+  padding:35px 10px max(9px,env(safe-area-inset-bottom))
+}
+body.phone-wide-canvas #sticker-dock-title{
+  font-size:12px;line-height:1.25;margin-bottom:7px;white-space:nowrap
+}
+body.phone-wide-canvas .sticker-dock-actions{
+  grid-template-columns:repeat(4,minmax(0,1fr));gap:6px
+}
+body.phone-wide-canvas .sticker-dock-actions .btn{padding:9px 4px;font-size:11px}
+body.phone-wide-canvas #sticker-delete{grid-column:1;grid-row:2}
+body.phone-wide-canvas #sticker-done{grid-column:4;grid-row:2}
+body.phone-wide-canvas #sticker-author-edit{margin-top:6px;padding:7px;font-size:11px}
 body.decorating #sticker-dock{display:block}
 #sticker-close{
   position:absolute;right:9px;top:8px;width:28px;height:28px;padding:0;
@@ -554,10 +595,13 @@ body.decorating #sticker-dock{display:block}
   #colour-popover{
     position:fixed;left:50%;top:50%;transform:translate(-50%,-50%)
   }
-  .site-sticker{max-width:84px;max-height:84px}
-  .sticker-dock-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
-  #sticker-delete{grid-column:1;grid-row:3}
-  #sticker-done{grid-column:3;grid-row:3}
+  #sticker-dock{padding:35px 10px max(9px,env(safe-area-inset-bottom))}
+  #sticker-dock-title{font-size:12px;line-height:1.25;margin-bottom:7px;white-space:nowrap}
+  .sticker-dock-actions{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .sticker-dock-actions .btn{padding:9px 4px;font-size:11px}
+  #sticker-delete{grid-column:1;grid-row:2}
+  #sticker-done{grid-column:4;grid-row:2}
+  #sticker-author-edit{margin-top:6px;padding:7px;font-size:11px}
 }
 </style>
 </head>
@@ -787,7 +831,6 @@ body.decorating #sticker-dock{display:block}
   <div class="modal-box">
     <h3>make this a sticker? ✨</h3>
     <img id="sticker-preview" alt="Sticker preview">
-    <p class="sticker-help">It’ll appear near our little space. Tap ✨ decorate whenever you want to move, resize or rotate it.</p>
     <select id="sticker-author" aria-label="Sticker author">
       <option value="Hamy">added by ♡ Hamy ♡</option>
       <option value="Andy">added by ♡ Andy ♡</option>
@@ -1891,7 +1934,7 @@ const viewportMeta=document.querySelector('meta[name="viewport"]');
 const phoneDevice=Math.min(screen.width,screen.height)<=600;
 const phoneContentWidth=Math.min(screen.width,screen.height);
 const normalViewport=phoneDevice
-  ? "width=1100,initial-scale=1,user-scalable=yes,maximum-scale=5"
+  ? "width=1100,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5"
   : (viewportMeta?.getAttribute("content")||"width=device-width,initial-scale=1");
 let initialPhoneCentering=phoneDevice;
 let phoneViewportChange=0;
@@ -1930,9 +1973,7 @@ if(phoneDevice&&viewportMeta){
   addEventListener("pageshow",()=>{
     if(initialPhoneCentering) centerPhoneCanvas();
   });
-  addEventListener("pointerdown",()=>{
-    initialPhoneCentering=false;
-  },{once:true,passive:true});
+  setTimeout(()=>{initialPhoneCentering=false},1100);
 }
 
 function stickerById(id){
@@ -1951,13 +1992,18 @@ function isPhone(){
   return phoneDevice||matchMedia("(max-width: 600px)").matches;
 }
 
+/* Keep saved sticker sizes visually consistent on desktop and phones. */
+function stickerReferenceWidth(){
+  return Math.max(592,zone.getBoundingClientRect().width);
+}
+
 function safeStickerPosition(sticker){
   const layerRect=stickerLayer.getBoundingClientRect();
   const contentRect=zone.getBoundingClientRect();
   const layerWidth=Math.max(1,layerRect.width);
   const layerHeight=Math.max(1,layerRect.height);
-  const stickerWidth=sticker.width*contentRect.width;
-  const stickerHeight=sticker.height*contentRect.width;
+  const stickerWidth=sticker.width*stickerReferenceWidth();
+  const stickerHeight=sticker.height*stickerReferenceWidth();
   const halfWidth=stickerWidth/layerWidth/2;
   const halfHeight=stickerHeight/layerHeight/2;
   const edge=20/layerWidth;
@@ -1991,7 +2037,7 @@ function setPhoneDecorateView(on){
   const fitScale=Math.min(1,(screen.width||innerWidth)/1100);
   viewportMeta.setAttribute(
     "content",
-    on?"width=1100,initial-scale="+fitScale+",user-scalable=yes,maximum-scale=5":normalViewport
+    on?"width=1100,initial-scale="+fitScale+",viewport-fit=cover,user-scalable=yes,maximum-scale=5":normalViewport
   );
 
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -2021,28 +2067,29 @@ function setPhoneDecorateView(on){
 
 function positionStickerDock(){
   if(!document.body.classList.contains("decorating")) return;
-  const view=window.visualViewport;
+  const view=window.visualViewport||{
+    width:innerWidth,
+    height:innerHeight,
+    offsetLeft:0,
+    offsetTop:0
+  };
+  const keepReadable=phoneDevice
+    ? Math.max(.25,view.width/phoneContentWidth)
+    : 1;
 
-  if(view){
-    const keepReadable=phoneDevice
-      ? Math.max(.25,view.width/phoneContentWidth)
-      : 1;
-    const bottomGap=16*keepReadable;
-
-    if(phoneDevice){
-      stickerDock.style.width=Math.min(680,phoneContentWidth*.94)+"px";
-      stickerDock.style.transform=
-        "translateX(-50%) scale("+keepReadable+")";
-      stickerDock.style.transformOrigin="bottom center";
-    }
-
-    stickerDock.style.left=(view.offsetLeft+view.width/2)+"px";
-    stickerDock.style.top=Math.max(
-      view.offsetTop+10*keepReadable,
-      view.offsetTop+view.height-stickerDock.offsetHeight*keepReadable-bottomGap
-    )+"px";
-    stickerDock.style.bottom="auto";
+  if(phoneDevice){
+    stickerDock.style.width=phoneContentWidth+"px";
+    stickerDock.style.transform=
+      "translateX(-50%) scale("+keepReadable+")";
+    stickerDock.style.transformOrigin="bottom center";
   }
+
+  stickerDock.style.left=(view.offsetLeft+view.width/2)+"px";
+  stickerDock.style.top=Math.max(
+    view.offsetTop,
+    view.offsetTop+view.height-stickerDock.offsetHeight*keepReadable
+  )+"px";
+  stickerDock.style.bottom="auto";
 }
 
 if(window.visualViewport){
@@ -2065,12 +2112,12 @@ function updateStickerDock(){
   stickerAuthorEdit.disabled=!sticker;
 
   if(!sticker){
-    stickerDockTitle.textContent="tap a sticker · pinch to zoom ✨";
+    stickerDockTitle.textContent="tap a sticker to edit ✨";
     positionStickerDock();
     return;
   }
 
-  stickerDockTitle.textContent="sticker by ♡ "+sticker.author+" ♡ · drag · corners resize · top dot rotates · pinch zoom";
+  stickerDockTitle.textContent="♡ "+sticker.author+" ♡ · drag · corners resize · dot rotates";
   stickerAuthorEdit.value=sticker.author;
   positionStickerDock();
 }
@@ -2122,7 +2169,7 @@ function moveStickerTransform(event,sticker){
     const ratio=edit.startHeight/edit.startWidth;
     sticker.width=nextWidth;
     sticker.height=nextWidth*ratio;
-    const contentWidth=zone.getBoundingClientRect().width;
+    const contentWidth=stickerReferenceWidth();
     edit.node.style.width=(sticker.width*contentWidth)+"px";
     edit.node.style.height=(sticker.height*contentWidth)+"px";
   }else{
@@ -2210,8 +2257,8 @@ function renderStickers(){
       node.title="sticker by "+sticker.author;
       node.style.left=(sticker.x*100)+"%";
       node.style.top=(sticker.y*100)+"%";
-      node.style.width=(sticker.width*zone.getBoundingClientRect().width)+"px";
-      node.style.height=(sticker.height*zone.getBoundingClientRect().width)+"px";
+      node.style.width=(sticker.width*stickerReferenceWidth())+"px";
+      node.style.height=(sticker.height*stickerReferenceWidth())+"px";
       node.style.transform="translate(-50%,-50%) rotate("+sticker.rotation+"deg)";
 
       const img=document.createElement("img");
@@ -2252,7 +2299,7 @@ function renderStickers(){
         const rect=stickerLayer.getBoundingClientRect();
         sticker.x=stickerDrag.x+(event.clientX-stickerDrag.startX)/rect.width;
         sticker.y=stickerDrag.y+(event.clientY-stickerDrag.startY)/rect.height;
-        const contentWidth=zone.getBoundingClientRect().width;
+        const contentWidth=stickerReferenceWidth();
         const halfWidth=(sticker.width*contentWidth/rect.width)/2;
         const edge=20/rect.width;
         sticker.x=clamp(sticker.x,halfWidth+edge,1-halfWidth-edge);
@@ -2427,7 +2474,7 @@ document.getElementById("sticker-smaller").addEventListener("click",()=>{
 
 document.getElementById("sticker-bigger").addEventListener("click",()=>{
   editSelectedSticker(sticker=>{
-    const max=isPhone()?.22:.36;
+    const max=.44;
     const scale=Math.min(1.14,max/sticker.width);
     sticker.width*=scale;
     sticker.height*=scale;
