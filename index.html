@@ -10,21 +10,70 @@
 
   var meta=document.querySelector('meta[name="viewport"]');
   document.documentElement.classList.add("phone-wide-canvas");
-  document.documentElement.style.setProperty("--phone-content-width",phoneWidth+"px");
+  document.documentElement.style.setProperty("--phone-content-width",Math.max(280,phoneWidth-20)+"px");
   meta.setAttribute("content","width=1100,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5");
 
-  function centre(){
+  var stopped=false;
+  var verified=0;
+
+  function centre(top){
+    var root=document.scrollingElement||document.documentElement;
     var viewportWidth=window.visualViewport?window.visualViewport.width:phoneWidth;
-    var left=Math.max(0,(1100-viewportWidth)/2);
-    window.scrollTo(left,0);
-    if(document.scrollingElement) document.scrollingElement.scrollLeft=left;
+    var pageWidth=Math.max(
+      1100,
+      document.documentElement.scrollWidth||0,
+      document.body?document.body.scrollWidth:0
+    );
+    var left=Math.max(0,(pageWidth-viewportWidth)/2);
+    var oldRootBehavior=root.style.scrollBehavior;
+    var oldHtmlBehavior=document.documentElement.style.scrollBehavior;
+    root.style.scrollBehavior="auto";
+    document.documentElement.style.scrollBehavior="auto";
+
+    var anchor=document.getElementById("phone-start-anchor");
+    if(anchor){
+      try{anchor.scrollIntoView({block:"start",inline:"center",behavior:"auto"})}catch(_){ }
+    }
+
+    window.scrollTo({left:left,top:Math.max(0,Number(top)||0),behavior:"auto"});
+    root.scrollLeft=left;
+    root.scrollTop=Math.max(0,Number(top)||0);
     document.documentElement.scrollLeft=left;
     if(document.body) document.body.scrollLeft=left;
+
+    requestAnimationFrame(function(){
+      var actual=root.scrollLeft||window.scrollX||0;
+      verified=Math.abs(actual-left)<3?verified+1:0;
+      if(verified>=2) document.documentElement.classList.add("phone-centered");
+      root.style.scrollBehavior=oldRootBehavior;
+      document.documentElement.style.scrollBehavior=oldHtmlBehavior;
+    });
+
+    return left;
   }
 
+  window.__hamoonCenterPhone=centre;
+
   document.addEventListener("DOMContentLoaded",function(){
-    [0,50,160,360].forEach(function(delay){setTimeout(centre,delay)});
+    [0,40,100,220,450,800,1300,2000].forEach(function(delay){
+      setTimeout(function(){if(!stopped) centre(0)},delay);
+    });
+    setTimeout(function(){document.documentElement.classList.add("phone-centered")},1500);
   },{once:true});
+
+  addEventListener("load",function(){if(!stopped) centre(0)},{once:true});
+  addEventListener("pageshow",function(){
+    stopped=false;
+    verified=0;
+    centre(0);
+    setTimeout(function(){if(!stopped) centre(0)},120);
+  });
+  function stopCentering(){
+    if(!document.documentElement.classList.contains("phone-centered")) return;
+    stopped=true;
+    removeEventListener("pointerdown",stopCentering);
+  }
+  addEventListener("pointerdown",stopCentering,{passive:true});
 })();
 </script>
 <meta name="theme-color" content="#0d0608">
@@ -33,7 +82,6 @@
 
 <script>
 if("scrollRestoration" in history) history.scrollRestoration="manual";
-window.scrollTo(0,0);
 </script>
 
 <script data-goatcounter="https://hamoon69.goatcounter.com/count"
@@ -59,6 +107,16 @@ html.phone-wide-canvas,body.phone-wide-canvas{
   width:1100px;min-width:1100px;overflow-x:auto;
   touch-action:pan-x pan-y pinch-zoom
 }
+html.dock-layout{height:100%;overflow-y:hidden}
+html.dock-layout body.decorating{
+  height:var(--site-viewport-height,calc(100dvh - 150px));
+  min-height:0;overflow-y:auto;overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch
+}
+#phone-start-anchor{
+  position:absolute;left:550px;top:0;width:1px;height:1px;
+  pointer-events:none;opacity:0
+}
 html.phone-wide-canvas .container,body.phone-wide-canvas .container{
   width:var(--phone-content-width);max-width:none;
   margin-left:calc((1100px - var(--phone-content-width))/2);
@@ -68,6 +126,8 @@ html.phone-wide-canvas .container,body.phone-wide-canvas .container{
   position:fixed;inset:0;background:#0d0608;z-index:9999;
   pointer-events:none;animation:lift .6s ease .5s forwards
 }
+html.phone-wide-canvas .curtain{animation:none}
+html.phone-wide-canvas.phone-centered .curtain{animation:lift .35s ease forwards}
 @keyframes lift{to{opacity:0;visibility:hidden}}
 .progress-track{
   position:fixed;top:0;left:0;right:0;height:2px;
@@ -274,6 +334,19 @@ body.decorating .decorate-centre-zone{pointer-events:auto}
   display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;
   user-select:none;-webkit-user-drag:none
 }
+.sticker-placement-marker{
+  position:absolute;z-index:2;width:30px;height:30px;
+  transform:translate(-50%,-50%);border:2px dashed #e8b64c;border-radius:50%;
+  background:rgba(232,182,76,.1);box-shadow:0 0 0 5px rgba(232,182,76,.07);
+  pointer-events:none;animation:placementPulse 1.1s ease-in-out infinite alternate
+}
+.sticker-placement-marker::before,.sticker-placement-marker::after{
+  content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;
+  border-radius:2px;background:#e8b64c;transform:translate(-50%,-50%)
+}
+.sticker-placement-marker::after{transform:translate(-50%,-50%) rotate(90deg)}
+body:not(.decorating) .sticker-placement-marker{display:none}
+@keyframes placementPulse{to{transform:translate(-50%,-50%) scale(1.12)}}
 .sticker-handle{
   display:none;position:absolute;z-index:3;width:18px;height:18px;padding:0;
   border:2px solid #e8b64c;border-radius:50%;background:#170b10;
@@ -324,10 +397,6 @@ body.phone-wide-canvas .sticker-dock-actions .btn{padding:9px 4px;font-size:11px
 body.phone-wide-canvas #sticker-delete{grid-column:1;grid-row:2}
 body.phone-wide-canvas #sticker-done{grid-column:4;grid-row:2}
 body.phone-wide-canvas #sticker-author-edit{margin-top:6px;padding:7px;font-size:11px}
-body.decorating::after{
-  content:"";display:block;height:var(--sticker-dock-space,0px);
-  pointer-events:none
-}
 body.decorating #sticker-dock{display:block}
 #sticker-close{
   position:absolute;right:9px;top:8px;width:28px;height:28px;padding:0;
@@ -639,6 +708,7 @@ body.decorating #sticker-dock{display:block}
 
 <body>
 
+<div id="phone-start-anchor" aria-hidden="true"></div>
 <div class="curtain"></div>
 <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
 
@@ -982,12 +1052,19 @@ body.decorating #sticker-dock{display:block}
   observe();
 
   function progress(){
-    const max=document.documentElement.scrollHeight-innerHeight;
+    const scroller=document.body.classList.contains("decorating")
+      ? document.body
+      : document.documentElement;
+    const max=scroller.scrollHeight-scroller.clientHeight;
+    const top=document.body.classList.contains("decorating")
+      ? document.body.scrollTop
+      : scrollY;
     document.getElementById("progress").style.width=
-      (max>0?scrollY/max*100:0)+"%";
+      (max>0?top/max*100:0)+"%";
   }
 
   addEventListener("scroll",progress,{passive:true});
+  document.body.addEventListener("scroll",progress,{passive:true});
   progress();
 })();
 </script>
@@ -1576,6 +1653,7 @@ function clickInput(id){
 }
 
 document.getElementById("add-something").addEventListener("click",()=>{
+  clearStickerPlacement();
   addModal.classList.add("show");
 });
 
@@ -1612,6 +1690,7 @@ document.querySelectorAll(".add-choice").forEach(button=>{
     }
 
     if(type==="choose-sticker"){
+      clearStickerPlacement();
       closeAdd();
       clickInput("choose-sticker");
       return;
@@ -1985,6 +2064,8 @@ let stickerCropping=false;
 let stickerCropStart=null;
 let stickerCropRect={x:.08,y:.08,width:.84,height:.84};
 let editingStickerCropId=null;
+let stickerMutationReloadBlock=0;
+let pendingStickerPlacement=null;
 const viewportMeta=document.querySelector('meta[name="viewport"]');
 const phoneDevice=Math.min(screen.width,screen.height)<=600;
 const phoneContentWidth=Math.min(screen.width,screen.height);
@@ -1994,8 +2075,54 @@ const normalViewport=phoneDevice
 let initialPhoneCentering=phoneDevice;
 let phoneViewportChange=0;
 
+function siteScrollTop(){
+  return document.body.classList.contains("decorating")
+    ? document.body.scrollTop
+    : window.scrollY;
+}
+
+function scrollSiteTo({left=window.scrollX,top=siteScrollTop(),behavior="auto"}={}){
+  if(document.body.classList.contains("decorating")){
+    window.scrollTo({left,top:0,behavior:"auto"});
+    document.body.scrollTo({top:Math.max(0,top),behavior});
+  }else{
+    window.scrollTo({left,top:Math.max(0,top),behavior});
+  }
+}
+
+function scrollSiteBy(amount,behavior="auto"){
+  scrollSiteTo({left:window.scrollX,top:siteScrollTop()+amount,behavior});
+}
+
+function enterDockLayout(top){
+  const left=window.scrollX;
+  document.documentElement.classList.add("dock-layout");
+  window.scrollTo({left,top:0,behavior:"auto"});
+  document.body.scrollTop=Math.max(0,top);
+  requestAnimationFrame(()=>{
+    if(document.body.classList.contains("decorating")){
+      document.body.scrollTop=Math.max(0,top);
+    }
+  });
+}
+
+function leaveDockLayout(){
+  const top=document.body.scrollTop;
+  const left=window.scrollX;
+  document.documentElement.classList.remove("dock-layout");
+  document.body.classList.remove("decorating");
+  document.body.style.removeProperty("--site-viewport-height");
+  document.body.style.removeProperty("scroll-padding-bottom");
+  window.scrollTo({left,top,behavior:"auto"});
+  return top;
+}
+
 function centerPhoneCanvas(top=scrollY){
   if(!phoneDevice) return;
+  if(typeof window.__hamoonCenterPhone==="function"){
+    window.__hamoonCenterPhone(top);
+    return;
+  }
   const container=document.querySelector(".container");
   if(!container) return;
 
@@ -2015,7 +2142,7 @@ function centerPhoneCanvas(top=scrollY){
 if(phoneDevice&&viewportMeta){
   document.body.classList.add("phone-wide-canvas");
   document.documentElement.classList.add("phone-wide-canvas");
-  document.documentElement.style.setProperty("--phone-content-width",phoneContentWidth+"px");
+  document.documentElement.style.setProperty("--phone-content-width",Math.max(280,phoneContentWidth-20)+"px");
   viewportMeta.setAttribute("content",normalViewport);
   [0,60,180,420,850].forEach(delay=>{
     setTimeout(()=>{
@@ -2085,36 +2212,73 @@ function safeStickerPosition(sticker){
   sticker.y=clamp(sticker.y,halfHeight,1-halfHeight);
 }
 
-function setPhoneDecorateView(on){
+function renderStickerPlacementMarker(){
+  stickerLayer.querySelector(".sticker-placement-marker")?.remove();
+  if(!pendingStickerPlacement) return;
+  const marker=document.createElement("div");
+  marker.className="sticker-placement-marker";
+  marker.style.left=(pendingStickerPlacement.x*100)+"%";
+  marker.style.top=(pendingStickerPlacement.y*100)+"%";
+  marker.setAttribute("aria-hidden","true");
+  stickerLayer.appendChild(marker);
+}
+
+function rememberStickerPlacement(event){
+  const rect=stickerLayer.getBoundingClientRect();
+  pendingStickerPlacement={
+    x:clamp((event.clientX-rect.left)/Math.max(1,rect.width),.01,.99),
+    y:clamp((event.clientY-rect.top)/Math.max(1,rect.height),.01,.99),
+    at:Date.now()
+  };
+  renderStickerPlacementMarker();
+}
+
+function clearStickerPlacement(){
+  pendingStickerPlacement=null;
+  stickerLayer.querySelector(".sticker-placement-marker")?.remove();
+}
+
+function rememberedStickerPlacement(){
+  if(!pendingStickerPlacement||Date.now()-pendingStickerPlacement.at>120000){
+    clearStickerPlacement();
+    return null;
+  }
+  return{x:pendingStickerPlacement.x,y:pendingStickerPlacement.y};
+}
+
+function randomStickerPlacement(width){
+  const layerRect=stickerLayer.getBoundingClientRect();
+  const contentRect=zone.getBoundingClientRect();
+  const wallRect=wrap.getBoundingClientRect();
+  const stickerPixels=width*stickerReferenceWidth();
+  const leftSide=Math.random()<.5;
+  const gap=18+Math.random()*30;
+  const xPixels=leftSide
+    ? contentRect.left-layerRect.left-stickerPixels/2-gap
+    : contentRect.right-layerRect.left+stickerPixels/2+gap;
+  const yPixels=wallRect.top-layerRect.top+wallRect.height*(.18+Math.random()*.64);
+  return{
+    x:clamp(xPixels/Math.max(1,layerRect.width),.02,.98),
+    y:clamp(yPixels/Math.max(1,layerRect.height),.04,.96)
+  };
+}
+
+function setPhoneDecorateView(on,preservedTop=siteScrollTop()){
   if(!isPhone()||!viewportMeta) return;
   const change=++phoneViewportChange;
-  const anchorTop=wrap.getBoundingClientRect().top;
+  if(!on){
+    /* Keep the person's exact zoom and pan when decoration mode closes. */
+    return;
+  }
   const fitScale=Math.min(1,(screen.width||innerWidth)/1100);
   viewportMeta.setAttribute(
     "content",
-    on?"width=1100,initial-scale="+fitScale+",viewport-fit=cover,user-scalable=yes,maximum-scale=5":normalViewport
+    "width=1100,initial-scale="+fitScale+",viewport-fit=cover,user-scalable=yes,maximum-scale=5"
   );
 
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     if(change!==phoneViewportChange) return;
-    const moved=wrap.getBoundingClientRect().top-anchorTop;
-    const targetTop=Math.max(0,scrollY+moved);
-    if(on){
-      scrollTo({left:0,top:targetTop,behavior:"auto"});
-    }else{
-      [0,60,180,420,800].forEach(delay=>{
-        setTimeout(()=>{
-          if(
-            change!==phoneViewportChange||
-            document.body.classList.contains("decorating")
-          ) return;
-
-          const currentTop=wrap.getBoundingClientRect().top;
-          const keptTop=Math.max(0,scrollY+currentTop-anchorTop);
-          centerPhoneCanvas(keptTop);
-        },delay);
-      });
-    }
+    scrollSiteTo({left:0,top:preservedTop,behavior:"auto"});
     renderStickers();
     positionStickerDock();
   }));
@@ -2142,15 +2306,15 @@ function positionStickerDock(){
   stickerDock.style.left=(view.offsetLeft+view.width/2)+"px";
   stickerDock.style.top=Math.max(
     view.offsetTop,
-    view.offsetTop+view.height-stickerDock.offsetHeight*keepReadable
+    view.offsetTop+view.height-stickerDock.offsetHeight
   )+"px";
   stickerDock.style.bottom="auto";
 
   requestAnimationFrame(()=>{
     if(!document.body.classList.contains("decorating")) return;
-    const dockSpace=Math.ceil(stickerDock.getBoundingClientRect().height)+12;
-    document.body.style.setProperty("--sticker-dock-space",dockSpace+"px");
-    document.documentElement.style.scrollPaddingBottom=dockSpace+"px";
+    const dockTop=Math.max(180,Math.floor(stickerDock.getBoundingClientRect().top));
+    document.body.style.setProperty("--site-viewport-height",dockTop+"px");
+    document.body.style.scrollPaddingBottom="18px";
   });
 }
 
@@ -2166,7 +2330,7 @@ function keepSelectedAboveDock(behavior="smooth"){
   let move=0;
   if(nodeRect.bottom>safeBottom) move=nodeRect.bottom-safeBottom;
   if(nodeRect.top-move<safeTop) move=nodeRect.top-safeTop;
-  if(Math.abs(move)>1) scrollBy({top:move,left:0,behavior});
+  if(Math.abs(move)>1) scrollSiteBy(move,behavior);
 }
 
 if(window.visualViewport){
@@ -2254,6 +2418,7 @@ function moveStickerTransform(event,sticker){
     sticker.rotation=edit.startRotation+(angle-edit.startAngle)*180/Math.PI;
     edit.node.style.transform="translate(-50%,-50%) rotate("+sticker.rotation+"deg)";
   }
+  queueLiveStickerUpdate(sticker);
 }
 
 function finishStickerTransform(event,sticker){
@@ -2265,9 +2430,7 @@ function finishStickerTransform(event,sticker){
   safeStickerPosition(sticker);
   renderStickers();
   selectSticker(sticker.id);
-  saveSticker(sticker)
-    .then(()=>toast("sticker saved ✨"))
-    .catch(error=>toast(readableError(error,"sticker edit didn't save")));
+  queueLiveStickerUpdate(sticker,true);
 }
 
 function addStickerHandles(node,sticker){
@@ -2311,7 +2474,12 @@ function addDecorateZones(){
     hit.addEventListener("click",event=>{
       event.preventDefault();
       event.stopPropagation();
-      setDecorating(!document.body.classList.contains("decorating"));
+      if(!document.body.classList.contains("decorating")){
+        rememberStickerPlacement(event);
+        setDecorating(true);
+      }else{
+        setDecorating(false);
+      }
     });
     stickerLayer.appendChild(hit);
   });
@@ -2321,6 +2489,7 @@ function renderStickers(){
   const oldSelected=selectedStickerId;
   stickerLayer.innerHTML="";
   addDecorateZones();
+  renderStickerPlacementMarker();
 
   state.stickers
     .slice()
@@ -2365,6 +2534,7 @@ function renderStickers(){
         event.preventDefault();
         event.stopPropagation();
         if(!document.body.classList.contains("decorating")){
+          clearStickerPlacement();
           setDecorating(true);
         }
         selectSticker(sticker.id);
@@ -2383,6 +2553,7 @@ function renderStickers(){
         sticker.y=clamp(sticker.y,0,1);
         node.style.left=(sticker.x*100)+"%";
         node.style.top=(sticker.y*100)+"%";
+        queueLiveStickerUpdate(sticker);
       });
 
       const finishDrag=event=>{
@@ -2391,7 +2562,7 @@ function renderStickers(){
         safeStickerPosition(sticker);
         renderStickers();
         selectSticker(sticker.id);
-        saveSticker(sticker).catch(()=>toast("sticker didn't move"));
+        queueLiveStickerUpdate(sticker,true);
       };
 
       node.addEventListener("pointerup",finishDrag);
@@ -2418,11 +2589,11 @@ function focusSticker(id,behavior="smooth"){
     : viewTop+viewHeight;
   const usableHeight=Math.max(180,dockTop-viewTop);
   const absoluteX=scrollX+rect.left+rect.width/2;
-  const absoluteY=scrollY+rect.top+rect.height/2;
+  const absoluteY=siteScrollTop()+rect.top+rect.height/2;
   const targetLeft=Math.max(0,absoluteX-viewWidth/2);
   const targetTop=Math.max(0,absoluteY-usableHeight*.44);
 
-  scrollTo({left:targetLeft,top:targetTop,behavior});
+  scrollSiteTo({left:targetLeft,top:targetTop,behavior});
   document.documentElement.scrollLeft=targetLeft;
   document.body.scrollLeft=targetLeft;
 }
@@ -2485,6 +2656,75 @@ async function saveSticker(sticker){
   });
 }
 
+let liveStickerTimer=null;
+let liveStickerPending=null;
+let liveStickerSaving=false;
+const liveStickerLocalLocks=new Map();
+
+function stickerSnapshot(sticker){
+  return{
+    id:sticker.id,
+    author:sticker.author,
+    src:sticker.src,
+    x:sticker.x,
+    y:sticker.y,
+    width:sticker.width,
+    height:sticker.height,
+    rotation:sticker.rotation,
+    createdAt:sticker.createdAt,
+    storage:sticker.storage
+  };
+}
+
+async function flushLiveStickerUpdate(){
+  if(liveStickerSaving||!liveStickerPending) return;
+  const sticker=liveStickerPending;
+  liveStickerPending=null;
+  liveStickerSaving=true;
+  try{
+    await saveSticker(sticker);
+  }catch(error){
+    console.error(error);
+    toast(readableError(error,"live sticker update didn't save"));
+  }finally{
+    liveStickerSaving=false;
+    if(liveStickerPending){
+      clearTimeout(liveStickerTimer);
+      liveStickerTimer=setTimeout(flushLiveStickerUpdate,35);
+    }
+  }
+}
+
+function queueLiveStickerUpdate(sticker,immediate=false){
+  liveStickerPending=stickerSnapshot(sticker);
+  liveStickerLocalLocks.set(sticker.id,performance.now()+800);
+  clearTimeout(liveStickerTimer);
+  liveStickerTimer=setTimeout(flushLiveStickerUpdate,immediate?0:70);
+}
+
+function applyRemoteStickerUpdate(patch){
+  if(!patch?.id) return false;
+  if((liveStickerLocalLocks.get(patch.id)||0)>performance.now()) return true;
+  if(stickerDrag?.id===patch.id||stickerTransform?.id===patch.id) return true;
+  const sticker=stickerById(String(patch.id));
+  if(!sticker) return false;
+
+  ["x","y","width","height","rotation"].forEach(key=>{
+    if(patch[key]!==null&&Number.isFinite(Number(patch[key]))){
+      sticker[key]=Number(patch[key]);
+    }
+  });
+
+  const node=stickerLayer.querySelector('[data-sticker-id="'+CSS.escape(sticker.id)+'"]');
+  if(!node) return false;
+  node.style.left=(sticker.x*100)+"%";
+  node.style.top=(sticker.y*100)+"%";
+  node.style.width=(sticker.width*stickerReferenceWidth())+"px";
+  node.style.height=(sticker.height*stickerReferenceWidth())+"px";
+  node.style.transform="translate(-50%,-50%) rotate("+sticker.rotation+"deg)";
+  return true;
+}
+
 async function deleteStickerRecord(sticker,withConfirmation=false){
   const path=sticker.storage==="upload"?"/space/upload":"/space/sticker";
   await api(path,{
@@ -2498,9 +2738,20 @@ async function deleteStickerRecord(sticker,withConfirmation=false){
   });
 }
 
-function setDecorating(on){
-  setPhoneDecorateView(on);
-  document.body.classList.toggle("decorating",on);
+function setDecorating(on,{preservePlacement=false}={}){
+  const alreadyOn=document.body.classList.contains("decorating");
+  if(on===alreadyOn){
+    if(!on&&!preservePlacement) clearStickerPlacement();
+    return;
+  }
+  const preservedTop=siteScrollTop();
+  setPhoneDecorateView(on,preservedTop);
+
+  if(on){
+    document.body.classList.add("decorating");
+    enterDockLayout(preservedTop);
+  }
+
   document.getElementById("decorate-toggle").textContent=on?"done decorating ♡":"✨ decorate";
   if(on){
     const current=selectedSticker();
@@ -2508,8 +2759,8 @@ function setDecorating(on){
     selectSticker(current?.id||newest?.id||null);
   }else{
     selectSticker(null);
-    document.body.style.removeProperty("--sticker-dock-space");
-    document.documentElement.style.removeProperty("scroll-padding-bottom");
+    leaveDockLayout();
+    if(!preservePlacement) clearStickerPlacement();
     stickerDock.style.removeProperty("left");
     stickerDock.style.removeProperty("top");
     stickerDock.style.removeProperty("bottom");
@@ -2525,6 +2776,7 @@ function setDecorating(on){
 }
 
 document.getElementById("decorate-toggle").addEventListener("click",()=>{
+  clearStickerPlacement();
   setDecorating(!document.body.classList.contains("decorating"));
   if(document.body.classList.contains("decorating")) toast("tap a sticker to edit it ✨");
 });
@@ -2532,7 +2784,7 @@ document.getElementById("decorate-toggle").addEventListener("click",()=>{
 document.getElementById("sticker-close").addEventListener("click",()=>setDecorating(false));
 document.getElementById("sticker-done").addEventListener("click",()=>setDecorating(false));
 document.getElementById("sticker-add-photo").addEventListener("click",()=>{
-  setDecorating(false);
+  setDecorating(false,{preservePlacement:true});
   clickInput("choose-sticker");
 });
 
@@ -2754,7 +3006,11 @@ stickerCropButton.addEventListener("click",async()=>{
   }
   stickerCropButton.disabled=true;
   try{
+    const saveExisting=Boolean(editingStickerCropId);
     await applyStickerCrop();
+    if(saveExisting){
+      document.getElementById("sticker-create").click();
+    }
   }catch(error){
     toast(error.message||"crop didn't work");
   }finally{
@@ -2781,6 +3037,7 @@ function openStickerPreview(data,{editId=null,autoCrop=false}={}){
 }
 
 function closeStickerPreview(){
+  const wasEditingExisting=Boolean(editingStickerCropId);
   setStickerCropMode(false);
   stickerModal.classList.remove("show");
   stickerPreview.removeAttribute("src");
@@ -2789,6 +3046,7 @@ function closeStickerPreview(){
   document.getElementById("sticker-create").textContent="add sticker ✨";
   editingStickerCropId=null;
   pendingSticker=null;
+  if(!wasEditingExisting) clearStickerPlacement();
 }
 
 document.getElementById("sticker-cancel").addEventListener("click",closeStickerPreview);
@@ -2812,12 +3070,21 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
   if(editingStickerCropId){
     const editId=editingStickerCropId;
     const sticker=stickerById(editId);
+    const original=sticker?stickerSnapshot(sticker):null;
+    let removed=false;
+    let recreated=false;
     try{
       if(!sticker) throw new Error("sticker isn't here anymore");
+      stickerMutationReloadBlock=Date.now()+2500;
+      await deleteStickerRecord(sticker,false);
+      removed=true;
       sticker.src=pendingSticker.src;
       sticker.height=sticker.width/pendingSticker.aspect;
       safeStickerPosition(sticker);
-      await saveSticker(sticker);
+      await createStickerRecord(sticker);
+      recreated=true;
+      await load().catch(()=>{});
+      stickerMutationReloadBlock=0;
       closeStickerPreview();
       renderStickers();
       selectSticker(editId);
@@ -2825,6 +3092,16 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
       toast("crop saved ✨");
     }catch(error){
       console.error(error);
+      if(original&&removed&&!recreated){
+        try{
+          Object.assign(sticker,original);
+          await createStickerRecord(sticker);
+          await load();
+        }catch(restoreError){
+          console.error(restoreError);
+        }
+      }
+      stickerMutationReloadBlock=0;
       toast(readableError(error,"crop didn't save"));
       button.textContent="save crop ✨";
     }finally{
@@ -2833,16 +3110,14 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
     return;
   }
 
-  const container=document.querySelector(".container");
-  const containerRect=container.getBoundingClientRect();
-  const wallRect=wrap.getBoundingClientRect();
   const width=isPhone()?.17:.16;
+  const placement=rememberedStickerPlacement()||randomStickerPlacement(width);
   const sticker={
     id:crypto.randomUUID(),
     author:stickerAuthor.value,
     src:pendingSticker.src,
-    x:isPhone()?.88:.86,
-    y:clamp((wallRect.top-containerRect.top+wallRect.height*.25)/containerRect.height,.08,.92),
+    x:placement.x,
+    y:placement.y,
     width,
     height:width/pendingSticker.aspect,
     rotation:Math.round(Math.random()*12-6),
@@ -2869,7 +3144,7 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
 
 function startStickerCapture(){
   closeAdd();
-  setDecorating(false);
+  setDecorating(false,{preservePlacement:true});
   captureStart=null;
   captureBox.style.display="none";
   captureLayer.classList.add("show");
@@ -2890,6 +3165,7 @@ document.getElementById("make-wall-sticker").addEventListener("click",startStick
 document.getElementById("sticker-capture-cancel").addEventListener("click",event=>{
   event.stopPropagation();
   stopStickerCapture();
+  clearStickerPlacement();
 });
 
 function capturePoint(event){
@@ -3763,7 +4039,7 @@ canvas.addEventListener("pointerdown",event=>{
     if(state.activeTouches.size>=2){
       state.twoFinger=true;
       state.touchStart=touchCentreY();
-      state.scrollStart=scrollY;
+      state.scrollStart=siteScrollTop();
       state.drawing=false;
       state.current=null;
       return;
@@ -3807,14 +4083,11 @@ canvas.addEventListener("pointermove",event=>{
     if(state.twoFinger){
       event.preventDefault();
 
-      scrollTo(
-        0,
-        state.scrollStart+
-        (
-          state.touchStart-
-          touchCentreY()
-        )
-      );
+      scrollSiteTo({
+        left:window.scrollX,
+        top:state.scrollStart+(state.touchStart-touchCentreY()),
+        behavior:"auto"
+      });
 
       return;
     }
@@ -4382,7 +4655,13 @@ function connect(){
       return;
     }
 
+    if(message.type==="sticker.updated"&&message.sticker){
+      if(!applyRemoteStickerUpdate(message.sticker)) load();
+      return;
+    }
+
     if(message.type?.startsWith("sticker.")){
+      if(Date.now()<stickerMutationReloadBlock) return;
       load();
       return;
     }
