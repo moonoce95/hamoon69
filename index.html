@@ -227,6 +227,12 @@ audio{
   padding:6px 10px;cursor:pointer;font-size:16px;font-weight:750
 }
 .order-controls button:disabled{opacity:.22;cursor:not-allowed}
+.order-drag{cursor:grab;touch-action:none;letter-spacing:-2px}
+.order-drag:active{cursor:grabbing}
+#timeline-zone>.reordering{
+  z-index:20;opacity:.82;transform:scale(.985);
+  outline:2px dashed rgba(232,182,76,.7);outline-offset:8px
+}
 
 /* ========================= UPLOADER ========================= */
 #add-wrap{
@@ -290,6 +296,25 @@ audio{
   min-height:16px;margin-top:6px;text-align:center;
   color:rgba(253,240,245,.48);font:10px/1.35 system-ui,sans-serif
 }
+#upload-progress{margin-top:9px;font:11px/1.35 system-ui,sans-serif}
+.upload-progress-copy{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  color:#e8c4d3;margin-bottom:5px
+}
+#upload-progress-track{
+  height:7px;overflow:hidden;border-radius:999px;
+  background:rgba(244,184,204,.09);border:1px solid rgba(244,184,204,.12)
+}
+#upload-progress-bar{
+  display:block;width:0;height:100%;border-radius:inherit;
+  background:linear-gradient(90deg,#f4b8cc,#e8b64c);transition:width .12s linear
+}
+#upload-retry{
+  border:0;background:transparent;color:#e8b64c;text-decoration:underline;
+  cursor:pointer;font:700 11px/1.2 system-ui,sans-serif;padding:2px
+}
+#upload-progress.failed #upload-progress-label{color:#ff9ca7}
+#upload-progress.failed #upload-progress-bar{background:#ff7f8d}
 .upload-go{width:100%;margin-top:9px}
 .uploaded-memory audio{width:100%}
 .upload-caption{
@@ -353,6 +378,13 @@ body.decorating .decorate-centre-zone{pointer-events:auto}
 .sticker-placement-marker::after{transform:translate(-50%,-50%) rotate(90deg)}
 body:not(.decorating) .sticker-placement-marker{display:none}
 @keyframes placementPulse{to{transform:translate(-50%,-50%) scale(1.12)}}
+.sticker-guide{
+  display:none;position:absolute;z-index:2;pointer-events:none;
+  background:rgba(232,182,76,.9);box-shadow:0 0 8px rgba(232,182,76,.45)
+}
+.sticker-guide.show{display:block}
+.sticker-guide.vertical{top:0;bottom:0;width:1px}
+.sticker-guide.horizontal{left:0;right:0;height:1px}
 .sticker-handle{
   display:none;position:absolute;z-index:3;width:18px;height:18px;padding:0;
   border:2px solid #e8b64c;border-radius:50%;background:#170b10;
@@ -418,6 +450,18 @@ body.decorating #sticker-dock{display:block}
 #sticker-dock-title{
   display:none
 }
+#sticker-dock-collapse{
+  position:absolute;left:50%;top:7px;transform:translateX(-50%);
+  min-width:112px;height:25px;padding:0 12px;border:0;border-radius:999px;
+  background:rgba(244,184,204,.09);color:#e8c4d3;cursor:pointer;
+  font:700 11px/1 system-ui,sans-serif;touch-action:none
+}
+body.dock-collapsed #sticker-dock{
+  min-height:38px;padding:38px 10px max(5px,env(safe-area-inset-bottom))
+}
+body.dock-collapsed .sticker-dock-actions,
+body.dock-collapsed #sticker-author-edit,
+body.dock-collapsed #sticker-close{display:none}
 .sticker-dock-actions{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px
 }
@@ -568,6 +612,14 @@ body.decorating #sticker-dock{display:block}
   font:13px/1.5 system-ui,sans-serif;margin-bottom:14px;
   font-variant-numeric:tabular-nums
 }
+#save-status{
+  min-height:18px;margin:-10px 0 10px;text-align:center;
+  color:rgba(253,240,245,.42);font:700 11px/1.4 system-ui,sans-serif;
+  transition:color .18s ease
+}
+#save-status.saving{color:#e8b64c}
+#save-status.saved{color:#8ed7ad}
+#save-status.error{color:#ff9ca7}
 
 /* Clean aligned toolbar */
 #toolbar{
@@ -689,6 +741,21 @@ body.decorating #sticker-dock{display:block}
   font:12px/1.3 system-ui,sans-serif;transition:.18s ease
 }
 #toast.show{opacity:1;transform:translate(-50%,0)}
+#undo-toast{
+  position:fixed;z-index:200002;left:50%;bottom:max(24px,env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:11px;max-width:min(92vw,430px);
+  transform:translate(-50%,18px);opacity:0;pointer-events:none;
+  padding:9px 11px 9px 14px;border:1px solid rgba(232,182,76,.48);
+  border-radius:999px;background:rgba(13,6,8,.98);color:#fdf0f5;
+  box-shadow:0 12px 34px rgba(0,0,0,.5);font:12px/1.3 system-ui,sans-serif;
+  transition:.18s ease
+}
+#undo-toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+body.decorating #undo-toast{bottom:calc(var(--dock-height,140px) + 12px)}
+#undo-toast button{
+  border:0;border-radius:999px;background:rgba(232,182,76,.16);color:#e8b64c;
+  padding:7px 11px;cursor:pointer;font:800 12px/1 system-ui,sans-serif
+}
 
 @media(max-width:600px), (max-device-width:600px){
   .container{padding-left:16px;padding-right:16px}
@@ -847,6 +914,7 @@ body.decorating #sticker-dock{display:block}
     <div id="presence"></div>
     <div id="conn">setting things up…</div>
     <div id="clock"></div>
+    <div id="save-status" aria-live="polite"></div>
 
     <div id="toolbar">
       <div class="toolbar-layout">
@@ -963,6 +1031,7 @@ body.decorating #sticker-dock{display:block}
 
 <!-- STICKER DECORATE DOCK -->
 <div id="sticker-dock">
+  <button id="sticker-dock-collapse" type="button" aria-expanded="true">⌄ hide tools</button>
   <div id="sticker-dock-title" aria-live="polite"></div>
   <div class="sticker-dock-actions">
     <button class="btn" id="sticker-smaller" type="button">− smaller</button>
@@ -992,6 +1061,13 @@ body.decorating #sticker-dock{display:block}
 
     <textarea id="upload-caption" placeholder="caption (optional)"></textarea>
     <div id="upload-size"></div>
+    <div id="upload-progress" class="is-hidden" aria-live="polite">
+      <div class="upload-progress-copy">
+        <span id="upload-progress-label">ready</span>
+        <button id="upload-retry" class="is-hidden" type="button">retry</button>
+      </div>
+      <div id="upload-progress-track"><span id="upload-progress-bar"></span></div>
+    </div>
 
     <button class="btn upload-go" id="upload-go">add to timeline</button>
 
@@ -1031,6 +1107,10 @@ body.decorating #sticker-dock{display:block}
 </div>
 
 <div id="toast"></div>
+<div id="undo-toast" role="status" aria-live="polite">
+  <span id="undo-toast-copy"></span>
+  <button id="undo-toast-button" type="button">undo</button>
+</div>
 
 <script>
 (function(){
@@ -1123,6 +1203,11 @@ const zone=document.getElementById("timeline-zone");
 let toastTimer=null;
 let pending69=null;
 let pendingRequires69=true;
+let saveStatusTimer=null;
+let activeUndoAction=null;
+const suppressedUploadIds=new Set();
+const suppressedStickerIds=new Set();
+const suppressedStrokeAuthors=new Set();
 
 /* ========================= HELPERS ========================= */
 
@@ -1134,6 +1219,76 @@ function toast(text){
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>el.classList.remove("show"),1800);
 }
+
+function setSaveStatus(kind,text){
+  const el=document.getElementById("save-status");
+  if(!el) return;
+  clearTimeout(saveStatusTimer);
+  el.className=kind||"";
+  el.textContent=text||(
+    kind==="saving"
+      ? "saving…"
+      : kind==="error"
+        ? "not saved"
+        : "all saved ♡"
+  );
+
+  if(kind==="saved"){
+    saveStatusTimer=setTimeout(()=>{
+      el.className="";
+      el.textContent="all saved ♡";
+    },1800);
+  }
+}
+
+function hideUndoToast(){
+  document.getElementById("undo-toast")?.classList.remove("show");
+}
+
+async function commitUndoAction(action=activeUndoAction){
+  if(!action||action.finished) return;
+  action.finished=true;
+  clearTimeout(action.timer);
+  if(activeUndoAction===action) activeUndoAction=null;
+  hideUndoToast();
+
+  try{
+    await action.commit();
+    await action.done?.();
+  }catch(error){
+    console.error(error);
+    await action.undo?.();
+    toast(action.errorText||"couldn't delete");
+  }
+}
+
+function beginUndoAction({message,apply,commit,undo,done,errorText}){
+  if(activeUndoAction) commitUndoAction(activeUndoAction);
+  apply?.();
+
+  const action={commit,undo,done,errorText,finished:false,timer:null};
+  activeUndoAction=action;
+
+  document.getElementById("undo-toast-copy").textContent=message;
+  const undoToast=document.getElementById("undo-toast");
+  undoToast.classList.add("show");
+  action.timer=setTimeout(()=>commitUndoAction(action),7000);
+}
+
+document.getElementById("undo-toast-button")?.addEventListener("click",async()=>{
+  const action=activeUndoAction;
+  if(!action||action.finished) return;
+  action.finished=true;
+  clearTimeout(action.timer);
+  activeUndoAction=null;
+  hideUndoToast();
+  await action.undo?.();
+  toast("undone ♡");
+});
+
+addEventListener("pagehide",()=>{
+  if(activeUndoAction) commitUndoAction(activeUndoAction);
+});
 
 function readableError(error,fallback){
   const raw=String(error?.message||"").trim();
@@ -1377,11 +1532,11 @@ async function load(){
   const data=await api("/space/state");
   const allUploads=(data.uploads||[])
     .map(normUpload)
-    .filter(Boolean);
+    .filter(upload=>upload&&!suppressedUploadIds.has(String(upload.id)));
 
   state.strokes=(data.strokes||[])
     .map(normStroke)
-    .filter(Boolean);
+    .filter(stroke=>stroke&&!suppressedStrokeAuthors.has(stroke.author));
 
   state.reactions=(data.reactions||[])
     .map(normReaction);
@@ -1391,7 +1546,7 @@ async function load(){
   state.stickers=[
     ...(data.stickers||[]).map(sticker=>normSticker(sticker,"sticker")),
     ...allUploads.map(stickerFromUpload)
-  ].filter(Boolean);
+  ].filter(sticker=>sticker&&!suppressedStickerIds.has(String(sticker.id)));
 
   state.presence=Array.isArray(data.presence)
     ? data.presence
@@ -1494,6 +1649,64 @@ function setupOrder(){
   refreshOrder();
 }
 
+let reorderGesture=null;
+
+function beginTimelineReorder(event,node,handle){
+  event.preventDefault();
+  event.stopPropagation();
+  handle.setPointerCapture?.(event.pointerId);
+  reorderGesture={pointerId:event.pointerId,node,moved:false,startY:event.clientY};
+  node.classList.add("reordering");
+  navigator.vibrate?.(12);
+}
+
+function moveTimelineReorder(event){
+  const drag=reorderGesture;
+  if(!drag||drag.pointerId!==event.pointerId) return;
+  event.preventDefault();
+  event.stopPropagation();
+  if(Math.abs(event.clientY-drag.startY)>5) drag.moved=true;
+
+  const list=items();
+  const target=list.find(item=>{
+    if(item===drag.node) return false;
+    const rect=item.getBoundingClientRect();
+    return event.clientY>=rect.top&&event.clientY<=rect.bottom;
+  });
+
+  if(target){
+    const rect=target.getBoundingClientRect();
+    if(event.clientY<rect.top+rect.height/2){
+      zone.insertBefore(drag.node,target);
+    }else{
+      zone.insertBefore(drag.node,target.nextSibling);
+    }
+  }else if(list.length){
+    const first=list[0].getBoundingClientRect();
+    const last=list[list.length-1].getBoundingClientRect();
+    if(event.clientY<first.top) zone.insertBefore(drag.node,list[0]);
+    if(event.clientY>last.bottom) zone.appendChild(drag.node);
+  }
+
+  const view=window.visualViewport;
+  const top=view?.offsetTop||0;
+  const bottom=top+(view?.height||innerHeight);
+  if(event.clientY<top+70) scrollSiteBy(-24,"auto");
+  if(event.clientY>bottom-70) scrollSiteBy(24,"auto");
+}
+
+function finishTimelineReorder(event){
+  const drag=reorderGesture;
+  if(!drag||drag.pointerId!==event.pointerId) return;
+  event.preventDefault();
+  event.stopPropagation();
+  drag.node.classList.remove("reordering");
+  reorderGesture=null;
+  saveOrder();
+  refreshOrder();
+  if(drag.moved) toast("moved ♡");
+}
+
 function refreshOrder(){
   const list=items();
 
@@ -1509,14 +1722,28 @@ function refreshOrder(){
       up.type="button";
       up.textContent="↑";
       up.title="Move up";
+      up.className="order-up";
 
       const down=document.createElement("button");
       down.type="button";
       down.textContent="↓";
       down.title="Move down";
+      down.className="order-down";
 
-      controls.append(up,down);
+      const drag=document.createElement("button");
+      drag.type="button";
+      drag.textContent="⋮⋮";
+      drag.title="Drag to move";
+      drag.setAttribute("aria-label","Drag this memory to reorder");
+      drag.className="order-drag";
+
+      controls.append(drag,up,down);
       footer.appendChild(controls);
+
+      drag.addEventListener("pointerdown",event=>beginTimelineReorder(event,node,drag));
+      drag.addEventListener("pointermove",moveTimelineReorder);
+      drag.addEventListener("pointerup",finishTimelineReorder);
+      drag.addEventListener("pointercancel",finishTimelineReorder);
 
       up.addEventListener("click",()=>{
         const now=items();
@@ -1545,9 +1772,8 @@ function refreshOrder(){
       });
     }
 
-    const buttons=controls.querySelectorAll("button");
-    buttons[0].disabled=index===0;
-    buttons[1].disabled=index===list.length-1;
+    controls.querySelector(".order-up").disabled=index===0;
+    controls.querySelector(".order-down").disabled=index===list.length-1;
   });
 }
 
@@ -1561,12 +1787,20 @@ const pAud=document.getElementById("preview-audio");
 const captionInput=document.getElementById("upload-caption");
 const uploadGo=document.getElementById("upload-go");
 const uploadSize=document.getElementById("upload-size");
+const uploadProgress=document.getElementById("upload-progress");
+const uploadProgressLabel=document.getElementById("upload-progress-label");
+const uploadProgressBar=document.getElementById("upload-progress-bar");
+const uploadRetry=document.getElementById("upload-retry");
 const recordLabel=document.getElementById("record-label");
 const recordStatus=document.getElementById("record-status");
 
 let pendingFile=null;
 let pendingType=null;
 let previewUrl=null;
+let preparedUploadFile=null;
+let uploadInFlight=false;
+let pendingUploadId=null;
+let activeUploadRequest=null;
 
 let recorder=null;
 let recStream=null;
@@ -1579,6 +1813,10 @@ function closeAdd(){
 }
 
 function resetUpload(){
+  if(activeUploadRequest){
+    activeUploadRequest.abort();
+    activeUploadRequest=null;
+  }
   if(previewUrl&&previewUrl.startsWith("blob:")){
     URL.revokeObjectURL(previewUrl);
   }
@@ -1586,6 +1824,9 @@ function resetUpload(){
   previewUrl=null;
   pendingFile=null;
   pendingType=null;
+  preparedUploadFile=null;
+  uploadInFlight=false;
+  pendingUploadId=null;
 
   pImg.style.display="none";
   pVid.style.display="none";
@@ -1600,6 +1841,11 @@ function resetUpload(){
 
   captionInput.value="";
   uploadSize.textContent="";
+  uploadProgress.classList.add("is-hidden");
+  uploadProgress.classList.remove("failed");
+  uploadProgressLabel.textContent="ready";
+  uploadProgressBar.style.width="0%";
+  uploadRetry.classList.add("is-hidden");
 }
 
 function closeUpload(){
@@ -1626,6 +1872,7 @@ function picked(file){
 
   resetUpload();
   pendingFile=file;
+  pendingUploadId=crypto.randomUUID();
 
   if(file.type.startsWith("image/")){
     pendingType="image";
@@ -1661,6 +1908,10 @@ function picked(file){
     "?";
 
   uploadSize.textContent=humanSize(file.size);
+  uploadProgress.classList.remove("is-hidden","failed");
+  uploadProgressLabel.textContent="ready · original "+humanSize(file.size);
+  uploadProgressBar.style.width="0%";
+  uploadRetry.classList.add("is-hidden");
 
   closeAdd();
   uploadModal.classList.add("show");
@@ -1847,82 +2098,159 @@ async function startAudio(){
   DIRECT R2 UPLOAD.
   This matches the new /space/media-upload route in the Worker.
 */
-async function uploadFileDirect(file,type,id){
-  const response=await fetch(
-    API+"/space/media-upload",
-    {
-      method:"POST",
-      headers:{
-        "Authorization":"Bearer "+state.token,
-        "Content-Type":file.type||"application/octet-stream",
-        "X-Author":state.author,
-        "X-Upload-Id":id,
-        "X-File-Type":type,
-        "X-Content-Type":file.type||"application/octet-stream",
-        "X-Caption":encodeURIComponent(captionInput.value.trim()),
-        "X-Sort-Order":String(Date.now())
-      },
-      body:file
-    }
-  );
+function uploadFileDirect(file,type,id,onProgress){
+  return new Promise((resolve,reject)=>{
+    const xhr=new XMLHttpRequest();
+    activeUploadRequest=xhr;
+    xhr.open("POST",API+"/space/media-upload");
+    xhr.setRequestHeader("Authorization","Bearer "+state.token);
+    xhr.setRequestHeader("Content-Type",file.type||"application/octet-stream");
+    xhr.setRequestHeader("X-Author",state.author);
+    xhr.setRequestHeader("X-Upload-Id",id);
+    xhr.setRequestHeader("X-File-Type",type);
+    xhr.setRequestHeader("X-Content-Type",file.type||"application/octet-stream");
+    xhr.setRequestHeader("X-Caption",encodeURIComponent(captionInput.value.trim()));
+    xhr.setRequestHeader("X-Sort-Order",String(Date.now()));
 
-  if(!response.ok){
-    let message="upload failed";
+    xhr.upload.addEventListener("progress",event=>{
+      if(event.lengthComputable) onProgress?.(event.loaded,event.total);
+    });
 
-    try{
-      const data=await response.json();
-      message=data.error||message;
-    }catch(_){}
-
-    throw new Error(message);
-  }
-
-  return response.json();
+    xhr.addEventListener("load",()=>{
+      if(activeUploadRequest===xhr) activeUploadRequest=null;
+      let data=null;
+      try{data=JSON.parse(xhr.responseText||"null")}catch(_){}
+      if(xhr.status>=200&&xhr.status<300){
+        resolve(data);
+      }else{
+        reject(new Error(data?.error||data?.message||"upload failed"));
+      }
+    });
+    xhr.addEventListener("error",()=>{
+      if(activeUploadRequest===xhr) activeUploadRequest=null;
+      reject(new Error("upload failed"));
+    });
+    xhr.addEventListener("abort",()=>{
+      if(activeUploadRequest===xhr) activeUploadRequest=null;
+      reject(new Error("upload cancelled"));
+    });
+    xhr.send(file);
+  });
 }
 
-uploadGo.addEventListener("click",async()=>{
-  if(!pendingFile||!pendingType){
-    return;
+async function optimiseUploadFile(file,type){
+  if(
+    type!=="image"||
+    file.type==="image/gif"||
+    file.type==="image/svg+xml"||
+    file.size<1.5*1024*1024
+  ){
+    return file;
   }
 
-  uploadGo.disabled=true;
-  uploadGo.textContent="adding…";
+  uploadProgressLabel.textContent="optimising photo…";
 
   try{
-    const id=crypto.randomUUID();
+    const img=await imageFromFile(file);
+    const maxSide=2200;
+    const scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
+    const canvas=document.createElement("canvas");
+    canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+    canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+    canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",.88));
+    if(!blob||blob.size>=file.size*.95) return file;
+
+    const name=file.name.replace(/\.[^.]+$/,"")+".webp";
+    return new File([blob],name,{type:"image/webp",lastModified:Date.now()});
+  }catch(error){
+    console.warn("photo optimisation skipped",error);
+    return file;
+  }
+}
+
+async function performUpload(){
+  if(!pendingFile||!pendingType||uploadInFlight) return;
+  uploadInFlight=true;
+  uploadGo.disabled=true;
+  uploadGo.textContent="uploading…";
+  uploadRetry.classList.add("is-hidden");
+  uploadProgress.classList.remove("is-hidden","failed");
+  setSaveStatus("saving","uploading…");
+
+  try{
+    preparedUploadFile=preparedUploadFile||await optimiseUploadFile(pendingFile,pendingType);
+    const optimised=preparedUploadFile.size<pendingFile.size*.95;
+    const sizeCopy=optimised
+      ? "optimised "+humanSize(pendingFile.size)+" → "+humanSize(preparedUploadFile.size)
+      : "original "+humanSize(preparedUploadFile.size);
+
+    uploadProgressLabel.textContent=sizeCopy+" · uploading 0%";
+    uploadProgressBar.style.width="0%";
 
     await uploadFileDirect(
-      pendingFile,
+      preparedUploadFile,
       pendingType,
-      id
+      pendingUploadId||crypto.randomUUID(),
+      (loaded,total)=>{
+        const percent=Math.max(0,Math.min(100,Math.round(loaded/Math.max(1,total)*100)));
+        uploadProgressBar.style.width=percent+"%";
+        uploadProgressLabel.textContent=sizeCopy+" · uploading "+percent+"%";
+      }
     );
 
+    uploadProgressBar.style.width="100%";
+    uploadProgressLabel.textContent="uploaded ♡";
+    setSaveStatus("saved");
     closeUpload();
     toast("added ❤️");
     await load();
-
   }catch(error){
     console.error(error);
-    toast(error.message||"upload didn't save");
-
+    if(String(error?.message||"").includes("cancelled")){
+      setSaveStatus("saved");
+      toast("upload cancelled");
+    }else{
+      uploadProgress.classList.add("failed");
+      uploadProgressLabel.textContent=readableError(error,"upload failed");
+      uploadRetry.classList.remove("is-hidden");
+      setSaveStatus("error","upload not saved");
+    }
   }finally{
+    uploadInFlight=false;
     uploadGo.disabled=false;
     uploadGo.textContent="add to timeline";
   }
-});
+}
+
+uploadGo.addEventListener("click",performUpload);
+uploadRetry.addEventListener("click",performUpload);
 
 async function deleteUpload(upload){
   open69(
     "delete this "+upload.type+"?",
     "This permanently removes it from the timeline.",
     "delete",
-    async()=>{
-      try{
-        await api(
+    ()=>{
+      const id=String(upload.id);
+      const previousOrder=items().map(itemId).filter(Boolean);
+      close69();
+
+      beginUndoAction({
+        message:upload.type+" deleted",
+        apply:()=>{
+          suppressedUploadIds.add(id);
+          state.uploads=state.uploads.filter(item=>String(item.id)!==id);
+          renderUploads();
+          applyOrder();
+        },
+        commit:()=>api(
           "/space/upload",
           {
             method:"DELETE",
             headers:headers(),
+            keepalive:true,
             body:JSON.stringify({
               id:upload.id,
               author:upload.author,
@@ -1930,17 +2258,18 @@ async function deleteUpload(upload){
               confirmation:"69"
             })
           }
-        );
-
-        close69();
-        toast("deleted");
-        await load();
-        saveOrder();
-
-      }catch(error){
-        console.error(error);
-        toast("delete failed");
-      }
+        ),
+        done:()=>{
+          suppressedUploadIds.delete(id);
+          saveOrder();
+        },
+        undo:async()=>{
+          suppressedUploadIds.delete(id);
+          try{localStorage.setItem(ORDER_KEY,JSON.stringify(previousOrder))}catch(_){}
+          await load();
+        },
+        errorText:"delete failed"
+      });
     }
   );
 }
@@ -2072,6 +2401,7 @@ const stickerPreviewActions=document.getElementById("sticker-preview-actions");
 const stickerAuthorEdit=document.getElementById("sticker-author-edit");
 const stickerDock=document.getElementById("sticker-dock");
 const stickerDockTitle=document.getElementById("sticker-dock-title");
+const stickerDockCollapse=document.getElementById("sticker-dock-collapse");
 const captureLayer=document.getElementById("sticker-capture");
 const captureBox=document.getElementById("sticker-capture-box");
 
@@ -2087,13 +2417,15 @@ let editingStickerCropId=null;
 let stickerMutationReloadBlock=0;
 let pendingStickerPlacement=null;
 const viewportMeta=document.querySelector('meta[name="viewport"]');
-const phoneDevice=Math.min(screen.width,screen.height)<=600;
-const phoneContentWidth=Math.min(screen.width,screen.height);
-const normalViewport=phoneDevice
-  ? "width=1100,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5"
-  : (viewportMeta?.getAttribute("content")||"width=device-width,initial-scale=1");
+const phoneViewport="width=1100,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5";
+const desktopViewport="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=yes,maximum-scale=5";
+let phoneContentWidth=Math.min(screen.width||innerWidth,screen.height||innerHeight);
+let phoneDevice=phoneContentWidth<=600;
 let initialPhoneCentering=phoneDevice;
 let phoneViewportChange=0;
+let foldLayoutTimer=null;
+let dockSwipeStartY=null;
+let dockSwipeHandled=false;
 
 function siteScrollTop(){
   return document.body.classList.contains("decorating")
@@ -2133,6 +2465,7 @@ function leaveDockLayout(){
   document.body.classList.remove("decorating");
   document.body.style.removeProperty("--site-viewport-height");
   document.body.style.removeProperty("scroll-padding-bottom");
+  document.body.style.removeProperty("--dock-height");
   window.scrollTo({left,top,behavior:"auto"});
   return top;
 }
@@ -2163,7 +2496,7 @@ if(phoneDevice&&viewportMeta){
   document.body.classList.add("phone-wide-canvas");
   document.documentElement.classList.add("phone-wide-canvas");
   document.documentElement.style.setProperty("--phone-content-width",Math.max(280,phoneContentWidth-20)+"px");
-  viewportMeta.setAttribute("content",normalViewport);
+  viewportMeta.setAttribute("content",phoneViewport);
   [0,60,180,420,850].forEach(delay=>{
     setTimeout(()=>{
       if(initialPhoneCentering) centerPhoneCanvas();
@@ -2177,6 +2510,115 @@ if(phoneDevice&&viewportMeta){
   });
   setTimeout(()=>{initialPhoneCentering=false},1100);
 }
+
+function physicalShortSide(){
+  return Math.max(
+    1,
+    Math.min(
+      screen.width||innerWidth||1,
+      screen.height||innerHeight||1
+    )
+  );
+}
+
+function horizontalViewportWidth(){
+  return window.visualViewport?.width||innerWidth||phoneContentWidth;
+}
+
+function documentWidth(){
+  return Math.max(
+    document.documentElement.scrollWidth||0,
+    document.body?.scrollWidth||0,
+    innerWidth||0,
+    1
+  );
+}
+
+function syncFoldableLayout(){
+  if(!viewportMeta) return;
+
+  const oldPhone=phoneDevice;
+  const oldPageWidth=documentWidth();
+  const oldViewWidth=horizontalViewportWidth();
+  const oldFocus=clamp(
+    (window.scrollX+oldViewWidth/2)/oldPageWidth,
+    0,
+    1
+  );
+  const preservedTop=siteScrollTop();
+  const nextWidth=physicalShortSide();
+  const nextPhone=nextWidth<=600;
+
+  phoneContentWidth=nextWidth;
+  phoneDevice=nextPhone;
+
+  document.documentElement.classList.toggle("phone-wide-canvas",nextPhone);
+  document.body.classList.toggle("phone-wide-canvas",nextPhone);
+
+  if(nextPhone){
+    document.documentElement.style.setProperty(
+      "--phone-content-width",
+      Math.max(280,nextWidth-20)+"px"
+    );
+    const nextViewport=document.body.classList.contains("decorating")
+      ? "width=1100,initial-scale="+Math.min(1,nextWidth/1100)+",viewport-fit=cover,user-scalable=yes,maximum-scale=5"
+      : phoneViewport;
+    viewportMeta.setAttribute("content",nextViewport);
+  }else{
+    document.documentElement.style.removeProperty("--phone-content-width");
+    viewportMeta.setAttribute("content",desktopViewport);
+    stickerDock.style.removeProperty("width");
+    stickerDock.style.removeProperty("transform");
+    stickerDock.style.removeProperty("transform-origin");
+  }
+
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const newViewWidth=horizontalViewportWidth();
+
+    if(nextPhone){
+      const newPageWidth=documentWidth();
+      const targetLeft=clamp(
+        oldFocus*newPageWidth-newViewWidth/2,
+        0,
+        Math.max(0,newPageWidth-newViewWidth)
+      );
+      scrollSiteTo({left:targetLeft,top:preservedTop,behavior:"auto"});
+    }else{
+      scrollSiteTo({left:0,top:preservedTop,behavior:"auto"});
+    }
+
+    resize();
+    renderStickers();
+    if(document.body.classList.contains("decorating")){
+      positionStickerDock();
+    }
+
+    /* Entering the narrow display from a non-phone layout should begin centred. */
+    if(nextPhone&&!oldPhone&&Math.abs(oldFocus-.5)<.12){
+      centerPhoneCanvas(preservedTop);
+    }
+  }));
+}
+
+function scheduleFoldableLayout(){
+  clearTimeout(foldLayoutTimer);
+  foldLayoutTimer=setTimeout(()=>{
+    const nextWidth=physicalShortSide();
+    const nextPhone=nextWidth<=600;
+    const sizeChanged=Math.abs(nextWidth-phoneContentWidth)>2;
+
+    if(nextPhone!==phoneDevice||sizeChanged){
+      syncFoldableLayout();
+    }else if(document.body.classList.contains("decorating")){
+      positionStickerDock();
+    }
+  },140);
+}
+
+addEventListener("orientationchange",scheduleFoldableLayout,{passive:true});
+addEventListener("resize",scheduleFoldableLayout,{passive:true});
+window.visualViewport?.addEventListener("resize",scheduleFoldableLayout,{passive:true});
+screen.orientation?.addEventListener?.("change",scheduleFoldableLayout);
 
 function stickerById(id){
   return state.stickers.find(sticker=>sticker.id===id)||null;
@@ -2230,6 +2672,78 @@ function safeStickerPosition(sticker){
   }
 
   sticker.y=clamp(sticker.y,halfHeight,1-halfHeight);
+}
+
+function addStickerGuides(){
+  const vertical=document.createElement("div");
+  vertical.className="sticker-guide vertical";
+  vertical.id="sticker-guide-v";
+  const horizontal=document.createElement("div");
+  horizontal.className="sticker-guide horizontal";
+  horizontal.id="sticker-guide-h";
+  stickerLayer.append(vertical,horizontal);
+}
+
+function hideStickerGuides(){
+  stickerLayer.querySelectorAll(".sticker-guide").forEach(guide=>guide.classList.remove("show"));
+}
+
+function nearestStickerGuide(value,candidates,threshold){
+  let result=null;
+  let distance=Infinity;
+  candidates.forEach(candidate=>{
+    const next=Math.abs(candidate-value);
+    if(next<distance&&next<=threshold){
+      result=candidate;
+      distance=next;
+    }
+  });
+  return result;
+}
+
+function snapStickerDuringDrag(sticker){
+  const layerRect=stickerLayer.getBoundingClientRect();
+  const contentRect=zone.getBoundingClientRect();
+  const wallRect=wrap.getBoundingClientRect();
+  const layerWidth=Math.max(1,layerRect.width);
+  const layerHeight=Math.max(1,layerRect.height);
+  const halfWidth=sticker.width*stickerReferenceWidth()/layerWidth/2;
+  const gap=16/layerWidth;
+  const contentLeft=(contentRect.left-layerRect.left)/layerWidth;
+  const contentRight=(contentRect.right-layerRect.left)/layerWidth;
+  const leftLane=contentLeft-halfWidth-gap;
+  const rightLane=contentRight+halfWidth+gap;
+  const otherStickers=state.stickers.filter(item=>item.id!==sticker.id);
+  const xGuide=nearestStickerGuide(
+    sticker.x,
+    [leftLane,rightLane,...otherStickers.map(item=>item.x)],
+    10/layerWidth
+  );
+  const wallTop=(wallRect.top-layerRect.top)/layerHeight;
+  const wallMiddle=(wallRect.top-layerRect.top+wallRect.height/2)/layerHeight;
+  const wallBottom=(wallRect.bottom-layerRect.top)/layerHeight;
+  const yGuide=nearestStickerGuide(
+    sticker.y,
+    [wallTop,wallMiddle,wallBottom,...otherStickers.map(item=>item.y)],
+    10/layerHeight
+  );
+
+  const vertical=stickerLayer.querySelector("#sticker-guide-v");
+  const horizontal=stickerLayer.querySelector("#sticker-guide-h");
+  if(xGuide!==null){
+    sticker.x=xGuide;
+    vertical.style.left=(xGuide*100)+"%";
+    vertical.classList.add("show");
+  }else{
+    vertical?.classList.remove("show");
+  }
+  if(yGuide!==null){
+    sticker.y=yGuide;
+    horizontal.style.top=(yGuide*100)+"%";
+    horizontal.classList.add("show");
+  }else{
+    horizontal?.classList.remove("show");
+  }
 }
 
 function renderStickerPlacementMarker(){
@@ -2332,11 +2846,53 @@ function positionStickerDock(){
 
   requestAnimationFrame(()=>{
     if(!document.body.classList.contains("decorating")) return;
+    document.body.style.setProperty(
+      "--dock-height",
+      Math.max(38,Math.round(stickerDock.getBoundingClientRect().height))+"px"
+    );
     const dockTop=Math.max(180,Math.floor(stickerDock.getBoundingClientRect().top));
     document.body.style.setProperty("--site-viewport-height",dockTop+"px");
     document.body.style.scrollPaddingBottom="18px";
   });
 }
+
+function setDockCollapsed(on){
+  document.body.classList.toggle("dock-collapsed",on);
+  stickerDockCollapse.textContent=on?"⌃ show tools":"⌄ hide tools";
+  stickerDockCollapse.setAttribute("aria-expanded",String(!on));
+  requestAnimationFrame(()=>{
+    positionStickerDock();
+    if(!on) keepSelectedAboveDock("auto");
+  });
+}
+
+stickerDockCollapse.addEventListener("pointerdown",event=>{
+  dockSwipeStartY=event.clientY;
+  dockSwipeHandled=false;
+  stickerDockCollapse.setPointerCapture?.(event.pointerId);
+});
+
+stickerDockCollapse.addEventListener("pointerup",event=>{
+  if(dockSwipeStartY===null) return;
+  const distance=event.clientY-dockSwipeStartY;
+  dockSwipeStartY=null;
+  if(Math.abs(distance)>24){
+    dockSwipeHandled=true;
+    setDockCollapsed(distance>0);
+  }
+});
+
+stickerDockCollapse.addEventListener("pointercancel",()=>{
+  dockSwipeStartY=null;
+});
+
+stickerDockCollapse.addEventListener("click",()=>{
+  if(dockSwipeHandled){
+    dockSwipeHandled=false;
+    return;
+  }
+  setDockCollapsed(!document.body.classList.contains("dock-collapsed"));
+});
 
 function keepSelectedAboveDock(behavior="smooth"){
   const sticker=selectedSticker();
@@ -2509,6 +3065,7 @@ function renderStickers(){
   const oldSelected=selectedStickerId;
   stickerLayer.innerHTML="";
   addDecorateZones();
+  addStickerGuides();
   renderStickerPlacementMarker();
 
   state.stickers
@@ -2571,6 +3128,7 @@ function renderStickers(){
         const edge=20/rect.width;
         sticker.x=clamp(sticker.x,halfWidth+edge,1-halfWidth-edge);
         sticker.y=clamp(sticker.y,0,1);
+        snapStickerDuringDrag(sticker);
         node.style.left=(sticker.x*100)+"%";
         node.style.top=(sticker.y*100)+"%";
         queueLiveStickerUpdate(sticker);
@@ -2579,6 +3137,7 @@ function renderStickers(){
       const finishDrag=event=>{
         if(!stickerDrag||stickerDrag.pointerId!==event.pointerId||stickerDrag.id!==sticker.id) return;
         stickerDrag=null;
+        hideStickerGuides();
         safeStickerPosition(sticker);
         renderStickers();
         selectSticker(sticker.id);
@@ -2705,21 +3264,27 @@ async function flushLiveStickerUpdate(){
   liveStickerPending=null;
   liveStickerSaving=true;
   liveStickerLastStarted=performance.now();
+  let saved=false;
   try{
     await saveSticker(sticker);
+    saved=true;
   }catch(error){
     console.error(error);
+    setSaveStatus("error","sticker not saved");
     toast(readableError(error,"live sticker update didn't save"));
   }finally{
     liveStickerSaving=false;
     if(liveStickerPending){
       const wait=Math.max(0,LIVE_STICKER_INTERVAL-(performance.now()-liveStickerLastStarted));
       liveStickerTimer=setTimeout(flushLiveStickerUpdate,wait);
+    }else if(saved){
+      setSaveStatus("saved");
     }
   }
 }
 
 function queueLiveStickerUpdate(sticker,immediate=false){
+  setSaveStatus("saving","saving sticker…");
   liveStickerPending=stickerSnapshot(sticker);
   liveStickerLocalLocks.set(sticker.id,performance.now()+800);
 
@@ -2760,11 +3325,12 @@ function applyRemoteStickerUpdate(patch){
   return true;
 }
 
-async function deleteStickerRecord(sticker,withConfirmation=false){
+async function deleteStickerRecord(sticker,withConfirmation=false,keepalive=false){
   const path=sticker.storage==="upload"?"/space/upload":"/space/sticker";
   await api(path,{
     method:"DELETE",
     headers:headers(),
+    keepalive,
     body:JSON.stringify({
       id:sticker.id,
       author:sticker.author,
@@ -2784,6 +3350,7 @@ function setDecorating(on,{preservePlacement=false}={}){
 
   if(on){
     document.body.classList.add("decorating");
+    setDockCollapsed(false);
     enterDockLayout(preservedTop);
   }
 
@@ -2793,6 +3360,7 @@ function setDecorating(on,{preservePlacement=false}={}){
     const newest=state.stickers[state.stickers.length-1];
     selectSticker(current?.id||newest?.id||null);
   }else{
+    document.body.classList.remove("dock-collapsed");
     selectSticker(null);
     leaveDockLayout();
     if(!preservePlacement) clearStickerPlacement();
@@ -2845,7 +3413,13 @@ function editSelectedSticker(change){
   safeStickerPosition(sticker);
   renderStickers();
   selectSticker(sticker.id);
-  saveSticker(sticker).catch(()=>toast("sticker edit didn't save"));
+  setSaveStatus("saving","saving sticker…");
+  saveSticker(sticker)
+    .then(()=>setSaveStatus("saved"))
+    .catch(()=>{
+      setSaveStatus("error","sticker not saved");
+      toast("sticker edit didn't save");
+    });
 }
 
 document.getElementById("sticker-smaller").addEventListener("click",()=>{
@@ -2872,32 +3446,30 @@ document.getElementById("sticker-right").addEventListener("click",()=>{
   editSelectedSticker(sticker=>sticker.rotation+=15);
 });
 
-document.getElementById("sticker-delete").addEventListener("click",async()=>{
+document.getElementById("sticker-delete").addEventListener("click",()=>{
   const sticker=selectedSticker();
   if(!sticker) return;
-  const button=document.getElementById("sticker-delete");
-  button.disabled=true;
-  button.textContent="deleting…";
+  const id=String(sticker.id);
 
-  try{
-    await deleteStickerRecord(sticker,false);
-    selectedStickerId=null;
-    await load();
-
-    if(state.stickers.length){
-      selectSticker(state.stickers[state.stickers.length-1].id);
-    }else{
-      setDecorating(false);
-    }
-
-    toast("sticker deleted");
-  }catch(error){
-    console.error(error);
-    toast(readableError(error,"delete failed"));
-  }finally{
-    button.disabled=false;
-    button.textContent="delete";
-  }
+  beginUndoAction({
+    message:"sticker deleted",
+    apply:()=>{
+      suppressedStickerIds.add(id);
+      state.stickers=state.stickers.filter(item=>String(item.id)!==id);
+      selectedStickerId=null;
+      renderStickers();
+      const next=state.stickers[state.stickers.length-1];
+      selectSticker(next?.id||null);
+    },
+    commit:()=>deleteStickerRecord(sticker,false,true),
+    done:()=>suppressedStickerIds.delete(id),
+    undo:async()=>{
+      suppressedStickerIds.delete(id);
+      await load();
+      selectSticker(id);
+    },
+    errorText:"sticker delete failed"
+  });
 });
 
 stickerAuthorEdit.addEventListener("change",async()=>{
@@ -2906,15 +3478,18 @@ stickerAuthorEdit.addEventListener("change",async()=>{
   if(!sticker||nextAuthor===sticker.author) return;
 
   const oldAuthor=sticker.author;
+  setSaveStatus("saving","saving sticker…");
   try{
     await deleteStickerRecord(sticker);
     sticker.author=nextAuthor;
     await createStickerRecord(sticker);
     renderStickers();
     selectSticker(sticker.id);
+    setSaveStatus("saved");
     toast("sticker now says "+nextAuthor+" ♡");
   }catch(error){
     console.error(error);
+    setSaveStatus("error","sticker not saved");
     try{
       sticker.author=oldAuthor;
       await createStickerRecord(sticker);
@@ -3101,6 +3676,7 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
   const button=document.getElementById("sticker-create");
   button.disabled=true;
   button.textContent=editingStickerCropId?"saving…":"adding…";
+  setSaveStatus("saving",editingStickerCropId?"saving crop…":"saving sticker…");
 
   if(editingStickerCropId){
     const editId=editingStickerCropId;
@@ -3124,6 +3700,7 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
       renderStickers();
       selectSticker(editId);
       requestAnimationFrame(()=>keepSelectedAboveDock("auto"));
+      setSaveStatus("saved");
       toast("crop saved ✨");
     }catch(error){
       console.error(error);
@@ -3137,6 +3714,7 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
         }
       }
       stickerMutationReloadBlock=0;
+      setSaveStatus("error","crop not saved");
       toast(readableError(error,"crop didn't save"));
       button.textContent="save crop ✨";
     }finally{
@@ -3167,9 +3745,11 @@ document.getElementById("sticker-create").addEventListener("click",async()=>{
     setDecorating(true);
     selectSticker(sticker.id);
     focusNewSticker(sticker.id);
+    setSaveStatus("saved");
     toast("sticker added ✨ drag it wherever you want");
   }catch(error){
     console.error(error);
+    setSaveStatus("error","sticker not saved");
     toast(readableError(error,"sticker failed to save"));
   }finally{
     button.disabled=false;
@@ -3570,6 +4150,36 @@ stage.addEventListener(
 
 /* ========================= REACTIONS ========================= */
 
+const RECENT_REACTIONS_KEY="hamoon_recent_reactions_v1";
+
+function recentReactions(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(RECENT_REACTIONS_KEY)||"[]");
+    return Array.isArray(saved)?saved.filter(emoji=>EMOJIS.includes(emoji)).slice(0,6):[];
+  }catch(_){
+    return[];
+  }
+}
+
+function rememberReaction(emoji){
+  const next=[emoji,...recentReactions().filter(item=>item!==emoji)].slice(0,6);
+  try{localStorage.setItem(RECENT_REACTIONS_KEY,JSON.stringify(next))}catch(_){}
+}
+
+function orderedReactionEmojis(){
+  const recent=recentReactions();
+  return[...recent,...EMOJIS.filter(emoji=>!recent.includes(emoji))];
+}
+
+function closeReactionPickers(except=null){
+  document.querySelectorAll(".react-picker.show").forEach(picker=>{
+    if(picker!==except){
+      picker.classList.remove("show");
+      picker.previousElementSibling?.setAttribute("aria-expanded","false");
+    }
+  });
+}
+
 function reactionAnchor(media){
   return(
     media.closest(".reveal")||
@@ -3659,12 +4269,13 @@ function renderReactions(){
     const open=document.createElement("button");
     open.className="react-open";
     open.textContent="♡ react";
+    open.setAttribute("aria-expanded","false");
     bar.appendChild(open);
 
     const picker=document.createElement("div");
     picker.className="react-picker";
 
-    EMOJIS.forEach(emoji=>{
+    orderedReactionEmojis().forEach(emoji=>{
       const button=document.createElement("button");
 
       const mine=rows.some(
@@ -3681,19 +4292,35 @@ function renderReactions(){
 
       button.addEventListener(
         "click",
-        ()=>toggleReaction(id,emoji)
+        event=>{
+          event.stopPropagation();
+          rememberReaction(emoji);
+          toggleReaction(id,emoji);
+        }
       );
 
       picker.appendChild(button);
     });
 
-    open.addEventListener("click",()=>{
-      picker.classList.toggle("show");
+    open.addEventListener("click",event=>{
+      event.stopPropagation();
+      const opening=!picker.classList.contains("show");
+      closeReactionPickers(opening?picker:null);
+      picker.classList.toggle("show",opening);
+      open.setAttribute("aria-expanded",String(opening));
     });
 
     bar.appendChild(picker);
   });
 }
+
+document.addEventListener("click",event=>{
+  if(!event.target.closest?.(".memory-reactions")) closeReactionPickers();
+});
+
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape") closeReactionPickers();
+});
 
 function toggleReaction(memoryId,emoji){
   const index=state.reactions.findIndex(
@@ -4207,6 +4834,7 @@ function finishStroke(event){
 
   state.strokes.push(stroke);
   redraw();
+  setSaveStatus("saving","saving drawing…");
 
   api(
     "/space/stroke",
@@ -4216,7 +4844,9 @@ function finishStroke(event){
       body:JSON.stringify(stroke)
     }
   )
+    .then(()=>setSaveStatus("saved"))
     .catch(()=>{
+      setSaveStatus("error","drawing not saved");
       toast("stroke didn't save");
       load();
     });
@@ -4415,33 +5045,37 @@ document.getElementById("clear-mine").addEventListener("click",()=>{
     "clear "+state.author+"’s drawings?",
     "This deletes all of "+state.author+"’s drawings.",
     "clear mine",
-    async()=>{
-      confirmGo.disabled=true;
-      confirmGo.textContent="clearing…";
+    ()=>{
+      const author=state.author;
+      close69();
 
-      try{
-        await api(
+      beginUndoAction({
+        message:author+"’s drawings cleared",
+        apply:()=>{
+          suppressedStrokeAuthors.add(author);
+          state.strokes=state.strokes.filter(stroke=>stroke.author!==author);
+          redraw();
+        },
+        commit:()=>api(
           "/space/clear-author",
           {
             method:"POST",
             headers:headers(),
+            keepalive:true,
             body:JSON.stringify({
-              author:state.author,
+              author,
               confirm:"69",
               confirmation:"69"
             })
           }
-        );
-
-        close69();
-        toast(state.author+"’s drawings cleared");
-        await load();
-      }catch(error){
-        console.error(error);
-        confirmGo.disabled=false;
-        confirmGo.textContent="clear mine";
-        toast("clear failed");
-      }
+        ),
+        done:()=>suppressedStrokeAuthors.delete(author),
+        undo:async()=>{
+          suppressedStrokeAuthors.delete(author);
+          await load();
+        },
+        errorText:"clear failed"
+      });
     }
   );
 });
@@ -4836,6 +5470,7 @@ async function start(){
     await unlock();
     await load();
     connect();
+    setSaveStatus("saved");
 
   }catch(error){
     console.error(error);
